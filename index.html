@@ -35,6 +35,38 @@
         .system-container { max-width: 900px; margin: 0 auto; padding: 20px; }
         header { text-align: center; margin-bottom: 40px; padding-top: 20px; }
 
+
+                /* Контейнер для центрирования лого и текста */
+        .title-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px; /* Отступ между картинкой и текстом */
+            margin-bottom: 10px;
+        }
+
+        /* Стили для логотипа */
+        .system-logo {
+            width: 60px; /* Идеальный размер под высоту шрифта */
+            height: 60px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.6)); /* Синее неоновое свечение */
+            animation: logo-pulse 2s infinite alternate ease-in-out; /* Плавное пульсирование */
+        }
+
+        /* Анимация пульсации логотипа */
+        @keyframes logo-pulse {
+            0% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.5));
+            }
+            100% {
+                transform: scale(1.08);
+                filter: drop-shadow(0 0 18px rgba(0, 212, 255, 0.9));
+            }
+        }
+
+
         .system-title {
             font-family: 'Orbitron', sans-serif;
             font-size: 2.5rem;
@@ -180,14 +212,18 @@
 <body>
 
     <div class="system-container">
-        <header>
-            <h1 class="system-title">Ornit System</h1>
+               <header>
+            <div class="title-container">
+                <img src="logo-sole.webp" alt="System Logo" class="system-logo">
+                <h1 class="system-title">Ornit System</h1>
+            </div>
             <div class="system-status-bar">
                 <span>STATUS: ONLINE</span>
                 <span id="db-status" style="color: yellow;">SYNC: CONNECTING...</span>
                 <span>PLAYER: ORNIT</span>
             </div>
         </header>
+
 
         <section class="status-window">
             <div class="status-header">

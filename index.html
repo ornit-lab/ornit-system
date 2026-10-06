@@ -5,18 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ORNIT SYSTEM | Solo Leveling IRL</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Exo+2:wght@300;600&display=swap" rel="stylesheet">
-      <!-- Фавиконка для вкладки браузера -->
+    
+    <!-- Фавиконка для вкладки браузера -->
     <link rel="icon" type="image/webp" href="logo-sole.webp">
     <link rel="apple-touch-icon" href="logo-sole.webp">
-    
-    <!-- Подключаем Firebase SDK -->
+
+    <!-- Подключаем Firebase SDK (совместимый режим) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
     <style>
         :root {
-            --bg-color: #05050a;
-            --panel-bg: rgba(10, 10, 25, 0.9);
+            --bg-color: #030307;
+            --panel-bg: rgba(8, 8, 20, 0.95);
             --accent-blue: #00d4ff;
             --accent-purple: #8a2be2;
             --accent-red: #ff004c;
@@ -31,167 +32,350 @@
             color: var(--text-main);
             font-family: 'Exo 2', sans-serif;
             overflow-x: hidden;
-            background-image: radial-gradient(circle at center, #101020 0%, #05050a 100%);
             min-height: 100vh;
         }
 
+        /* --- СИСТЕМНАЯ МНОГОСТРАНИЧНОСТЬ --- */
+        .page-view {
+            display: none;
+            opacity: 0;
+            transform: scale(0.98);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        .page-view.active-page {
+            display: block;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+
+        .menu-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, rgba(3, 3, 7, 0.96) 35%, rgba(3, 3, 7, 0.5) 100%);
+            z-index: 1;
+        }
+
+        .menu-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+
+        /* Металлические прутья на фоне дымных колец */
+        .clouds-rods {
+            display: flex;
+            gap: 60px;
+            position: relative;
+        }
+
+
+        .menu-subtitle {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 6px;
+            color: var(--accent-blue);
+            margin-top: 5px;
+            text-transform: uppercase;
+        }
+
+        /* Физика покачивания деревянной таблички */
+        @keyframes swinging {
+            0% { transform: rotate(-2.5deg); }
+            50% { transform: rotate(2.5deg); }
+            100% { transform: rotate(-2.5deg); }
+        }
+
+        /* --- ПЛАВАЮЩИЕ 3Д КНОПКИ --- */
+        .buttons-3d-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+
+        /* ========================================== */
+        /* ⚙️ ЭКРАН 2: ОСНОВНАЯ ПАНЕЛЬ СИСТЕМЫ        */
+        /* ========================================== */
         .system-container { max-width: 900px; margin: 0 auto; padding: 20px; }
         header { text-align: center; margin-bottom: 40px; padding-top: 20px; }
 
-
-                /* Контейнер для центрирования лого и текста */
-        .title-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px; /* Отступ между картинкой и текстом */
-            margin-bottom: 10px;
-        }
-
-        /* Стили для логотипа */
-        .system-logo {
-            width: 60px; /* Идеальный размер под высоту шрифта */
-            height: 60px;
-            object-fit: contain;
-            filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.6)); /* Синее неоновое свечение */
-            animation: logo-pulse 2s infinite alternate ease-in-out; /* Плавное пульсирование */
-        }
-
-        /* Анимация пульсации логотипа */
-        @keyframes logo-pulse {
-            0% {
-                transform: scale(1);
-                filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.5));
-            }
-            100% {
-                transform: scale(1.08);
-                filter: drop-shadow(0 0 18px rgba(0, 212, 255, 0.9));
-            }
-        }
-
-
-        .system-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
-            letter-spacing: 5px;
-            color: var(--accent-blue);
-            text-shadow: var(--neon-shadow);
-            text-transform: uppercase;
-        }
+        .title-container { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 10px; }
+        .system-logo { width: 50px; height: 50px; object-fit: contain; filter: drop-shadow(0 0 8px var(--accent-blue)); }
+        .system-title { font-family: 'Orbitron', sans-serif; font-size: 2.2rem; letter-spacing: 4px; color: var(--accent-blue); text-transform: uppercase; }
 
         .system-status-bar {
             background: var(--panel-bg);
             border: 1px solid var(--accent-blue);
             padding: 10px;
-            margin-top: 10px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             display: flex;
             justify-content: space-around;
-            box-shadow: inset 0 0 10px rgba(0, 212, 255, 0.2);
+            box-shadow: inset 0 0 10px rgba(0, 212, 255, 0.1);
         }
 
         .status-window {
             background: var(--panel-bg);
             border: 2px solid var(--accent-blue);
-            padding: 30px;
-            position: relative;
+            padding: 25px;
             box-shadow: var(--neon-shadow);
-            margin-bottom: 30px;
-        }
-
-        .status-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
             margin-bottom: 25px;
-            border-bottom: 1px solid rgba(0, 212, 255, 0.3);
-            padding-bottom: 10px;
         }
 
-        .user-info h2 { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; color: #fff; }
-        .level-badge { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; color: var(--accent-blue); }
+        .status-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; border-bottom: 1px solid rgba(0, 212, 255, 0.2); padding-bottom: 10px; }
+        .user-info h2 { font-family: 'Orbitron', sans-serif; font-size: 1.6rem; color: #fff; }
+        .level-badge { font-family: 'Orbitron', sans-serif; font-size: 2.2rem; color: var(--accent-blue); }
 
         .xp-container { margin-top: 15px; }
-        .xp-label { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 5px; color: var(--accent-blue); }
+        .xp-label { display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 5px; color: var(--accent-blue); }
 
-        .progress-bar-outer {
-            width: 100%;
-            height: 12px;
-            background: #1a1a2e;
-            border: 1px solid var(--accent-blue);
-            border-radius: 6px;
-            overflow: hidden;
-        }
-
-        .progress-bar-inner {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
-            width: 45%;
-            box-shadow: 0 0 10px var(--accent-blue);
-            transition: width 0.5s ease;
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
-        }
-
-        .skill-card {
-            background: rgba(20, 20, 40, 0.8);
-            border: 1px solid var(--accent-purple);
-            padding: 20px;
-            text-align: center;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-
-        .skill-card:hover {
-            background: rgba(138, 43, 226, 0.2);
-            transform: translateY(-5px);
-            box-shadow: 0 0 15px rgba(138, 43, 226, 0.4);
-        }
-
-        .skill-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
-        .skill-name { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: #bbb; }
-        .skill-level { font-weight: bold; color: #fff; margin-top: 5px; }
+        .progress-bar-outer { width: 100%; height: 10px; background: #080815; border: 1px solid var(--accent-blue); border-radius: 5px; overflow: hidden; }
+        .progress-bar-inner { height: 100%; background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple)); width: 0%; box-shadow: 0 0 10px var(--accent-blue); transition: width 0.5s ease; }
 
         .asceticism-panel {
-            background: linear-gradient(135deg, rgba(20, 0, 40, 0.9), rgba(0, 0, 20, 0.9));
+            background: linear-gradient(135deg, rgba(15, 0, 30, 0.95), rgba(0, 0, 15, 0.95));
             border-left: 5px solid var(--accent-purple);
-            padding: 25px;
-            margin-top: 30px;
+            padding: 20px;
+            margin-top: 25px;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
-        .asceticism-info h3 { font-family: 'Orbitron', sans-serif; color: var(--accent-purple); margin-bottom: 5px; }
-        .architect-level { font-size: 1.2rem; color: #fff; font-style: italic; }
-        .days-count { font-size: 3rem; font-family: 'Orbitron', sans-serif; color: #fff; text-shadow: 0 0 20px var(--accent-purple); }
+        .asceticism-info h3 { font-family: 'Orbitron', sans-serif; color: var(--accent-purple); font-size: 1.1rem; }
+        .architect-level { font-size: 1rem; color: #bbb; font-style: italic; }
+        .days-count { font-size: 2.5rem; font-family: 'Orbitron', sans-serif; color: #fff; text-shadow: 0 0 15px var(--accent-purple); }
 
-        .daily-check { margin-top: 40px; text-align: center; }
-        .check-btn {
-            background: transparent;
-            border: 2px solid var(--accent-blue);
-            color: var(--accent-blue);
-            padding: 15px 40px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1rem;
-            cursor: pointer;
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; margin-top: 30px; }
+        .skill-card { background: rgba(10, 10, 25, 0.8); border: 1px solid var(--accent-purple); padding: 15px; text-align: center; transition: 0.3s; }
+        .skill-icon { font-size: 1.8rem; margin-bottom: 8px; display: block; }
+        .skill-name { font-size: 0.75rem; text-transform: uppercase; color: #888; }
+        .skill-level { font-weight: bold; color: #fff; margin-top: 5px; font-family: 'Orbitron', sans-serif; }
+
+        /* ========================================== */
+        /* 📝 ЭКРАН 3: ЗАМЕТКИ СИСТЕМЫ                */
+        /* ========================================== */
+        .notes-layout {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .note-input-area {
+            background: var(--panel-bg);
+            border: 1px solid var(--accent-purple);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(138,43,226,0.15);
+            margin-top: 30px;
+        }
+
+        .note-textarea {
+            width: 100%;
+            height: 220px;
+            background: #04040a;
+            border: 1px solid #222;
+            color: #fff;
+            padding: 20px;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.1rem;
+            resize: none;
+            outline: none;
+            margin-bottom: 20px;
             transition: 0.3s;
+        }
+        .note-textarea:focus { border-color: var(--accent-purple); box-shadow: 0 0 10px rgba(138,43,226,0.3); }
+
+        /* ========================================== */
+        /* 📊 ЭКРАН 4: СТАТИСТИКА ГОДОВ               */
+        /* ========================================== */
+        .stats-layout {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .year-header {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            color: #fff;
+            text-shadow: 0 0 10px var(--accent-blue);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .months-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 25px;
+        }
+
+        .month-box {
+            background: var(--panel-bg);
+            border: 1px solid #1a1a3a;
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        .month-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.95rem;
+            color: var(--accent-blue);
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(0,212,255,0.15);
+            padding-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .days-matrix {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+        }
+
+        .day-cell {
+            aspect-ratio: 1;
+            background: #080812;
+            border: 1px solid rgba(255,255,255,0.03);
+            border-radius: 3px;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+        .day-cell:hover {
+            transform: scale(1.2);
+            z-index: 5;
+            box-shadow: 0 0 8px #fff;
+        }
+
+        /* --- ВЕРХНИЙ ЭКРАН ОЦЕНКИ ДНЯ --- */
+        .assessment-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(1, 1, 3, 0.98);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .assessment-box {
+            width: 90%;
+            max-width: 650px;
+            background: #04040a;
+            border: 2px solid #111;
+            padding: 40px;
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+        }
+
+        /* --- ЧИСТЫЕ СТИЛИ ДЛЯ ВАРИАНТОВ ОЦЕНКИ ДНЯ (ПАРТИКЛЫ СИСТЕМОЙ) --- */
+        .assess-option {
+            width: 100%;
+            padding: 18px;
+            margin: 12px 0;
+            background: rgba(10, 10, 20, 0.9);
+            color: #fff;
+            border: 1px solid #222;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
             text-transform: uppercase;
             letter-spacing: 2px;
+            transition: 0.3s;
         }
-        .check-btn:hover { background: var(--accent-blue); color: #000; box-shadow: var(--neon-shadow); }
 
+        /* 1. Лучший день (Фиолетовое пламя, светлячки) */
+        .opt-best:hover {
+            border-color: #8a2be2;
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.6);
+            background: rgba(138, 43, 226, 0.1);
+        }
+
+        /* 2. Отличный день (Белое облако) */
+        .opt-great:hover {
+            border-color: #ffffff;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* 3. Хороший день (Солнечные лучи) */
+        .opt-good:hover {
+            border-color: #ffaa00;
+            box-shadow: 0 0 25px rgba(255, 170, 0, 0.6);
+            background: rgba(255, 170, 0, 0.1);
+        }
+
+        /* 4. Плохой день (Красная вибрирующая аура) */
+        .opt-bad:hover {
+            border-color: #ff004c;
+            box-shadow: 0 0 25px rgba(255, 0, 76, 0.6);
+            background: rgba(255, 0, 76, 0.1);
+            animation: tremor 0.1s infinite;
+        }
+
+        /* 5. Ужасный день (Чёрная мгла) */
+        .opt-awful:hover {
+            border-color: #444;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 1);
+            background: #000;
+        }
+
+        @keyframes tremor {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            100% { transform: translate(-1px, -1px) rotate(0.5deg); }
+        }
+
+        /* Фоновый холст для светлячков/лучей в оверлее */
+        #assessment-canvas {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ОБЛАЧНАЯ АНИМАЦИЯ вокруг плашки */
+        .fog-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .fog-cloud {
+            position: absolute;
+            background: rgba(255,255,255,0.03);
+            border-radius: 50%;
+            filter: blur(25px);
+            animation: drift 10s infinite linear;
+        }
+
+        @keyframes drift {
+            0% { transform: translate(-50px, -50px) scale(1); }
+            50% { transform: translate(100px, 50px) scale(1.3); }
+            100% { transform: translate(-50px, -50px) scale(1); }
+        }
+
+        /* --- СИСТЕМНАЯ МОДАЛКА ПРОСМОТРА СТАТИСТИКИ --- */
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 100;
+            background: rgba(0,0,0,0.92);
+            z-index: 200;
             justify-content: center;
             align-items: center;
         }
@@ -199,98 +383,498 @@
         .modal-content {
             background: var(--panel-bg);
             border: 1px solid var(--accent-blue);
-            padding: 40px;
+            padding: 35px;
             width: 90%;
-            max-width: 500px;
+            max-width: 550px;
+            text-align: center;
+            box-shadow: var(--neon-shadow);
+        }
+
+        .opt-btn {
+            padding: 12px 30px;
+            border: 1px solid #333;
+            background: #04040c;
+            color: #fff;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+        }
+        .opt-btn:hover { border-color: var(--accent-blue); box-shadow: var(--neon-shadow); }
+
+        /* ВЕРНУТЬСЯ В МЕНЮ */
+        .back-nav {
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        .btn-back {
+            background: transparent;
+            border: 1px solid #444;
+            color: #888;
+            padding: 10px 20px;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+        .btn-back:hover { border-color: var(--accent-blue); color: #fff; }
+
+        footer { margin-top: 60px; text-align: center; font-size: 0.7rem; color: #333; letter-spacing: 2px; text-transform: uppercase; }
+
+
+              /* --- ГЛАВНОЕ МЕНЮ (ПОВЕРХ АРТА) --- */
+        #main-menu {
+            position: relative;
+            background-image: url('menu-bg-pc.png'); /* КАРТИНКА ДЛЯ ПК */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: stretch;
+            justify-content: flex-end; /* Прижимаем сайдбар вправо */
+            padding: 0;
+            overflow: hidden;
+        }
+
+        /* Мягкое общее затемнение фона */
+        .menu-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(3, 3, 7, 0.45);
+            z-index: 1;
+        }
+
+        .menu-art-space {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Свободный сайдбар поверх картинки справа */
+        .menu-right-panel {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 50px;
+            width: 100%;
+            max-width: 480px;
+            background: rgba(4, 4, 10, 0.65); /* Легкое тонированное стекло */
+            backdrop-filter: blur(12px); /* Размытие арта под панелью */
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+            height: 100%;
+        }
+
+        /* --- ТАБЛИЧКА ВЫСШИХ СФЕР С ОБЛАЧНЫМИ ПРУТЬЯМИ --- */
+        .plate-suspension {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform-origin: top center;
+            animation: swinging 6s infinite ease-in-out;
+            margin-bottom: 45px;
+        }
+
+        .clouds-rods {
+            display: flex;
+            gap: 100px;
+            position: relative;
+        }
+
+        .rod {
+            width: 1px;
+            height: 55px;
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+            position: relative;
+        }
+
+        /* Облачные дымные кольца вокруг нитей */
+        .rod::before {
+            content: '';
+            position: absolute;
+            top: 20px; left: -15px;
+            width: 31px; height: 14px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            filter: blur(4px);
+            animation: cloud-smoke 4s infinite alternate ease-in-out;
+        }
+
+        @keyframes cloud-smoke {
+            0% { transform: scale(0.9); opacity: 0.4; }
+            100% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        .wooden-plate {
+            background: rgba(8, 8, 18, 0.9);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-top: 2px solid var(--accent-blue);
+            border-radius: 12px;
+            padding: 10px 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(0,212,255,0.2);
             text-align: center;
         }
 
-        .assessment-options { display: flex; flex-direction: column; gap: 15px; margin-top: 25px; }
-        .opt-btn { padding: 12px; border: 1px solid #333; background: #0a0a1a; color: #fff; cursor: pointer; transition: 0.2s; }
-        .opt-btn:hover { border-color: var(--accent-blue); }
+        .menu-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 8px;
+            color: #ffffff;
+            text-transform: lowercase;
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+        }
 
-        footer { margin-top: 60px; text-align: center; font-size: 0.7rem; color: #444; letter-spacing: 2px; text-transform: uppercase; }
+        @keyframes swinging {
+            0% { transform: rotate(-1.5deg); }
+            50% { transform: rotate(1.5deg); }
+            100% { transform: rotate(-1.5deg); }
+        }
+
+        /* --- КНОПКИ С ЦВЕТНЫМ ЗАПОЛНЕНИЕМ И НИЖНЕЙ НЕОНОВОЙ ГРАНЬЮ --- */
+        .buttons-3d-container {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            width: 100%;
+            max-width: 350px;
+        }
+
+        .btn-3d {
+            position: relative;
+            border-radius: 12px;
+            padding: 18px 25px;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            cursor: pointer;
+            outline: none;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 16px;
+            width: 100%;
+            overflow: hidden;
+            
+            /* Эффект парения глайдера */
+            animation: floating-glider 5s infinite alternate ease-in-out;
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        /* 1. Кнопка "Начать" (Голубое заполнение + неоновый низ) */
+        .btn-blue {
+            background: linear-gradient(180deg, rgba(0, 140, 200, 0.18) 0%, rgba(0, 212, 255, 0.35) 100%);
+            border: 1px solid rgba(0, 212, 255, 0.5);
+            border-bottom: 3px solid #00d4ff; /* Толстая неоновая полоска снизу */
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.15);
+            animation-delay: 0s;
+        }
+
+        /* 2. Кнопка "Сделать заметку" (Фиолетовое заполнение + неоновый низ) */
+        .btn-purple {
+            background: linear-gradient(180deg, rgba(80, 20, 150, 0.18) 0%, rgba(138, 43, 226, 0.35) 100%);
+            border: 1px solid rgba(138, 43, 226, 0.5);
+            border-bottom: 3px solid #8a2be2; /* Толстая неоновая полоска снизу */
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(138, 43, 226, 0.15);
+            animation-delay: -1.6s;
+        }
+
+        /* 3. Кнопка "Статистика" (Оранжевое заполнение + неоновый низ) */
+        .btn-orange {
+            background: linear-gradient(180deg, rgba(180, 100, 0, 0.18) 0%, rgba(255, 170, 0, 0.35) 100%);
+            border: 1px solid rgba(255, 170, 0, 0.5);
+            border-bottom: 3px solid #ffaa00; /* Толстая неоновая полоска снизу */
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(255, 170, 0, 0.15);
+            animation-delay: -3.2s;
+        }
+
+        .btn-icon {
+            width: 20px;
+            height: 20px;
+            stroke-width: 1.8;
+        }
+        .btn-blue .btn-icon { color: #00d4ff; filter: drop-shadow(0 0 6px #00d4ff); }
+        .btn-purple .btn-icon { color: #8a2be2; filter: drop-shadow(0 0 6px #8a2be2); }
+        .btn-orange .btn-icon { color: #ffaa00; filter: drop-shadow(0 0 6px #ffaa00); }
+
+        .btn-text {
+            color: #ffffff;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* Анимация глайдера */
+        @keyframes floating-glider {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-6px); }
+        }
+
+        /* Ховеры с подсветкой */
+        .btn-blue:hover {
+            background: linear-gradient(180deg, rgba(0, 140, 200, 0.3) 0%, rgba(0, 212, 255, 0.55) 100%);
+            box-shadow: 0 12px 25px rgba(0, 212, 255, 0.35);
+            transform: translateY(-3px);
+        }
+        .btn-purple:hover {
+            background: linear-gradient(180deg, rgba(80, 20, 150, 0.3) 0%, rgba(138, 43, 226, 0.55) 100%);
+            box-shadow: 0 12px 25px rgba(138, 43, 226, 0.35);
+            transform: translateY(-3px);
+        }
+        .btn-orange:hover {
+            background: linear-gradient(180deg, rgba(180, 100, 0, 0.3) 0%, rgba(255, 170, 0, 0.55) 100%);
+            box-shadow: 0 12px 25px rgba(255, 170, 0, 0.35);
+            transform: translateY(-3px);
+        }
+
+        .btn-3d:active {
+            transform: translateY(2px);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.8);
+        }
+
+               /* Адаптив под мобилки */
+        @media (max-width: 900px) {
+            #main-menu { 
+                justify-content: center; 
+                background-image: url('menu-bg-mobile.png'); /* КАРТИНКА ДЛЯ МОБИЛОК 9:19 */
+            }
+            .menu-right-panel { max-width: 100%; border-left: none; padding: 30px 20px; }
+            .clouds-rods { gap: 70px; }
+        }
+
+
+
     </style>
 </head>
 <body>
 
-    <div class="system-container">
-               <header>
-            <div class="title-container">
-                <img src="logo-sole.webp" alt="System Logo" class="system-logo">
-                <h1 class="system-title">Ornit System</h1>
-            </div>
-            <div class="system-status-bar">
-                <span>STATUS: ONLINE</span>
-                <span id="db-status" style="color: yellow;">SYNC: CONNECTING...</span>
-                <span>PLAYER: ORNIT</span>
-            </div>
-        </header>
+         <!-- =================================================== -->
+    <!-- 🌌 ЭКРАН 1: ГЛАВНОЕ МЕНЮ                           -->
+    <!-- =================================================== -->
+    <div id="main-menu" class="page-view active-page">
+        <div class="menu-overlay"></div>
+        
+        <!-- Свободное пространство слева под твой арт -->
+        <div class="menu-art-space"></div>
 
-
-        <section class="status-window">
-            <div class="status-header">
-                <div class="user-info">
-                    <p style="color: var(--accent-blue); font-size: 0.8rem; margin-bottom: 5px;">[ PLAYER INFO ]</p>
-                    <h2>ORNIT</h2>
-                    <p style="color: #888;">ВЫСШИЙ АРХИТЕКТОР</p>
+        <!-- Сайдбар висит поверх картинки справа -->
+        <div class="menu-right-panel">
+            
+            <!-- Табличка с облачными прутьями сверху -->
+            <div class="plate-suspension">
+                <div class="clouds-rods">
+                    <div class="rod"></div>
+                    <div class="rod"></div>
                 </div>
-                <div class="level-badge">
-                    <span style="font-size: 1rem; vertical-align: middle;">LV.</span>
-                    <span id="main-level">173</span>
+                <div class="wooden-plate">
+                    <h1 class="menu-name">ornit</h1>
                 </div>
             </div>
-
-            <div class="xp-container">
-                <div class="xp-label">
-                    <span>ОПЫТ ПРОГРЕССИИ</span>
-                    <span id="xp-text">4500 / 10000 EXP</span>
-                </div>
-                <div class="progress-bar-outer">
-                    <div id="xp-fill" class="progress-bar-inner" style="width: 45%;"></div>
-                </div>
+            
+            <!-- Кнопки с цветным заполнением и нижней неоновой гранью -->
+            <div class="buttons-3d-container">
+                
+                <button class="btn-3d btn-blue" onclick="switchPage('system-dashboard')">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    <span class="btn-text">Начать</span>
+                </button>
+                
+                <button class="btn-3d btn-purple" onclick="openNotesTab()">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 20h9"></path>
+                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                    </svg>
+                    <span class="btn-text">Сделать заметку</span>
+                </button>
+                
+                <button class="btn-3d btn-orange" onclick="openStatisticsTab()">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                    </svg>
+                    <span class="btn-text">Статистика</span>
+                </button>
+                
             </div>
-        </section>
-
-        <section class="asceticism-panel">
-            <div class="asceticism-info">
-                <h3>УРОВЕНЬ ВОЗДЕРЖАНИЯ</h3>
-                <p id="architect-rank" class="architect-level">Фаза Стабилизации</p>
-            </div>
-            <div class="days-count" id="days-val">21</div>
-        </section>
-
-        <div class="skills-grid">
-            <div class="skill-card"><span class="skill-icon">🎸</span><div class="skill-name">Гитара</div><div class="skill-level">LV. 10</div></div>
-            <div class="skill-card"><span class="skill-icon">🤸</span><div class="skill-name">Акробатика</div><div class="skill-level">LV. 5</div></div>
-            <div class="skill-card"><span class="skill-icon">💪</span><div class="skill-name">Армрестлинг</div><div class="skill-level">LV. 12</div></div>
-            <div class="skill-card"><span class="skill-icon">🍳</span><div class="skill-name">Кулинария</div><div class="skill-level">LV. 50</div></div>
-            <div class="skill-card"><span class="skill-icon">🎤</span><div class="skill-name">Речетатив</div><div class="skill-level">LV. 8</div></div>
-            <div class="skill-card"><span class="skill-icon">🔥</span><div class="skill-name">Тело</div><div class="skill-level">LV. 15</div></div>
+            
         </div>
-
-        <div class="daily-check">
-            <button class="check-btn" onclick="openAssessment()">Как прошел твой день, охотник?</button>
-        </div>
-
-        <footer>© 2025 ORNIT SYSTEM v1.0 | ПРЕДЕЛОВ НЕТ</footer>
     </div>
 
-    <div id="assessment-modal" class="modal">
+
+
+    <!-- =================================================== -->
+    <!-- ⚙️ ЭКРАН 2: ПАНЕЛЬ ПРОГРЕССИИ (DASHBOARD)          -->
+    <!-- =================================================== -->
+    <div id="system-dashboard" class="page-view">
+        <div class="system-container">
+            <div class="back-nav">
+                <button class="btn-back" onclick="switchPage('main-menu')">← Главное меню</button>
+            </div>
+            <header>
+                <div class="title-container">
+                    <img src="logo-sole.webp" alt="System Logo" class="system-logo">
+                    <h1 class="system-title">Ornit System</h1>
+                </div>
+                <div class="system-status-bar">
+                    <span>STATUS: ONLINE</span>
+                    <span id="db-status" style="color: yellow;">SYNC: CONNECTING...</span>
+                    <span>PLAYER: ORNIT</span>
+                </div>
+            </header>
+
+            <section class="status-window">
+                <div class="status-header">
+                    <div class="user-info">
+                        <p style="color: var(--accent-blue); font-size: 0.8rem; margin-bottom: 5px;">[ PLAYER INFO ]</p>
+                        <h2>ORNIT</h2>
+                        <p style="color: #888;">ВЫСШИЙ АРХИТЕКТОР</p>
+                    </div>
+                    <div class="level-badge">
+                        <span style="font-size: 1rem; vertical-align: middle;">LV.</span>
+                        <span id="main-level">173</span>
+                    </div>
+                </div>
+
+                <div class="xp-container">
+                    <div class="xp-label">
+                        <span>ОПЫТ ПРОГРЕССИИ</span>
+                        <span id="xp-text">4500 / 10000 EXP</span>
+                    </div>
+                    <div class="progress-bar-outer">
+                        <div id="xp-fill" class="progress-bar-inner"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="asceticism-panel">
+                <div class="asceticism-info">
+                    <h3>УРОВЕНЬ ВОЗДЕРЖАНИЯ</h3>
+                    <p id="architect-rank" class="architect-level">Фаза Стабилизации</p>
+                </div>
+                <div class="days-count" id="days-val">21</div>
+            </section>
+
+            <div class="skills-grid">
+                <div class="skill-card"><span class="skill-icon">🎸</span><div class="skill-name">Гитара</div><div class="skill-level">LV. 10</div></div>
+                <div class="skill-card"><span class="skill-icon">🤸</span><div class="skill-name">Акробатика</div><div class="skill-level">LV. 5</div></div>
+                <div class="skill-card"><span class="skill-icon">💪</span><div class="skill-name">Армрестлинг</div><div class="skill-level">LV. 12</div></div>
+                <div class="skill-card"><span class="skill-icon">🍳</span><div class="skill-name">Кулинария</div><div class="skill-level">LV. 50</div></div>
+                <div class="skill-card"><span class="skill-icon">🎤</span><div class="skill-name">Речетатив</div><div class="skill-level">LV. 8</div></div>
+                <div class="skill-card"><span class="skill-icon">🔥</span><div class="skill-name">Тело</div><div class="skill-level">LV. 15</div></div>
+            </div>
+
+            <footer>© 2025 ORNIT SYSTEM v1.0 | ПРЕДЕЛОВ НЕТ</footer>
+        </div>
+    </div>
+
+    <!-- =================================================== -->
+    <!-- 📝 ЭКРАН 3: ЗАМЕТКИ СИСТЕМЫ                        -->
+    <!-- =================================================== -->
+    <div id="notes-page" class="page-view">
+        <div class="notes-layout">
+            <div class="back-nav">
+                <button class="btn-back" onclick="switchPage('main-menu')">← Главное меню</button>
+            </div>
+            
+            <h1 style="font-family: 'Orbitron'; color: var(--accent-purple); text-align: center; text-shadow: 0 0 10px rgba(138,43,226,0.3);">ДНЕВНЫЕ ОТЧЕТЫ СИСТЕМЫ</h1>
+            
+            <div class="note-input-area">
+                <h3 id="note-date-label" style="font-family: 'Orbitron'; color: #fff; margin-bottom: 15px;">ЗАПИСЬ СИСТЕМЫ: ...</h3>
+                <textarea id="daily-note-text" class="note-textarea" placeholder="Опиши события, мысли и то, почему день получил именно такую оценку..."></textarea>
+                <div style="text-align: right;">
+                    <button class="opt-btn" onclick="saveDayLog()" style="border-color: var(--accent-purple);">ЗАВЕРШИТЬ ОТЧЕТ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =================================================== -->
+    <!-- 📊 ЭКРАН 4: СТАТИСТИКА ГОДОВ                       -->
+    <!-- =================================================== -->
+    <div id="statistics-page" class="page-view">
+        <div class="stats-layout">
+            <div class="back-nav">
+                <button class="btn-back" onclick="switchPage('main-menu')">← Главное меню</button>
+            </div>
+
+            <h1 class="year-header">ХРОНИКА СИСТЕМЫ: 2026</h1>
+            
+            <div class="months-grid" id="months-container">
+                <!-- Месяцы генерируются автоматически -->
+            </div>
+        </div>
+    </div>
+
+
+    <!-- =================================================== -->
+    <!-- 🎭 МОДАЛКА 1: ЭКРАН ОЦЕНКИ ДНЯ (ПОСЛЕ 20:00 МСК)     -->
+    <!-- =================================================== -->
+    <div id="assessment-overlay" class="assessment-overlay">
+        <!-- Анимационный фоновый Canvas для взлетающих светлячков -->
+        <canvas id="assessment-canvas"></canvas>
+        
+        <!-- Белые туманные облака (для "Отличного дня") -->
+        <div class="fog-container" id="fog-overlay">
+            <div class="fog-cloud" style="width: 250px; height: 150px; top: 10%; left: 5%;"></div>
+            <div class="fog-cloud" style="width: 350px; height: 200px; bottom: 10%; right: 5%; animation-delay: -5s;"></div>
+        </div>
+
+        <div class="assessment-box">
+            <h1 style="font-family: 'Orbitron'; letter-spacing: 5px; color: #fff; margin-bottom: 10px;">ОТЧЕТНЫЙ ВЕКТОР</h1>
+            <p style="color: #666; font-size: 0.95rem; margin-bottom: 30px;">СИСТЕМА ТРЕБУЕТ ОПРЕДЕЛИТЬ ЭНЕРГИЮ УШЕДШЕГО ДНЯ:</p>
+            
+            <button class="assess-option opt-best" 
+                    onmouseenter="setThemeEffect('best')" 
+                    onmouseleave="clearThemeEffect()" 
+                    onclick="selectDayRating('Лучший день', '#8a2be2')">Лучший день</button>
+            
+            <button class="assess-option opt-great" 
+                    onmouseenter="setThemeEffect('great')" 
+                    onmouseleave="clearThemeEffect()" 
+                    onclick="selectDayRating('Отличный день', '#ffffff')">Отличный день</button>
+            
+            <button class="assess-option opt-good" 
+                    onmouseenter="setThemeEffect('good')" 
+                    onmouseleave="clearThemeEffect()" 
+                    onclick="selectDayRating('Хороший день', '#ffaa00')">Хороший день</button>
+            
+            <button class="assess-option opt-bad" 
+                    onmouseenter="setThemeEffect('bad')" 
+                    onmouseleave="clearThemeEffect()" 
+                    onclick="selectDayRating('Плохой день', '#ff004c')">Плохой день</button>
+            
+            <button class="assess-option opt-awful" 
+                    onmouseenter="setThemeEffect('awful')" 
+                    onmouseleave="clearThemeEffect()" 
+                    onclick="selectDayRating('Ужасный день', '#111111')">Ужасный день</button>
+        </div>
+    </div>
+
+    <!-- СИСТЕМНЫЙ ПРОСМОТРЩИК ЗАПИСИ ИЗ СТАТИСТИКИ -->
+    <div id="read-note-modal" class="modal">
         <div class="modal-content">
-            <h2 style="font-family: 'Orbitron'; color: var(--accent-blue);">ОТЧЕТ О СОСТОЯНИИ</h2>
-            <p style="margin-top: 10px; color: #888;">Выберите текущий вектор энергии:</p>
-            <div class="assessment-options">
-                <button class="opt-btn" onclick="closeAssessment('Квантовый Коллапс')">Квантовый Коллапс (Провал)</button>
-                <button class="opt-btn" onclick="closeAssessment('Системный Сбой')">Системный Сбой (Плохо)</button>
-                <button class="opt-btn" onclick="closeAssessment('Фаза Стабилизации')">Фаза Стабилизации (Норм)</button>
-                <button class="opt-btn" onclick="closeAssessment('Активация Процессов')">Активация Процессов (Хорошо)</button>
-                <button class="opt-btn" onclick="closeAssessment('Манифест Демиурга')">Манифест Демиурга (Идеал)</button>
+            <h2 id="modal-read-date" style="font-family: 'Orbitron'; color: var(--accent-blue); margin-bottom: 10px;">ДАТА ЛОГА</h2>
+            <div id="modal-read-rating" style="display: inline-block; padding: 6px 15px; border-radius: 4px; font-weight: bold; margin-bottom: 20px; font-size: 0.85rem; text-transform: uppercase;">СОСТОЯНИЕ</div>
+            <p id="modal-read-text" style="color: #ddd; text-align: left; line-height: 1.6; max-height: 250px; overflow-y: auto; background: #04040a; padding: 15px; border: 1px solid #222; font-size: 1.05rem;"></p>
+            <div style="margin-top: 25px; text-align: right;">
+                <button class="opt-btn" onclick="closeReadModal()">ЗАКРЫТЬ ЛОГ</button>
             </div>
         </div>
     </div>
+
 
     <script>
+        // --- ТВОЙ РАБОЧИЙ КОНФИГ FIREBASE ---
         const firebaseConfig = {
           apiKey: "AIzaSyAJGnaJMFZydOTdBYGYhOXSi8jCkFP0Llw",
           authDomain: "ornitsystem.firebaseapp.com",
@@ -301,9 +885,11 @@
           measurementId: "G-XP8C25Q591"
         };
 
-        // Инициализация
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
+
+        // Основной документ профиля
+        const profileDocRef = db.collection("users").doc("ornit_main");
 
         let playerData = {
             level: 173,
@@ -312,25 +898,26 @@
             asceticismDays: 21
         };
 
-        const docRef = db.collection("users").doc("ornit_main");
+        // Локальное кэширование дневных логов для быстрого рендеринга статистики
+        let loadedLogs = {};
 
-        // Читаем данные
-        docRef.onSnapshot((doc) => {
+        // Подключаем профиль
+        profileDocRef.onSnapshot((doc) => {
             if (doc.exists) {
                 playerData = doc.data();
-                updateUI();
+                updateMainUI();
                 document.getElementById('db-status').innerText = "SYNC: ONLINE (FIREBASE)";
                 document.getElementById('db-status').style.color = "#00ff00";
             } else {
-                docRef.set(playerData);
+                profileDocRef.set(playerData);
             }
         }, (error) => {
-            console.error("Firebase error:", error);
+            console.error("Firebase Sync Error: ", error);
             document.getElementById('db-status').innerText = "SYNC: ERROR";
             document.getElementById('db-status').style.color = "#ff0000";
         });
 
-        function updateUI() {
+        function updateMainUI() {
             document.getElementById('main-level').innerText = playerData.level;
             document.getElementById('days-val').innerText = playerData.asceticismDays;
             document.getElementById('xp-text').innerText = `${playerData.xp} / ${playerData.nextLevelXp} EXP`;
@@ -348,21 +935,408 @@
             else rankText.innerText = "Высшая Архитектура";
         }
 
-        function openAssessment() {
-            document.getElementById('assessment-modal').style.display = 'flex';
+
+        // ==========================================
+        // 🌌 МНОГОСТРАНИЧНОСТЬ: СИСТЕМНЫЙ СВИЧЕР      
+        // ==========================================
+        function switchPage(pageId) {
+            const pages = document.querySelectorAll('.page-view');
+            pages.forEach(p => {
+                if (p.id === pageId) {
+                    p.style.display = (pageId === 'main-menu') ? 'flex' : 'block';
+                    setTimeout(() => p.classList.add('active-page'), 50);
+                } else {
+                    p.classList.remove('active-page');
+                    setTimeout(() => p.style.display = 'none', 500);
+                }
+            });
         }
 
-        function closeAssessment(status) {
-            document.getElementById('assessment-modal').style.display = 'none';
-            alert(`Система зафиксировала состояние: ${status}`);
+
+        // ==========================================
+        // 📝 ЛОГИКА ДНЕВНЫХ ОТЧЕТОВ И ОЦЕНОК       
+        // ==========================================
+        let currentDayRating = "";
+        let currentDayColor = "";
+
+        // Получение МСК даты (UTC+3)
+        function getMskDateInfo() {
+            const date = new Date();
+            const utc = date.getTime() + (date.getTimezoneOffset() * 60000);
+            const mskDate = new Date(utc + (3600000 * 3)); // МСК = UTC+3
             
-            playerData.xp += 100;
-            if (playerData.xp >= playerData.nextLevelXp) {
-                playerData.xp = 0;
-                playerData.level += 1;
+            const y = mskDate.getFullYear();
+            const m = String(mskDate.getMonth() + 1).padStart(2, '0');
+            const d = String(mskDate.getDate()).padStart(2, '0');
+            const hours = mskDate.getHours();
+
+            return {
+                dateString: `${y}-${m}-${d}`,
+                displayDate: `${d}.${m}.${y}`,
+                hours: hours,
+                year: y
+            };
+        }
+
+        function openNotesTab() {
+            const msk = getMskDateInfo();
+            document.getElementById('note-date-label').innerText = `ОТЧЕТ СИСТЕМЫ ЗА ${msk.displayDate}`;
+            
+            // Сбрасываем поле ввода
+            document.getElementById('daily-note-text').value = "";
+
+            // Проверяем: есть ли уже лог за сегодня в базе?
+            db.collection("daily_logs").doc(`ornit_log_${msk.dateString}`).get()
+            .then((doc) => {
+                if (doc.exists) {
+                    // Если лог уже есть — перенаправляем заполнять текст или читать
+                    const data = doc.data();
+                    currentDayRating = data.rating;
+                    currentDayColor = data.color;
+                    document.getElementById('daily-note-text').value = data.note || "";
+                    switchPage('notes-page');
+                } else {
+                    // Если лога нет, проверяем время: должно быть >= 20:00 МСК
+                    if (msk.hours >= 20) {
+                        // Активируем полноэкранную плашку оценки дня
+                        document.getElementById('assessment-overlay').style.display = 'flex';
+                        initParticleCanvas();
+                    } else {
+                        // Если раньше 20:00, просто открываем стандартную страницу для заметок
+                        currentDayRating = "Обычный день";
+                        currentDayColor = "#00d4ff";
+                        switchPage('notes-page');
+                    }
+                }
+            })
+            .catch(err => {
+                console.error("Ошибка проверки лога: ", err);
+                switchPage('notes-page');
+            });
+        }
+
+        // Выбрали оценку в модалке
+        function selectDayRating(rating, color) {
+            currentDayRating = rating;
+            currentDayColor = color;
+            document.getElementById('assessment-overlay').style.display = 'none';
+            stopParticleCanvas();
+            switchPage('notes-page');
+        }
+
+        // Сохранение лога в базу
+        function saveDayLog() {
+            const msk = getMskDateInfo();
+            const noteText = document.getElementById('daily-note-text').value.trim();
+
+            if (!noteText) {
+                alert("Запись пуста! Монарх должен детально описать свой день.");
+                return;
             }
 
-            docRef.update(playerData);
+            const payload = {
+                userId: "ornit_main",
+                date: msk.dateString,
+                rating: currentDayRating,
+                color: currentDayColor,
+                note: noteText,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            db.collection("daily_logs").doc(`ornit_log_${msk.dateString}`).set(payload)
+            .then(() => {
+                alert("СИСТЕМА: Запись дня успешно зафиксирована в реестр!");
+                
+                // Начисляем опыт за ежедневный отчет в профиль
+                playerData.xp += 200;
+                if (playerData.xp >= playerData.nextLevelXp) {
+                    playerData.xp = 0;
+                    playerData.level += 1;
+                }
+                profileDocRef.set(playerData);
+
+                switchPage('main-menu');
+            })
+            .catch(err => {
+                console.error("Ошибка сохранения: ", err);
+                alert("Сбой сохранения в базе.");
+            });
+        }
+
+
+        // ==========================================
+        // 📊 СТАТИСТИКА: ТАБЛИЦА ГОДОВ (ОТ 2026)      
+        // ==========================================
+        const monthNames = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+
+        function openStatisticsTab() {
+            switchPage('statistics-page');
+            const container = document.getElementById('months-container');
+            container.innerHTML = ""; // Очистка
+
+            // Запрашиваем все логи из базы за 2026 год
+            db.collection("daily_logs")
+              .where("userId", "==", "ornit_main")
+              .get()
+              .then((querySnapshot) => {
+                  loadedLogs = {};
+                  querySnapshot.forEach((doc) => {
+                      const data = doc.data();
+                      loadedLogs[data.date] = data; // Кэшируем по ключу даты 'YYYY-MM-DD'
+                  });
+                  
+                  // После загрузки рендерим сетку календаря 2026
+                  renderCalendarGrid(2026);
+              })
+              .catch(err => {
+                  console.error("Ошибка загрузки статистики: ", err);
+                  renderCalendarGrid(2026); // Рендер даже при ошибке (с пустыми ячейками)
+              });
+        }
+
+        function renderCalendarGrid(year) {
+            const container = document.getElementById('months-container');
+            container.innerHTML = "";
+
+            monthNames.forEach((name, monthIndex) => {
+                const monthBox = document.createElement('div');
+                monthBox.className = "month-box";
+
+                const monthTitle = document.createElement('div');
+                monthTitle.className = "month-name";
+                monthTitle.innerText = name;
+                monthBox.appendChild(monthTitle);
+
+                const matrix = document.createElement('div');
+                matrix.className = "days-matrix";
+
+                const totalDays = new Date(year, monthIndex + 1, 0).getDate();
+
+                for (let d = 1; d <= totalDays; d++) {
+                    const cell = document.createElement('div');
+                    cell.className = "day-cell";
+                    
+                    const curDateString = `${year}-${String(monthIndex + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+                    cell.title = `${d} ${name} ${year}`;
+
+                    // Окрашиваем, если у нас есть лог за этот день
+                    if (loadedLogs[curDateString]) {
+                        cell.style.background = loadedLogs[curDateString].color;
+                        cell.style.boxShadow = `0 0 8px ${loadedLogs[curDateString].color}`;
+                        
+                        // Клик открывает лог дня
+                        cell.onclick = () => {
+                            openReadModal(loadedLogs[curDateString]);
+                        };
+                    } else {
+                        // Клик по пустой ячейке
+                        cell.onclick = () => {
+                            alert(`Запись отсутствует: ${d} ${name} ${year}`);
+                        };
+                    }
+
+                    matrix.appendChild(cell);
+                }
+
+                monthBox.appendChild(matrix);
+                container.appendChild(monthBox);
+            });
+        }
+
+        // Просмотр лога
+        function openReadModal(log) {
+            const dateArr = log.date.split('-');
+            document.getElementById('modal-read-date').innerText = `ОТЧЕТ ЗА ${dateArr[2]}.${dateArr[1]}.${dateArr[0]}`;
+            
+            const ratingLabel = document.getElementById('modal-read-rating');
+            ratingLabel.innerText = log.rating;
+            ratingLabel.style.background = log.color;
+            ratingLabel.style.color = (log.color === '#ffffff' || log.color === '#ffaa00') ? '#000' : '#fff';
+
+            document.getElementById('modal-read-text').innerText = log.note;
+            document.getElementById('read-note-modal').style.display = 'flex';
+        }
+
+        function closeReadModal() {
+            document.getElementById('read-note-modal').style.display = 'none';
+        }
+
+
+        // =========================================================
+        // 🎨 ЧИСТЫЕ СИСТЕМНЫЕ ПАРТИКЛЫ ДЛЯ ЭФФЕКТОВ ОЦЕНКИ (CANVAS)
+        // =========================================================
+        let canvas, ctx;
+        let particles = [];
+        let effectInterval = null;
+        let activeEffectType = "";
+
+        function initParticleCanvas() {
+            canvas = document.getElementById('assessment-canvas');
+            ctx = canvas.getContext('2d');
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            
+            // Фоновая прорисовка
+            effectInterval = requestAnimationFrame(animateParticles);
+        }
+
+        function stopParticleCanvas() {
+            cancelAnimationFrame(effectInterval);
+            window.removeEventListener('resize', resizeCanvas);
+            particles = [];
+        }
+
+        function resizeCanvas() {
+            if (canvas) {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+        }
+
+        // Анимационный цикл партиклов
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Рисуем и обновляем частицы на основе текущего эффекта
+            particles.forEach((p, index) => {
+                p.update();
+                p.draw();
+                if (p.alpha <= 0) particles.splice(index, 1);
+            });
+
+            // Генерация частиц в зависимости от темы наведения
+            if (activeEffectType === "best") {
+                // "Лучший день": Пурпурное пламя и взлетающие светлячки
+                if (particles.length < 150) {
+                    particles.push(new Particle(
+                        Math.random() * canvas.width, 
+                        canvas.height + 10, 
+                        Math.random() * 3 + 1, 
+                        'purple', 
+                        Math.random() * -3 - 1,
+                        (Math.random() - 0.5) * 2
+                    ));
+                }
+            } else if (activeEffectType === "good") {
+                // "Хороший день": Радиальное золотое солнце (вращающиеся лучи)
+                drawSunbeams();
+            } else if (activeEffectType === "bad") {
+                // "Плохой день": Сильный красный шум / вибрирующая аура
+                drawRedAura();
+            } else if (activeEffectType === "awful") {
+                // "Ужасный день": Падающие хлопья чёрного пепла
+                if (particles.length < 80) {
+                    particles.push(new Particle(
+                        Math.random() * canvas.width, 
+                        -10, 
+                        Math.random() * 4 + 2, 
+                        'ash', 
+                        Math.random() * 2 + 1,
+                        (Math.random() - 0.5) * 1
+                    ));
+                }
+            }
+
+            effectInterval = requestAnimationFrame(animateParticles);
+        }
+
+        // Класс частицы
+        class Particle {
+            constructor(x, y, radius, type, vy, vx) {
+                this.x = x;
+                this.y = y;
+                this.radius = radius;
+                this.type = type;
+                this.vy = vy;
+                this.vx = vx;
+                this.alpha = 1;
+                this.decay = Math.random() * 0.015 + 0.005;
+            }
+
+            update() {
+                this.y += this.vy;
+                this.x += this.vx;
+                this.alpha -= this.decay;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                if (this.type === 'purple') {
+                    // Светлячки фиолетового цвета
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = '#8a2be2';
+                    ctx.shadowColor = '#00d4ff';
+                    ctx.shadowBlur = 15;
+                    ctx.fill();
+                } else if (this.type === 'ash') {
+                    // Черные квадратные крупинки пепла
+                    ctx.fillStyle = '#111';
+                    ctx.strokeStyle = '#333';
+                    ctx.lineWidth = 1;
+                    ctx.fillRect(this.x, this.y, this.radius * 2, this.radius * 2);
+                    ctx.strokeRect(this.x, this.y, this.radius * 2, this.radius * 2);
+                }
+                ctx.restore();
+            }
+        }
+
+        // Включение эффектов при наведении на кнопки оверлея
+        function setThemeEffect(type) {
+            activeEffectType = type;
+            particles = [];
+            
+            // Если выбран "Отличный день" — активируем белое облачное плато
+            const fog = document.getElementById('fog-overlay');
+            if (type === 'great') {
+                fog.style.opacity = '1';
+            } else {
+                fog.style.opacity = '0';
+            }
+        }
+
+        function clearThemeEffect() {
+            activeEffectType = "";
+            document.getElementById('fog-overlay').style.opacity = '0';
+        }
+
+        // Лучи солнца для "Хорошего дня"
+        let sunAngle = 0;
+        function drawSunbeams() {
+            sunAngle += 0.003;
+            ctx.save();
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+            ctx.rotate(sunAngle);
+            ctx.globalAlpha = 0.06;
+            
+            const numBeams = 24;
+            const step = (Math.PI * 2) / numBeams;
+
+            for (let i = 0; i < numBeams; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.arc(0, 0, Math.max(canvas.width, canvas.height), i * step, i * step + step / 2);
+                ctx.lineTo(0, 0);
+                ctx.fillStyle = "#ffaa00";
+                ctx.fill();
+            }
+            ctx.restore();
+        }
+
+        // Красная вибрирующая аура плохих дней
+        function drawRedAura() {
+            ctx.save();
+            ctx.globalAlpha = 0.12;
+            const gradient = ctx.createRadialGradient(
+                canvas.width / 2, canvas.height / 2, 50, 
+                canvas.width / 2, canvas.height / 2, canvas.width / 1.5
+            );
+            gradient.addColorStop(0, 'rgba(255, 0, 76, 0.4)');
+            gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.restore();
         }
     </script>
 </body>

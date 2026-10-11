@@ -1037,42 +1037,38 @@
             };
         }
 
-        function openNotesTab() {
+                function openNotesTab() {
             const msk = getMskDateInfo();
-            document.getElementById('note-date-label').innerText = `ОТЧЕТ СИСТЕМЫ ЗА ${msk.displayDate}`;
+            console.log("Текущее время МСК:", msk.displayDate, "Час:", msk.hours);
             
-            // Сбрасываем поле ввода
+            document.getElementById('note-date-label').innerText = `ОТЧЕТ СИСТЕМЫ ЗА ${msk.displayDate}`;
             document.getElementById('daily-note-text').value = "";
 
-            // Проверяем: есть ли уже лог за сегодня в базе?
+            // Проверяем наличие записи за сегодня в Firebase
             db.collection("daily_logs").doc(`ornit_log_${msk.dateString}`).get()
             .then((doc) => {
                 if (doc.exists) {
-                    // Если лог уже есть — перенаправляем заполнять текст или читать
+                    console.log("Лог за сегодня уже есть в базе:", doc.data());
                     const data = doc.data();
                     currentDayRating = data.rating;
                     currentDayColor = data.color;
                     document.getElementById('daily-note-text').value = data.note || "";
                     switchPage('notes-page');
                 } else {
-                    // Если лога нет, проверяем время: должно быть >= 20:00 МСК
-                    if (msk.hours >= 20) {
-                        // Активируем полноэкранную плашку оценки дня
-                        document.getElementById('assessment-overlay').style.display = 'flex';
-                        initParticleCanvas();
-                    } else {
-                        // Если раньше 20:00, просто открываем стандартную страницу для заметок
-                        currentDayRating = "Обычный день";
-                        currentDayColor = "#00d4ff";
-                        switchPage('notes-page');
-                    }
+                    console.log("Лога за сегодня нет. Открываем оценку дня!");
+                    
+                    // ⚡️ ПОКАЗЫВАЕМ ОЦЕНКУ ВСЕГДА (ДЛЯ ТЕСТА СВЯЗИ С БАЗОЙ)
+                    document.getElementById('assessment-overlay').style.display = 'flex';
+                    initParticleCanvas();
                 }
             })
             .catch(err => {
-                console.error("Ошибка проверки лога: ", err);
+                console.error("ОШИБКА FIREBASE ПРИ ЧТЕНИИ ЛОГА:", err);
+                alert("Ошибка связи с базой данных Firebase! Проверь Rules в консоли. Подробности в F12.");
                 switchPage('notes-page');
             });
         }
+
 
         // Выбрали оценку в модалке
         function selectDayRating(rating, color) {

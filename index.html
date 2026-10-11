@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+\<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -15,25 +15,27 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
     <style>
-        :root {
-            --bg-color: #030307;
-            --panel-bg: rgba(8, 8, 20, 0.95);
-            --accent-blue: #00d4ff;
+                :root {
+            --bg-dark: #030307;
+            --panel-dark: #090915; /* Глубокий серый как на скрине */
+            --panel-border: rgba(255, 255, 255, 0.08);
+            --accent-cyan: #00d4ff;
             --accent-purple: #8a2be2;
-            --accent-red: #ff004c;
-            --text-main: #e0e0e0;
-            --neon-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+            --text-gray: #888b94;
+            --hud-glow: 0 0 15px rgba(0, 212, 255, 0.3);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background-color: var(--bg-color);
+            background-color: #030307 !important;
             color: var(--text-main);
             font-family: 'Exo 2', sans-serif;
             overflow-x: hidden;
             min-height: 100vh;
+            background-image: radial-gradient(circle at 50% 20%, rgba(138, 43, 226, 0.08) 0%, rgba(3, 3, 7, 1) 70%);
         }
+
 
         /* --- СИСТЕМНАЯ МНОГОСТРАНИЧНОСТЬ --- */
         .page-view {
@@ -929,6 +931,700 @@
             opacity: 0;
         }
 
+
+
+                /* [ HUD HEADER ] */
+        .hud-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .hud-left, .hud-right { display: flex; align-items: center; gap: 20px; }
+
+        .hud-logo img { width: 32px; filter: drop-shadow(0 0 8px var(--accent-purple)); }
+
+        .hud-title { font-family: 'Orbitron'; font-size: 1.1rem; letter-spacing: 2px; color: var(--accent-cyan); }
+
+        .hud-status { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; font-weight: bold; }
+        .status-dot { width: 6px; height: 6px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 8px #00ff88; }
+
+        .hud-divider { width: 1px; height: 15px; background: rgba(255,255,255,0.1); }
+        .hud-meta { font-size: 0.7rem; color: var(--text-gray); letter-spacing: 1px; }
+
+        .hud-icon-btn { background: transparent; border: none; color: var(--text-gray); cursor: pointer; transition: 0.3s; }
+        .hud-icon-btn:hover { color: #fff; transform: scale(1.1); }
+        .hud-icon-btn svg { width: 20px; height: 20px; }
+
+        .hud-user-small { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.03); padding: 5px 15px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.05); }
+        .hud-avatar { width: 30px; height: 30px; background: var(--accent-purple); border-radius: 50%; border: 1px solid var(--accent-cyan); }
+        .hud-user-name { font-size: 0.8rem; font-weight: bold; color: #fff; display: block; }
+        .hud-user-lvl { font-size: 0.7rem; color: var(--accent-cyan); font-family: 'Orbitron'; }
+
+        /* [ MAIN GRID ] */
+        .level-main-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.6fr 1.2fr; /* Профиль - Колба - Аскеза */
+            gap: 25px;
+            align-items: flex-start;
+        }
+
+        /* [ PROFILE CARD ] */
+        .profile-card {
+            background: linear-gradient(145deg, #0d0d1a 0%, #080812 100%);
+            border: 1px solid var(--panel-border);
+            border-top: 2px solid var(--accent-cyan);
+            border-radius: 12px;
+            padding: 25px;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .pc-label { font-family: 'Orbitron'; font-size: 0.65rem; color: var(--accent-cyan); opacity: 0.6; margin-bottom: 15px; letter-spacing: 2px; }
+        .pc-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; }
+        .pc-nickname { font-family: 'Orbitron'; font-size: 2.2rem; color: #fff; letter-spacing: 3px; }
+        .pc-title { font-size: 0.9rem; color: var(--text-gray); margin-top: 5px; }
+
+        .pc-lvl-block { text-align: right; }
+        .pc-lvl-text { font-family: 'Orbitron'; color: var(--accent-cyan); font-size: 0.9rem; margin-right: 5px; }
+        .pc-lvl-val { font-family: 'Orbitron'; color: #fff; font-size: 2.2rem; text-shadow: 0 0 15px rgba(0, 212, 255, 0.4); }
+
+        .pc-stats-row { display: flex; justify-content: space-between; margin-bottom: 30px; gap: 15px; }
+        .pc-stat-item { display: flex; align-items: center; gap: 10px; }
+        .stat-label { display: block; font-size: 0.65rem; color: var(--text-gray); text-transform: uppercase; margin-bottom: 3px; }
+        .stat-val { font-family: 'Orbitron'; font-size: 0.85rem; color: #fff; }
+
+        /* [ NEW XP BAR ] */
+        .pc-xp-container { position: relative; padding-top: 10px; }
+        .pc-xp-bar-outer { height: 10px; background: #05050a; border-radius: 5px; border: 1px solid rgba(255,255,255,0.05); overflow: hidden; }
+        .pc-xp-bar-inner { 
+            height: 100%; 
+            width: 59.5%; 
+            background: linear-gradient(90deg, #00d4ff 0%, #8a2be2 100%); 
+            border-radius: 5px; 
+            position: relative;
+            transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .pc-xp-glow { position: absolute; top: 0; right: 0; width: 20px; height: 100%; background: #fff; filter: blur(10px); opacity: 0.5; }
+        .pc-xp-percent { position: absolute; right: 0; top: -15px; font-size: 0.7rem; color: var(--accent-cyan); font-family: 'Orbitron'; }
+
+        /* Адаптивность для мобилок */
+        @media (max-width: 900px) {
+            .level-main-grid { grid-template-columns: 1fr; }
+            .hud-meta, .hud-divider { display: none; }
+            .pc-nickname { font-size: 1.6rem; }
+        }
+
+
+                /* =================================================== */
+        /* 🧪 СВЕТЯЩАЯСЯ КОЛБА МАНЫ (MANA FLASK)              */
+        /* =================================================== */
+        .energy-flask-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            min-height: 380px;
+        }
+
+        .flask-outer {
+            position: relative;
+            width: 110px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            filter: drop-shadow(0 0 25px rgba(138, 43, 226, 0.45)) drop-shadow(0 0 15px rgba(0, 212, 255, 0.3));
+        }
+
+        /* Металлические крышки (верх и низ) */
+        .flask-cap {
+            width: 100%;
+            background: linear-gradient(180deg, #2a2a3e 0%, #12121e 50%, #0a0a14 100%);
+            border: 1px solid rgba(0, 212, 255, 0.4);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: inset 0 1px 1px rgba(255,255,255,0.4), 0 5px 15px rgba(0,0,0,0.8);
+            position: relative;
+            z-index: 5;
+        }
+
+        .flask-cap-top {
+            height: 36px;
+            border-radius: 18px 18px 6px 6px;
+            border-bottom: 2px solid #00d4ff;
+        }
+
+        .flask-cap-bottom {
+            height: 42px;
+            border-radius: 6px 6px 20px 20px;
+            border-top: 2px solid #8a2be2;
+        }
+
+        .flask-bolt {
+            width: 6px;
+            height: 6px;
+            background: #444466;
+            border-radius: 50%;
+            box-shadow: inset 0 1px 2px #000;
+        }
+
+        .flask-core-lamp {
+            width: 12px;
+            height: 12px;
+            background: #00d4ff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff;
+            animation: lamp-pulse 2s infinite alternate ease-in-out;
+        }
+
+        @keyframes lamp-pulse {
+            0% { opacity: 0.6; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1.1); box-shadow: 0 0 15px #00d4ff, 0 0 30px #8a2be2; }
+        }
+
+        .flask-rune {
+            font-size: 0.8rem;
+            color: var(--accent-purple);
+            text-shadow: 0 0 8px var(--accent-purple);
+            font-weight: bold;
+        }
+
+        /* Стеклянный цилиндр колбы */
+        .flask-glass {
+            position: relative;
+            width: 86px;
+            height: 250px;
+            background: rgba(8, 8, 22, 0.55);
+            border-left: 2px solid rgba(0, 212, 255, 0.5);
+            border-right: 2px solid rgba(138, 43, 226, 0.5);
+            box-shadow: inset 0 0 20px rgba(138, 43, 226, 0.3), inset 0 0 10px rgba(0, 212, 255, 0.2);
+            overflow: hidden;
+        }
+
+        #flask-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+
+        /* Блик стекла */
+        .flask-reflection {
+            position: absolute;
+            top: 0;
+            left: 10px;
+            width: 8px;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%);
+            border-radius: 4px;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        /* Фоновое свечение маны внизу колбы */
+        .flask-liquid-glow {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70%;
+            background: radial-gradient(ellipse at bottom, rgba(0, 212, 255, 0.35) 0%, rgba(138, 43, 226, 0.2) 60%, transparent 100%);
+            z-index: 1;
+            pointer-events: none;
+            animation: liquid-breathe 4s infinite alternate ease-in-out;
+        }
+
+        @keyframes liquid-breathe {
+            0% { height: 60%; opacity: 0.7; }
+            100% { height: 80%; opacity: 1; }
+        }
+
+
+
+
+                /* =================================================== */
+        /* 🧘 КАРТОЧКА ВОЗДЕРЖАНИЯ (ASCETICISM TRACKER)      */
+        /* =================================================== */
+        .asceticism-card {
+            background: linear-gradient(145deg, #0d0d1a 0%, #080812 100%);
+            border: 1px solid var(--panel-border);
+            border-top: 2px solid var(--accent-purple);
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            position: relative;
+        }
+
+        .ac-label {
+            font-family: 'Orbitron';
+            font-size: 0.65rem;
+            color: var(--accent-purple);
+            opacity: 0.8;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .ac-days-title {
+            font-family: 'Orbitron';
+            font-size: 2.2rem;
+            color: #fff;
+            margin: 5px 0 2px 0;
+            text-shadow: 0 0 15px rgba(138, 43, 226, 0.4);
+        }
+
+        .ac-days-sub {
+            font-size: 1rem;
+            color: var(--accent-purple);
+            font-weight: normal;
+        }
+
+        .ac-subtext {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            margin-bottom: 20px;
+        }
+
+        .ac-stats-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .ac-stat-badge {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ac-stat-icon { font-size: 1.2rem; }
+
+        .ac-stat-title {
+            display: block;
+            font-size: 0.65rem;
+            color: var(--text-gray);
+            margin-bottom: 2px;
+        }
+
+        .ac-stat-val {
+            font-family: 'Orbitron';
+            font-size: 0.85rem;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        /* Календарный блок и цели */
+        .ac-body-grid {
+            display: grid;
+            grid-template-columns: 1fr 100px;
+            gap: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 15px;
+        }
+
+        .ac-cal-header {
+            font-family: 'Orbitron';
+            font-size: 0.7rem;
+            color: var(--text-gray);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .ac-cal-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .ac-cal-cell {
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            color: #444;
+            border: 1px solid transparent;
+        }
+
+        .ac-cal-cell.checked {
+            background: rgba(0, 212, 255, 0.15);
+            border-color: rgba(0, 212, 255, 0.4);
+            color: var(--accent-cyan);
+            box-shadow: 0 0 6px rgba(0, 212, 255, 0.2);
+        }
+
+        /* Блок под цели 30 / 60 / 90 дней */
+        .ac-goals-title {
+            font-size: 0.65rem;
+            color: var(--text-gray);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .ac-goal-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            opacity: 0.4;
+            transition: 0.3s;
+        }
+
+        .ac-goal-item.active-goal {
+            opacity: 1;
+        }
+
+        .goal-badge {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1px solid var(--text-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron';
+            font-size: 0.65rem;
+            color: #fff;
+        }
+
+        .active-goal .goal-badge {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 10px var(--accent-purple);
+            color: var(--accent-purple);
+            background: rgba(138, 43, 226, 0.1);
+        }
+
+        .goal-text {
+            font-size: 0.7rem;
+            color: #ddd;
+        }
+
+
+
+                /* =================================================== */
+        /* 🎯 ВТОРОЙ РЯД: МИССИИ И ДОСТИЖЕНИЯ                 */
+        /* =================================================== */
+        .level-second-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        /* КАРТОЧКА МИССИИ */
+        .daily-mission-card {
+            background: linear-gradient(145deg, #0d0d1a 0%, #080812 100%);
+            border: 1px solid var(--panel-border);
+            border-left: 3px solid var(--accent-purple);
+            border-radius: 12px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dm-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .dm-title-group { display: flex; align-items: center; gap: 8px; }
+        .dm-icon { font-size: 1rem; }
+        .dm-title { font-family: 'Orbitron'; font-size: 0.75rem; color: var(--accent-purple); letter-spacing: 2px; }
+
+        .dm-reward {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.4);
+            color: var(--accent-cyan);
+            font-family: 'Orbitron';
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+        }
+
+        .dm-quest-name { font-family: 'Orbitron'; font-size: 1.2rem; color: #fff; margin-bottom: 6px; letter-spacing: 1px; }
+        .dm-quest-desc { font-size: 0.85rem; color: var(--text-gray); margin-bottom: 20px; }
+
+        .dm-footer { display: flex; align-items: center; gap: 15px; }
+
+        .dm-progress-wrap { flex: 1; display: flex; align-items: center; gap: 10px; }
+        .dm-progress-outer { flex: 1; height: 8px; background: #05050a; border-radius: 4px; border: 1px solid rgba(255,255,255,0.05); overflow: hidden; }
+        .dm-progress-inner { height: 100%; background: var(--accent-cyan); border-radius: 4px; transition: width 0.5s ease; box-shadow: 0 0 8px var(--accent-cyan); }
+        .dm-progress-num { font-family: 'Orbitron'; font-size: 0.75rem; color: var(--text-gray); }
+
+        .dm-action-btn {
+            background: linear-gradient(180deg, rgba(138, 43, 226, 0.2) 0%, rgba(138, 43, 226, 0.5) 100%);
+            border: 1px solid var(--accent-purple);
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-family: 'Orbitron';
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.2);
+        }
+
+        .dm-action-btn:hover {
+            background: var(--accent-purple);
+            box-shadow: 0 0 20px var(--accent-purple);
+            transform: translateY(-2px);
+        }
+
+        .dm-action-btn.completed {
+            background: rgba(0, 255, 136, 0.15);
+            border-color: #00ff88;
+            color: #00ff88;
+            cursor: default;
+            box-shadow: none;
+            transform: none;
+        }
+
+        /* КАРТОЧКА ДОСТИЖЕНИЙ */
+        .achievements-card {
+            background: linear-gradient(145deg, #0d0d1a 0%, #080812 100%);
+            border: 1px solid var(--panel-border);
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+
+        .ach-header { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+        .ach-title { font-family: 'Orbitron'; font-size: 0.75rem; color: var(--accent-cyan); letter-spacing: 2px; }
+
+        .ach-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+        }
+
+        .ach-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .ach-hex {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: #060610;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .ach-name { font-size: 0.7rem; color: #fff; font-weight: 600; margin-bottom: 2px; }
+        .ach-sub { font-size: 0.65rem; color: var(--text-gray); }
+
+        /* Заблокированное достижение */
+        .ach-badge.locked { opacity: 0.3; filter: grayscale(1); }
+
+        /* Разблокированное неоновое достижение */
+        .ach-badge.unlocked .ach-hex {
+            border-color: var(--accent-cyan);
+            background: rgba(0, 212, 255, 0.1);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.4), inset 0 0 10px rgba(0, 212, 255, 0.2);
+        }
+
+        .ach-badge.unlocked:hover {
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 900px) {
+            .level-second-grid { grid-template-columns: 1fr; }
+            .ach-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+
+
+                /* =================================================== */
+        /* 📈 ТРЕТИЙ РЯД: ГРАФИК, МЕТРИКИ И МАНИФЕСТ          */
+        /* =================================================== */
+        .level-third-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 0.8fr 0.9fr;
+            gap: 25px;
+            margin-top: 25px;
+            margin-bottom: 90px; /* Отступ от сайдбара снизу */
+        }
+
+        /* 1. КАРТОЧКА ГРАФИКА */
+        .chart-card {
+            background: linear-gradient(145deg, #0d0d1a 0%, #080812 100%);
+            border: 1px solid var(--panel-border);
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .chart-title-group { display: flex; align-items: center; gap: 8px; }
+        .chart-icon { font-size: 1rem; }
+        .chart-title { font-family: 'Orbitron'; font-size: 0.75rem; color: var(--accent-cyan); letter-spacing: 2px; }
+
+        .chart-toggles { display: flex; gap: 6px; }
+        .chart-toggle-btn {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: var(--text-gray);
+            font-family: 'Orbitron';
+            font-size: 0.65rem;
+            padding: 4px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .chart-toggle-btn.active, .chart-toggle-btn:hover {
+            color: #fff;
+            border-color: var(--accent-cyan);
+            background: rgba(0, 212, 255, 0.15);
+        }
+
+        .chart-canvas-wrapper {
+            display: flex;
+            align-items: stretch;
+            height: 120px;
+            position: relative;
+        }
+
+        .chart-y-axis {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-family: 'Orbitron';
+            font-size: 0.6rem;
+            color: #444;
+            padding-right: 12px;
+        }
+
+        .chart-svg-box {
+            flex: 1;
+            position: relative;
+            height: 100%;
+        }
+
+        .progress-svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .chart-x-axis {
+            display: flex;
+            justify-content: space-between;
+            padding-left: 35px;
+            font-family: 'Orbitron';
+            font-size: 0.6rem;
+            color: #555;
+            margin-top: 8px;
+        }
+
+        /* 2. МЕТРИКИ НЕДЕЛИ */
+        .week-stats-card {
+            background: linear-gradient(145deg, #0d0d1a 0%, #080812 100%);
+            border: 1px solid var(--panel-border);
+            border-radius: 12px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+
+        .ws-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ws-label { font-size: 0.8rem; color: var(--text-gray); }
+        .ws-val-box { display: flex; align-items: center; gap: 8px; }
+        .ws-val { font-family: 'Orbitron'; font-size: 1.1rem; color: #fff; font-weight: bold; }
+
+        .ws-badge {
+            font-family: 'Orbitron';
+            font-size: 0.65rem;
+            padding: 2px 7px;
+            border-radius: 4px;
+        }
+
+        .ws-badge.green { background: rgba(0, 255, 136, 0.1); color: #00ff88; border: 1px solid rgba(0,255,136,0.3); }
+        .ws-badge.cyan { background: rgba(0, 212, 255, 0.1); color: #00d4ff; border: 1px solid rgba(0,212,255,0.3); }
+        .ws-badge.purple { font-size: 0.9rem; }
+
+        .ws-divider { height: 1px; background: rgba(255,255,255,0.05); margin: 6px 0; }
+
+        /* 3. КАРТОЧКА МАНИФЕСТА */
+        .manifesto-card {
+            background: linear-gradient(145deg, #0d0d1a 0%, #080812 100%);
+            border: 1px solid var(--panel-border);
+            border-radius: 12px;
+            padding: 25px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+
+        .manifesto-bracket {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-color: rgba(0, 212, 255, 0.4);
+        }
+        .manifesto-bracket.top-left { top: 10px; left: 10px; border-top: 2px solid; border-left: 2px solid; }
+        .manifesto-bracket.bottom-right { bottom: 10px; right: 10px; border-bottom: 2px solid; border-right: 2px solid; }
+
+        .manifesto-icon { font-size: 1.6rem; margin-bottom: 12px; filter: drop-shadow(0 0 10px var(--accent-cyan)); }
+        .manifesto-text { font-size: 0.95rem; line-height: 1.5; color: #ddd; font-style: italic; margin-bottom: 12px; }
+        .manifesto-author { font-family: 'Orbitron'; font-size: 0.65rem; color: var(--accent-cyan); letter-spacing: 2px; }
+
+        /* Адаптив под мобилки для 3 ряда */
+        @media (max-width: 900px) {
+            .level-third-grid { grid-template-columns: 1fr; margin-bottom: 110px; }
+        }
+
+
+
     </style>
 
 
@@ -975,56 +1671,349 @@
         </div>
     </div>
 
-    <!-- =================================================== -->
-    <!-- 👑 ЭКРАН 2: ВКТЛАДКА "УРОВЕНЬ"                      -->
-    <!-- =================================================== -->
-    <div id="level-page" class="page-view">
-        <div class="system-container">
-            <header>
-                <div class="title-container">
-                    <img src="logo-sole.webp" alt="System Logo" class="system-logo">
-                    <h1 class="system-title">Ornit System</h1>
+      
+    <div id="level-page" class="page-view">     <div class="system-container" style="max-width: 1200px;">
+            
+            <!-- [ TOP HUD BAR ] -->
+            <div class="hud-header">
+                <div class="hud-left">
+                    <div class="hud-logo">
+                        <img src="logo-sole.webp" alt="UP">
+                    </div>
+                    <h1 class="hud-title">ORNIT SYSTEM</h1>
+                    <div class="hud-status">
+                        <span class="status-dot"></span>
+                        <span class="status-text">ОНЛАЙН</span>
+                    </div>
+                    <div class="hud-divider"></div>
+                    <div class="hud-meta">СТАТУС: <span id="db-status-hud" style="color: var(--accent-cyan);">ONLINE</span></div>
+                    <div class="hud-divider"></div>
+                    <div class="hud-meta">PLAYER: ORNIT</div>
                 </div>
-                <div class="system-status-bar">
-                    <span>STATUS: ONLINE</span>
-                    <span id="db-status" style="color: yellow;">SYNC: CONNECTING...</span>
-                    <span>PLAYER: ORNIT</span>
+                <div class="hud-right">
+                    <button class="hud-icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1V11a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V11a2 2 0 0 1 2 2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51z"></path></svg></button>
+                    <button class="hud-icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg></button>
+                    <div class="hud-user-small">
+                        <div class="hud-avatar"></div>
+                        <div class="hud-user-info">
+                            <span class="hud-user-name">ORNIT</span>
+                            <span class="hud-user-lvl">LV. <span id="header-lvl">173</span></span>
+                        </div>
+                    </div>
                 </div>
-            </header>
+            </div>
 
-            <!-- БЛОК ИНФОРМАЦИИ ОБ УРОВНЕ И ОПЫТЕ -->
-            <section class="status-window">
-                <div class="status-header">
-                    <div class="user-info">
-                        <p style="color: var(--accent-blue); font-size: 0.8rem; margin-bottom: 5px;">[ PLAYER INFO ]</p>
-                        <h2>ORNIT</h2>
-                        <p style="color: #888;">ВЫСШИЙ АРХИТЕКТОР</p>
+            <!-- [ MAIN GRID CONTENT ] -->
+            <div class="level-main-grid">
+                
+                <!-- 1. КАРТОЧКА ПРОФИЛЯ -->
+                <div class="profile-card">
+                    <div class="pc-label">PLAYER PROFILE</div>
+                    <div class="pc-header">
+                        <div class="pc-name-block">
+                            <h2 class="pc-nickname">ORNIT</h2>
+                            <p class="pc-title">Высший архитектор</p>
+                        </div>
+                        <div class="pc-lvl-block">
+                            <span class="pc-lvl-text">LV.</span>
+                            <span id="main-level-big" class="pc-lvl-val">173</span>
+                        </div>
                     </div>
-                    <div class="level-badge">
-                        <span style="font-size: 1rem; vertical-align: middle;">LV.</span>
-                        <span id="main-level">173</span>
+
+                    <div class="pc-stats-row">
+                        <div class="pc-stat-item">
+                            <span class="stat-icon">💠</span>
+                            <div class="stat-info">
+                                <span class="stat-label">Ранг</span>
+                                <span class="stat-val">Архитектор V</span>
+                            </div>
+                        </div>
+                        <div class="pc-stat-item">
+    <span class="stat-icon">📊</span>
+    <div class="stat-info">
+        <span class="stat-label">Общий опыт</span>
+        <span class="stat-val" id="unique-total-xp">70 382 XP</span>
+
+    </div>
+</div>
+
+                        <div class="pc-stat-item">
+                            <div class="stat-info" style="text-align: right;">
+                                <span class="stat-label">До следующего уровня</span>
+                                <span class="stat-val"><span id="xp-current">4500</span> / 10000 XP</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pc-xp-container">
+                        <div class="pc-xp-bar-outer">
+                            <div id="xp-fill-main" class="pc-xp-bar-inner">
+                                <div class="pc-xp-glow"></div>
+                            </div>
+                        </div>
+                        <div class="pc-xp-percent">59.5%</div>
                     </div>
                 </div>
 
-                <div class="xp-container">
-                    <div class="xp-label">
-                        <span>ОПЫТ ПРОГРЕССИИ</span>
-                        <span id="xp-text">4500 / 10000 EXP</span>
-                    </div>
-                    <div class="progress-bar-outer">
-                        <div id="xp-fill" class="progress-bar-inner"></div>
-                    </div>
-                </div>
-            </section>
+                               <!-- 2. ЖИВАЯ КИБЕР-КОЛБА МАНЫ -->
+                <div class="energy-flask-container">
+                    <div class="flask-outer">
+                        <!-- Верхняя металлическая крышка с индикатором -->
+                        <div class="flask-cap flask-cap-top">
+                            <div class="flask-bolt"></div>
+                            <div class="flask-core-lamp"></div>
+                            <div class="flask-bolt"></div>
+                        </div>
 
-            <!-- БЛОК АСКЕЗИ -->
-            <section class="asceticism-panel">
-                <div class="asceticism-info">
-                    <h3>УРОВЕНЬ ВОЗДЕРЖАНИЯ</h3>
-                    <p id="architect-rank" class="architect-level">Фаза Стабилизации</p>
+                        <!-- Стеклянный цилиндр с живой энергией -->
+                        <div class="flask-glass">
+                            <canvas id="flask-canvas"></canvas>
+                            <!-- Блики на стекле -->
+                            <div class="flask-reflection"></div>
+                            <!-- Внутреннее свечение маны -->
+                            <div class="flask-liquid-glow"></div>
+                        </div>
+
+                        <!-- Нижняя металлическая подставка -->
+                        <div class="flask-cap flask-cap-bottom">
+                            <div class="flask-base-ring"></div>
+                            <div class="flask-rune">ᚱ</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="days-count" id="days-val">21</div>
-            </section>
+
+
+                                <!-- 3. КАРТОЧКА ВОЗДЕРЖАНИЯ И АСКЕЗЫ -->
+                <div class="asceticism-card">
+                    <div class="ac-header">
+                        <div>
+                            <span class="ac-label">УРОВЕНЬ ВОЗДЕРЖАНИЯ</span>
+                            <h2 class="ac-days-title"><span id="ac-days-num">21</span> <span class="ac-days-sub">день</span></h2>
+                            <p class="ac-subtext">Сила в контроле</p>
+                        </div>
+                    </div>
+
+                    <!-- Статистика серии -->
+                    <div class="ac-stats-row">
+                        <div class="ac-stat-badge">
+                            <span class="ac-stat-icon">🔥</span>
+                            <div>
+                                <span class="ac-stat-title">Текущая серия</span>
+                                <span class="ac-stat-val"><span id="ac-streak-val">21</span> день</span>
+                            </div>
+                        </div>
+                                                <div class="ac-stat-badge">
+                            <span class="ac-stat-icon">🏆</span>
+                            <div>
+                                <span class="ac-stat-title">Лучший результат</span>
+                                <span class="ac-stat-val" id="ac-best-record">9 дней</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Календарь + Следующие цели -->
+                    <div class="ac-body-grid">
+                        <!-- Мини-календарь с отметками -->
+                        <div class="ac-calendar-block">
+                            <div class="ac-cal-header">
+                                <span>‹ Ноябрь 2026 ›</span>
+                            </div>
+                            <div class="ac-cal-grid" id="ac-cal-grid">
+                                <!-- Ячейки создадутся через JS -->
+                            </div>
+                        </div>
+
+                        <!-- Бейджи целей (30, 60, 90 дней) -->
+                        <div class="ac-goals-block">
+                            <div class="ac-goals-title">Следующие цели</div>
+                            <div class="ac-goal-item active-goal" id="goal-30">
+                                <div class="goal-badge">30</div>
+                                <span class="goal-text">30 дней</span>
+                            </div>
+                            <div class="ac-goal-item" id="goal-60">
+                                <div class="goal-badge">60</div>
+                                <span class="goal-text">60 дней</span>
+                            </div>
+                            <div class="ac-goal-item" id="goal-90">
+                                <div class="goal-badge">90</div>
+                                <span class="goal-text">90 дней</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+                        <!-- [ ROW 2: MISSION & ACHIEVEMENTS ] -->
+            <div class="level-second-grid">
+                
+                <!-- 1. МИССИЯ ДНЯ -->
+                <div class="daily-mission-card">
+                    <div class="dm-header">
+                        <div class="dm-title-group">
+                            <span class="dm-icon">🎯</span>
+                            <span class="dm-title">МИССИЯ ДНЯ</span>
+                        </div>
+                        <span class="dm-reward">+50 XP</span>
+                    </div>
+                    
+                    <h3 class="dm-quest-name" id="dm-quest-title">Сделай шаг вперёд</h3>
+                    <p class="dm-quest-desc" id="dm-quest-desc">Выполни свою ежедневную задачу дисциплины и не сдавайся.</p>
+
+                    <div class="dm-footer">
+                        <div class="dm-progress-wrap">
+                            <div class="dm-progress-outer">
+                                <div class="dm-progress-inner" id="dm-progress-bar" style="width: 0%;"></div>
+                            </div>
+                            <span class="dm-progress-num" id="dm-progress-text">0 / 1</span>
+                        </div>
+                        <button class="dm-action-btn" id="dm-btn" onclick="completeDailyMission()">Выполнить миссию →</button>
+                    </div>
+                </div>
+
+                <!-- 2. АЛТАРЬ ДОСТИЖЕНИЙ -->
+                <div class="achievements-card">
+                    <div class="ach-header">
+                        <span class="ach-icon">🛡️</span>
+                        <span class="ach-title">ДОСТИЖЕНИЯ СИСТЕМЫ</span>
+                    </div>
+
+                    <div class="ach-grid">
+                        <div class="ach-badge locked" id="ach-7">
+                            <div class="ach-hex">🔥</div>
+                            <span class="ach-name">Инициация</span>
+                            <span class="ach-sub">7 дней</span>
+                        </div>
+                        <div class="ach-badge locked" id="ach-21">
+                            <div class="ach-hex">⚡️</div>
+                            <span class="ach-name">Стабилизация</span>
+                            <span class="ach-sub">21 день</span>
+                        </div>
+                        <div class="ach-badge locked" id="ach-30">
+                            <div class="ach-hex">🛡️</div>
+                            <span class="ach-name">Несокрушимый</span>
+                            <span class="ach-sub">30 дней</span>
+                        </div>
+                        <div class="ach-badge locked" id="ach-90">
+                            <div class="ach-hex">👑</div>
+                            <span class="ach-name">Архитектор</span>
+                            <span class="ach-sub">90 дней</span>
+                        </div>
+                        <div class="ach-badge locked" id="ach-180">
+                            <div class="ach-hex">💎</div>
+                            <span class="ach-name">Легенда</span>
+                            <span class="ach-sub">180 дней</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+                        <!-- [ ROW 3: PROGRESS CHART & MANIFESTO ] -->
+            <div class="level-third-grid">
+                
+                <!-- 1. НЕОНОВЫЙ ГРАФИК ДИНАМИКИ -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title-group">
+                            <span class="chart-icon">📈</span>
+                            <span class="chart-title">ДИНАМИКА ПРОГРЕССА</span>
+                        </div>
+                        <div class="chart-toggles">
+                            <button class="chart-toggle-btn active" onclick="switchChartRange(7, this)">7 дней</button>
+                            <button class="chart-toggle-btn" onclick="switchChartRange(30, this)">30 дней</button>
+                            <button class="chart-toggle-btn" onclick="switchChartRange(90, this)">90 дней</button>
+                        </div>
+                    </div>
+
+                    <div class="chart-canvas-wrapper">
+                        <!-- Шкала слева -->
+                        <div class="chart-y-axis">
+                            <span>200</span>
+                            <span>150</span>
+                            <span>100</span>
+                            <span>50</span>
+                            <span>0</span>
+                        </div>
+                        
+                        <!-- Векторный SVG график со светящейся неоновой волной -->
+                        <div class="chart-svg-box">
+                            <svg class="progress-svg" viewBox="0 0 500 150" preserveAspectRatio="none">
+                                <defs>
+                                    <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.35"/>
+                                        <stop offset="100%" stop-color="#00d4ff" stop-opacity="0.0"/>
+                                    </linearGradient>
+                                    <filter id="neonGlow">
+                                        <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#00d4ff"/>
+                                    </filter>
+                                </defs>
+                                <!-- Заливка под графиком -->
+                                <path id="chart-area" d="M 0 110 Q 70 80, 140 100 T 280 60 T 420 40 L 500 30 L 500 150 L 0 150 Z" fill="url(#chartGradient)"></path>
+                                <!-- Сама неоновая линия -->
+                                <path id="chart-line" d="M 0 110 Q 70 80, 140 100 T 280 60 T 420 40 L 500 30" fill="none" stroke="#00d4ff" stroke-width="3" filter="url(#neonGlow)"></path>
+                                <!-- Точки активности -->
+                                <circle cx="70" cy="88" r="4" fill="#fff" stroke="#00d4ff" stroke-width="2"/>
+                                <circle cx="140" cy="98" r="4" fill="#fff" stroke="#00d4ff" stroke-width="2"/>
+                                <circle cx="210" cy="80" r="4" fill="#fff" stroke="#00d4ff" stroke-width="2"/>
+                                <circle cx="280" cy="62" r="4" fill="#fff" stroke="#00d4ff" stroke-width="2"/>
+                                <circle cx="350" cy="52" r="4" fill="#fff" stroke="#00d4ff" stroke-width="2"/>
+                                <circle cx="420" cy="40" r="4" fill="#fff" stroke="#00d4ff" stroke-width="2"/>
+                                <circle cx="500" cy="30" r="5" fill="#fff" stroke="#8a2be2" stroke-width="2"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Даты внизу графика -->
+                    <div class="chart-x-axis" id="chart-x-labels">
+                        <span>15.11</span><span>16.11</span><span>17.11</span><span>18.11</span><span>19.11</span><span>20.11</span><span>21.11</span>
+                    </div>
+                </div>
+
+                               <!-- 2. СТАТИСТИКА НЕДЕЛИ (ЖИВЫЕ ДИНАМИЧЕСКИЕ ЦИФРЫ) -->
+                <div class="week-stats-card">
+                    <div class="ws-row">
+                        <span class="ws-label">XP за неделю</span>
+                        <div class="ws-val-box">
+                            <span class="ws-val" id="ws-weekly-xp">0</span>
+                            <span class="ws-badge green" id="ws-weekly-badge">+0% ↑</span>
+                        </div>
+                    </div>
+                    <div class="ws-divider"></div>
+                    <div class="ws-row">
+                        <span class="ws-label">Выполнено миссий</span>
+                        <div class="ws-val-box">
+                            <span class="ws-val" id="ws-missions-count">0 / 7</span>
+                            <span class="ws-badge cyan" id="ws-missions-badge">0 ↑</span>
+                        </div>
+                    </div>
+                    <div class="ws-divider"></div>
+                    <div class="ws-row">
+                        <span class="ws-label">Личный рекорд</span>
+                        <div class="ws-val-box">
+                            <span class="ws-val" id="ws-record-days">9 дней</span>
+                            <span class="ws-badge purple">👑</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- 3. МАНИФЕСТ ОХОТНИКА -->
+                <div class="manifesto-card">
+                    <div class="manifesto-bracket top-left"></div>
+                    <div class="manifesto-bracket bottom-right"></div>
+                    <div class="manifesto-icon">❄️</div>
+                    <p class="manifesto-text">«Дисциплина — это свобода, которую ты выбираешь сам.»</p>
+                    <span class="manifesto-author">ORNIT SYSTEM</span>
+                </div>
+
+            </div>
+
         </div>
     </div>
 
@@ -1213,21 +2202,85 @@
         // Основной документ профиля
         const profileDocRef = db.collection("users").doc("ornit_main");
 
-                // --- ДАННЫЕ ИГРОКА И НАВЫКОВ (ПОЛНАЯ СТРУКТУРА) ---
+              // =========================================================
+        // 👤 ПРОФИЛЬ ОРНИТА: ЧЕСТНАЯ МАТЕМАТИКА 34 LVL
+        // =========================================================
+
+        function calculateXpForNextLevel(lvl) {
+            if (lvl >= 100) return 999999;
+            return Math.floor(120 * Math.pow(lvl, 1.22) + (lvl * 35));
+        }
+
+        // Честный расчет накопительного опыта для 34 уровня (~70382 XP)
+        function calculateTotalCumulativeXp(currentLvl, currentXp) {
+            let sum = 0;
+            for (let i = 1; i < currentLvl; i++) {
+                sum += calculateXpForNextLevel(i);
+            }
+            return sum + currentXp;
+        }
+
         let playerData = {
-            level: 173,
-            xp: 4500,
-            nextLevelXp: 10000,
-            asceticismDays: 21,
+            name: "Борис (Орнит)",
+            role: "Теневой Демиург / Архитектор Кода",
+            rank: "C-Ранг (Авангард)",
+            level: 34,
+            xp: 0,
+            nextLevelXp: 8450,
+            
+            asceticismDays: 1,              
+            personalRecord: 9,              
+            weeklyXp: 0,                    
+            completedMissionsCount: 0,      
+            totalXp: 70382,                 // <-- ВОТ ОНА, ЧЕСТНАЯ ЦИФРА ДЛЯ 34 ЛВЛА!
+            dailyMissionCompleted: false,
+            weeklyHistory: [0, 0, 0, 0, 0, 0, 0],
+
+            branches: {
+                int: { name: "Интеллект и Архитектура", icon: "🧠", color: "#00d4ff" },
+                str: { name: "Сила и Биомеханика", icon: "💪", color: "#ff004c" },
+                wil: { name: "Суверенитет и Стоицизм", icon: "🛡️", color: "#8a2be2" },
+                res: { name: "Ресурс и Творчество", icon: "💰", color: "#ffaa00" }
+            },
+
             skills: {
-                guitar: { name: "Гитара", icon: "🎸", level: 10, xp: 120, nextLevelXp: 500 },
-                acrobatics: { name: "Акробатика", icon: "🤸", level: 5, xp: 40, nextLevelXp: 300 },
-                arm: { name: "Армрестлинг", icon: "💪", level: 12, xp: 210, nextLevelXp: 600 },
-                cooking: { name: "Кулинария", icon: "🍳", level: 50, xp: 800, nextLevelXp: 2000 },
-                recitative: { name: "Речетатив", icon: "🎤", level: 8, xp: 90, nextLevelXp: 400 },
-                body: { name: "Тело", icon: "🔥", level: 15, xp: 350, nextLevelXp: 800 }
+                coding: { branch: "int", name: "Кодинг / Архитектура", icon: "💻", level: 28, xp: 450, nextLevelXp: 1200 },
+                cooking: { branch: "int", name: "Кулинария", icon: "🍳", level: 50, xp: 800, nextLevelXp: 2000 },
+                arm: { branch: "str", name: "Армрестлинг", icon: "💪", level: 12, xp: 210, nextLevelXp: 600 },
+                body: { branch: "str", name: "Тело и Сила", icon: "🔥", level: 15, xp: 350, nextLevelXp: 800 },
+                acrobatics: { branch: "str", name: "Акробатика", icon: "🤸", level: 5, xp: 40, nextLevelXp: 300 },
+                stoicism: { branch: "wil", name: "Аскеза и Контроль", icon: "🧘", level: 21, xp: 1050, nextLevelXp: 1500 },
+                guitar: { branch: "res", name: "Гитара", icon: "🎸", level: 10, xp: 120, nextLevelXp: 500 },
+                recitative: { branch: "res", name: "Речитатив", icon: "🎤", level: 8, xp: 90, nextLevelXp: 400 },
+                finance: { branch: "res", name: "Ресурс / Доход", icon: "💵", level: 14, xp: 300, nextLevelXp: 700 }
             }
         };
+
+
+        // Квесты для каждой ветки с твоим точным опытом
+        const branchQuests = {
+            int: [
+                { title: "+500 строк чистого кода", xp: 100 },
+                { title: "Релиз новой фичи (звук/UI)", xp: 250 },
+                { title: "Релиз сервиса / сайта (Ornit System)", xp: 1500 }
+            ],
+            str: [
+                { title: "Тяжелая тренировка армрестлинга", xp: 150 },
+                { title: "Рекорд на пронатор / кисть", xp: 300 },
+                { title: "15 000 шагов по городу", xp: 200 }
+            ],
+            wil: [
+                { title: "День аскезы без срывов", xp: 50 },
+                { title: "Победа над эмоциональной ловушкой", xp: 300 },
+                { title: "Осознал и уничтожил внутренний баг", xp: 1000 }
+            ],
+            res: [
+                { title: "Заработал 1 000 руб своим трудом", xp: 50 },
+                { title: "Заработал 10 000 руб", xp: 600 },
+                { title: "Выучил сложную партию на гитаре", xp: 150 }
+            ]
+        };
+
 
         let currentActiveSkillKey = null;
 
@@ -1235,65 +2288,140 @@
         // Локальное кэширование дневных логов для быстрого рендеринга статистики
         let loadedLogs = {};
 
-               // Подключаем профиль с умной подгрузкой навыков
+               // ПОДКЛЮЧЕНИЕ К FIREBASE С ОБХОДОМ СТАРЫХ КЭШЕЙ
         profileDocRef.onSnapshot((doc) => {
             if (doc.exists) {
                 const cloudData = doc.data();
-                // Объединяем данные, сохраняя структуру навыков
-                playerData = { ...playerData, ...cloudData };
-                
-                // Если в базе еще не было навыков — добавляем их и сохраняем
-                if (!playerData.skills) {
-                    playerData.skills = {
-                        guitar: { name: "Гитара", icon: "🎸", level: 10, xp: 120, nextLevelXp: 500 },
-                        acrobatics: { name: "Акробатика", icon: "🤸", level: 5, xp: 40, nextLevelXp: 300 },
-                        arm: { name: "Армрестлинг", icon: "💪", level: 12, xp: 210, nextLevelXp: 600 },
-                        cooking: { name: "Кулинария", icon: "🍳", level: 50, xp: 800, nextLevelXp: 2000 },
-                        recitative: { name: "Речетатив", icon: "🎤", level: 8, xp: 90, nextLevelXp: 400 },
-                        body: { name: "Тело", icon: "🔥", level: 15, xp: 350, nextLevelXp: 800 }
-                    };
-                    profileDocRef.set(playerData, { merge: true });
+                if (!cloudData.isSystemV5) {
+                    playerData.level = 34;
+                    playerData.xp = 0;
+                    playerData.nextLevelXp = 8450;
+                    playerData.asceticismDays = 1;
+                    playerData.personalRecord = 9;
+                    playerData.weeklyXp = 0;
+                    playerData.completedMissionsCount = 0;
+                    playerData.isSystemV5 = true;
+                    profileDocRef.set(playerData);
+                } else {
+                    playerData = { ...playerData, ...cloudData };
                 }
-
                 updateMainUI();
-                const dbStatus = document.getElementById('db-status');
-                if (dbStatus) {
-                    dbStatus.innerText = "SYNC: ONLINE (FIREBASE)";
-                    dbStatus.style.color = "#00ff00";
-                }
             } else {
+                playerData.isSystemV5 = true;
                 profileDocRef.set(playerData);
-            }
-        }, (error) => {
-            console.error("Firebase Sync Error: ", error);
-            const dbStatus = document.getElementById('db-status');
-            if (dbStatus) {
-                dbStatus.innerText = "SYNC: ERROR";
-                dbStatus.style.color = "#ff0000";
             }
         });
 
-
                function updateMainUI() {
-            document.getElementById('main-level').innerText = playerData.level;
-            document.getElementById('days-val').innerText = playerData.asceticismDays;
-            document.getElementById('xp-text').innerText = `${playerData.xp} / ${playerData.nextLevelXp} EXP`;
-            
-            const xpPercent = Math.min((playerData.xp / playerData.nextLevelXp) * 100, 100);
-            document.getElementById('xp-fill').style.width = xpPercent + "%";
+            // 1. Авто-рекорд: если текущие дни стали больше рекорда — рекорд растет
+            if (playerData.asceticismDays > (playerData.personalRecord || 9)) {
+                playerData.personalRecord = playerData.asceticismDays;
+            }
 
-            const rankText = document.getElementById('architect-rank');
-            const days = playerData.asceticismDays;
-            
-            if (days <= 7) rankText.innerText = "Зона Руин";
-            else if (days <= 21) rankText.innerText = "Фаза Стабилизации";
-            else if (days <= 60) rankText.innerText = "Пробуждение Охотника";
-            else if (days <= 180) rankText.innerText = "Магнитная Аура";
-            else rankText.innerText = "Высшая Архитектура";
+            // 2. Обновляем Уровень (34)
+            const mainLvl = document.getElementById('main-level-big');
+            const headerLvl = document.getElementById('header-lvl');
+            if (mainLvl) mainLvl.innerText = playerData.level;
+            if (headerLvl) headerLvl.innerText = playerData.level;
 
-            // Отрисовываем обновленные карточки навыков
+            // 3. Обновляем Полоску опыта
+            const xpFill = document.getElementById('xp-fill-main');
+            if (xpFill) {
+                const percent = Math.min((playerData.xp / playerData.nextLevelXp) * 100, 100);
+                xpFill.style.width = percent + "%";
+                const percentText = document.querySelector('.pc-xp-percent');
+                if (percentText) percentText.innerText = percent.toFixed(1) + "%";
+            }
+
+                        // Обновляем Общий опыт по НОВОМУ ID
+            const totalXpEl = document.getElementById('unique-total-xp');
+            if (totalXpEl) {
+                // Если в базе пусто, ставим 70382, если есть опыт — пишем реальную цифру
+                const displayTotal = playerData.totalXp || 70382;
+                totalXpEl.innerText = `${displayTotal.toLocaleString()} XP`;
+            }
+
+
+
+            // 5. Порог до следующего уровня
+            const xpCurrent = document.getElementById('xp-current');
+            const nextLvlBox = document.querySelector('.pc-stat-item:nth-child(3) .stat-val');
+            if (xpCurrent) xpCurrent.innerText = playerData.xp;
+            if (nextLvlBox) {
+                nextLvlBox.innerHTML = `<span id="xp-current">${playerData.xp}</span> / ${playerData.nextLevelXp} XP`;
+            }
+
+            // 6. Рекорды аскезы (9 дней и выше)
+            const acBest = document.getElementById('ac-best-record');
+            const wsRecord = document.getElementById('ws-record-days');
+            if (acBest) acBest.innerText = `${playerData.personalRecord || 9} дней`;
+            if (wsRecord) wsRecord.innerText = `${playerData.personalRecord || 9} дней`;
+
+            // 7. Статистика недели (Честный опыт и миссии)
+            const wsWeeklyXp = document.getElementById('ws-weekly-xp');
+            if (wsWeeklyXp) wsWeeklyXp.innerText = (playerData.weeklyXp || 0).toLocaleString();
+
+            const wsMissions = document.getElementById('ws-missions-count');
+            if (wsMissions) wsMissions.innerText = `${playerData.completedMissionsCount || 0} / 7`;
+
+            const wsMissionsBadge = document.getElementById('ws-missions-badge');
+            if (wsMissionsBadge) wsMissionsBadge.innerText = `+${playerData.completedMissionsCount || 0} ↑`;
+
+            // 8. Обновляем визуальные блоки
             renderSkillsGrid();
+            renderAsceticismCalendar();
+            updateAchievementsUI();
+            renderLiveChart();
         }
+
+        // ОБЩИЙ ДВИЖОК НАЧИСЛЕНИЯ XP (ТЕПЕРЬ ОБНОВЛЯЕТ И ОБЩИЙ ОПЫТ!)
+        function addExpToSystem(amount, sourceTitle) {
+            playerData.xp += amount;                   // Опыт для текущего уровня
+            playerData.totalXp = (playerData.totalXp || 70382) + amount; // ⚡️ Честный рост общего опыта!
+            playerData.weeklyXp = (playerData.weeklyXp || 0) + amount;   // Опыт за неделю
+
+            // Запись в график (сегодняшняя точка)
+            if (!playerData.weeklyHistory) playerData.weeklyHistory = [0, 0, 0, 0, 0, 0, 0];
+            playerData.weeklyHistory[6] += amount;
+
+            // Проверка Level Up Охотника
+            if (playerData.xp >= playerData.nextLevelXp && playerData.level < 100) {
+                playerData.xp -= playerData.nextLevelXp;
+                playerData.level += 1;
+                playerData.nextLevelXp = calculateXpForNextLevel(playerData.level);
+                alert(`🔥 LEVEL UP! ОРНИТ ДОСТИГ LV. ${playerData.level}!`);
+            }
+
+            updateMainUI();
+
+            // Сохраняем в Firebase с обновленным общим опытом
+            if (typeof profileDocRef !== 'undefined') {
+                profileDocRef.set(playerData, { merge: true })
+                .then(() => console.log("XP успешно улетел в базу! Общий опыт:", playerData.totalXp));
+            }
+        }
+
+
+
+        // ВЫПОЛНЕНИЕ МИССИИ ДНЯ С ИНКРЕМЕНТОМ
+        function completeDailyMission() {
+            if (playerData.dailyMissionCompleted) return;
+
+            playerData.dailyMissionCompleted = true;
+            playerData.completedMissionsCount = (playerData.completedMissionsCount || 0) + 1;
+
+            addExpToSystem(50, "Ежедневная миссия");
+
+            const btn = document.getElementById('dm-btn');
+            if (btn) {
+                btn.innerText = "✓ Выполнено";
+                btn.classList.add('completed');
+            }
+
+            document.getElementById('dm-progress-bar').style.width = "100%";
+            document.getElementById('dm-progress-text').innerText = "1 / 1";
+        }
+
 
 
 
@@ -1795,31 +2923,261 @@
         // 🎮 СИСТЕМА ПРОКАЧКИ НАВЫКОВ И ПЕРЕЛИВАНИЯ В ОСНОВНОЙ LVL
         // =========================================================
 
-        // РЕНДЕР КАРТОЧЕК НАВЫКОВ В СЕТКУ
-        function renderSkillsGrid() {
+               function renderSkillsGrid() {
             const grid = document.querySelector('.skills-grid');
             if (!grid || !playerData.skills) return;
             grid.innerHTML = "";
 
-            for (let key in playerData.skills) {
-                const s = playerData.skills[key];
-                const card = document.createElement('div');
-                card.className = 'skill-card';
-                card.onclick = () => openSkillModal(key);
-                card.innerHTML = `
-                    <span class="skill-icon">${s.icon}</span>
-                    <div class="skill-name">${s.name}</div>
-                    <div class="skill-level">LV. ${s.level}</div>
-                `;
-                grid.appendChild(card);
+            // Группируем по 4 веткам
+            const branchOrder = ['int', 'str', 'wil', 'res'];
+            
+            branchOrder.forEach(bKey => {
+                const b = playerData.branches[bKey];
+                const header = document.createElement('div');
+                header.style.gridColumn = '1 / -1';
+                header.style.marginTop = '20px';
+                header.style.marginBottom = '10px';
+                header.style.fontFamily = 'Orbitron';
+                header.style.fontSize = '0.9rem';
+                header.style.color = b.color;
+                header.style.borderBottom = `1px solid ${b.color}40`;
+                header.style.paddingBottom = '6px';
+                header.innerText = `${b.icon} ${b.name.toUpperCase()}`;
+                grid.appendChild(header);
+
+                for (let sKey in playerData.skills) {
+                    const s = playerData.skills[sKey];
+                    if (s.branch === bKey) {
+                        const card = document.createElement('div');
+                        card.className = 'skill-card';
+                        card.style.borderColor = `${b.color}60`;
+                        card.onclick = () => openSkillModal(sKey);
+                        card.innerHTML = `
+                            <span class="skill-icon">${s.icon}</span>
+                            <div class="skill-name" style="color: ${b.color};">${s.name}</div>
+                            <div class="skill-level">LV. ${s.level}</div>
+                        `;
+                        grid.appendChild(card);
+                    }
+                }
+            });
+        }
+
+
+     
+
+        function closeSkillModal() {
+            document.getElementById('skill-modal').style.display = 'none';
+        }
+
+       
+
+
+
+                // =========================================================
+        // 🧪 ДВИЖОК ЭНЕРГИИ В КОЛБЕ (FLASK PARTICLES)
+        // =========================================================
+        let flaskCanvas, flaskCtx;
+        let flaskBubbles = [];
+
+        function initFlaskEngine() {
+            flaskCanvas = document.getElementById('flask-canvas');
+            if (!flaskCanvas) return;
+            flaskCtx = flaskCanvas.getContext('2d');
+            
+            flaskCanvas.width = flaskCanvas.offsetWidth || 86;
+            flaskCanvas.height = flaskCanvas.offsetHeight || 250;
+
+            flaskBubbles = [];
+            for (let i = 0; i < 25; i++) {
+                flaskBubbles.push(createFlaskBubble(true));
+            }
+
+            animateFlask();
+        }
+
+        function createFlaskBubble(randomY = false) {
+            const w = flaskCanvas.width || 86;
+            const h = flaskCanvas.height || 250;
+            return {
+                x: Math.random() * (w - 20) + 10,
+                y: randomY ? Math.random() * h : h + 10,
+                size: Math.random() * 3 + 1.5,
+                speedY: Math.random() * 0.8 + 0.4,
+                speedX: (Math.random() - 0.5) * 0.3,
+                color: Math.random() > 0.4 ? '#00d4ff' : '#8a2be2',
+                alpha: Math.random() * 0.7 + 0.3
+            };
+        }
+
+        function animateFlask() {
+            if (!flaskCtx) return;
+            const w = flaskCanvas.width;
+            const h = flaskCanvas.height;
+
+            flaskCtx.clearRect(0, 0, w, h);
+
+            flaskBubbles.forEach(b => {
+                b.y -= b.speedY;
+                b.x += b.speedX;
+
+                if (b.y < -10) {
+                    Object.assign(b, createFlaskBubble(false));
+                }
+
+                flaskCtx.save();
+                flaskCtx.globalAlpha = b.alpha;
+                flaskCtx.fillStyle = b.color;
+                flaskCtx.shadowColor = b.color;
+                flaskCtx.shadowBlur = 10;
+                flaskCtx.beginPath();
+                flaskCtx.arc(b.x, b.y, b.size, 0, Math.PI * 2);
+                flaskCtx.fill();
+                flaskCtx.restore();
+            });
+
+            requestAnimationFrame(animateFlask);
+        }
+
+        // Запуск при переходе на вкладку уровня
+        const prevSwitchPage = switchPage;
+        switchPage = function(pageId) {
+            prevSwitchPage(pageId);
+            if (pageId === 'level-page') {
+                setTimeout(initFlaskEngine, 100);
+            }
+        };
+
+
+
+      
+
+
+                // =========================================================
+        // 🎯 МИССИИ И АЧИВКИ (БАЗОВАЯ ИНТЕРАКТИВНОСТЬ)
+        // =========================================================
+
+        // Выполнение ежедневной миссии
+        function completeDailyMission() {
+            if (playerData.dailyMissionCompleted) return;
+
+            playerData.dailyMissionCompleted = true;
+            playerData.xp += 50; // Начисляем +50 XP
+
+            // Проверка Level Up
+            if (playerData.xp >= playerData.nextLevelXp) {
+                playerData.xp -= playerData.nextLevelXp;
+                playerData.level += 1;
+                playerData.nextLevelXp = Math.floor(playerData.nextLevelXp * 1.25);
+                alert(`🔥 LEVEL UP! Вы поднялись до LV. ${playerData.level}!`);
+            }
+
+            // Обновляем кнопку миссии
+            const btn = document.getElementById('dm-btn');
+            if (btn) {
+                btn.innerText = "✓ Выполнено";
+                btn.classList.add('completed');
+            }
+
+            document.getElementById('dm-progress-bar').style.width = "100%";
+            document.getElementById('dm-progress-text').innerText = "1 / 1";
+
+            updateMainUI();
+
+            // Сохраняем в Firebase
+            profileDocRef.set(playerData, { merge: true })
+            .then(() => console.log("Миссия зафиксирована в базе!"))
+            .catch(err => console.error("Ошибка миссии:", err));
+        }
+
+        // Обновление состояния достижений
+        function updateAchievementsUI() {
+            const days = playerData.asceticismDays || 0;
+
+            const checkAndUnlock = (id, threshold) => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (days >= threshold) {
+                        el.classList.remove('locked');
+                        el.classList.add('unlocked');
+                    } else {
+                        el.classList.add('locked');
+                        el.classList.remove('unlocked');
+                    }
+                }
+            };
+
+            checkAndUnlock('ach-7', 7);
+            checkAndUnlock('ach-21', 21);
+            checkAndUnlock('ach-30', 30);
+            checkAndUnlock('ach-90', 90);
+            checkAndUnlock('ach-180', 180);
+
+            // Проверяем состояние миссии
+            if (playerData.dailyMissionCompleted) {
+                const btn = document.getElementById('dm-btn');
+                const bar = document.getElementById('dm-progress-bar');
+                const text = document.getElementById('dm-progress-text');
+                if (btn) {
+                    btn.innerText = "✓ Выполнено";
+                    btn.classList.add('completed');
+                }
+                if (bar) bar.style.width = "100%";
+                if (text) text.innerText = "1 / 1";
             }
         }
 
-        // ОТКРЫТИЕ ОКНА КОНКРЕТНОГО НАВЫКА
+        // Интегрируем проверку в основной цикл обновления
+        const prevUIUpdate = updateMainUI;
+        updateMainUI = function() {
+            prevUIUpdate();
+            updateAchievementsUI();
+        };
+
+
+                // РЕНДЕР КАЛЕНДАРЯ АСКЕЗЫ (СЕГОДНЯ ДЕНЬ 1)
+        function renderAsceticismCalendar() {
+            const calGrid = document.getElementById('ac-cal-grid');
+            if (!calGrid) return;
+            calGrid.innerHTML = "";
+
+            const daysStreak = playerData.asceticismDays !== undefined ? playerData.asceticismDays : 1;
+            
+            // Числа в карточке
+            const acDays = document.getElementById('ac-days-num');
+            const acStreak = document.getElementById('ac-streak-val');
+            if (acDays) acDays.innerText = daysStreak;
+            if (acStreak) acStreak.innerText = daysStreak;
+
+            // Генерируем дни месяца: только 1-й день отмечен галочкой!
+            for (let i = 1; i <= 28; i++) {
+                const cell = document.createElement('div');
+                if (i <= daysStreak) {
+                    cell.className = 'ac-cal-cell checked';
+                    cell.innerText = '✓';
+                } else {
+                    cell.className = 'ac-cal-cell';
+                    cell.innerText = i;
+                }
+                calGrid.appendChild(cell);
+            }
+
+            // Подсветка целей 30 / 60 / 90
+            const g30 = document.getElementById('goal-30');
+            const g60 = document.getElementById('goal-60');
+            const g90 = document.getElementById('goal-90');
+            if (g30) g30.classList.toggle('active-goal', daysStreak >= 30);
+            if (g60) g60.classList.toggle('active-goal', daysStreak >= 60);
+            if (g90) g90.classList.toggle('active-goal', daysStreak >= 90);
+        }
+
+        // ОТКРЫТИЕ КОНСОЛИ НАВЫКА С КВЕСТАМИ СООТВЕТСТВУЮЩЕЙ ВЕТКИ
         function openSkillModal(skillKey) {
             currentActiveSkillKey = skillKey;
             const s = playerData.skills[skillKey];
             if (!s) return;
+
+            const branch = playerData.branches[s.branch] || { name: "Общая", color: "#00d4ff" };
 
             document.getElementById('modal-skill-title').innerText = `${s.icon} ${s.name.toUpperCase()}`;
             document.getElementById('modal-skill-level').innerText = `LV. ${s.level}`;
@@ -1828,59 +3186,138 @@
             const percent = Math.min((s.xp / s.nextLevelXp) * 100, 100);
             document.getElementById('modal-skill-xp-fill').style.width = percent + "%";
 
+            // Вставляем квесты именно этой ветки
+            const questsContainer = document.getElementById('skill-quests-container');
+            if (questsContainer) {
+                questsContainer.innerHTML = "";
+                const quests = branchQuests[s.branch] || [
+                    { title: "Базовая тренировка", xp: 50 },
+                    { title: "Освоение нового рубежа", xp: 150 }
+                ];
+
+                quests.forEach(q => {
+                    const btn = document.createElement('button');
+                    btn.className = 'opt-btn';
+                    btn.style.textAlign = 'left';
+                    btn.style.borderColor = branch.color;
+                    btn.style.display = 'flex';
+                    btn.style.justifyContent = 'space-between';
+                    btn.style.alignItems = 'center';
+                    btn.innerHTML = `<span>${q.title}</span> <strong style="color: ${branch.color};">+${q.xp} XP</strong>`;
+                    btn.onclick = () => addExpToActiveSkill(q.xp, q.title);
+                    questsContainer.appendChild(btn);
+                });
+            }
+
             document.getElementById('skill-modal').style.display = 'flex';
         }
 
-        function closeSkillModal() {
-            document.getElementById('skill-modal').style.display = 'none';
-        }
-
-        // НАЧИСЛЕНИЕ EXP В НАВЫК + ПЕРЕЛИВАНИЕ В ОСНОВНОЙ УРОВЕНЬ
-        function addExpToActiveSkill(amount, reason) {
+               function addExpToActiveSkill(amount, questTitle) {
             if (!currentActiveSkillKey || !playerData.skills) return;
 
             const s = playerData.skills[currentActiveSkillKey];
-            
-            // 1. Прибавляем опыт в навык
+
+            // 1. Опыт в навык
             s.xp += amount;
-            
-            // 2. Прибавляем опыт в ОСНОВНОЙ УРОВЕНЬ
+        
             playerData.xp += amount;
+            // Внутри функции addExpToActiveSkill:
+playerData.totalXp = (playerData.totalXp || 70382) + amount;
+
+            playerData.weeklyXp = (playerData.weeklyXp || 0) + amount;
 
             // Проверка Level Up Навыка
             if (s.xp >= s.nextLevelXp) {
                 s.xp -= s.nextLevelXp;
                 s.level += 1;
-                s.nextLevelXp = Math.floor(s.nextLevelXp * 1.3);
+                s.nextLevelXp = Math.floor(s.nextLevelXp * 1.35);
                 alert(`🎉 НАВЫК [${s.name.toUpperCase()}] ПОВЫШЕН ДО LV. ${s.level}!`);
             }
 
-            // Проверка Level Up ОСНОВНОГО УРОВНЯ ОХОТНИКА
-            if (playerData.xp >= playerData.nextLevelXp) {
+            // Проверка Level Up Основного Уровня
+            if (playerData.xp >= playerData.nextLevelXp && playerData.level < 100) {
                 playerData.xp -= playerData.nextLevelXp;
                 playerData.level += 1;
-                playerData.nextLevelXp = Math.floor(playerData.nextLevelXp * 1.25);
-                alert(`🔥 ВЫСШИЙ ПОДЪЕМ! ОСНОВНОЙ УРОВЕНЬ ОХОТНИКА ПОВЫШЕН ДО LV. ${playerData.level}!`);
+                playerData.nextLevelXp = calculateXpForNextLevel(playerData.level);
+                alert(`🔥 LEVEL UP! ОРНИТ ДОСТИГ LV. ${playerData.level}!`);
             }
 
-            // Обновляем окно модалки и интерфейс
             openSkillModal(currentActiveSkillKey);
             updateMainUI();
 
-            // Сохраняем обновленные данные в Firebase Firestore
             if (typeof profileDocRef !== 'undefined') {
-                profileDocRef.set(playerData)
-                .then(() => console.log("Опыт успешно синхронизирован с Firebase!"))
-                .catch(err => console.error("Ошибка синхронизации:", err));
+                profileDocRef.set(playerData, { merge: true });
             }
         }
+
+
+
+                // Переключение отображения диапазона графика
+        function switchChartRange(days, btnElement) {
+            const buttons = document.querySelectorAll('.chart-toggle-btn');
+            buttons.forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            const line = document.getElementById('chart-line');
+            const area = document.getElementById('chart-area');
+
+            // Небольшая динамическая смена кривой волны в зависимости от выбранных дней
+            if (days === 7) {
+                line.setAttribute('d', 'M 0 110 Q 70 80, 140 100 T 280 60 T 420 40 L 500 30');
+                area.setAttribute('d', 'M 0 110 Q 70 80, 140 100 T 280 60 T 420 40 L 500 30 L 500 150 L 0 150 Z');
+            } else if (days === 30) {
+                line.setAttribute('d', 'M 0 130 Q 90 110, 180 80 T 340 50 T 450 30 L 500 20');
+                area.setAttribute('d', 'M 0 130 Q 90 110, 180 80 T 340 50 T 450 30 L 500 20 L 500 150 L 0 150 Z');
+            } else {
+                line.setAttribute('d', 'M 0 140 Q 100 120, 200 90 T 360 40 T 460 20 L 500 10');
+                area.setAttribute('d', 'M 0 140 Q 100 120, 200 90 T 360 40 T 460 20 L 500 10 L 500 150 L 0 150 Z');
+            }
+        }
+        
+
+
+                // Расчет порога XP для любого уровня от 1 до 100
+        function calculateXpForNextLevel(lvl) {
+            if (lvl >= 100) return 999999;
+            // Точная формула Solo Leveling IRL
+            return Math.floor(120 * Math.pow(lvl, 1.22) + (lvl * 35));
+        }
+
+
+                // 📈 ЖИВАЯ ОТРИСОВКА НЕОНОВОГО ГРАФИКА
+        function renderLiveChart() {
+            const history = playerData.weeklyHistory || [0, 0, 0, 0, 0, 0, 0];
+            const maxVal = Math.max(...history, 200);
+            const svgWidth = 500;
+            const svgHeight = 150;
+
+            const points = history.map((val, idx) => {
+                const x = (idx / 6) * svgWidth;
+                const y = svgHeight - ((val / maxVal) * 110) - 20;
+                return { x, y };
+            });
+
+            let dLine = `M ${points[0].x} ${points[0].y}`;
+            for (let i = 1; i < points.length; i++) {
+                dLine += ` Q ${(points[i-1].x + points[i].x)/2} ${points[i-1].y}, ${points[i].x} ${points[i].y}`;
+            }
+
+            const dArea = `${dLine} L ${svgWidth} ${svgHeight} L 0 ${svgHeight} Z`;
+
+            const lineEl = document.getElementById('chart-line');
+            const areaEl = document.getElementById('chart-area');
+            if (lineEl) lineEl.setAttribute('d', dLine);
+            if (areaEl) areaEl.setAttribute('d', dArea);
+        }
+
+
 
     </script>
 
 
 
 
-    <!-- =================================================== -->
+        <!-- =================================================== -->
     <!-- 🎮 МОДАЛКА ПРОКАЧКИ НАВЫКА (SOLO LEVELING CONSOLE)  -->
     <!-- =================================================== -->
     <div id="skill-modal" class="modal">
@@ -1890,7 +3327,7 @@
                 <span id="modal-skill-level" style="font-family: 'Orbitron'; color: var(--accent-blue); font-size: 1.2rem; font-weight: bold;">LV. 1</span>
             </div>
 
-            <!-- Прогресс баг навыка -->
+            <!-- Прогресс навыка -->
             <div style="margin-bottom: 25px;">
                 <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #aaa; margin-bottom: 5px; font-family: 'Orbitron';">
                     <span>ПРОГРЕСС УМЕНИЯ</span>
@@ -1903,16 +3340,13 @@
 
             <p style="color: #888; font-size: 0.85rem; margin-bottom: 20px;">ВЫПОЛНИТЕ ПРАКТИКУ В РЕАЛЬНОЙ ЖИЗНИ ДЛЯ НАЧИСЛЕНИЯ ОПЫТА:</p>
 
-            <!-- Быстрый выбор активности -->
-            <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 25px;">
-                <button class="opt-btn" onclick="addExpToActiveSkill(25, 'Базовая тренировка / практика')">+25 EXP (Легкая практика)</button>
-                <button class="opt-btn" onclick="addExpToActiveSkill(50, 'Освоение нового элемента')">+50 EXP (Среднее достижение)</button>
-                <button class="opt-btn" onclick="addExpToActiveSkill(100, 'Победа / Прорыв в навыке')">+100 EXP (Квантовый прорыв!)</button>
-            </div>
+            <!-- СЮДА ДИНАМИЧЕСКИ ВСТАВЛЯЮТСЯ КВЕСТЫ ВЕТКИ -->
+            <div id="skill-quests-container" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 25px;"></div>
 
             <button class="opt-btn" style="border-color: #444; width: 100%;" onclick="closeSkillModal()">ЗАКРЫТЬ КОНСОЛЬ</button>
         </div>
     </div>
+
 
 </body>
 </html>

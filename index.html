@@ -2316,32 +2316,45 @@
 
                    let isFirebaseLoaded = false; // 🛡️ ПРЕДОХРАНИТЕЛЬ: запрещает запись в базу до полной загрузки!
 
-        // ПОДКЛЮЧЕНИЕ К FIREBASE С ЗАЩИТОЙ ОТ ПЕРЕЗАТИРАНИЯ
+                // 🛡️ ЖЕЛЕЗОБЕТОННОЕ ПОДКЛЮЧЕНИЕ К FIREBASE БЕЗ РИСКА СБРОСА
         profileDocRef.onSnapshot((doc) => {
             if (doc.exists) {
                 const cloudData = doc.data();
                 
-                // Объединяем данные из облака
+                // 1. Берем то, что прилетело из облака (опыт, уровень, миссии, историю)
+                // Если в облаке какого-то нового поля еще нет, подстраховываем текущим playerData
                 playerData = { ...playerData, ...cloudData };
 
                 // Восстанавливаем опыт из истории графика, если вдруг он слетел
                 const msk = getMskDateInfo();
                 const todayHistoryXp = (playerData.chartHistory && playerData.chartHistory[msk.dateString]) || 0;
                 
-                // Если опыт стал меньше, чем зафиксировано в графике (1350 XP) — восстанавливаем правду!
+                // Если опыт стал меньше, чем зафиксировано в графике — восстанавливаем правду!
                 if (playerData.xp < todayHistoryXp) {
                     playerData.xp = todayHistoryXp;
                 }
 
-                isFirebaseLoaded = true; // Снимаем блокировку, теперь база готова
-                updateMainUI();
-            } else {
                 isFirebaseLoaded = true;
-                profileDocRef.set(playerData);
+                
+                // Перерисовываем интерфейс актуальными данными из базы
+                updateMainUI();
+                if (typeof renderMissionsList === 'function') renderMissionsList();
+                
+                console.log("☁️ СИСТЕМА: Данные успешно синхронизированы из облака Firebase. Опыт:", playerData.xp);
+            } else {
+                // Если документа в базе физически нет (самый первый запуск в жизни) — создаем
+                isFirebaseLoaded = true;
+                profileDocRef.set(playerData).then(() => {
+                    console.log("⚡️ СИСТЕМА: Создан новый профиль в облаке!");
+                });
             }
         }, (error) => {
-            console.error("Ошибка Firebase:", error);
+            console.error("Ошибка связи с Firebase:", error);
+            // Если пропал интернет, работаем на локальных данных, но НЕ сбрасываем их в ноль!
+            isFirebaseLoaded = true;
+            updateMainUI();
         });
+
 
 
 

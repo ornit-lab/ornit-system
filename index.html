@@ -134,11 +134,87 @@
         .user-info h2 { font-family: 'Orbitron', sans-serif; font-size: 1.6rem; color: #fff; }
         .level-badge { font-family: 'Orbitron', sans-serif; font-size: 2.2rem; color: var(--accent-blue); }
 
-        .xp-container { margin-top: 15px; }
-        .xp-label { display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 5px; color: var(--accent-blue); }
+        /* =================================================== */
+        /* ⚡️ ЭНЕРГЕТИЧЕСКАЯ КОЛБА ОПЫТА (SOLO LEVELING STYLE) */
+        /* =================================================== */
+        .xp-container {
+            margin-top: 20px;
+            background: rgba(4, 4, 12, 0.6);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 212, 255, 0.15);
+        }
 
-        .progress-bar-outer { width: 100%; height: 10px; background: #080815; border: 1px solid var(--accent-blue); border-radius: 5px; overflow: hidden; }
-        .progress-bar-inner { height: 100%; background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple)); width: 0%; box-shadow: 0 0 10px var(--accent-blue); transition: width 0.5s ease; }
+        .xp-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+            color: var(--accent-blue);
+            letter-spacing: 1px;
+        }
+
+        /* Футуристический корпус капсулы */
+        .progress-bar-outer {
+            width: 100%;
+            height: 18px;
+            background: #060610;
+            border: 1px solid rgba(0, 212, 255, 0.4);
+            border-radius: 9px;
+            padding: 2px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
+        }
+
+        /* Бегущая жидкая плазма опыта */
+        .progress-bar-inner {
+            height: 100%;
+            background: linear-gradient(90deg, #005f73 0%, #00d4ff 50%, #8a2be2 100%);
+            background-size: 200% 100%;
+            border-radius: 6px;
+            width: 0%;
+            box-shadow: 0 0 12px var(--accent-blue);
+            transition: width 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            animation: plasma-flow 3s linear infinite;
+        }
+
+        @keyframes plasma-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+
+
+         /* Интерактивные кликабельные карточки навыков */
+        .skill-card {
+            background: rgba(12, 12, 28, 0.85);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            border-radius: 12px;
+            padding: 18px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.25);
+            background: rgba(16, 16, 38, 0.95);
+        }
+
+        .skill-card:active {
+            transform: translateY(-1px);
+        }
+
+
+
 
         .asceticism-panel {
             background: linear-gradient(135deg, rgba(15, 0, 30, 0.95), rgba(0, 0, 15, 0.95));
@@ -707,26 +783,171 @@
             }
         }
 
+       
 
 
+
+
+
+             /* =================================================== */
+        /* 🌊 ЧИСТЫЙ SVG LIQUID NAV (НИКАКИХ РОГОВ И ТЕНЕЙ)     */
+        /* =================================================== */
+        .liquid-nav-container {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            width: 320px;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        .liquid-nav-container.hidden-nav {
+            transform: translateX(-50%) translateY(140px);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Корпус панели */
+        .liquid-nav {
+            position: relative;
+            width: 100%;
+            height: 65px;
+            background: #1c1c2b; /* Основной цвет панели */
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+        }
+
+        .nav-menu {
+            display: flex;
+            width: 100%;
+            position: relative;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            z-index: 10;
+        }
+
+        .nav-item {
+            position: relative;
+            flex: 1;
+            height: 65px;
+        }
+
+        .nav-item a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+        }
+
+        /* Неактивные серые иконки */
+        .nav-icon {
+            color: rgba(255, 255, 255, 0.4);
+            transition: 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transform: translateY(0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-icon svg { width: 22px; height: 22px; }
+
+        /* Иконка вылетает точно внутрь белого шара */
+        .nav-item.active .nav-icon {
+            transform: translateY(-29px);
+            color: #1c1c2b; /* Темная иконка на белом круге */
+            z-index: 25;
+        }
+
+        /* Текст под лункой */
+        .nav-text {
+            position: absolute;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 0.72rem;
+            color: #ffffff;
+            opacity: 0;
+            transform: translateY(18px);
+            transition: 0.35s ease;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .nav-item.active .nav-text {
+            opacity: 0.95;
+            transform: translateY(14px);
+        }
+
+        /* =================================================== */
+        /* 🔘 SVG ИНДИКАТОР: ЛУНКА + БЕЛЫЙ ШАР                */
+        /* =================================================== */
+        .nav-indicator {
+            position: absolute;
+            top: 0;
+            width: 80px; /* Ширина плавной лунки */
+            height: 65px;
+            pointer-events: none;
+            z-index: 5;
+            transition: left 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        /* Сама SVG-лунка, идеально встроенная в панель */
+        .nav-svg-cutout {
+            position: absolute;
+            top: -1px;
+            left: 0;
+            width: 100%;
+            height: 38px;
+            fill: #030307; /* Фоновый цвет страницы, дает настоящий физический вырез! */
+            filter: drop-shadow(0 2px 0 #1c1c2b);
+        }
+
+        /* БЕЛЫЙ ШАР, ПАРЯЩИЙ В ЛУНКЕ */
+        .nav-ball {
+            position: absolute;
+            top: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 48px;
+            height: 48px;
+            background: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 6;
+        }
+
+        /* Анимация погружения шара */
+        .nav-indicator.diving .nav-ball {
+            transform: translateX(-50%) translateY(26px) scale(0.5);
+            opacity: 0;
+        }
 
     </style>
+
+
+
+
+
 </head>
+
+
+
 <body>
 
-         <!-- =================================================== -->
-    <!-- 🌌 ЭКРАН 1: ГЛАВНОЕ МЕНЮ                           -->
+    <!-- =================================================== -->
+    <!-- 🌌 ЭКРАН 1: ГЛАВНАЯ (МЕНЮ)                          -->
     <!-- =================================================== -->
     <div id="main-menu" class="page-view active-page">
         <div class="menu-overlay"></div>
-        
-        <!-- Свободное пространство слева под твой арт -->
         <div class="menu-art-space"></div>
-
-        <!-- Сайдбар висит поверх картинки справа -->
         <div class="menu-right-panel">
-            
-            <!-- Табличка с облачными прутьями сверху -->
             <div class="plate-suspension">
                 <div class="clouds-rods">
                     <div class="rod"></div>
@@ -737,48 +958,28 @@
                 </div>
             </div>
             
-            <!-- Кнопки с цветным заполнением и нижней неоновой гранью -->
             <div class="buttons-3d-container">
-                
-                <button class="btn-3d btn-blue" onclick="switchPage('system-dashboard')">
-                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                    </svg>
+                <button class="btn-3d btn-blue" onclick="switchPage('level-page')">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                     <span class="btn-text">Начать</span>
                 </button>
-                
                 <button class="btn-3d btn-purple" onclick="openNotesTab()">
-                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 20h9"></path>
-                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
-                    </svg>
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
                     <span class="btn-text">Сделать заметку</span>
                 </button>
-                
                 <button class="btn-3d btn-orange" onclick="openStatisticsTab()">
-                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="18" y1="20" x2="18" y2="10"></line>
-                        <line x1="12" y1="20" x2="12" y2="4"></line>
-                        <line x1="6" y1="20" x2="6" y2="14"></line>
-                    </svg>
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
                     <span class="btn-text">Статистика</span>
                 </button>
-                
             </div>
-            
         </div>
     </div>
 
-
-
     <!-- =================================================== -->
-    <!-- ⚙️ ЭКРАН 2: ПАНЕЛЬ ПРОГРЕССИИ (DASHBOARD)          -->
+    <!-- 👑 ЭКРАН 2: ВКТЛАДКА "УРОВЕНЬ"                      -->
     <!-- =================================================== -->
-    <div id="system-dashboard" class="page-view">
+    <div id="level-page" class="page-view">
         <div class="system-container">
-            <div class="back-nav">
-                <button class="btn-back" onclick="switchPage('main-menu')">← Главное меню</button>
-            </div>
             <header>
                 <div class="title-container">
                     <img src="logo-sole.webp" alt="System Logo" class="system-logo">
@@ -791,6 +992,7 @@
                 </div>
             </header>
 
+            <!-- БЛОК ИНФОРМАЦИИ ОБ УРОВНЕ И ОПЫТЕ -->
             <section class="status-window">
                 <div class="status-header">
                     <div class="user-info">
@@ -815,6 +1017,7 @@
                 </div>
             </section>
 
+            <!-- БЛОК АСКЕЗИ -->
             <section class="asceticism-panel">
                 <div class="asceticism-info">
                     <h3>УРОВЕНЬ ВОЗДЕРЖАНИЯ</h3>
@@ -822,8 +1025,17 @@
                 </div>
                 <div class="days-count" id="days-val">21</div>
             </section>
+        </div>
+    </div>
 
-            <div class="skills-grid">
+    <!-- =================================================== -->
+    <!-- ⚔️ ЭКРАН 3: ВКЛАДКА "НАВЫКИ"                      -->
+    <!-- =================================================== -->
+    <div id="skills-page" class="page-view">
+        <div class="system-container">
+            <h1 style="font-family: 'Orbitron'; color: var(--accent-blue); text-align: center; margin-top: 20px; text-shadow: var(--neon-shadow);">РЕЕСТР НАВЫКОВ МОНАРХА</h1>
+            
+            <div class="skills-grid" style="margin-top: 40px;">
                 <div class="skill-card"><span class="skill-icon">🎸</span><div class="skill-name">Гитара</div><div class="skill-level">LV. 10</div></div>
                 <div class="skill-card"><span class="skill-icon">🤸</span><div class="skill-name">Акробатика</div><div class="skill-level">LV. 5</div></div>
                 <div class="skill-card"><span class="skill-icon">💪</span><div class="skill-name">Армрестлинг</div><div class="skill-level">LV. 12</div></div>
@@ -831,10 +1043,61 @@
                 <div class="skill-card"><span class="skill-icon">🎤</span><div class="skill-name">Речетатив</div><div class="skill-level">LV. 8</div></div>
                 <div class="skill-card"><span class="skill-icon">🔥</span><div class="skill-name">Тело</div><div class="skill-level">LV. 15</div></div>
             </div>
-
-            <footer>© 2025 ORNIT SYSTEM v1.0 | ПРЕДЕЛОВ НЕТ</footer>
         </div>
     </div>
+
+      <!-- =================================================== -->
+    <!-- 🌊 ИСТИННЫЙ LIQUID NAVIGATION (SVG ВЫРЕЗ БЕЗ РОГОВ)  -->
+    <!-- =================================================== -->
+    <div id="liquid-nav-box" class="liquid-nav-container hidden-nav">
+        <div class="liquid-nav">
+            <!-- Плавающий блок: лунка с идеальным изгибом + белый шар -->
+            <div id="nav-indicator" class="nav-indicator">
+                <!-- SVG-вырез в цвет панели (дает плавные ушки и дугу) -->
+                <svg class="nav-svg-cutout" viewBox="0 0 100 50">
+                    <path d="M 0 0 C 15 0 20 38 50 38 C 80 38 85 0 100 0 Z"></path>
+                </svg>
+                <!-- Белый парящий шар -->
+                <div class="nav-ball"></div>
+            </div>
+            
+            <ul class="nav-menu">
+                <!-- 1. УРОВЕНЬ -->
+                <li class="nav-item active" onclick="selectLiquidTab(this, 0, 'level-page')">
+                    <a href="javascript:void(0)">
+                        <span class="nav-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+                        </span>
+                        <span class="nav-text">Уровень</span>
+                    </a>
+                </li>
+                
+                <!-- 2. НАВЫКИ -->
+                <li class="nav-item" onclick="selectLiquidTab(this, 1, 'skills-page')">
+                    <a href="javascript:void(0)">
+                        <span class="nav-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                        </span>
+                        <span class="nav-text">Навыки</span>
+                    </a>
+                </li>
+
+                <!-- 3. ГЛАВНАЯ -->
+                <li class="nav-item" onclick="selectLiquidTab(this, 2, 'main-menu')">
+                    <a href="javascript:void(0)">
+                        <span class="nav-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                        </span>
+                        <span class="nav-text">Главная</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+
+
 
     <!-- =================================================== -->
     <!-- 📝 ЭКРАН 3: ЗАМЕТКИ СИСТЕМЫ                        -->
@@ -950,38 +1213,73 @@
         // Основной документ профиля
         const profileDocRef = db.collection("users").doc("ornit_main");
 
+                // --- ДАННЫЕ ИГРОКА И НАВЫКОВ (ПОЛНАЯ СТРУКТУРА) ---
         let playerData = {
             level: 173,
             xp: 4500,
             nextLevelXp: 10000,
-            asceticismDays: 21
+            asceticismDays: 21,
+            skills: {
+                guitar: { name: "Гитара", icon: "🎸", level: 10, xp: 120, nextLevelXp: 500 },
+                acrobatics: { name: "Акробатика", icon: "🤸", level: 5, xp: 40, nextLevelXp: 300 },
+                arm: { name: "Армрестлинг", icon: "💪", level: 12, xp: 210, nextLevelXp: 600 },
+                cooking: { name: "Кулинария", icon: "🍳", level: 50, xp: 800, nextLevelXp: 2000 },
+                recitative: { name: "Речетатив", icon: "🎤", level: 8, xp: 90, nextLevelXp: 400 },
+                body: { name: "Тело", icon: "🔥", level: 15, xp: 350, nextLevelXp: 800 }
+            }
         };
+
+        let currentActiveSkillKey = null;
+
 
         // Локальное кэширование дневных логов для быстрого рендеринга статистики
         let loadedLogs = {};
 
-        // Подключаем профиль
+               // Подключаем профиль с умной подгрузкой навыков
         profileDocRef.onSnapshot((doc) => {
             if (doc.exists) {
-                playerData = doc.data();
+                const cloudData = doc.data();
+                // Объединяем данные, сохраняя структуру навыков
+                playerData = { ...playerData, ...cloudData };
+                
+                // Если в базе еще не было навыков — добавляем их и сохраняем
+                if (!playerData.skills) {
+                    playerData.skills = {
+                        guitar: { name: "Гитара", icon: "🎸", level: 10, xp: 120, nextLevelXp: 500 },
+                        acrobatics: { name: "Акробатика", icon: "🤸", level: 5, xp: 40, nextLevelXp: 300 },
+                        arm: { name: "Армрестлинг", icon: "💪", level: 12, xp: 210, nextLevelXp: 600 },
+                        cooking: { name: "Кулинария", icon: "🍳", level: 50, xp: 800, nextLevelXp: 2000 },
+                        recitative: { name: "Речетатив", icon: "🎤", level: 8, xp: 90, nextLevelXp: 400 },
+                        body: { name: "Тело", icon: "🔥", level: 15, xp: 350, nextLevelXp: 800 }
+                    };
+                    profileDocRef.set(playerData, { merge: true });
+                }
+
                 updateMainUI();
-                document.getElementById('db-status').innerText = "SYNC: ONLINE (FIREBASE)";
-                document.getElementById('db-status').style.color = "#00ff00";
+                const dbStatus = document.getElementById('db-status');
+                if (dbStatus) {
+                    dbStatus.innerText = "SYNC: ONLINE (FIREBASE)";
+                    dbStatus.style.color = "#00ff00";
+                }
             } else {
                 profileDocRef.set(playerData);
             }
         }, (error) => {
             console.error("Firebase Sync Error: ", error);
-            document.getElementById('db-status').innerText = "SYNC: ERROR";
-            document.getElementById('db-status').style.color = "#ff0000";
+            const dbStatus = document.getElementById('db-status');
+            if (dbStatus) {
+                dbStatus.innerText = "SYNC: ERROR";
+                dbStatus.style.color = "#ff0000";
+            }
         });
 
-        function updateMainUI() {
+
+               function updateMainUI() {
             document.getElementById('main-level').innerText = playerData.level;
             document.getElementById('days-val').innerText = playerData.asceticismDays;
             document.getElementById('xp-text').innerText = `${playerData.xp} / ${playerData.nextLevelXp} EXP`;
             
-            const xpPercent = (playerData.xp / playerData.nextLevelXp) * 100;
+            const xpPercent = Math.min((playerData.xp / playerData.nextLevelXp) * 100, 100);
             document.getElementById('xp-fill').style.width = xpPercent + "%";
 
             const rankText = document.getElementById('architect-rank');
@@ -992,14 +1290,26 @@
             else if (days <= 60) rankText.innerText = "Пробуждение Охотника";
             else if (days <= 180) rankText.innerText = "Магнитная Аура";
             else rankText.innerText = "Высшая Архитектура";
+
+            // Отрисовываем обновленные карточки навыков
+            renderSkillsGrid();
         }
 
 
-        // ==========================================
-        // 🌌 МНОГОСТРАНИЧНОСТЬ: СИСТЕМНЫЙ СВИЧЕР      
-        // ==========================================
+
+               // ПЕРЕКЛЮЧЕНИЕ СТРАНИЦ С УМНЫМ ПОКАЗОМ САЙДБАРА
         function switchPage(pageId) {
             const pages = document.querySelectorAll('.page-view');
+            const navBox = document.getElementById('liquid-nav-box');
+
+            // Сайдбар виден ТОЛЬКО на страницах «Уровень» и «Навыки»
+            if (pageId === 'level-page' || pageId === 'skills-page') {
+                navBox.classList.remove('hidden-nav');
+            } else {
+                // На Главной, в Заметках и в Статистике — скрываем его!
+                navBox.classList.add('hidden-nav');
+            }
+            
             pages.forEach(p => {
                 if (p.id === pageId) {
                     p.style.display = (pageId === 'main-menu') ? 'flex' : 'block';
@@ -1010,6 +1320,50 @@
                 }
             });
         }
+
+
+        // КЛИК ПО LIQUID NAV С ФИЗИКОЙ НЫРЯНИЯ В ГЛУБИНУ
+        function selectLiquidTab(element, index, pageId) {
+            const indicator = document.getElementById('nav-indicator');
+            const nav = document.querySelector('.liquid-nav');
+            const items = document.querySelectorAll('.nav-item');
+
+            // 1. Шар сначала «ныряет» вниз
+            indicator.classList.add('diving');
+
+            setTimeout(() => {
+                // 2. Снимаем активность и ставим на новую кнопку
+                items.forEach(item => item.classList.remove('active'));
+                element.classList.add('active');
+
+                // 3. Перемещаем лунку на новую позицию
+                const tabWidth = nav.offsetWidth / 3;
+                const indicatorWidth = 54;
+                const centerPosition = (index * tabWidth) + (tabWidth / 2) - (indicatorWidth / 2);
+                indicator.style.left = `${centerPosition}px`;
+
+                // 4. Через мгновение белый шар «выныривает» вверх!
+                setTimeout(() => {
+                    indicator.classList.remove('diving');
+                }, 100);
+
+                switchPage(pageId);
+            }, 150);
+        }
+
+        // ЖЕСТКИЙ СТАРТ НА ГЛАВНОЙ (НИКАКОГО АВТОВХОДА)
+        window.addEventListener('load', () => {
+            switchPage('main-menu');
+            // Заранее центрируем индикатор на первой кнопке
+            const nav = document.querySelector('.liquid-nav');
+            if (nav) {
+                const indicator = document.getElementById('nav-indicator');
+                const tabWidth = nav.offsetWidth / 3;
+                indicator.style.left = `${(tabWidth / 2) - 27}px`;
+            }
+        });
+
+
 
 
         // ==========================================
@@ -1393,6 +1747,172 @@
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.restore();
         }
+       
+
+
+
+                function selectLiquidTab(element, index, pageId) {
+            const indicator = document.getElementById('nav-indicator');
+            const nav = document.querySelector('.liquid-nav');
+            const items = document.querySelectorAll('.nav-item');
+
+            // 1. Шар ныряет
+            indicator.classList.add('diving');
+
+            setTimeout(() => {
+                items.forEach(item => item.classList.remove('active'));
+                element.classList.add('active');
+
+                // Точный расчет центра под ширину индикатора 80px
+                const tabWidth = nav.offsetWidth / 3;
+                const indicatorWidth = 80;
+                const centerPosition = (index * tabWidth) + (tabWidth / 2) - (indicatorWidth / 2);
+                indicator.style.left = `${centerPosition}px`;
+
+                // 2. Шар выныривает на новой позиции
+                setTimeout(() => {
+                    indicator.classList.remove('diving');
+                }, 80);
+
+                switchPage(pageId);
+            }, 120);
+        }
+
+
+
+
+                window.addEventListener('load', () => {
+            switchPage('main-menu'); // Всегда на Главную
+            updateMainUI();          // Сразу генерирует карточки навыков
+        });
+
+
+
+
+
+
+                // =========================================================
+        // 🎮 СИСТЕМА ПРОКАЧКИ НАВЫКОВ И ПЕРЕЛИВАНИЯ В ОСНОВНОЙ LVL
+        // =========================================================
+
+        // РЕНДЕР КАРТОЧЕК НАВЫКОВ В СЕТКУ
+        function renderSkillsGrid() {
+            const grid = document.querySelector('.skills-grid');
+            if (!grid || !playerData.skills) return;
+            grid.innerHTML = "";
+
+            for (let key in playerData.skills) {
+                const s = playerData.skills[key];
+                const card = document.createElement('div');
+                card.className = 'skill-card';
+                card.onclick = () => openSkillModal(key);
+                card.innerHTML = `
+                    <span class="skill-icon">${s.icon}</span>
+                    <div class="skill-name">${s.name}</div>
+                    <div class="skill-level">LV. ${s.level}</div>
+                `;
+                grid.appendChild(card);
+            }
+        }
+
+        // ОТКРЫТИЕ ОКНА КОНКРЕТНОГО НАВЫКА
+        function openSkillModal(skillKey) {
+            currentActiveSkillKey = skillKey;
+            const s = playerData.skills[skillKey];
+            if (!s) return;
+
+            document.getElementById('modal-skill-title').innerText = `${s.icon} ${s.name.toUpperCase()}`;
+            document.getElementById('modal-skill-level').innerText = `LV. ${s.level}`;
+            document.getElementById('modal-skill-xp-text').innerText = `${s.xp} / ${s.nextLevelXp} EXP`;
+
+            const percent = Math.min((s.xp / s.nextLevelXp) * 100, 100);
+            document.getElementById('modal-skill-xp-fill').style.width = percent + "%";
+
+            document.getElementById('skill-modal').style.display = 'flex';
+        }
+
+        function closeSkillModal() {
+            document.getElementById('skill-modal').style.display = 'none';
+        }
+
+        // НАЧИСЛЕНИЕ EXP В НАВЫК + ПЕРЕЛИВАНИЕ В ОСНОВНОЙ УРОВЕНЬ
+        function addExpToActiveSkill(amount, reason) {
+            if (!currentActiveSkillKey || !playerData.skills) return;
+
+            const s = playerData.skills[currentActiveSkillKey];
+            
+            // 1. Прибавляем опыт в навык
+            s.xp += amount;
+            
+            // 2. Прибавляем опыт в ОСНОВНОЙ УРОВЕНЬ
+            playerData.xp += amount;
+
+            // Проверка Level Up Навыка
+            if (s.xp >= s.nextLevelXp) {
+                s.xp -= s.nextLevelXp;
+                s.level += 1;
+                s.nextLevelXp = Math.floor(s.nextLevelXp * 1.3);
+                alert(`🎉 НАВЫК [${s.name.toUpperCase()}] ПОВЫШЕН ДО LV. ${s.level}!`);
+            }
+
+            // Проверка Level Up ОСНОВНОГО УРОВНЯ ОХОТНИКА
+            if (playerData.xp >= playerData.nextLevelXp) {
+                playerData.xp -= playerData.nextLevelXp;
+                playerData.level += 1;
+                playerData.nextLevelXp = Math.floor(playerData.nextLevelXp * 1.25);
+                alert(`🔥 ВЫСШИЙ ПОДЪЕМ! ОСНОВНОЙ УРОВЕНЬ ОХОТНИКА ПОВЫШЕН ДО LV. ${playerData.level}!`);
+            }
+
+            // Обновляем окно модалки и интерфейс
+            openSkillModal(currentActiveSkillKey);
+            updateMainUI();
+
+            // Сохраняем обновленные данные в Firebase Firestore
+            if (typeof profileDocRef !== 'undefined') {
+                profileDocRef.set(playerData)
+                .then(() => console.log("Опыт успешно синхронизирован с Firebase!"))
+                .catch(err => console.error("Ошибка синхронизации:", err));
+            }
+        }
+
     </script>
+
+
+
+
+    <!-- =================================================== -->
+    <!-- 🎮 МОДАЛКА ПРОКАЧКИ НАВЫКА (SOLO LEVELING CONSOLE)  -->
+    <!-- =================================================== -->
+    <div id="skill-modal" class="modal">
+        <div class="modal-content" style="max-width: 500px; border-color: var(--accent-blue);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h2 id="modal-skill-title" style="font-family: 'Orbitron'; color: #fff; font-size: 1.4rem;">НАВЫК</h2>
+                <span id="modal-skill-level" style="font-family: 'Orbitron'; color: var(--accent-blue); font-size: 1.2rem; font-weight: bold;">LV. 1</span>
+            </div>
+
+            <!-- Прогресс баг навыка -->
+            <div style="margin-bottom: 25px;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #aaa; margin-bottom: 5px; font-family: 'Orbitron';">
+                    <span>ПРОГРЕСС УМЕНИЯ</span>
+                    <span id="modal-skill-xp-text">0 / 100 EXP</span>
+                </div>
+                <div class="progress-bar-outer" style="height: 12px;">
+                    <div id="modal-skill-xp-fill" class="progress-bar-inner" style="width: 0%;"></div>
+                </div>
+            </div>
+
+            <p style="color: #888; font-size: 0.85rem; margin-bottom: 20px;">ВЫПОЛНИТЕ ПРАКТИКУ В РЕАЛЬНОЙ ЖИЗНИ ДЛЯ НАЧИСЛЕНИЯ ОПЫТА:</p>
+
+            <!-- Быстрый выбор активности -->
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 25px;">
+                <button class="opt-btn" onclick="addExpToActiveSkill(25, 'Базовая тренировка / практика')">+25 EXP (Легкая практика)</button>
+                <button class="opt-btn" onclick="addExpToActiveSkill(50, 'Освоение нового элемента')">+50 EXP (Среднее достижение)</button>
+                <button class="opt-btn" onclick="addExpToActiveSkill(100, 'Победа / Прорыв в навыке')">+100 EXP (Квантовый прорыв!)</button>
+            </div>
+
+            <button class="opt-btn" style="border-color: #444; width: 100%;" onclick="closeSkillModal()">ЗАКРЫТЬ КОНСОЛЬ</button>
+        </div>
+    </div>
+
 </body>
 </html>

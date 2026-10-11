@@ -2314,31 +2314,35 @@
         // Локальное кэширование дневных логов для быстрого рендеринга статистики
         let loadedLogs = {};
 
-                     // БРОНЕБОЙНОЕ ПОДКЛЮЧЕНИЕ К FIREBASE БЕЗ ПОТЕРИ XP
+                   let isFirebaseLoaded = false; // 🛡️ ПРЕДОХРАНИТЕЛЬ: запрещает запись в базу до полной загрузки!
+
+        // ПОДКЛЮЧЕНИЕ К FIREBASE С ЗАЩИТОЙ ОТ ПЕРЕЗАТИРАНИЯ
         profileDocRef.onSnapshot((doc) => {
             if (doc.exists) {
                 const cloudData = doc.data();
                 
-                // Берем максимальное значение опыта между базой и тем, что есть, чтобы опыт никогда не откатывался назад!
-                const safeXp = Math.max(playerData.xp || 0, cloudData.xp || 0);
-                const safeTotalXp = Math.max(playerData.totalXp || 70382, cloudData.totalXp || 70382);
-                const safeLevel = Math.max(playerData.level || 34, cloudData.level || 34);
-
+                // Объединяем данные из облака
                 playerData = { ...playerData, ...cloudData };
-                
-                // Жестко фиксируем актуальные значения
-                playerData.xp = safeXp;
-                playerData.totalXp = safeTotalXp;
-                playerData.level = safeLevel;
 
+                // Восстанавливаем опыт из истории графика, если вдруг он слетел
+                const msk = getMskDateInfo();
+                const todayHistoryXp = (playerData.chartHistory && playerData.chartHistory[msk.dateString]) || 0;
+                
+                // Если опыт стал меньше, чем зафиксировано в графике (1350 XP) — восстанавливаем правду!
+                if (playerData.xp < todayHistoryXp) {
+                    playerData.xp = todayHistoryXp;
+                }
+
+                isFirebaseLoaded = true; // Снимаем блокировку, теперь база готова
                 updateMainUI();
             } else {
-                // Если документ пустой — создаем с нашими честными 70382 XP
+                isFirebaseLoaded = true;
                 profileDocRef.set(playerData);
             }
         }, (error) => {
             console.error("Ошибка Firebase:", error);
         });
+
 
 
 
@@ -2388,9 +2392,23 @@
             if (acBest) acBest.innerText = `${playerData.personalRecord || 9} дней`;
             if (wsRecord) wsRecord.innerText = `${playerData.personalRecord || 9} дней`;
 
-            // 7. Статистика недели (Честный опыт и миссии)
+                        // 7. Статистика недели (автоматически страхуется графиком)
+            let calcWeeklyFromHistory = 0;
+            if (playerData.chartHistory) {
+                Object.values(playerData.chartHistory).forEach(val => {
+                    calcWeeklyFromHistory += (Number(val) || 0);
+                });
+            }
+
+            // Берем максимум: либо сохраненный weeklyXp, либо сумму из графика, либо текущий опыт
+            playerData.weeklyXp = Math.max(playerData.weeklyXp || 0, calcWeeklyFromHistory, playerData.xp || 0);
+
             const wsWeeklyXp = document.getElementById('ws-weekly-xp');
-            if (wsWeeklyXp) wsWeeklyXp.innerText = (playerData.weeklyXp || 0).toLocaleString();
+            if (wsWeeklyXp) wsWeeklyXp.innerText = playerData.weeklyXp.toLocaleString();
+
+            const wsWeeklyBadge = document.getElementById('ws-weekly-badge');
+            if (wsWeeklyBadge) wsWeeklyBadge.innerText = `+${playerData.weeklyXp.toLocaleString()} ↑`;
+
 
             const wsMissions = document.getElementById('ws-missions-count');
             if (wsMissions) wsMissions.innerText = `${playerData.completedMissionsCount || 0} / 7`;
@@ -3457,27 +3475,27 @@
             { id: 7, title: "Анализ недели и планирование прорыва", xp: 250, completed: false }
         ];
 
-        function renderMissionsList() {
+               function renderMissionsList() {
             const container = document.getElementById('missions-list-container');
             if (!container) return;
             container.innerHTML = "";
 
             const msk = getMskDateInfo();
 
-            // Если наступил новый день (дата в базе не равна сегодняшней МСК), сбрасываем миссии!
-            if (playerData.completedMissionsDate !== msk.dateString) {
+            // Если данные ещё грузятся из Firebase — не трогаем ничего
+            if (!isFirebaseLoaded) return;
+
+            // Если дата сменилась (реально наступил новый день)
+            if (playerData.completedMissionsDate && playerData.completedMissionsDate !== msk.dateString) {
                 playerData.completedMissionsDate = msk.dateString;
                 playerData.completedMissionsIds = [];
-                dailyMissionsList.forEach(m => m.completed = false);
-                if (typeof profileDocRef !== 'undefined') {
-                    profileDocRef.set(playerData, { merge: true });
-                }
-            } else {
-                // Синхронизируем состояние из памяти
-                dailyMissionsList.forEach(m => {
-                    m.completed = playerData.completedMissionsIds.includes(m.id);
-                });
             }
+
+            // Синхронизируем состояние кнопок из массива сохраненных ID
+            const completedIds = playerData.completedMissionsIds || [];
+            dailyMissionsList.forEach(m => {
+                m.completed = completedIds.includes(m.id);
+            });
 
             let completedTotal = 0;
 
@@ -3510,7 +3528,7 @@
                 container.appendChild(btn);
             });
 
-            // Общий счетчик миссий
+            // Обновляем счётчики миссий
             playerData.completedMissionsCount = completedTotal;
             const counterEl = document.getElementById('missions-status-counter');
             if (counterEl) counterEl.innerText = `${completedTotal} / 7 ВЫПОЛНЕНО`;
@@ -3521,32 +3539,36 @@
             if (wsMissionsBadge) wsMissionsBadge.innerText = `+${completedTotal} ↑`;
         }
 
-        function toggleMission(id) {
+               function toggleMission(id) {
+            if (!isFirebaseLoaded) return; // Ждем загрузку базы
+
             const m = dailyMissionsList.find(item => item.id === id);
             if (!m) return;
+
+            // 🛡️ ЗАЩИТА ОТ ДЮПА: Если миссия уже выполнена, отменить её нельзя! 
+            // Монарх держит свое слово: сделал — значит сделал.
+            if (m.completed) {
+                alert("СИСТЕМА: Эта миссия уже засчитана в реестр дня. Возврат невозможен.");
+                return; 
+            }
 
             if (!playerData.completedMissionsIds) playerData.completedMissionsIds = [];
             const msk = getMskDateInfo();
             playerData.completedMissionsDate = msk.dateString;
 
-            if (!m.completed) {
-                // Выполняем миссию
-                m.completed = true;
+            // Начисляем опыт ровно один раз
+            m.completed = true;
+            if (!playerData.completedMissionsIds.includes(id)) {
                 playerData.completedMissionsIds.push(id);
-                addExpToSystem(m.xp, `Миссия: ${m.title}`);
-            } else {
-                // Отменяем миссию (если случайно нажали)
-                m.completed = false;
-                playerData.completedMissionsIds = playerData.completedMissionsIds.filter(item => item !== id);
-                
-                playerData.xp = Math.max(0, playerData.xp - m.xp);
-                playerData.totalXp = Math.max(0, playerData.totalXp - m.xp);
-                playerData.weeklyXp = Math.max(0, playerData.weeklyXp - m.xp);
-                updateMainUI();
             }
 
+            // Добавляем честный опыт в систему, график и неделю
+            addExpToSystem(m.xp, `Миссия: ${m.title}`);
+
+            // Перерисовываем список (кнопка станет зеленой и заблокированной)
             renderMissionsList();
 
+            // Сохраняем в Firebase
             if (typeof profileDocRef !== 'undefined') {
                 profileDocRef.set(playerData, { merge: true });
             }

@@ -281,26 +281,10 @@
             padding: 40px 20px;
         }
 
-        .year-header {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.2rem;
-            color: #fff;
-            text-shadow: 0 0 10px var(--accent-blue);
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
         .months-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             gap: 25px;
-        }
-
-        .month-box {
-            background: var(--panel-bg);
-            border: 1px solid #1a1a3a;
-            padding: 15px;
-            border-radius: 6px;
         }
 
         .month-name {
@@ -319,20 +303,50 @@
             gap: 6px;
         }
 
-        .day-cell {
-            aspect-ratio: 1;
-            background: #080812;
-            border: 1px solid rgba(255,255,255,0.03);
-            border-radius: 3px;
-            cursor: pointer;
-            transition: 0.2s;
-            position: relative;
-        }
-        .day-cell:hover {
-            transform: scale(1.2);
-            z-index: 5;
-            box-shadow: 0 0 8px #fff;
-        }
+        /* ЯРКИЕ СТИЛИ ДЛЯ ЭКРАНА СТАТИСТИКИ ХРОНИКИ */
+.year-header {
+    color: #00d4ff !important;
+    text-shadow: 0 0 15px rgba(0, 212, 255, 0.6) !important;
+    font-family: 'Orbitron', sans-serif !important;
+    letter-spacing: 3px !important;
+}
+
+.month-name {
+    color: #ffffff !important;
+    font-family: 'Orbitron', sans-serif !important;
+    font-size: 0.85rem !important;
+    letter-spacing: 2px !important;
+    margin-bottom: 12px !important;
+    text-shadow: 0 0 8px rgba(138, 43, 226, 0.5) !important;
+}
+
+.month-box {
+    background: rgba(10, 10, 22, 0.7) !important;
+    border: 1px solid rgba(0, 212, 255, 0.15) !important;
+    border-radius: 12px !important;
+    padding: 18px !important;
+}
+
+.day-cell {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #e0e0e0 !important;
+    font-family: 'Orbitron', sans-serif !important;
+    font-size: 0.65rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.day-cell:hover {
+    border-color: #00d4ff !important;
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.5) !important;
+    transform: scale(1.08) !important;
+}
+
 
         /* --- ВЕРХНИЙ ЭКРАН ОЦЕНКИ ДНЯ --- */
         .assessment-overlay {
@@ -1624,6 +1638,50 @@
         }
 
 
+        /* Яркие читаемые цифры в календаре статистики */
+.day-cell {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important; /* Белый цвет цифр */
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.day-cell:hover {
+    border-color: var(--accent-blue) !important;
+    box-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+}
+
+
+
+/* Ячейка хроники с полноценной заливкой цветом */
+.day-cell {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+    font-family: 'Orbitron', sans-serif !important;
+    font-size: 0.65rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Если ячейка окрашена отчетом — заливаем её фон и делаем текст контрастным */
+.day-cell.has-log {
+    font-weight: bold !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+
+
 
     </style>
 
@@ -1783,15 +1841,15 @@
                 </div>
 
 
-                                 <!-- 3. КАРТОЧКА ВОЗДЕРЖАНИЯ И АСКЕЗЫ -->
+                                 <!-- 3. КАРТОЧКА ВОЗДЕРЖАНИЯ (С КЛИКАБЕЛЬНЫМ КАЛЕНДАРЕМ) -->
                 <div class="asceticism-card">
                     <div>
                         <span class="ac-label">УРОВЕНЬ ВОЗДЕРЖАНИЯ</span>
                         <h2 class="ac-days-title" style="color: #fff;"><span id="ac-days-num">0</span> <span class="ac-days-sub">дней</span></h2>
-                        <p class="ac-subtext" id="ac-status-text" style="color: var(--accent-red);">Сила в контроле</p>
+                      <p class="ac-subtext" id="ac-status-text" style="color: #ff004c; font-weight: bold; text-shadow: 0 0 8px rgba(255, 0, 76, 0.4);">Сила в контроле</p>
+
                     </div>
 
-                    <!-- Статистика серии -->
                     <div class="ac-stats-row">
                         <div class="ac-stat-badge">
                             <span class="ac-stat-icon">🔥</span>
@@ -1809,7 +1867,6 @@
                         </div>
                     </div>
 
-                    <!-- Золотистая шкала суточного прогресса -->
                     <div style="margin-bottom: 15px;">
                         <div style="display: flex; justify-content: space-between; font-size: 0.65rem; color: #aaa; margin-bottom: 4px; font-family: 'Orbitron';">
                             <span id="day-progress-label">ПРОГРЕСС СУТОК</span>
@@ -1820,16 +1877,17 @@
                         </div>
                     </div>
 
-                    <!-- КНОПКА СРЫВА (ВИДИМАЯ И ЧЕТКАЯ) -->
                     <div style="margin-bottom: 15px; display: flex; gap: 10px; align-items: center;">
-                        <button class="opt-btn" onclick="triggerRelapse()" style="border-color: var(--accent-red); color: var(--accent-red); background: rgba(255, 0, 76, 0.1); font-size: 0.75rem; padding: 10px; flex: 1; font-weight: bold;">⚠️ СДЕЛАТЬ СРЫВ</button>
+                        <button class="opt-btn" onclick="triggerRelapse()" style="border-color: var(--accent-red); color: var(--accent-red); background: rgba(255, 0, 76, 0.1); font-size: 0.75rem; padding: 10px; flex: 1; font-weight: bold;">⚠️ ЗАФИКСИРОВАТЬ СРЫВ</button>
                     </div>
 
-                    <!-- Календарь Октября -->
+                    <!-- Календарь со стрелками управления -->
                     <div class="ac-body-grid">
                         <div class="ac-calendar-block">
-                            <div class="ac-cal-header">
-                                <span id="cal-month-title">‹ Октябрь 2026 ›</span>
+                            <div class="ac-cal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <span onclick="changeCalendarMonth(-1)" style="cursor: pointer; padding: 0 5px; color: var(--accent-blue);" title="Прошлый месяц">‹</span>
+                                <span id="cal-month-title" style="font-family: 'Orbitron'; font-size: 0.75rem;">Октябрь 2026</span>
+                                <span onclick="changeCalendarMonth(1)" style="cursor: pointer; padding: 0 5px; color: var(--accent-blue);" title="Следующий месяц">›</span>
                             </div>
                             <div class="ac-cal-grid" id="ac-cal-grid"></div>
                         </div>
@@ -1850,29 +1908,22 @@
                         <!-- [ ROW 2: MISSION & ACHIEVEMENTS ] -->
             <div class="level-second-grid">
                 
-                               <!-- 1. МИССИЯ ДНЯ (ДИНАМИЧЕСКАЯ НА КАЖДЫЙ ДЕНЬ) -->
-                <div class="daily-mission-card">
+                                    <!-- 1. СПИСОК ИЗ 7 НАСТРАИВАЕМЫХ МИССИЙ -->
+                <div class="daily-mission-card" style="grid-column: 1 / -1;">
                     <div class="dm-header">
                         <div class="dm-title-group">
                             <span class="dm-icon">🎯</span>
-                            <span class="dm-title" id="dm-day-badge">МИССИЯ ПОНЕДЕЛЬНИКА</span>
+                            <span class="dm-title">РЕЕСТР МИССИЙ СИСТЕМЫ</span>
                         </div>
-                        <span class="dm-reward">+50 XP</span>
+                        <span class="dm-reward" id="missions-status-counter">0 / 7 ВЫПОЛНЕНО</span>
                     </div>
                     
-                    <h3 class="dm-quest-name" id="dm-quest-title">Сделай шаг вперёд</h3>
-                    <p class="dm-quest-desc" id="dm-quest-desc">Выполни свою ежедневную задачу дисциплины и не сдавайся.</p>
+                    <p class="dm-quest-desc" style="margin-bottom: 15px;">Выполняйте ежедневные задачи для получения опыта. Награду и текст можно настроить в коде.</p>
 
-                    <div class="dm-footer">
-                        <div class="dm-progress-wrap">
-                            <div class="dm-progress-outer">
-                                <div class="dm-progress-inner" id="dm-progress-bar" style="width: 0%;"></div>
-                            </div>
-                            <span class="dm-progress-num" id="dm-progress-text">0 / 7</span>
-                        </div>
-                        <button class="dm-action-btn" id="dm-btn" onclick="completeDailyMission()">Выполнить миссию →</button>
-                    </div>
+                    <!-- СЮДА ДИНАМИЧЕСКИ ВСТАВЛЯЮТСЯ ВСЕ 7 МИССИЙ -->
+                    <div id="missions-list-container" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;"></div>
                 </div>
+
 
 
                 <!-- 2. АЛТАРЬ ДОСТИЖЕНИЙ -->
@@ -1932,14 +1983,15 @@
                     </div>
 
                     <div class="chart-canvas-wrapper">
-                        <!-- Шкала слева -->
-                        <div class="chart-y-axis">
-                            <span>200</span>
-                            <span>150</span>
-                            <span>100</span>
-                            <span>50</span>
-                            <span>0</span>
-                        </div>
+                       <!-- Внутри chart-card найди этот блок и замени цифры -->
+<div class="chart-y-axis">
+    <span>2000</span>
+    <span>1500</span>
+    <span>1000</span>
+    <span>500</span>
+    <span>0</span>
+</div>
+
                         
                         <!-- Векторный SVG график со светящейся неоновой волной -->
                         <div class="chart-svg-box">
@@ -2194,7 +2246,8 @@
             level: 34,
             xp: 0,
             nextLevelXp: 8450,
-            
+            completedMissionsDate: "",      // Дата, когда миссии были выполнены (например, "2026-10-11")
+            completedMissionsIds: [],       // Список ID выполненных сегодня миссий
             asceticismDays: 1,              
             personalRecord: 9,              
             weeklyXp: 0,                    
@@ -2261,40 +2314,32 @@
         // Локальное кэширование дневных логов для быстрого рендеринга статистики
         let loadedLogs = {};
 
-                // ПОДКЛЮЧЕНИЕ К FIREBASE С ФОРСИРОВАННЫМ ОБНУЛЕНИЕМ (V6)
+                     // БРОНЕБОЙНОЕ ПОДКЛЮЧЕНИЕ К FIREBASE БЕЗ ПОТЕРИ XP
         profileDocRef.onSnapshot((doc) => {
             if (doc.exists) {
                 const cloudData = doc.data();
                 
-                // Если в базе нет метки V6 — значит там старый мусор. Обнуляем!
-                if (!cloudData.isSystemV6) {
-                    console.log("🚀 СИСТЕМА: Обнаружена старая версия данных. Провожу калибровку под 34 LVL...");
-                    
-                    playerData.level = 34;
-                    playerData.xp = 0;
-                    playerData.nextLevelXp = 8450;
-                    playerData.asceticismDays = 1;
-                    playerData.personalRecord = 9;
-                    playerData.weeklyXp = 0;
-                    playerData.completedMissionsCount = 0;
-                    playerData.totalXp = 70382; // Твоя честная цифра
-                    playerData.isSystemV6 = true; // Ставим новую метку
-                    
-                    // Записываем честные данные в облако
-                    profileDocRef.set(playerData);
-                } else {
-                    // Если V6 уже есть — просто синхронизируем
-                    playerData = { ...playerData, ...cloudData };
-                }
+                // Берем максимальное значение опыта между базой и тем, что есть, чтобы опыт никогда не откатывался назад!
+                const safeXp = Math.max(playerData.xp || 0, cloudData.xp || 0);
+                const safeTotalXp = Math.max(playerData.totalXp || 70382, cloudData.totalXp || 70382);
+                const safeLevel = Math.max(playerData.level || 34, cloudData.level || 34);
+
+                playerData = { ...playerData, ...cloudData };
+                
+                // Жестко фиксируем актуальные значения
+                playerData.xp = safeXp;
+                playerData.totalXp = safeTotalXp;
+                playerData.level = safeLevel;
+
                 updateMainUI();
             } else {
-                // Если документа вообще нет
-                playerData.isSystemV6 = true;
+                // Если документ пустой — создаем с нашими честными 70382 XP
                 profileDocRef.set(playerData);
             }
         }, (error) => {
-            console.error("Firebase Error:", error);
+            console.error("Ошибка Firebase:", error);
         });
+
 
 
                function updateMainUI() {
@@ -2360,17 +2405,19 @@
             renderLiveChart();
         }
 
-        // ОБЩИЙ ДВИЖОК НАЧИСЛЕНИЯ XP (ТЕПЕРЬ ОБНОВЛЯЕТ И ОБЩИЙ ОПЫТ!)
-        function addExpToSystem(amount, sourceTitle) {
-            playerData.xp += amount;                   // Опыт для текущего уровня
-            playerData.totalXp = (playerData.totalXp || 70382) + amount; // ⚡️ Честный рост общего опыта!
-            playerData.weeklyXp = (playerData.weeklyXp || 0) + amount;   // Опыт за неделю
+                  function addExpToSystem(amount, sourceTitle) {
+            playerData.xp += amount;
+            playerData.totalXp = (playerData.totalXp || 70382) + amount;
+            playerData.weeklyXp = (playerData.weeklyXp || 0) + amount;
 
-            // Запись в график (сегодняшняя точка)
-            if (!playerData.weeklyHistory) playerData.weeklyHistory = [0, 0, 0, 0, 0, 0, 0];
-            playerData.weeklyHistory[6] += amount;
+            // ⚡️ ЗАПИСЬ В ИСТОРИЮ ГРАФИКА
+            const msk = getMskDateInfo(); // Это даст нам "2026-10-11"
+            if (!playerData.chartHistory) playerData.chartHistory = {};
+            
+            // Плюсуем опыт к сегодняшней дате
+            playerData.chartHistory[msk.dateString] = (playerData.chartHistory[msk.dateString] || 0) + amount;
 
-            // Проверка Level Up Охотника
+            // Проверка Level Up
             if (playerData.xp >= playerData.nextLevelXp && playerData.level < 100) {
                 playerData.xp -= playerData.nextLevelXp;
                 playerData.level += 1;
@@ -2380,12 +2427,11 @@
 
             updateMainUI();
 
-            // Сохраняем в Firebase с обновленным общим опытом
             if (typeof profileDocRef !== 'undefined') {
-                profileDocRef.set(playerData, { merge: true })
-                .then(() => console.log("XP успешно улетел в базу! Общий опыт:", playerData.totalXp));
+                profileDocRef.set(playerData, { merge: true });
             }
         }
+
 
 
 
@@ -2610,17 +2656,20 @@
               });
         }
 
-        function renderCalendarGrid(year) {
+              function renderCalendarGrid(year) {
             const container = document.getElementById('months-container');
             container.innerHTML = "";
 
             monthNames.forEach((name, monthIndex) => {
+                // Если год 2026 и месяц идет ДО октября (индекс < 9), пропускаем его вообще!
+                if (year === 2026 && monthIndex < 9) return;
+
                 const monthBox = document.createElement('div');
                 monthBox.className = "month-box";
 
                 const monthTitle = document.createElement('div');
                 monthTitle.className = "month-name";
-                monthTitle.innerText = name;
+                monthTitle.innerText = `${name} ${year}`;
                 monthBox.appendChild(monthTitle);
 
                 const matrix = document.createElement('div');
@@ -2628,24 +2677,38 @@
 
                 const totalDays = new Date(year, monthIndex + 1, 0).getDate();
 
-                for (let d = 1; d <= totalDays; d++) {
+                               for (let d = 1; d <= totalDays; d++) {
+                    const curDateString = `${year}-${String(monthIndex + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+                    
+                    if (year === 2026 && monthIndex === 9 && d < 11) {
+                        continue; // Пропускаем дни до 11 октября
+                    }
+
                     const cell = document.createElement('div');
                     cell.className = "day-cell";
-                    
-                    const curDateString = `${year}-${String(monthIndex + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
                     cell.title = `${d} ${name} ${year}`;
+                    cell.innerText = d;
 
-                    // Окрашиваем, если у нас есть лог за этот день
+                    // ⚡️ ПОЛНАЯ ЗАЛИВКА КВАДРАТИКА ЦВЕТОМ ЛОГА
                     if (loadedLogs[curDateString]) {
-                        cell.style.background = loadedLogs[curDateString].color;
-                        cell.style.boxShadow = `0 0 8px ${loadedLogs[curDateString].color}`;
+                        const logColor = loadedLogs[curDateString].color;
+                        cell.classList.add('has-log');
+                        cell.style.setProperty('background-color', logColor, 'important');
+                        cell.style.setProperty('border-color', logColor, 'important');
+                        cell.style.setProperty('box-shadow', `0 0 12px ${logColor}`, 'important');
                         
-                        // Клик открывает лог дня
+                        // Если цвет слишком светлый (белый или желтый), текст делаем черным для читаемости
+                        if (logColor === '#ffffff' || logColor === '#ffaa00') {
+                            cell.style.setProperty('color', '#000000', 'important');
+                            cell.style.setProperty('font-weight', 'bold', 'important');
+                        } else {
+                            cell.style.setProperty('color', '#ffffff', 'important');
+                        }
+
                         cell.onclick = () => {
                             openReadModal(loadedLogs[curDateString]);
                         };
                     } else {
-                        // Клик по пустой ячейке
                         cell.onclick = () => {
                             alert(`Запись отсутствует: ${d} ${name} ${year}`);
                         };
@@ -2654,10 +2717,12 @@
                     matrix.appendChild(cell);
                 }
 
+
                 monthBox.appendChild(matrix);
                 container.appendChild(monthBox);
             });
         }
+
 
         // Просмотр лога
         function openReadModal(log) {
@@ -3378,30 +3443,344 @@
         }
 
 
-                // 📈 ЖИВАЯ ОТРИСОВКА НЕОНОВОГО ГРАФИКА
-        function renderLiveChart() {
-            const history = playerData.weeklyHistory || [0, 0, 0, 0, 0, 0, 0];
-            const maxVal = Math.max(...history, 200);
+                // =========================================================
+        // 🎯 НАСТРАИВАЕМЫЙ СПИСОК ИЗ 7 МИССИЙ
+        // =========================================================
+        // Текст и награду в XP ты можешь менять здесь в любой момент!
+        let dailyMissionsList = [
+            { id: 1, title: "+500 строк чистого кода / Архитектура", xp: 100, completed: false },
+            { id: 2, title: "Тяжелая тренировка кисти / Армрестлинг", xp: 150, completed: false },
+            { id: 3, title: "Рефакторинг и устранение багов системы", xp: 120, completed: false },
+            { id: 4, title: "Фокус на ресурсах и монетизации проекта", xp: 200, completed: false },
+            { id: 5, title: "Освоение сложной партии на гитаре / Вокал", xp: 100, completed: false },
+            { id: 6, title: "15 000 шагов по городу / Кардио-нагрузка", xp: 150, completed: false },
+            { id: 7, title: "Анализ недели и планирование прорыва", xp: 250, completed: false }
+        ];
+
+        function renderMissionsList() {
+            const container = document.getElementById('missions-list-container');
+            if (!container) return;
+            container.innerHTML = "";
+
+            const msk = getMskDateInfo();
+
+            // Если наступил новый день (дата в базе не равна сегодняшней МСК), сбрасываем миссии!
+            if (playerData.completedMissionsDate !== msk.dateString) {
+                playerData.completedMissionsDate = msk.dateString;
+                playerData.completedMissionsIds = [];
+                dailyMissionsList.forEach(m => m.completed = false);
+                if (typeof profileDocRef !== 'undefined') {
+                    profileDocRef.set(playerData, { merge: true });
+                }
+            } else {
+                // Синхронизируем состояние из памяти
+                dailyMissionsList.forEach(m => {
+                    m.completed = playerData.completedMissionsIds.includes(m.id);
+                });
+            }
+
+            let completedTotal = 0;
+
+            dailyMissionsList.forEach((m, idx) => {
+                if (m.completed) completedTotal++;
+
+                const btn = document.createElement('div');
+                btn.style.cssText = `
+                    display: flex; justify-content: space-between; align-items: center;
+                    background: ${m.completed ? 'rgba(0, 255, 136, 0.08)' : 'rgba(255, 255, 255, 0.02)'};
+                    border: 1px solid ${m.completed ? '#00ff88' : 'rgba(255, 255, 255, 0.08)'};
+                    padding: 12px 18px; border-radius: 8px; transition: 0.3s;
+                `;
+
+                btn.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="font-family: 'Orbitron'; font-size: 0.75rem; color: ${m.completed ? '#00ff88' : 'var(--text-gray)'};">#0${idx+1}</span>
+                        <span style="font-size: 0.85rem; color: ${m.completed ? '#fff' : '#ccc'}; text-decoration: ${m.completed ? 'line-through' : 'none'};">${m.title}</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <span style="font-family: 'Orbitron'; font-size: 0.8rem; color: var(--accent-blue);">+${m.xp} XP</span>
+                        <button onclick="toggleMission(${m.id})" style="
+                            background: ${m.completed ? 'rgba(0, 255, 136, 0.2)' : 'transparent'};
+                            border: 1px solid ${m.completed ? '#00ff88' : 'var(--accent-purple)'};
+                            color: ${m.completed ? '#00ff88' : '#fff'};
+                            padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.7rem;
+                        ">${m.completed ? '✓ ВЫПОЛНЕНО' : 'ВЫПОЛНИТЬ'}</button>
+                    </div>
+                `;
+                container.appendChild(btn);
+            });
+
+            // Общий счетчик миссий
+            playerData.completedMissionsCount = completedTotal;
+            const counterEl = document.getElementById('missions-status-counter');
+            if (counterEl) counterEl.innerText = `${completedTotal} / 7 ВЫПОЛНЕНО`;
+
+            const wsMissions = document.getElementById('ws-missions-count');
+            if (wsMissions) wsMissions.innerText = `${completedTotal} / 7`;
+            const wsMissionsBadge = document.getElementById('ws-missions-badge');
+            if (wsMissionsBadge) wsMissionsBadge.innerText = `+${completedTotal} ↑`;
+        }
+
+        function toggleMission(id) {
+            const m = dailyMissionsList.find(item => item.id === id);
+            if (!m) return;
+
+            if (!playerData.completedMissionsIds) playerData.completedMissionsIds = [];
+            const msk = getMskDateInfo();
+            playerData.completedMissionsDate = msk.dateString;
+
+            if (!m.completed) {
+                // Выполняем миссию
+                m.completed = true;
+                playerData.completedMissionsIds.push(id);
+                addExpToSystem(m.xp, `Миссия: ${m.title}`);
+            } else {
+                // Отменяем миссию (если случайно нажали)
+                m.completed = false;
+                playerData.completedMissionsIds = playerData.completedMissionsIds.filter(item => item !== id);
+                
+                playerData.xp = Math.max(0, playerData.xp - m.xp);
+                playerData.totalXp = Math.max(0, playerData.totalXp - m.xp);
+                playerData.weeklyXp = Math.max(0, playerData.weeklyXp - m.xp);
+                updateMainUI();
+            }
+
+            renderMissionsList();
+
+            if (typeof profileDocRef !== 'undefined') {
+                profileDocRef.set(playerData, { merge: true });
+            }
+        }
+
+
+        // =========================================================
+        // 🗓 ИНТЕРАКТИВНЫЙ КАЛЕНДАРЬ СО СТРЕЛКАМИ (ОКТЯБРЬ 2026+)
+        // =========================================================
+        let calendarViewYear = 2026;
+        let calendarViewMonth = 9; // 9 = Октябрь (месяцы от 0 до 11)
+
+        const monthNamesRus = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+
+               // БРОНЕБОЙНОЕ ПЕРЕКЛЮЧЕНИЕ МЕСЯЦЕВ В КАЛЕНДАРЕ
+        function changeCalendarMonth(direction) {
+            calendarViewMonth += direction;
+
+            // Переход на следующий год вперед
+            if (calendarViewMonth > 11) {
+                calendarViewMonth = 0;
+                calendarViewYear++;
+            } 
+            // Переход на прошлый год назад
+            else if (calendarViewMonth < 0) {
+                calendarViewMonth = 11;
+                calendarViewYear--;
+            }
+
+            // ЖЕСТКОЕ ОГРАНИЧЕНИЕ: Нельзя уходить в прошлое дальше Октября 2026!
+            if (calendarViewYear < 2026 || (calendarViewYear === 2026 && calendarViewMonth < 9)) {
+                calendarViewYear = 2026;
+                calendarViewMonth = 9; // Октябрь 2026
+                alert("Система: Начало отсчета аскезы — Октябрь 2026.");
+            }
+
+            // Защита от дурака (если вдруг месяц вылетит за пределы массива)
+            if (calendarViewMonth < 0 || calendarViewMonth > 11) {
+                calendarViewMonth = 9;
+                calendarViewYear = 2026;
+            }
+
+            renderAsceticismCalendar();
+        }
+
+
+        function renderAsceticismCalendar() {
+            const calGrid = document.getElementById('ac-cal-grid');
+            if (!calGrid) return;
+            calGrid.innerHTML = "";
+
+            // Название месяца в заголовке
+            const titleEl = document.getElementById('cal-month-title');
+            if (titleEl) titleEl.innerText = `${monthNamesRus[calendarViewMonth]} ${calendarViewYear}`;
+
+            // Таймер суток
+            const now = new Date();
+            const elapsedSeconds = (now.getHours() * 3600) + (now.getMinutes() * 60) + now.getSeconds();
+            const dayPercent = Math.min((elapsedSeconds / 86400) * 100, 100);
+
+            const fillEl = document.getElementById('day-progress-fill');
+            const percentEl = document.getElementById('day-progress-percent');
+            if (fillEl) fillEl.style.width = dayPercent + "%";
+            if (percentEl) percentEl.innerText = dayPercent.toFixed(1) + "%";
+
+            const msk = getMskDateInfo();
+            if (playerData.lastRelapseDate === msk.dateString) {
+                playerData.isLockedUntilMidnight = true;
+                playerData.asceticismDays = 0;
+            } else {
+                if (playerData.isLockedUntilMidnight && playerData.lastRelapseDate !== msk.dateString) {
+                    playerData.isLockedUntilMidnight = false;
+                }
+            }
+
+            const currentDaysVal = playerData.asceticismDays || 0;
+            document.getElementById('ac-days-num').innerText = playerData.isLockedUntilMidnight ? 0 : currentDaysVal;
+            document.getElementById('ac-streak-val').innerText = playerData.isLockedUntilMidnight ? 0 : currentDaysVal;
+            document.getElementById('ac-status-text').innerText = playerData.isLockedUntilMidnight ? "⚠️ СРЫВ: ОЖИДАНИЕ ПОЛНОЧИ" : "Сила в контроле";
+
+            // Генерация дней выбранного месяца
+            const daysInMonth = new Date(calendarViewYear, calendarViewMonth + 1, 0).getDate();
+            const today = new Date();
+
+            for (let i = 1; i <= daysInMonth; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'ac-cal-cell';
+                cell.innerText = i;
+
+                // Подсветка текущего реального дня (11 октября 2026)
+                const isRealToday = (calendarViewYear === 2026 && calendarViewMonth === 9 && i === 11);
+
+                if (isRealToday && playerData.isLockedUntilMidnight) {
+                    cell.style.borderColor = '#ff004c';
+                    cell.style.color = '#ff004c';
+                    cell.style.background = 'rgba(255, 0, 76, 0.15)';
+                    cell.innerText = '✕';
+                } else if (i <= currentDaysVal && calendarViewYear === 2026 && calendarViewMonth === 9 && !playerData.isLockedUntilMidnight) {
+                    cell.className = 'ac-cal-cell checked';
+                    cell.innerText = '✓';
+                }
+
+                if (isRealToday && !playerData.isLockedUntilMidnight) {
+                    cell.style.border = '2px solid var(--accent-blue)';
+                    cell.style.boxShadow = '0 0 8px rgba(0, 212, 255, 0.6)';
+                }
+
+                calGrid.appendChild(cell);
+            }
+
+            // Цели и рекорды
+            document.getElementById('goal-30').classList.toggle('active-goal', currentDaysVal >= 30);
+            document.getElementById('goal-60-item').classList.toggle('active-goal', currentDaysVal >= 60);
+            document.getElementById('goal-90').classList.toggle('active-goal', currentDaysVal >= 90);
+
+            if (currentDaysVal > (playerData.personalRecord || 9)) {
+                playerData.personalRecord = currentDaysVal;
+            }
+            document.getElementById('ac-best-record').innerText = `${playerData.personalRecord || 9} дней`;
+            document.getElementById('ws-record-days').innerText = `${playerData.personalRecord || 9} дней`;
+
+            renderMissionsList();
+        }
+
+
+        // =========================================================
+        // 📈 100% ЖИВОЙ ГРАФИК (ШКАЛА ДО 2000 XP ДЛЯ 7, 30, 90 ДНЕЙ)
+        // =========================================================
+        let currentChartDays = 7;
+
+        function switchChartRange(days, btnElement) {
+            currentChartDays = days;
+            const buttons = document.querySelectorAll('.chart-toggle-btn');
+            buttons.forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
+            renderLiveChart();
+        }
+
+              function renderLiveChart() {
+            if (!playerData.chartHistory) playerData.chartHistory = {};
+
             const svgWidth = 500;
             const svgHeight = 150;
+            const maxVal = 2000; // Шкала Y до 2000 XP
 
-            const points = history.map((val, idx) => {
-                const x = (idx / 6) * svgWidth;
-                const y = svgHeight - ((val / maxVal) * 110) - 20;
+            // Точка старта системы: 11 октября 2026
+            const startYear = 2026;
+            const startMonth = 9; // Октябрь (индекс 9)
+            const startDay = 11;
+
+            let historyData = [];
+            let labels = [];
+
+            // Строим шкалу строго ВПЕРЁД от 11.10 на выбранное число дней (7, 30 или 90)
+            for (let i = 0; i < currentChartDays; i++) {
+                const d = new Date(startYear, startMonth, startDay + i);
+
+                const y = d.getFullYear();
+                const m = String(d.getMonth() + 1).padStart(2, '0');
+                const dayStr = String(d.getDate()).padStart(2, '0');
+                const dateKey = `${y}-${m}-${dayStr}`;
+
+                // Опыт берём из базы, если дня ещё нет или опыта 0 — строго 0 XP
+                const val = playerData.chartHistory[dateKey] || 0;
+                historyData.push(val);
+
+                labels.push(`${dayStr}.${m}`);
+            }
+
+            // Координаты точек на SVG
+            // При val = 0 точка падает точно на нижнюю базовую линию
+            const bottomY = svgHeight - 15;
+            const points = historyData.map((val, idx) => {
+                const x = (idx / (currentChartDays - 1)) * svgWidth;
+                const y = val > 0 
+                    ? svgHeight - ((val / maxVal) * 115) - 15 
+                    : bottomY;
                 return { x, y };
             });
 
+            // Линия графика
             let dLine = `M ${points[0].x} ${points[0].y}`;
             for (let i = 1; i < points.length; i++) {
-                dLine += ` Q ${(points[i-1].x + points[i].x)/2} ${points[i-1].y}, ${points[i].x} ${points[i].y}`;
+                dLine += ` L ${points[i].x} ${points[i].y}`;
             }
 
+            // Заливка градиента под линией
             const dArea = `${dLine} L ${svgWidth} ${svgHeight} L 0 ${svgHeight} Z`;
 
             const lineEl = document.getElementById('chart-line');
             const areaEl = document.getElementById('chart-area');
             if (lineEl) lineEl.setAttribute('d', dLine);
             if (areaEl) areaEl.setAttribute('d', dArea);
+
+            // Отрисовка точек
+            const svgBox = document.querySelector('.chart-svg-box svg');
+            if (svgBox) {
+                svgBox.querySelectorAll('circle').forEach(c => c.remove());
+
+                points.forEach((p, idx) => {
+                    // В режимах 30 и 90 дней рисуем кружочки только для дней с опытом,
+                    // либо ключевые точки, чтобы график не превращался в кашу
+                    const hasXp = historyData[idx] > 0;
+                    const isFirst = idx === 0;
+
+                    if (currentChartDays === 7 || hasXp || isFirst) {
+                        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                        circle.setAttribute("cx", p.x);
+                        circle.setAttribute("cy", p.y);
+                        circle.setAttribute("r", hasXp ? "5" : "3");
+                        circle.setAttribute("fill", hasXp ? "#fff" : "#1a1a2e");
+                        circle.setAttribute("stroke", hasXp ? "#8a2be2" : "#00d4ff");
+                        circle.setAttribute("stroke-width", "2");
+                        svgBox.appendChild(circle);
+                    }
+                });
+            }
+
+            // Вывод подписей дат под графиком (ось X)
+            const labelsContainer = document.getElementById('chart-x-labels');
+            if (labelsContainer) {
+                labelsContainer.innerHTML = "";
+
+                // Шаг подписей: в 7 днях пишем все 7 дат, в 30/90 — равномерно 6-7 дат
+                const step = currentChartDays === 7 ? 1 : Math.ceil(currentChartDays / 6);
+
+                labels.forEach((lbl, idx) => {
+                    if (idx % step === 0 || idx === labels.length - 1) {
+                        const s = document.createElement('span');
+                        s.innerText = lbl;
+                        labelsContainer.appendChild(s);
+                    }
+                });
+            }
         }
 
 

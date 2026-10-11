@@ -1783,14 +1783,12 @@
                 </div>
 
 
-                                <!-- 3. КАРТОЧКА ВОЗДЕРЖАНИЯ И АСКЕЗЫ -->
+                                 <!-- 3. КАРТОЧКА ВОЗДЕРЖАНИЯ И АСКЕЗЫ -->
                 <div class="asceticism-card">
-                    <div class="ac-header">
-                        <div>
-                            <span class="ac-label">УРОВЕНЬ ВОЗДЕРЖАНИЯ</span>
-                            <h2 class="ac-days-title"><span id="ac-days-num">21</span> <span class="ac-days-sub">день</span></h2>
-                            <p class="ac-subtext">Сила в контроле</p>
-                        </div>
+                    <div>
+                        <span class="ac-label">УРОВЕНЬ ВОЗДЕРЖАНИЯ</span>
+                        <h2 class="ac-days-title" style="color: #fff;"><span id="ac-days-num">0</span> <span class="ac-days-sub">дней</span></h2>
+                        <p class="ac-subtext" id="ac-status-text" style="color: var(--accent-red);">Сила в контроле</p>
                     </div>
 
                     <!-- Статистика серии -->
@@ -1799,46 +1797,47 @@
                             <span class="ac-stat-icon">🔥</span>
                             <div>
                                 <span class="ac-stat-title">Текущая серия</span>
-                                <span class="ac-stat-val"><span id="ac-streak-val">21</span> день</span>
+                                <span class="ac-stat-val" style="color: #fff;"><span id="ac-streak-val">0</span> дней</span>
                             </div>
                         </div>
-                                                <div class="ac-stat-badge">
+                        <div class="ac-stat-badge">
                             <span class="ac-stat-icon">🏆</span>
                             <div>
                                 <span class="ac-stat-title">Лучший результат</span>
-                                <span class="ac-stat-val" id="ac-best-record">9 дней</span>
+                                <span class="ac-stat-val" id="ac-best-record" style="color: #fff;">9 дней</span>
                             </div>
                         </div>
-
                     </div>
 
-                    <!-- Календарь + Следующие цели -->
+                    <!-- Золотистая шкала суточного прогресса -->
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.65rem; color: #aaa; margin-bottom: 4px; font-family: 'Orbitron';">
+                            <span id="day-progress-label">ПРОГРЕСС СУТОК</span>
+                            <span id="day-progress-percent">0%</span>
+                        </div>
+                        <div style="height: 6px; background: #05050a; border-radius: 3px; border: 1px solid rgba(255,255,255,0.05); overflow: hidden;">
+                            <div id="day-progress-fill" style="height: 100%; width: 0%; background: linear-gradient(90deg, #ffaa00, #ff004c); border-radius: 3px; transition: width 1s linear;"></div>
+                        </div>
+                    </div>
+
+                    <!-- КНОПКА СРЫВА (ВИДИМАЯ И ЧЕТКАЯ) -->
+                    <div style="margin-bottom: 15px; display: flex; gap: 10px; align-items: center;">
+                        <button class="opt-btn" onclick="triggerRelapse()" style="border-color: var(--accent-red); color: var(--accent-red); background: rgba(255, 0, 76, 0.1); font-size: 0.75rem; padding: 10px; flex: 1; font-weight: bold;">⚠️ СДЕЛАТЬ СРЫВ</button>
+                    </div>
+
+                    <!-- Календарь Октября -->
                     <div class="ac-body-grid">
-                        <!-- Мини-календарь с отметками -->
                         <div class="ac-calendar-block">
                             <div class="ac-cal-header">
-                                <span>‹ Ноябрь 2026 ›</span>
+                                <span id="cal-month-title">‹ Октябрь 2026 ›</span>
                             </div>
-                            <div class="ac-cal-grid" id="ac-cal-grid">
-                                <!-- Ячейки создадутся через JS -->
-                            </div>
+                            <div class="ac-cal-grid" id="ac-cal-grid"></div>
                         </div>
-
-                        <!-- Бейджи целей (30, 60, 90 дней) -->
                         <div class="ac-goals-block">
-                            <div class="ac-goals-title">Следующие цели</div>
-                            <div class="ac-goal-item active-goal" id="goal-30">
-                                <div class="goal-badge">30</div>
-                                <span class="goal-text">30 дней</span>
-                            </div>
-                            <div class="ac-goal-item" id="goal-60">
-                                <div class="goal-badge">60</div>
-                                <span class="goal-text">60 дней</span>
-                            </div>
-                            <div class="ac-goal-item" id="goal-90">
-                                <div class="goal-badge">90</div>
-                                <span class="goal-text">90 дней</span>
-                            </div>
+                            <div class="ac-goals-title">Цели</div>
+                            <div class="ac-goal-item" id="goal-30"><div class="goal-badge">30</div><span class="goal-text">30 дней</span></div>
+                            <div class="ac-goal-item" id="goal-60-item"><div class="goal-badge">60</div><span class="goal-text">60 дней</span></div>
+                            <div class="ac-goal-item" id="goal-90"><div class="goal-badge">90</div><span class="goal-text">90 дней</span></div>
                         </div>
                     </div>
                 </div>
@@ -1851,12 +1850,12 @@
                         <!-- [ ROW 2: MISSION & ACHIEVEMENTS ] -->
             <div class="level-second-grid">
                 
-                <!-- 1. МИССИЯ ДНЯ -->
+                               <!-- 1. МИССИЯ ДНЯ (ДИНАМИЧЕСКАЯ НА КАЖДЫЙ ДЕНЬ) -->
                 <div class="daily-mission-card">
                     <div class="dm-header">
                         <div class="dm-title-group">
                             <span class="dm-icon">🎯</span>
-                            <span class="dm-title">МИССИЯ ДНЯ</span>
+                            <span class="dm-title" id="dm-day-badge">МИССИЯ ПОНЕДЕЛЬНИКА</span>
                         </div>
                         <span class="dm-reward">+50 XP</span>
                     </div>
@@ -1869,11 +1868,12 @@
                             <div class="dm-progress-outer">
                                 <div class="dm-progress-inner" id="dm-progress-bar" style="width: 0%;"></div>
                             </div>
-                            <span class="dm-progress-num" id="dm-progress-text">0 / 1</span>
+                            <span class="dm-progress-num" id="dm-progress-text">0 / 7</span>
                         </div>
                         <button class="dm-action-btn" id="dm-btn" onclick="completeDailyMission()">Выполнить миссию →</button>
                     </div>
                 </div>
+
 
                 <!-- 2. АЛТАРЬ ДОСТИЖЕНИЙ -->
                 <div class="achievements-card">
@@ -2088,22 +2088,34 @@
 
 
 
-    <!-- =================================================== -->
+     <!-- =================================================== -->
     <!-- 📝 ЭКРАН 3: ЗАМЕТКИ СИСТЕМЫ                        -->
     <!-- =================================================== -->
     <div id="notes-page" class="page-view">
-        <div class="notes-layout">
-            <div class="back-nav">
-                <button class="btn-back" onclick="switchPage('main-menu')">← Главное меню</button>
+        <div class="notes-layout" style="max-width: 700px; margin: 40px auto; padding: 20px;">
+            <div class="back-nav" style="margin-bottom: 20px;">
+                <button class="btn-back" onclick="switchPage('main-menu')" style="background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 8px 15px; border-radius: 6px; cursor: pointer;">← Главное меню</button>
             </div>
             
-            <h1 style="font-family: 'Orbitron'; color: var(--accent-purple); text-align: center; text-shadow: 0 0 10px rgba(138,43,226,0.3);">ДНЕВНЫЕ ОТЧЕТЫ СИСТЕМЫ</h1>
+            <h1 style="font-family: 'Orbitron'; color: var(--accent-purple); text-align: center; text-shadow: 0 0 10px rgba(138,43,226,0.3); margin-bottom: 25px;">ДНЕВНЫЕ ОТЧЕТЫ СИСТЕМЫ</h1>
             
-            <div class="note-input-area">
+            <div class="note-input-area" style="background: rgba(8, 8, 20, 0.95); border: 1px solid var(--panel-border); border-radius: 12px; padding: 25px;">
                 <h3 id="note-date-label" style="font-family: 'Orbitron'; color: #fff; margin-bottom: 15px;">ЗАПИСЬ СИСТЕМЫ: ...</h3>
-                <textarea id="daily-note-text" class="note-textarea" placeholder="Опиши события, мысли и то, почему день получил именно такую оценку..."></textarea>
+                
+                <!-- ВЫБОР ОЦЕНКИ ДНЯ (КНОПКИ НАСТРОЕНИЯ) -->
+                <p style="color: var(--text-gray); font-size: 0.85rem; margin-bottom: 10px;">ВЫБЕРИТЕ ЭНЕРГИЮ ДНЯ ДЛЯ СТАТИСТИКИ:</p>
+                <div style="display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;">
+                    <button type="button" class="mood-btn" onclick="setManualRating('Лучший день', '#8a2be2', this)" style="flex: 1; padding: 8px; border: 1px solid #8a2be2; background: rgba(138,43,226,0.1); color: #fff; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">🔥 Лучший</button>
+                    <button type="button" class="mood-btn" onclick="setManualRating('Отличный день', '#ffffff', this)" style="flex: 1; padding: 8px; border: 1px solid #fff; background: rgba(255,255,255,0.1); color: #fff; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">✨ Отличный</button>
+                    <button type="button" class="mood-btn" onclick="setManualRating('Хороший день', '#ffaa00', this)" style="flex: 1; padding: 8px; border: 1px solid #ffaa00; background: rgba(255,170,0,0.1); color: #fff; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">⚡️ Хороший</button>
+                    <button type="button" class="mood-btn" onclick="setManualRating('Плохой день', '#ff004c', this)" style="flex: 1; padding: 8px; border: 1px solid #ff004c; background: rgba(255,0,76,0.1); color: #fff; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">⚠️ Плохой</button>
+                    <button type="button" class="mood-btn" onclick="setManualRating('Ужасный день', '#111111', this)" style="flex: 1; padding: 8px; border: 1px solid #444; background: rgba(0,0,0,0.5); color: #aaa; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">💀 Ужасный</button>
+                </div>
+
+                <textarea id="daily-note-text" class="note-textarea" placeholder="Опиши события, мысли и то, почему день получил именно такую оценку..." style="width: 100%; height: 150px; background: #04040a; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 15px; color: #fff; font-family: 'Exo 2', sans-serif; resize: vertical; margin-bottom: 20px;"></textarea>
+                
                 <div style="text-align: right;">
-                    <button class="opt-btn" onclick="saveDayLog()" style="border-color: var(--accent-purple);">ЗАВЕРШИТЬ ОТЧЕТ</button>
+                    <button class="opt-btn" onclick="saveDayLog()" style="border-color: var(--accent-purple); padding: 12px 25px; border-radius: 8px;">ЗАВЕРШИТЬ ОТЧЕТ</button>
                 </div>
             </div>
         </div>
@@ -2113,70 +2125,25 @@
     <!-- 📊 ЭКРАН 4: СТАТИСТИКА ГОДОВ                       -->
     <!-- =================================================== -->
     <div id="statistics-page" class="page-view">
-        <div class="stats-layout">
-            <div class="back-nav">
-                <button class="btn-back" onclick="switchPage('main-menu')">← Главное меню</button>
+        <div class="stats-layout" style="max-width: 900px; margin: 40px auto; padding: 20px;">
+            <div class="back-nav" style="margin-bottom: 20px;">
+                <button class="btn-back" onclick="switchPage('main-menu')" style="background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 8px 15px; border-radius: 6px; cursor: pointer;">← Главное меню</button>
             </div>
 
-            <h1 class="year-header">ХРОНИКА СИСТЕМЫ: 2026</h1>
+            <h1 class="year-header" style="font-family: 'Orbitron'; color: var(--accent-blue); text-align: center; margin-bottom: 25px;">ХРОНИКА СИСТЕМЫ: 2026</h1>
             
-            <div class="months-grid" id="months-container">
+            <div class="months-grid" id="months-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
                 <!-- Месяцы генерируются автоматически -->
             </div>
         </div>
     </div>
 
-
-    <!-- =================================================== -->
-    <!-- 🎭 МОДАЛКА 1: ЭКРАН ОЦЕНКИ ДНЯ (ПОСЛЕ 20:00 МСК)     -->
-    <!-- =================================================== -->
-    <div id="assessment-overlay" class="assessment-overlay">
-        <!-- Анимационный фоновый Canvas для взлетающих светлячков -->
-        <canvas id="assessment-canvas"></canvas>
-        
-        <!-- Белые туманные облака (для "Отличного дня") -->
-        <div class="fog-container" id="fog-overlay">
-            <div class="fog-cloud" style="width: 250px; height: 150px; top: 10%; left: 5%;"></div>
-            <div class="fog-cloud" style="width: 350px; height: 200px; bottom: 10%; right: 5%; animation-delay: -5s;"></div>
-        </div>
-
-        <div class="assessment-box">
-            <h1 style="font-family: 'Orbitron'; letter-spacing: 5px; color: #fff; margin-bottom: 10px;">ОТЧЕТНЫЙ ВЕКТОР</h1>
-            <p style="color: #666; font-size: 0.95rem; margin-bottom: 30px;">СИСТЕМА ТРЕБУЕТ ОПРЕДЕЛИТЬ ЭНЕРГИЮ УШЕДШЕГО ДНЯ:</p>
-            
-            <button class="assess-option opt-best" 
-                    onmouseenter="setThemeEffect('best')" 
-                    onmouseleave="clearThemeEffect()" 
-                    onclick="selectDayRating('Лучший день', '#8a2be2')">Лучший день</button>
-            
-            <button class="assess-option opt-great" 
-                    onmouseenter="setThemeEffect('great')" 
-                    onmouseleave="clearThemeEffect()" 
-                    onclick="selectDayRating('Отличный день', '#ffffff')">Отличный день</button>
-            
-            <button class="assess-option opt-good" 
-                    onmouseenter="setThemeEffect('good')" 
-                    onmouseleave="clearThemeEffect()" 
-                    onclick="selectDayRating('Хороший день', '#ffaa00')">Хороший день</button>
-            
-            <button class="assess-option opt-bad" 
-                    onmouseenter="setThemeEffect('bad')" 
-                    onmouseleave="clearThemeEffect()" 
-                    onclick="selectDayRating('Плохой день', '#ff004c')">Плохой день</button>
-            
-            <button class="assess-option opt-awful" 
-                    onmouseenter="setThemeEffect('awful')" 
-                    onmouseleave="clearThemeEffect()" 
-                    onclick="selectDayRating('Ужасный день', '#111111')">Ужасный день</button>
-        </div>
-    </div>
-
     <!-- СИСТЕМНЫЙ ПРОСМОТРЩИК ЗАПИСИ ИЗ СТАТИСТИКИ -->
     <div id="read-note-modal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content" style="background: var(--panel-bg); border: 1px solid var(--accent-blue); padding: 30px; width: 90%; max-width: 500px; box-shadow: var(--neon-shadow); border-radius: 12px;">
             <h2 id="modal-read-date" style="font-family: 'Orbitron'; color: var(--accent-blue); margin-bottom: 10px;">ДАТА ЛОГА</h2>
             <div id="modal-read-rating" style="display: inline-block; padding: 6px 15px; border-radius: 4px; font-weight: bold; margin-bottom: 20px; font-size: 0.85rem; text-transform: uppercase;">СОСТОЯНИЕ</div>
-            <p id="modal-read-text" style="color: #ddd; text-align: left; line-height: 1.6; max-height: 250px; overflow-y: auto; background: #04040a; padding: 15px; border: 1px solid #222; font-size: 1.05rem;"></p>
+            <p id="modal-read-text" style="color: #ddd; text-align: left; line-height: 1.6; max-height: 250px; overflow-y: auto; background: #04040a; padding: 15px; border: 1px solid #222; font-size: 1.05rem; border-radius: 6px;"></p>
             <div style="margin-top: 25px; text-align: right;">
                 <button class="opt-btn" onclick="closeReadModal()">ЗАКРЫТЬ ЛОГ</button>
             </div>
@@ -2235,6 +2202,12 @@
             totalXp: 70382,                 // <-- ВОТ ОНА, ЧЕСТНАЯ ЦИФРА ДЛЯ 34 ЛВЛА!
             dailyMissionCompleted: false,
             weeklyHistory: [0, 0, 0, 0, 0, 0, 0],
+                        asceticismDays: 0,              // Начинаем честно с 0
+            personalRecord: 9,              
+            lastRelapseDate: "",            // Дата последнего срыва (строка YYYY-MM-DD)
+            isLockedUntilMidnight: false,   // Заблокирован ли набор дней до завтра
+            relapseLockTimestamp: 0,        // Точное время срыва
+
 
             branches: {
                 int: { name: "Интеллект и Архитектура", icon: "🧠", color: "#00d4ff" },
@@ -2288,11 +2261,15 @@
         // Локальное кэширование дневных логов для быстрого рендеринга статистики
         let loadedLogs = {};
 
-               // ПОДКЛЮЧЕНИЕ К FIREBASE С ОБХОДОМ СТАРЫХ КЭШЕЙ
+                // ПОДКЛЮЧЕНИЕ К FIREBASE С ФОРСИРОВАННЫМ ОБНУЛЕНИЕМ (V6)
         profileDocRef.onSnapshot((doc) => {
             if (doc.exists) {
                 const cloudData = doc.data();
-                if (!cloudData.isSystemV5) {
+                
+                // Если в базе нет метки V6 — значит там старый мусор. Обнуляем!
+                if (!cloudData.isSystemV6) {
+                    console.log("🚀 СИСТЕМА: Обнаружена старая версия данных. Провожу калибровку под 34 LVL...");
+                    
                     playerData.level = 34;
                     playerData.xp = 0;
                     playerData.nextLevelXp = 8450;
@@ -2300,17 +2277,25 @@
                     playerData.personalRecord = 9;
                     playerData.weeklyXp = 0;
                     playerData.completedMissionsCount = 0;
-                    playerData.isSystemV5 = true;
+                    playerData.totalXp = 70382; // Твоя честная цифра
+                    playerData.isSystemV6 = true; // Ставим новую метку
+                    
+                    // Записываем честные данные в облако
                     profileDocRef.set(playerData);
                 } else {
+                    // Если V6 уже есть — просто синхронизируем
                     playerData = { ...playerData, ...cloudData };
                 }
                 updateMainUI();
             } else {
-                playerData.isSystemV5 = true;
+                // Если документа вообще нет
+                playerData.isSystemV6 = true;
                 profileDocRef.set(playerData);
             }
+        }, (error) => {
+            console.error("Firebase Error:", error);
         });
+
 
                function updateMainUI() {
             // 1. Авто-рекорд: если текущие дни стали больше рекорда — рекорд растет
@@ -2333,13 +2318,14 @@
                 if (percentText) percentText.innerText = percent.toFixed(1) + "%";
             }
 
-                        // Обновляем Общий опыт по НОВОМУ ID
+                       // Обновляем Общий опыт
             const totalXpEl = document.getElementById('unique-total-xp');
             if (totalXpEl) {
-                // Если в базе пусто, ставим 70382, если есть опыт — пишем реальную цифру
-                const displayTotal = playerData.totalXp || 70382;
-                totalXpEl.innerText = `${displayTotal.toLocaleString()} XP`;
+                // Берем число из playerData, которое теперь точно 70382+
+                const displayTotal = playerData.totalXp;
+                totalXpEl.innerText = `${Number(displayTotal).toLocaleString()} XP`;
             }
+
 
 
 
@@ -2494,13 +2480,25 @@
 
 
 
-        // ==========================================
-        // 📝 ЛОГИКА ДНЕВНЫХ ОТЧЕТОВ И ОЦЕНОК       
-        // ==========================================
-        let currentDayRating = "";
-        let currentDayColor = "";
+        let currentDayRating = "Хороший день"; // Дефолтное значение
+        let currentDayColor = "#ffaa00";
 
-        // Получение МСК даты (UTC+3)
+        // Ручной выбор настроения при клике в заметках
+        function setManualRating(rating, color, btnElement) {
+            currentDayRating = rating;
+            currentDayColor = color;
+
+            // Подсветка выбранной кнопки
+            document.querySelectorAll('.mood-btn').forEach(b => {
+                b.style.boxShadow = 'none';
+                b.style.opacity = '0.6';
+            });
+            btnElement.style.boxShadow = `0 0 12px ${color}`;
+            btnElement.style.opacity = '1';
+        }
+
+
+                // Получение МСК даты (UTC+3)
         function getMskDateInfo() {
             const date = new Date();
             const utc = date.getTime() + (date.getTimezoneOffset() * 60000);
@@ -2519,49 +2517,32 @@
             };
         }
 
-                function openNotesTab() {
+        // ПРЯМОЙ ОТКРЫТЬЕ ЗАМЕТОК (БЕЗ МОДАЛОК И ТАЙМЕРОВ)
+        function openNotesTab() {
             const msk = getMskDateInfo();
-            console.log("Текущее время МСК:", msk.displayDate, "Час:", msk.hours);
             
             document.getElementById('note-date-label').innerText = `ОТЧЕТ СИСТЕМЫ ЗА ${msk.displayDate}`;
             document.getElementById('daily-note-text').value = "";
 
-            // Проверяем наличие записи за сегодня в Firebase
+            // Проверяем, есть ли уже лог за сегодня в базе, чтобы подгрузить
             db.collection("daily_logs").doc(`ornit_log_${msk.dateString}`).get()
             .then((doc) => {
                 if (doc.exists) {
-                    console.log("Лог за сегодня уже есть в базе:", doc.data());
                     const data = doc.data();
-                    currentDayRating = data.rating;
-                    currentDayColor = data.color;
+                    currentDayRating = data.rating || "Хороший день";
+                    currentDayColor = data.color || "#ffaa00";
                     document.getElementById('daily-note-text').value = data.note || "";
-                    switchPage('notes-page');
-                } else {
-                    console.log("Лога за сегодня нет. Открываем оценку дня!");
-                    
-                    // ⚡️ ПОКАЗЫВАЕМ ОЦЕНКУ ВСЕГДА (ДЛЯ ТЕСТА СВЯЗИ С БАЗОЙ)
-                    document.getElementById('assessment-overlay').style.display = 'flex';
-                    initParticleCanvas();
                 }
+                // Сразу открываем вкладку заметок без всяких окон оценки!
+                switchPage('notes-page');
             })
             .catch(err => {
-                console.error("ОШИБКА FIREBASE ПРИ ЧТЕНИИ ЛОГА:", err);
-                alert("Ошибка связи с базой данных Firebase! Проверь Rules в консоли. Подробности в F12.");
+                console.error("Ошибка чтения лога: ", err);
                 switchPage('notes-page');
             });
         }
 
-
-        // Выбрали оценку в модалке
-        function selectDayRating(rating, color) {
-            currentDayRating = rating;
-            currentDayColor = color;
-            document.getElementById('assessment-overlay').style.display = 'none';
-            stopParticleCanvas();
-            switchPage('notes-page');
-        }
-
-        // Сохранение лога в базу
+        // Сохранение лога в базу (с выбранным статусом и текстом)
         function saveDayLog() {
             const msk = getMskDateInfo();
             const noteText = document.getElementById('daily-note-text').value.trim();
@@ -2584,13 +2565,8 @@
             .then(() => {
                 alert("СИСТЕМА: Запись дня успешно зафиксирована в реестр!");
                 
-                // Начисляем опыт за ежедневный отчет в профиль
-                playerData.xp += 200;
-                if (playerData.xp >= playerData.nextLevelXp) {
-                    playerData.xp = 0;
-                    playerData.level += 1;
-                }
-                profileDocRef.set(playerData);
+                // Начисляем +200 XP за отчет
+                addExpToSystem(200, "Дневной отчет");
 
                 switchPage('main-menu');
             })
@@ -2599,6 +2575,9 @@
                 alert("Сбой сохранения в базе.");
             });
         }
+
+
+       
 
 
         // ==========================================
@@ -3052,27 +3031,148 @@
 
       
 
+            // 🗓 РЕНДЕР КАЛЕНДАРЯ ОКТЯБРЯ 2026 (КРЕСТИК СТРОГО НА 11 ЧИСЛЕ)
+        function renderAsceticismCalendar() {
+            const calGrid = document.getElementById('ac-cal-grid');
+            if (!calGrid) return;
+            calGrid.innerHTML = "";
 
-                // =========================================================
-        // 🎯 МИССИИ И АЧИВКИ (БАЗОВАЯ ИНТЕРАКТИВНОСТЬ)
-        // =========================================================
+            const now = new Date();
+            const currentHours = now.getHours();
+            const currentMinutes = now.getMinutes();
+            const currentSeconds = now.getSeconds();
+            
+            // Золотистая шкала суточного прогресса
+            const totalSecondsInDay = 86400;
+            const elapsedSeconds = (currentHours * 3600) + (currentMinutes * 60) + currentSeconds;
+            const dayPercent = Math.min((elapsedSeconds / totalSecondsInDay) * 100, 100);
 
-        // Выполнение ежедневной миссии
+            const fillEl = document.getElementById('day-progress-fill');
+            const percentEl = document.getElementById('day-progress-percent');
+            if (fillEl) fillEl.style.width = dayPercent + "%";
+            if (percentEl) percentEl.innerText = dayPercent.toFixed(1) + "%";
+
+            const msk = getMskDateInfo(); // YYYY-MM-DD
+            if (playerData.lastRelapseDate === msk.dateString) {
+                playerData.isLockedUntilMidnight = true;
+                playerData.asceticismDays = 0;
+            } else {
+                if (playerData.isLockedUntilMidnight && playerData.lastRelapseDate !== msk.dateString) {
+                    playerData.isLockedUntilMidnight = false;
+                }
+            }
+
+            const acDays = document.getElementById('ac-days-num');
+            const acStreak = document.getElementById('ac-streak-val');
+            const statusText = document.getElementById('ac-status-text');
+
+            const currentDaysVal = playerData.asceticismDays !== undefined ? playerData.asceticismDays : 0;
+
+            if (playerData.isLockedUntilMidnight) {
+                if (acDays) acDays.innerText = 0;
+                if (acStreak) acStreak.innerText = 0;
+                if (statusText) statusText.innerText = "⚠️ СРЫВ: ОЖИДАНИЕ ПОЛНОЧИ (00:00)";
+                if (fillEl) fillEl.style.background = "#ff004c";
+            } else {
+                if (acDays) acDays.innerText = currentDaysVal;
+                if (acStreak) acStreak.innerText = currentDaysVal;
+                if (statusText) statusText.innerText = "Сила в контроле";
+                if (fillEl) fillEl.style.background = "linear-gradient(90deg, #ffaa00, #ff004c)";
+            }
+
+            // Рендер календаря ОКТЯБРЯ (31 день, сегодня 11-е)
+            const daysInOctober = 31;
+            const todayDateNum = 11; // Сегодня 11 октября
+
+            for (let i = 1; i <= daysInOctober; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'ac-cal-cell';
+                
+                // Если был срыв сегодня (на 11 числе ставим красный крестик)
+                if (i === todayDateNum && playerData.isLockedUntilMidnight) {
+                    cell.style.borderColor = '#ff004c';
+                    cell.style.color = '#ff004c';
+                    cell.style.background = 'rgba(255, 0, 76, 0.15)';
+                    cell.innerText = '✕';
+                } else if (i < todayDateNum && !playerData.isLockedUntilMidnight) {
+                    // Прошедшие дни до сегодняшнего (если держался)
+                    cell.className = 'ac-cal-cell checked';
+                    cell.innerText = '✓';
+                } else {
+                    cell.innerText = i;
+                }
+
+                // Неоновая рамка на сегодняшнем 11 числе (если нет срыва)
+                if (i === todayDateNum && !playerData.isLockedUntilMidnight) {
+                    cell.style.border = '2px solid var(--accent-blue)';
+                    cell.style.boxShadow = '0 0 8px rgba(0, 212, 255, 0.6)';
+                }
+
+                calGrid.appendChild(cell);
+            }
+
+            // Цели аскезы
+            const days = currentDaysVal;
+            const g30 = document.getElementById('goal-30');
+            const g60 = document.getElementById('goal-60-item');
+            const g90 = document.getElementById('goal-90');
+            if (g30) g30.classList.toggle('active-goal', days >= 30);
+            if (g60) g60.classList.toggle('active-goal', days >= 60);
+            if (g90) g90.classList.toggle('active-goal', days >= 90);
+
+            if (days > (playerData.personalRecord || 9)) {
+                playerData.personalRecord = days;
+            }
+            const acBest = document.getElementById('ac-best-record');
+            const wsRecord = document.getElementById('ws-record-days');
+            if (acBest) acBest.innerText = `${playerData.personalRecord || 9} дней`;
+            if (wsRecord) wsRecord.innerText = `${playerData.personalRecord || 9} дней`;
+
+            updateWeeklyMissionsUI();
+        }
+
+        // ПУЛ ИЗ 7 РЕАЛЬНЫХ МИССИЙ НА КАЖДЫЙ ДЕНЬ НЕДЕЛИ
+        const weeklyMissionsPool = [
+            { day: 1, name: "Понедельник: Архитектура Разума", desc: "Написать минимум 500 строк чистого кода или изучить новую концепцию." },
+            { day: 2, name: "Понедельник: День Железа", desc: "Провести тяжелую тренировку на кисти/пронатор или базовую нагрузку." },
+            { day: 3, name: "Среда: Инспекция Кода", desc: "Полный рефакторинг старых сервисов, устранение архитектурных багов." },
+            { day: 4, name: "Четверг: Цифровой Суверенитет", desc: "Полный фокус на задачах монетизации и ресурсах. Никакой прокрастинации." },
+            { day: 5, name: "Пятница: Искусство Монарха", desc: "Освоение сложной партии на гитаре или тренировка речитатива." },
+            { day: 6, name: "Суббота: Воля и Стоицизм", desc: "Пройти 15 000 шагов по городу или выдержать жесткую аскезу без триггеров." },
+            { day: 0, name: "Воскресенье: Итоги Недели", desc: "Анализ достижений системы, планирование прорыва на следующую неделю." }
+        ];
+
+        function updateWeeklyMissionsUI() {
+            const now = new Date();
+            const dayOfWeek = now.getDay(); // 0 - ВС, 1 - ПН, ... 6 - СБ
+            const mission = weeklyMissionsPool.find(m => m.day === dayOfWeek) || weeklyMissionsPool[0];
+
+            const badge = document.getElementById('dm-day-badge');
+            const title = document.getElementById('dm-quest-title');
+            const desc = document.getElementById('dm-quest-desc');
+
+            if (badge) badge.innerText = mission.name.split(':')[0].toUpperCase();
+            if (title) title.innerText = mission.name.split(':')[1] || mission.name;
+            if (desc) desc.innerText = mission.desc;
+
+            // Обновляем общий счетчик миссий недели (0 / 7)
+            const wsMissions = document.getElementById('ws-missions-count');
+            const completedCount = playerData.completedMissionsCount || 0;
+            if (wsMissions) wsMissions.innerText = `${completedCount} / 7`;
+
+            const wsMissionsBadge = document.getElementById('ws-missions-badge');
+            if (wsMissionsBadge) wsMissionsBadge.innerText = `+${completedCount} ↑`;
+        }
+
+        // ВЫПОЛНЕНИЕ МИССИИ ДНЯ С ИНКРЕМЕНТОМ В 0/7
         function completeDailyMission() {
             if (playerData.dailyMissionCompleted) return;
 
             playerData.dailyMissionCompleted = true;
-            playerData.xp += 50; // Начисляем +50 XP
+            playerData.completedMissionsCount = Math.min((playerData.completedMissionsCount || 0) + 1, 7);
 
-            // Проверка Level Up
-            if (playerData.xp >= playerData.nextLevelXp) {
-                playerData.xp -= playerData.nextLevelXp;
-                playerData.level += 1;
-                playerData.nextLevelXp = Math.floor(playerData.nextLevelXp * 1.25);
-                alert(`🔥 LEVEL UP! Вы поднялись до LV. ${playerData.level}!`);
-            }
+            addExpToSystem(50, "Миссия дня");
 
-            // Обновляем кнопку миссии
             const btn = document.getElementById('dm-btn');
             if (btn) {
                 btn.innerText = "✓ Выполнено";
@@ -3080,14 +3180,13 @@
             }
 
             document.getElementById('dm-progress-bar').style.width = "100%";
-            document.getElementById('dm-progress-text').innerText = "1 / 1";
+            document.getElementById('dm-progress-text').innerText = `${playerData.completedMissionsCount} / 7`;
 
             updateMainUI();
 
-            // Сохраняем в Firebase
-            profileDocRef.set(playerData, { merge: true })
-            .then(() => console.log("Миссия зафиксирована в базе!"))
-            .catch(err => console.error("Ошибка миссии:", err));
+            if (typeof profileDocRef !== 'undefined') {
+                profileDocRef.set(playerData, { merge: true });
+            }
         }
 
         // Обновление состояния достижений
@@ -3135,41 +3234,32 @@
         };
 
 
-                // РЕНДЕР КАЛЕНДАРЯ АСКЕЗЫ (СЕГОДНЯ ДЕНЬ 1)
-        function renderAsceticismCalendar() {
-            const calGrid = document.getElementById('ac-cal-grid');
-            if (!calGrid) return;
-            calGrid.innerHTML = "";
+           
 
-            const daysStreak = playerData.asceticismDays !== undefined ? playerData.asceticismDays : 1;
-            
-            // Числа в карточке
-            const acDays = document.getElementById('ac-days-num');
-            const acStreak = document.getElementById('ac-streak-val');
-            if (acDays) acDays.innerText = daysStreak;
-            if (acStreak) acStreak.innerText = daysStreak;
+        // КНОПКА СРЫВА
+        function triggerRelapse() {
+            if (confirm("ВНИМАНИЕ, МОНАРХ! Зафиксировать срыв? Счетчик обнулится, и новый набор дней начнется только завтра после 00:00.")) {
+                const msk = getMskDateInfo();
+                playerData.asceticismDays = 0;
+                playerData.lastRelapseDate = msk.dateString;
+                playerData.isLockedUntilMidnight = true;
 
-            // Генерируем дни месяца: только 1-й день отмечен галочкой!
-            for (let i = 1; i <= 28; i++) {
-                const cell = document.createElement('div');
-                if (i <= daysStreak) {
-                    cell.className = 'ac-cal-cell checked';
-                    cell.innerText = '✓';
-                } else {
-                    cell.className = 'ac-cal-cell';
-                    cell.innerText = i;
+                updateMainUI();
+
+                if (typeof profileDocRef !== 'undefined') {
+                    profileDocRef.set(playerData, { merge: true });
                 }
-                calGrid.appendChild(cell);
+                alert("СИСТЕМА: Срыв зафиксирован. Воля закаляется в падениях. Ожидание нового рассвета...");
             }
-
-            // Подсветка целей 30 / 60 / 90
-            const g30 = document.getElementById('goal-30');
-            const g60 = document.getElementById('goal-60');
-            const g90 = document.getElementById('goal-90');
-            if (g30) g30.classList.toggle('active-goal', daysStreak >= 30);
-            if (g60) g60.classList.toggle('active-goal', daysStreak >= 60);
-            if (g90) g90.classList.toggle('active-goal', daysStreak >= 90);
         }
+
+        // Запускаем тиканье таймера суточного прогресса каждую секунду
+        setInterval(() => {
+            const calGrid = document.getElementById('ac-cal-grid');
+            if (calGrid) {
+                renderAsceticismCalendar();
+            }
+        }, 1000);
 
         // ОТКРЫТИЕ КОНСОЛИ НАВЫКА С КВЕСТАМИ СООТВЕТСТВУЮЩЕЙ ВЕТКИ
         function openSkillModal(skillKey) {

@@ -1,4 +1,4 @@
-\<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -3212,19 +3212,22 @@
             document.getElementById('skill-modal').style.display = 'flex';
         }
 
-               function addExpToActiveSkill(amount, questTitle) {
+                  function addExpToActiveSkill(amount, questTitle) {
             if (!currentActiveSkillKey || !playerData.skills) return;
 
             const s = playerData.skills[currentActiveSkillKey];
 
             // 1. Опыт в навык
             s.xp += amount;
-        
-            playerData.xp += amount;
-            // Внутри функции addExpToActiveSkill:
-playerData.totalXp = (playerData.totalXp || 70382) + amount;
 
+            // 2. Опыт в основной уровень, общий опыт и опыт за неделю
+            playerData.xp += amount;
+            playerData.totalXp = (playerData.totalXp || 70382) + amount;
             playerData.weeklyXp = (playerData.weeklyXp || 0) + amount;
+
+            // 3. Запись сегодняшней активности в график (7-й день)
+            if (!playerData.weeklyHistory) playerData.weeklyHistory = [0, 0, 0, 0, 0, 0, 0];
+            playerData.weeklyHistory[6] = (playerData.weeklyHistory[6] || 0) + amount;
 
             // Проверка Level Up Навыка
             if (s.xp >= s.nextLevelXp) {
@@ -3249,6 +3252,7 @@ playerData.totalXp = (playerData.totalXp || 70382) + amount;
                 profileDocRef.set(playerData, { merge: true });
             }
         }
+
 
 
 

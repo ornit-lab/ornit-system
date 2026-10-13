@@ -2974,6 +2974,197 @@
 
 
 
+@keyframes modalPop {
+    0% { transform: scale(0.7); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+
+
+/* МОБИЛЬНАЯ АДАПТАЦИЯ — добавить в конец <style> */
+@media (max-width: 700px) {
+    html,
+    body {
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    .system-container {
+        width: 100%;
+        max-width: 100%;
+        padding: 12px;
+    }
+
+    /* Шапка не должна распирать экран */
+    .hud-header {
+        gap: 10px;
+        flex-wrap: wrap;
+        padding: 10px 0;
+        margin-bottom: 16px;
+    }
+
+    .hud-left,
+    .hud-right {
+        gap: 8px;
+        min-width: 0;
+    }
+
+    .hud-title {
+        font-size: 0.85rem;
+        letter-spacing: 1px;
+    }
+
+    .hud-meta,
+    .hud-divider,
+    .hud-status {
+        display: none !important;
+    }
+
+    .hud-user-small {
+        padding: 4px 8px;
+        gap: 6px;
+    }
+
+    /* Профиль и аскеза — строго друг под другом */
+    .level-main-grid,
+    .level-second-grid,
+    .level-third-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 16px;
+    }
+
+    /* Профиль: арт сверху, информация ниже — без сжатия */
+    .evolution-profile {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 0 !important;
+        min-height: 0 !important;
+        padding: 12px !important;
+    }
+
+    .evolution-art-wrap {
+        flex: none !important;
+        width: 100% !important;
+        height: clamp(220px, 68vw, 340px) !important;
+    }
+
+    .evolution-info {
+        flex: none !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        padding: 16px 4px 4px !important;
+        gap: 14px !important;
+    }
+
+    .evolution-name {
+        font-size: 1.15rem !important;
+    }
+
+    .evolution-level-number {
+        font-size: 2.4rem !important;
+    }
+
+    .evolution-xp-heading {
+        font-size: 0.58rem !important;
+    }
+
+    /* Карточка аскезы и календарь не выходят за экран */
+    .asceticism-card {
+        width: 100%;
+        min-width: 0;
+        padding: 14px !important;
+    }
+
+    .asceticism-layout {
+        grid-template-columns: 16px minmax(0, 1fr) !important;
+        gap: 10px !important;
+    }
+
+    .ac-stats-row {
+        gap: 8px !important;
+    }
+
+    .ac-stat-badge {
+        min-width: 0;
+        padding: 8px 6px !important;
+        gap: 6px !important;
+    }
+
+    .ac-stat-title {
+        font-size: 0.58rem !important;
+    }
+
+    .ac-stat-val {
+        font-size: 0.7rem !important;
+    }
+
+    .ac-body-grid {
+        grid-template-columns: minmax(0, 1fr) 92px !important;
+        gap: 8px !important;
+    }
+
+    .ac-cal-grid {
+        grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+        gap: 3px !important;
+    }
+
+    .ac-cal-cell {
+        min-width: 0;
+        font-size: 0.58rem !important;
+    }
+
+    #next-goal-card {
+        padding: 10px 5px !important;
+    }
+
+    /* Список миссий: текст и кнопки помещаются в ширину */
+    .daily-mission-card,
+    .achievements-card,
+    .chart-card,
+    .week-stats-card,
+    .manifesto-card {
+        width: 100%;
+        min-width: 0;
+        padding: 14px !important;
+    }
+
+    #missions-list-container > div {
+        flex-wrap: wrap;
+        gap: 8px !important;
+        padding: 10px !important;
+    }
+
+    #missions-list-container > div > div {
+        min-width: 0;
+        flex-wrap: wrap;
+    }
+
+    #missions-list-container button {
+        padding: 7px 9px !important;
+        font-size: 0.62rem !important;
+    }
+
+    .ach-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .chart-header {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .chart-toggles {
+        max-width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .liquid-nav-container {
+        width: min(320px, calc(100vw - 32px));
+        bottom: 12px;
+    }
+}
 
     </style>
 
@@ -4732,23 +4923,36 @@
         };
 
 
-        // 🔄 АВТО-ПЕРЕХОД В ПОЛНОЧЬ: ЗАСЧИТЫВАЕТ ВЧЕРАШНИЙ ДЕНЬ КАК ПОЛНЫЙ
+              // 🔄 АВТО-ПЕРЕХОД ПОСЛЕ 00:00 + НАЧИСЛЕНИЕ +50 XP + ВСПЛЫВАЮЩАЯ ПЛАШКА
         function checkAsceticismDayTransition() {
             const msk = getMskDateInfo();
             if (!playerData.asceticismHistory) playerData.asceticismHistory = {};
+            if (!playerData.rewardedAsceticismDates) playerData.rewardedAsceticismDates = [];
 
+            // Если дата в системе ещё не была инициализирована
             if (!playerData.lastCheckedDate) {
                 playerData.lastCheckedDate = msk.dateString;
                 return;
             }
 
-            // Если наступили новые сутки (пробило 00:00)
+            // Наступили новые сутки (после 00:00)
             if (playerData.lastCheckedDate !== msk.dateString) {
                 const yesterdayKey = playerData.lastCheckedDate;
 
-                // Если во вчерашнем дне не было срыва — вчерашний день закрыт! Ставим галочку!
+                // Если вчера не было срыва — день закрыт успешно!
                 if (playerData.asceticismHistory[yesterdayKey] !== 'relapse') {
                     playerData.asceticismHistory[yesterdayKey] = 'checked';
+
+                    // Проверяем: начисляли ли уже 50 XP за этот день
+                    if (!playerData.rewardedAsceticismDates.includes(yesterdayKey)) {
+                        playerData.rewardedAsceticismDates.push(yesterdayKey);
+                        
+                        // Честно начисляем +50 XP в систему, уровень и график
+                        addExpToSystem(50, "+1 День аскезы");
+
+                        // Показываем плашку перед лицом!
+                        showAsceticismRewardModal();
+                    }
                 }
 
                 playerData.isLockedUntilMidnight = false;
@@ -4757,10 +4961,26 @@
                 updateMainUI();
 
                 if (typeof profileDocRef !== 'undefined') {
-                    profileDocRef.set(playerData, {merge: true});
+                    profileDocRef.set(playerData, { merge: true });
                 }
             }
         }
+
+        // Показ модалки
+        function showAsceticismRewardModal() {
+            const modal = document.getElementById('asceticism-reward-modal');
+            const daysCount = playerData.asceticismDays || 1;
+            const streakLabel = document.getElementById('reward-modal-streak');
+            if (streakLabel) streakLabel.innerText = `+1 ДЕНЬ ВОЗДЕРЖАНИЯ (${daysCount} ДН)`;
+            if (modal) modal.style.display = 'flex';
+        }
+
+        // Закрытие модалки
+        function closeAsceticismRewardModal() {
+            const modal = document.getElementById('asceticism-reward-modal');
+            if (modal) modal.style.display = 'none';
+        }
+
 
         // Запускаем проверку перехода суток раз в минуту
         setInterval(checkAsceticismDayTransition, 60000);
@@ -5431,6 +5651,47 @@
         </div>
     </div>
 
+
+
+        <!-- 🏆 СИСТЕМНОЕ ОКНО НАГРАДЫ ЗА АСКЕЗУ ПОСЛЕ 00:00 -->
+    <div id="asceticism-reward-modal" style="
+        display: none; position: fixed; inset: 0; background: rgba(3, 3, 10, 0.88);
+        backdrop-filter: blur(10px); z-index: 99999; align-items: center; justify-content: center;
+    ">
+        <div style="
+            background: linear-gradient(145deg, rgba(15, 15, 30, 0.98), rgba(8, 8, 18, 0.98));
+            border: 2px solid #ffd700; border-radius: 16px; padding: 35px 30px; max-width: 440px; width: 90%;
+            text-align: center; box-shadow: 0 0 35px rgba(255, 215, 0, 0.4), inset 0 0 20px rgba(255, 215, 0, 0.1);
+            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        ">
+            <div style="font-size: 3rem; margin-bottom: 10px; filter: drop-shadow(0 0 12px #ffd700);">🔥</div>
+            <div style="font-family: 'Orbitron'; font-size: 0.8rem; letter-spacing: 3px; color: #ffd700; text-transform: uppercase;">СИСТЕМА НАГРАДЫ</div>
+            <h2 id="reward-modal-streak" style="font-family: 'Orbitron'; color: #fff; font-size: 1.5rem; margin: 12px 0 6px 0; text-shadow: 0 0 10px rgba(255,255,255,0.4);">
+                +1 ДЕНЬ ВОЗДЕРЖАНИЯ
+            </h2>
+            <p style="color: #a0a5b5; font-size: 0.85rem; margin-bottom: 22px;">Воля укреплена. Сутки завершены без срывов.</p>
+
+            <div style="
+                display: inline-block; background: rgba(255, 215, 0, 0.12); border: 1px solid #ffd700;
+                padding: 10px 22px; border-radius: 8px; font-family: 'Orbitron'; font-size: 1.1rem;
+                font-weight: bold; color: #ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+                margin-bottom: 25px;
+            ">
+                +50 XP НАЧИСЛЕНО
+            </div>
+
+            <div>
+                <button onclick="closeAsceticismRewardModal()" style="
+                    background: linear-gradient(90deg, #ffd700, #ff9100); color: #000;
+                    border: none; padding: 12px 35px; border-radius: 8px; font-family: 'Orbitron';
+                    font-weight: bold; font-size: 0.85rem; cursor: pointer; letter-spacing: 1px;
+                    box-shadow: 0 0 18px rgba(255, 215, 0, 0.5); transition: transform 0.2s;
+                " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    ПРИНЯТЬ СИЛУ
+                </button>
+            </div>
+        </div>
+    </div>
 
 </body>
 

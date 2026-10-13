@@ -2622,7 +2622,7 @@
             });
         }
 
-        // Сохранение лога в базу (с выбранным статусом и текстом)
+                // Сохранение лога в базу (+50 XP строго 1 раз в день)
         function saveDayLog() {
             const msk = getMskDateInfo();
             const noteText = document.getElementById('daily-note-text').value.trim();
@@ -2641,12 +2641,23 @@
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             };
 
+            // Проверяем: получал ли игрок награду за отчет за эту дату
+            if (!playerData.rewardedNotesDates) {
+                playerData.rewardedNotesDates = [];
+            }
+            const alreadyRewarded = playerData.rewardedNotesDates.includes(msk.dateString);
+
             db.collection("daily_logs").doc(`ornit_log_${msk.dateString}`).set(payload)
             .then(() => {
                 alert("СИСТЕМА: Запись дня успешно зафиксирована в реестр!");
-                
-                // Начисляем +200 XP за отчет
-                addExpToSystem(200, "Дневной отчет");
+
+                // Начисляем ровно +50 XP только ПЕРВЫЙ раз за день!
+                if (!alreadyRewarded) {
+                    playerData.rewardedNotesDates.push(msk.dateString);
+                    addExpToSystem(50, "Дневной отчет");
+                } else {
+                    console.log("ℹ️ Заметка отредактирована. Повторные +50 XP не начисляются.");
+                }
 
                 switchPage('main-menu');
             })
@@ -2655,6 +2666,7 @@
                 alert("Сбой сохранения в базе.");
             });
         }
+
 
 
        

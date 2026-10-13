@@ -1683,6 +1683,153 @@
 
 
 
+/* =========================================================
+   🏅 СИСТЕМА 10 РАНГОВ АСКЕЗЫ: 3D ВЫЛЕТ ЗА РАМКИ
+   ========================================================= */
+.achievements-card {
+    overflow: visible !important;
+}
+
+.ach-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(105px, 1fr)) !important;
+    gap: 24px 12px !important;
+    padding-top: 20px !important;
+    overflow: visible !important;
+}
+
+.ach-badge {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    background: rgba(10, 10, 22, 0.75) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 12px !important;
+    padding: 24px 6px 10px 6px !important;
+    min-height: 100px !important;
+    overflow: visible !important;
+    transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+.ach-badge:hover {
+    transform: translateY(-4px) !important;
+}
+
+/* Вылетающая за верхний край 3D-сфера */
+.ach-badge .ach-hex {
+    position: absolute !important;
+    top: -18px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.4rem !important;
+    background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.25), rgba(5,5,12,0.95)) !important;
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.6) !important;
+    z-index: 5 !important;
+    transition: transform 0.3s ease !important;
+}
+
+.ach-badge:hover .ach-hex {
+    transform: translateX(-50%) scale(1.15) !important;
+}
+
+.ach-badge .ach-name {
+    font-family: 'Orbitron', sans-serif !important;
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    color: #fff !important;
+    text-align: center !important;
+    margin-top: 6px !important;
+    letter-spacing: 0.5px !important;
+}
+
+.ach-badge .ach-sub {
+    font-size: 0.62rem !important;
+    color: #888 !important;
+    margin-top: 2px !important;
+    font-family: 'Orbitron', sans-serif !important;
+}
+
+/* Заблокированные ранги */
+.ach-badge.locked {
+    opacity: 0.38 !important;
+    filter: grayscale(0.9) !important;
+}
+
+/* Разблокированные ранги с индивидуальным свечением в тон */
+.ach-badge.unlocked {
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+.ach-badge.unlocked.rank-bronze  { border-color: #cd7f32 !important; box-shadow: 0 0 14px rgba(205,127,50,0.35) !important; }
+.ach-badge.unlocked.rank-silver  { border-color: #e0e0e0 !important; box-shadow: 0 0 14px rgba(224,224,224,0.4) !important; }
+.ach-badge.unlocked.rank-gold    { border-color: #ffd700 !important; box-shadow: 0 0 16px rgba(255,215,0,0.45) !important; }
+.ach-badge.unlocked.rank-plat    { border-color: #00e5ff !important; box-shadow: 0 0 16px rgba(0,229,255,0.45) !important; }
+.ach-badge.unlocked.rank-ameth   { border-color: #9d4edd !important; box-shadow: 0 0 18px rgba(157,78,221,0.5) !important; }
+.ach-badge.unlocked.rank-ruby    { border-color: #ff0055 !important; box-shadow: 0 0 18px rgba(255,0,85,0.5) !important; }
+.ach-badge.unlocked.rank-sapph   { border-color: #0077b6 !important; box-shadow: 0 0 20px rgba(0,119,182,0.55) !important; }
+.ach-badge.unlocked.rank-amber   { border-color: #ff9100 !important; box-shadow: 0 0 20px rgba(255,145,0,0.55) !important; }
+.ach-badge.unlocked.rank-titan   { border-color: #b0bec5 !important; box-shadow: 0 0 22px rgba(176,190,197,0.65) !important; }
+.ach-badge.unlocked.rank-abs     { border-color: #ffffff !important; box-shadow: 0 0 25px rgba(255,255,255,0.9), 0 0 45px rgba(138,43,226,0.6) !important; }
+
+.ach-badge.unlocked.rank-bronze .ach-hex { border-color: #cd7f32 !important; box-shadow: 0 0 15px #cd7f32 !important; }
+.ach-badge.unlocked.rank-silver .ach-hex { border-color: #ffffff !important; box-shadow: 0 0 15px #e0e0e0 !important; }
+.ach-badge.unlocked.rank-gold   .ach-hex { border-color: #ffd700 !important; box-shadow: 0 0 18px #ffd700 !important; }
+.ach-badge.unlocked.rank-plat   .ach-hex { border-color: #00e5ff !important; box-shadow: 0 0 18px #00e5ff !important; }
+.ach-badge.unlocked.rank-ameth  .ach-hex { border-color: #9d4edd !important; box-shadow: 0 0 20px #9d4edd !important; }
+.ach-badge.unlocked.rank-ruby   .ach-hex { border-color: #ff0055 !important; box-shadow: 0 0 20px #ff0055 !important; }
+.ach-badge.unlocked.rank-sapph  .ach-hex { border-color: #00b4d8 !important; box-shadow: 0 0 20px #0077b6 !important; }
+.ach-badge.unlocked.rank-amber  .ach-hex { border-color: #ff9100 !important; box-shadow: 0 0 22px #ff9100 !important; }
+.ach-badge.unlocked.rank-titan  .ach-hex { border-color: #eceff1 !important; box-shadow: 0 0 24px #90a4ae !important; }
+.ach-badge.unlocked.rank-abs    .ach-hex { border-color: #fff !important; box-shadow: 0 0 28px #fff, 0 0 40px #8a2be2 !important; }
+
+
+
+.level-second-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(280px, 1fr);
+    gap: 25px;
+    align-items: start;
+}
+
+.missions-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 520px;
+    overflow-y: auto;
+    padding: 4px 8px 4px 2px;
+}
+
+.missions-list-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.missions-list-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 212, 255, 0.45);
+    border-radius: 6px;
+}
+
+@media (max-width: 900px) {
+    .level-second-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .missions-list-container {
+        max-height: 420px;
+    }
+}
+
+
     </style>
 
 
@@ -1783,7 +1930,8 @@
                             <span class="stat-icon">💠</span>
                             <div class="stat-info">
                                 <span class="stat-label">Ранг</span>
-                                <span class="stat-val">Архитектор V</span>
+<span class="stat-val" id="player-asceticism-rank">Инициация (0 дн)</span>
+
                             </div>
                         </div>
                         <div class="pc-stat-item">
@@ -1909,7 +2057,8 @@
             <div class="level-second-grid">
                 
                                     <!-- 1. СПИСОК ИЗ 7 НАСТРАИВАЕМЫХ МИССИЙ -->
-                <div class="daily-mission-card" style="grid-column: 1 / -1;">
+               <div class="daily-mission-card">
+
                     <div class="dm-header">
                         <div class="dm-title-group">
                             <span class="dm-icon">🎯</span>
@@ -1921,46 +2070,73 @@
                     <p class="dm-quest-desc" style="margin-bottom: 15px;">Выполняйте ежедневные задачи для получения опыта. Награду и текст можно настроить в коде.</p>
 
                     <!-- СЮДА ДИНАМИЧЕСКИ ВСТАВЛЯЮТСЯ ВСЕ 7 МИССИЙ -->
-                    <div id="missions-list-container" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;"></div>
+                    <div id="missions-list-container" class="missions-list-container"></div>
+
                 </div>
 
 
 
-                <!-- 2. АЛТАРЬ ДОСТИЖЕНИЙ -->
+                    <!-- 2. АЛТАРЬ ДОСТИЖЕНИЙ (10 РАНГОВ АСКЕЗЫ С КАСТОМНЫМИ WEBP ИКОНКАМИ) -->
                 <div class="achievements-card">
                     <div class="ach-header">
                         <span class="ach-icon">🛡️</span>
-                        <span class="ach-title">ДОСТИЖЕНИЯ СИСТЕМЫ</span>
+                        <span class="ach-title">РАНГИ ВОЗДЕРЖАНИЯ СИСТЕМЫ</span>
                     </div>
 
                     <div class="ach-grid">
-                        <div class="ach-badge locked" id="ach-7">
-                            <div class="ach-hex">🔥</div>
-                            <span class="ach-name">Инициация</span>
+                        <div class="ach-badge locked rank-bronze" id="rank-badge-3">
+                            <div class="ach-hex"><img src="bronze.webp" alt="Бронза" style="width: 32px; height: 32px; object-fit: contain;"></div>
+                            <span class="ach-name">Бронза</span>
+                            <span class="ach-sub">3 дня</span>
+                        </div>
+                        <div class="ach-badge locked rank-silver" id="rank-badge-7">
+                            <div class="ach-hex"><img src="silver.webp" alt="Серебро" style="width: 32px; height: 32px; object-fit: contain;"></div>
+                            <span class="ach-name">Серебро</span>
                             <span class="ach-sub">7 дней</span>
                         </div>
-                        <div class="ach-badge locked" id="ach-21">
-                            <div class="ach-hex">⚡️</div>
-                            <span class="ach-name">Стабилизация</span>
+                        <div class="ach-badge locked rank-gold" id="rank-badge-14">
+                            <div class="ach-hex"><img src="gold.webp" alt="Золото" style="width: 32px; height: 32px; object-fit: contain;"></div>
+                            <span class="ach-name">Золото</span>
+                            <span class="ach-sub">14 дней</span>
+                        </div>
+                        <div class="ach-badge locked rank-plat" id="rank-badge-21">
+                            <div class="ach-hex"><img src="platinum.webp" alt="Платина" style="width: 32px; height: 32px; object-fit: contain;"></div>
+                            <span class="ach-name">Платина</span>
                             <span class="ach-sub">21 день</span>
                         </div>
-                        <div class="ach-badge locked" id="ach-30">
-                            <div class="ach-hex">🛡️</div>
-                            <span class="ach-name">Несокрушимый</span>
+                        <div class="ach-badge locked rank-ameth" id="rank-badge-30">
+                            <div class="ach-hex"><img src="amethyst.webp" alt="Аметист" style="width: 32px; height: 32px; object-fit: contain;"></div>
+                            <span class="ach-name">Аметист</span>
                             <span class="ach-sub">30 дней</span>
                         </div>
-                        <div class="ach-badge locked" id="ach-90">
-                            <div class="ach-hex">👑</div>
-                            <span class="ach-name">Архитектор</span>
-                            <span class="ach-sub">90 дней</span>
+                        <div class="ach-badge locked rank-ruby" id="rank-badge-50">
+                            <div class="ach-hex"><img src="ruby.webp" alt="Рубин" style="width: 32px; height: 32px; object-fit: contain;"></div>
+                            <span class="ach-name">Рубин</span>
+                            <span class="ach-sub">50 дней</span>
                         </div>
-                        <div class="ach-badge locked" id="ach-180">
-                            <div class="ach-hex">💎</div>
-                            <span class="ach-name">Легенда</span>
+                        <div class="ach-badge locked rank-sapph" id="rank-badge-70">
+                            <div class="ach-hex"><img src="sapphire.webp" alt="Сапфир" style="width: 32px; height: 32px; object-fit: contain;"></div>
+                            <span class="ach-name">Сапфир</span>
+                            <span class="ach-sub">70 дней</span>
+                        </div>
+                        <div class="ach-badge locked rank-amber" id="rank-badge-100">
+                            <div class="ach-hex"><img src="amber.webp" alt="Янтарь" style="width: 32px; height: 32px; object-fit: contain;"></div>
+                            <span class="ach-name">Янтарь</span>
+                            <span class="ach-sub">100 дней</span>
+                        </div>
+                        <div class="ach-badge locked rank-titan" id="rank-badge-140">
+                            <div class="ach-hex"><img src="titan.webp" alt="Титан" style="width: 32px; height: 32px; object-fit: contain;"></div>
+                            <span class="ach-name">Титан</span>
+                            <span class="ach-sub">140 дней</span>
+                        </div>
+                        <div class="ach-badge locked rank-abs" id="rank-badge-180">
+                            <div class="ach-hex"><img src="absolute.webp" alt="Абсолют" style="width: 32px; height: 32px; object-fit: contain;"></div>
+                            <span class="ach-name">Абсолют</span>
                             <span class="ach-sub">180 дней</span>
                         </div>
                     </div>
                 </div>
+
 
             </div>
 
@@ -2597,14 +2773,11 @@
             };
         }
 
-        // ПРЯМОЙ ОТКРЫТЬЕ ЗАМЕТОК (БЕЗ МОДАЛОК И ТАЙМЕРОВ)
         function openNotesTab() {
             const msk = getMskDateInfo();
-            
             document.getElementById('note-date-label').innerText = `ОТЧЕТ СИСТЕМЫ ЗА ${msk.displayDate}`;
             document.getElementById('daily-note-text').value = "";
 
-            // Проверяем, есть ли уже лог за сегодня в базе, чтобы подгрузить
             db.collection("daily_logs").doc(`ornit_log_${msk.dateString}`).get()
             .then((doc) => {
                 if (doc.exists) {
@@ -2613,7 +2786,6 @@
                     currentDayColor = data.color || "#ffaa00";
                     document.getElementById('daily-note-text').value = data.note || "";
                 }
-                // Сразу открываем вкладку заметок без всяких окон оценки!
                 switchPage('notes-page');
             })
             .catch(err => {
@@ -2677,12 +2849,11 @@
         // ==========================================
         const monthNames = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
 
-        function openStatisticsTab() {
+      function openStatisticsTab() {
             switchPage('statistics-page');
             const container = document.getElementById('months-container');
-            container.innerHTML = ""; // Очистка
+            if (container) container.innerHTML = "";
 
-            // Запрашиваем все логи из базы за 2026 год
             db.collection("daily_logs")
               .where("userId", "==", "ornit_main")
               .get()
@@ -2690,15 +2861,13 @@
                   loadedLogs = {};
                   querySnapshot.forEach((doc) => {
                       const data = doc.data();
-                      loadedLogs[data.date] = data; // Кэшируем по ключу даты 'YYYY-MM-DD'
+                      loadedLogs[data.date] = data; 
                   });
-                  
-                  // После загрузки рендерим сетку календаря 2026
                   renderCalendarGrid(2026);
               })
               .catch(err => {
                   console.error("Ошибка загрузки статистики: ", err);
-                  renderCalendarGrid(2026); // Рендер даже при ошибке (с пустыми ячейками)
+                  renderCalendarGrid(2026);
               });
         }
 
@@ -3300,42 +3469,56 @@
             }
         }
 
-        // Обновление состояния достижений
-        function updateAchievementsUI() {
-            const days = playerData.asceticismDays || 0;
+                 // 🏅 ЛЕСТНИЦА ИЗ 10 РАНГОВ АСКЕЗЫ С ОПРЕДЕЛЕНИЕМ СТАТУСА «?»
+        const ranksLadder = [
+            { days: 3,   name: "Бронза",   badgeId: "rank-badge-3" },
+            { days: 7,   name: "Серебро",  badgeId: "rank-badge-7" },
+            { days: 14,  name: "Золото",   badgeId: "rank-badge-14" },
+            { days: 21,  name: "Платина",  badgeId: "rank-badge-21" },
+            { days: 30,  name: "Аметист",  badgeId: "rank-badge-30" },
+            { days: 50,  name: "Рубин",    badgeId: "rank-badge-50" },
+            { days: 70,  name: "Сапфир",   badgeId: "rank-badge-70" },
+            { days: 100, name: "Янтарь",   badgeId: "rank-badge-100" },
+            { days: 140, name: "Титан",    badgeId: "rank-badge-140" },
+            { days: 180, name: "Абсолют",  badgeId: "rank-badge-180" }
+        ];
 
-            const checkAndUnlock = (id, threshold) => {
-                const el = document.getElementById(id);
+        function updateAchievementsUI() {
+            // Считаем только РЕАЛЬНО ЗАВЕРШЕННЫЕ ПОЛНЫЕ ДНИ (галочки)
+            let completedFullDays = 0;
+            if (playerData.asceticismHistory) {
+                Object.values(playerData.asceticismHistory).forEach(status => {
+                    if (status === 'checked') completedFullDays++;
+                });
+            }
+            if (playerData.isLockedUntilMidnight) completedFullDays = 0;
+
+            let highestRank = `? (${completedFullDays} дн)`;
+
+            ranksLadder.forEach(r => {
+                const el = document.getElementById(r.badgeId);
                 if (el) {
-                    if (days >= threshold) {
+                    if (completedFullDays >= r.days) {
                         el.classList.remove('locked');
                         el.classList.add('unlocked');
+                        // Как только ранг достигнут — пишем его название + дни
+                        highestRank = `${r.name} (${completedFullDays} дн)`;
                     } else {
                         el.classList.add('locked');
                         el.classList.remove('unlocked');
                     }
                 }
-            };
+            });
 
-            checkAndUnlock('ach-7', 7);
-            checkAndUnlock('ach-21', 21);
-            checkAndUnlock('ach-30', 30);
-            checkAndUnlock('ach-90', 90);
-            checkAndUnlock('ach-180', 180);
-
-            // Проверяем состояние миссии
-            if (playerData.dailyMissionCompleted) {
-                const btn = document.getElementById('dm-btn');
-                const bar = document.getElementById('dm-progress-bar');
-                const text = document.getElementById('dm-progress-text');
-                if (btn) {
-                    btn.innerText = "✓ Выполнено";
-                    btn.classList.add('completed');
-                }
-                if (bar) bar.style.width = "100%";
-                if (text) text.innerText = "1 / 1";
+            // Выводим актуальный ранг или вопросительный знак в профиль
+            playerData.rank = highestRank;
+            const rankLabel = document.getElementById('player-asceticism-rank');
+            if (rankLabel) {
+                rankLabel.innerText = highestRank;
             }
         }
+
+
 
         // Интегрируем проверку в основной цикл обновления
         const prevUIUpdate = updateMainUI;
@@ -3345,28 +3528,25 @@
         };
 
 
-                // 🔄 АВТО-ПРОВЕРКА И ЗАСЧИТЫВАНИЕ ДНЕЙ ПРИ СМЕНЕ СУТОК
+            // 🔄 АВТО-ПЕРЕХОД В ПОЛНОЧЬ: ЗАСЧИТЫВАЕТ ВЧЕРАШНИЙ ДЕНЬ КАК ПОЛНЫЙ
         function checkAsceticismDayTransition() {
             const msk = getMskDateInfo();
             if (!playerData.asceticismHistory) playerData.asceticismHistory = {};
 
-            // Запоминаем последний проверенный системой день
             if (!playerData.lastCheckedDate) {
                 playerData.lastCheckedDate = msk.dateString;
                 return;
             }
 
-            // Если дата сменилась (наступили следующие сутки)
+            // Если наступили новые сутки (пробило 00:00)
             if (playerData.lastCheckedDate !== msk.dateString) {
                 const yesterdayKey = playerData.lastCheckedDate;
 
-                // Если вчера не было срыва — засчитываем день как чистый!
+                // Если во вчерашнем дне не было срыва — вчерашний день закрыт! Ставим галочку!
                 if (playerData.asceticismHistory[yesterdayKey] !== 'relapse') {
                     playerData.asceticismHistory[yesterdayKey] = 'checked';
-                    playerData.asceticismDays = (playerData.asceticismDays || 0) + 1;
                 }
 
-                // Снимаем блокировку срыва, так как наступил новый день
                 playerData.isLockedUntilMidnight = false;
                 playerData.lastCheckedDate = msk.dateString;
 
@@ -3533,62 +3713,133 @@
         }
 
 
-                // =========================================================
-        // 🎯 НАСТРАИВАЕМЫЙ СПИСОК ИЗ 7 МИССИЙ
         // =========================================================
-        // Текст и награду в XP ты можешь менять здесь в любой момент!
-        let dailyMissionsList = [
-            { id: 1, title: "+500 строк чистого кода / Архитектура", xp: 100, completed: false },
-            { id: 2, title: "Тяжелая тренировка кисти / Армрестлинг", xp: 150, completed: false },
-            { id: 3, title: "Рефакторинг и устранение багов системы", xp: 120, completed: false },
-            { id: 4, title: "Фокус на ресурсах и монетизации проекта", xp: 200, completed: false },
-            { id: 5, title: "Освоение сложной партии на гитаре / Вокал", xp: 100, completed: false },
-            { id: 6, title: "15 000 шагов по городу / Кардио-нагрузка", xp: 150, completed: false },
-            { id: 7, title: "Анализ недели и планирование прорыва", xp: 250, completed: false }
+        // 🎯 БОЛЬШОЙ ПУЛ МИССИЙ (ТЫ МОЖЕШЬ САМ ДОПИСАТЬ СЮДА ЛЮБЫЕ КВЕСТЫ)
+        // =========================================================
+        const masterMissionsPool = [
+            // --- E-RANK (Белый) ---
+            { id: 1, rank: "E", rankColor: "#ffffff", title: "«Ледяной Щит»: Принятие ледяного душа (закалка ЦНС)", xp: 100 },
+            { id: 2, rank: "E", rankColor: "#ffffff", title: "«Прямой Позвоночник»: Весь день держать осанку", xp: 120 },
+            { id: 3, rank: "E", rankColor: "#ffffff", title: "«Документирование Хаоса»: Написание подробных комментов", xp: 100 },
+            { id: 4, rank: "E", rankColor: "#ffffff", title: "«Ликвидация Помех»: Идеальная уборка рабочего пространства", xp: 100 },
+            { id: 5, rank: "E", rankColor: "#ffffff", title: "«Дисциплинарная Печать»: Отчет за день в Ornit System", xp: 100 },
+            { id: 6, rank: "E", rankColor: "#ffffff", title: "«Финансовый Аудит»: Подсчет трат и бюджета на неделю", xp: 100 },
+
+            // --- D-RANK (Зеленый) ---
+            { id: 7, rank: "D", rankColor: "#00ff88", title: "«Стальной Хват»: Тренировка кисти и связок до отказа", xp: 150 },
+            { id: 8, rank: "D", rankColor: "#00ff88", title: "«Пробуждение Хищника»: Взрывная тренировка после сна", xp: 150 },
+            { id: 9, rank: "D", rankColor: "#00ff88", title: "«Охотник на Багов»: Ликвидация критической ошибки", xp: 150 },
+            { id: 10, rank: "D", rankColor: "#00ff88", title: "«Ранний Подъем»: Встать до 7:00 без переноса будильника", xp: 150 },
+            { id: 11, rank: "D", rankColor: "#00ff88", title: "«Голос Демиурга»: Практика вокала или партии на гитаре", xp: 150 },
+            { id: 12, rank: "D", rankColor: "#00ff88", title: "«Творческий Генезис»: Создание концепт-арта или лора", xp: 150 },
+            { id: 13, rank: "D", rankColor: "#00ff88", title: "«Мастер-Класс»: Объяснение сложной темы кому-либо", xp: 120 },
+            { id: 14, rank: "D", rankColor: "#00ff88", title: "«Поглощение Знаний»: 10 страниц технической литературы", xp: 150 },
+            { id: 15, rank: "D", rankColor: "#00ff88", title: "«Очистка Кэша»: 20 минут медитации в тишине без гаджетов", xp: 150 },
+            { id: 16, rank: "D", rankColor: "#00ff88", title: "«Случайный Акт Силы»: Помочь кому-то без выгоды", xp: 150 },
+
+            // --- C-RANK (Синий) ---
+            { id: 17, rank: "C", rankColor: "#00d4ff", title: "«Теневой Спринт»: 15 000 шагов по городу", xp: 200 },
+            { id: 18, rank: "C", rankColor: "#00d4ff", title: "«Чистое Топливо»: День без сахара, мучного и фастфуда", xp: 180 },
+            { id: 19, rank: "C", rankColor: "#00d4ff", title: "«Интерфейс Будущего»: Редизайн UI/UX одного из разделов", xp: 180 },
+            { id: 20, rank: "C", rankColor: "#00d4ff", title: "«Ресурсный Налог»: Заработок денег через реальный труд", xp: 200 },
+            { id: 21, rank: "C", rankColor: "#00d4ff", title: "«Сон Короля»: Лечь спать ровно до 00:00", xp: 200 },
+            { id: 22, rank: "C", rankColor: "#00d4ff", title: "«Дзен-Мастер»: Прожить день без жалости и мата", xp: 200 },
+
+            // --- B-RANK (Фиолетовый) ---
+            { id: 23, rank: "B", rankColor: "#8a2be2", title: "«Архитектор Света»: Написание 500+ строк чистого кода", xp: 200 },
+            { id: 24, rank: "B", rankColor: "#8a2be2", title: "«Синхронизация Баз»: Настройка или оптимизация FireBase", xp: 200 },
+            { id: 25, rank: "B", rankColor: "#8a2be2", title: "«Радиомолчание»: День без соцсетей и проверки ТГК", xp: 300 },
+            { id: 26, rank: "B", rankColor: "#8a2be2", title: "«Стоический Покой»: Сохранить хладнокровие в ситуации бешенства", xp: 250 },
+
+            // --- A-RANK (Красный) ---
+            { id: 27, rank: "A", rankColor: "#ff004c", title: "«Вайбкодинг-Марафон»: Беспрерывный кодинг 4 часа в потоке", xp: 170 },
+            { id: 28, rank: "A", rankColor: "#ff004c", title: "«Социальный Взлом»: Сделать то, что страшно на людях", xp: 400 },
+            { id: 29, rank: "A", rankColor: "#ff004c", title: "«Взгляд в Бездну»: Час глубокого планирования жизни на год", xp: 300 },
+
+            // --- S-RANK (Золотой) ---
+            { id: 30, rank: "S", rankColor: "#ffd700", title: "«Финальный Босс Дня»: Сделать самую неприятную задачу", xp: 350 }
         ];
 
-               function renderMissionsList() {
+  let dailyMissionsList = [];
+
+        // 🎲 УМНАЯ РОТАЦИЯ: Выбирает 7 уникальных миссий на основе сегодняшней даты (МСК)
+        function generateDailyMissions() {
+            const msk = getMskDateInfo(); // Напр. "2026-10-12"
+            
+            // Если дата сменилась или список пуст — генерируем новый пул на сегодня
+            if (playerData.activeMissionsDate !== msk.dateString || !playerData.activeMissionsIds || playerData.activeMissionsIds.length === 0) {
+                playerData.activeMissionsDate = msk.dateString;
+                
+                // Используем дату как сид (seed), чтобы у всех на этот день выпадали одни и те же 7 миссий
+                let seed = 0;
+                for (let i = 0; i < msk.dateString.length; i++) {
+                    seed += msk.dateString.charCodeAt(i);
+                }
+
+                // Перемешиваем мастер-пул псевдослучайным образом по сиду дня
+                let shuffled = [...masterMissionsPool];
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    seed = (seed * 9301 + 49297) % 233280;
+                    const j = Math.floor((seed / 233280) * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+
+                // Берем ровно 7 миссий на сегодня
+                dailyMissionsList = shuffled.slice(0, 7);
+                playerData.activeMissionsIds = dailyMissionsList.map(m => m.id);
+                
+                // Сбрасываем выполненные ID при смене дня
+                playerData.completedMissionsIds = [];
+                
+                if (typeof profileDocRef !== 'undefined') {
+                    profileDocRef.set(playerData, { merge: true });
+                }
+            } else {
+                // Восстанавливаем миссии по сохраненным ID дня
+                dailyMissionsList = playerData.activeMissionsIds.map(id => {
+                    return masterMissionsPool.find(m => m.id === id);
+                }).filter(Boolean);
+            }
+        }
+
+        function renderMissionsList() {
             const container = document.getElementById('missions-list-container');
             if (!container) return;
             container.innerHTML = "";
 
-            const msk = getMskDateInfo();
-
-            // Если данные ещё грузятся из Firebase — не трогаем ничего
             if (!isFirebaseLoaded) return;
 
-            // Если дата сменилась (реально наступил новый день)
-            if (playerData.completedMissionsDate && playerData.completedMissionsDate !== msk.dateString) {
-                playerData.completedMissionsDate = msk.dateString;
-                playerData.completedMissionsIds = [];
-            }
+            // Запускаем ротацию на сегодня
+            generateDailyMissions();
 
-            // Синхронизируем состояние кнопок из массива сохраненных ID
             const completedIds = playerData.completedMissionsIds || [];
             dailyMissionsList.forEach(m => {
                 m.completed = completedIds.includes(m.id);
             });
 
-            let completedTotal = 0;
+            let completedTotal = completedIds.length;
 
-            dailyMissionsList.forEach((m, idx) => {
-                if (m.completed) completedTotal++;
-
+            dailyMissionsList.forEach((m) => {
                 const btn = document.createElement('div');
                 btn.style.cssText = `
                     display: flex; justify-content: space-between; align-items: center;
                     background: ${m.completed ? 'rgba(0, 255, 136, 0.08)' : 'rgba(255, 255, 255, 0.02)'};
                     border: 1px solid ${m.completed ? '#00ff88' : 'rgba(255, 255, 255, 0.08)'};
-                    padding: 12px 18px; border-radius: 8px; transition: 0.3s;
+                    padding: 12px 18px; border-radius: 8px; transition: 0.3s; gap: 10px;
                 `;
 
                 btn.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <span style="font-family: 'Orbitron'; font-size: 0.75rem; color: ${m.completed ? '#00ff88' : 'var(--text-gray)'};">#0${idx+1}</span>
+                    <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
+                        <span style="
+                            font-family: 'Orbitron'; font-size: 0.7rem; font-weight: bold;
+                            padding: 3px 8px; border-radius: 4px; background: ${m.rankColor}20;
+                            border: 1px solid ${m.rankColor}; color: ${m.rankColor}; min-width: 28px; text-align: center;
+                        ">${m.rank}</span>
                         <span style="font-size: 0.85rem; color: ${m.completed ? '#fff' : '#ccc'}; text-decoration: ${m.completed ? 'line-through' : 'none'};">${m.title}</span>
                     </div>
                     <div style="display: flex; align-items: center; gap: 15px;">
-                        <span style="font-family: 'Orbitron'; font-size: 0.8rem; color: var(--accent-blue);">+${m.xp} XP</span>
+                       <span style="font-family: 'Orbitron'; font-size: 0.85rem; font-weight: bold; color: #ffaa00; text-shadow: 0 0 8px rgba(255, 170, 0, 0.6);">+${m.xp} XP</span>
+
                         <button onclick="toggleMission(${m.id})" style="
                             background: ${m.completed ? 'rgba(0, 255, 136, 0.2)' : 'transparent'};
                             border: 1px solid ${m.completed ? '#00ff88' : 'var(--accent-purple)'};
@@ -3600,7 +3851,7 @@
                 container.appendChild(btn);
             });
 
-            // Обновляем счётчики миссий
+            // Обновляем счетчики (всего 7 ежедневных квестов)
             playerData.completedMissionsCount = completedTotal;
             const counterEl = document.getElementById('missions-status-counter');
             if (counterEl) counterEl.innerText = `${completedTotal} / 7 ВЫПОЛНЕНО`;
@@ -3686,8 +3937,7 @@
             renderAsceticismCalendar();
         }
 
-
-       // 🗓 ДИНАМИЧЕСКИЙ КАЛЕНДАРЬ АСКЕЗЫ С ЧЕСТНОЙ ИСТОРИЕЙ
+  // 🗓 ЧЕСТНЫЙ КАЛЕНДАРЬ АСКЕЗЫ (БЕЗ АВАНСОВ, СЧЕТ ТОЛЬКО ПОЛНЫХ ДНЕЙ)
         function renderAsceticismCalendar() {
             const calGrid = document.getElementById('ac-cal-grid');
             if (!calGrid) return;
@@ -3697,14 +3947,13 @@
                 playerData.asceticismHistory = {};
             }
 
-            // Получаем РЕАЛЬНУЮ текущую дату по МСК
             const msk = getMskDateInfo();
             const now = new Date();
             const currentRealYear = now.getFullYear();
-            const currentRealMonth = now.getMonth(); // 9 = Октябрь
-            const currentRealDay = now.getDate();   // Реальный день месяца
+            const currentRealMonth = now.getMonth();
+            const currentRealDay = now.getDate();
 
-            // Таймер прогресса суток (00:00 -> 23:59)
+            // Золотистый суточный таймер текущего дня
             const elapsedSeconds = (now.getHours() * 3600) + (now.getMinutes() * 60) + now.getSeconds();
             const dayPercent = Math.min((elapsedSeconds / 86400) * 100, 100);
 
@@ -3717,18 +3966,32 @@
             const isRelapsedToday = (playerData.lastRelapseDate === msk.dateString);
             playerData.isLockedUntilMidnight = isRelapsedToday;
 
+            // ⚡️ ЧЕСТНЫЙ СЧЕТ: считаем только РЕАЛЬНО ЗАКРЫТЫЕ дни (галочки 'checked')
+            // День, который идет прямо сейчас — в счет НЕ ИДЕТ до 00:00!
+            let completedFullDays = 0;
+            Object.values(playerData.asceticismHistory).forEach(status => {
+                if (status === 'checked') completedFullDays++;
+            });
+
+            // Если сегодня был срыв — серия сразу 0
+            if (isRelapsedToday) {
+                completedFullDays = 0;
+                playerData.asceticismDays = 0;
+            } else {
+                playerData.asceticismDays = completedFullDays;
+            }
+
             // Название месяца в шапке
             const titleEl = document.getElementById('cal-month-title');
             if (titleEl) titleEl.innerText = `${monthNamesRus[calendarViewMonth]} ${calendarViewYear}`;
 
-            // Статус и счетчики
-            const currentDaysVal = playerData.asceticismDays || 0;
+            // Вывод цифр на экран
             const acDays = document.getElementById('ac-days-num');
             const acStreak = document.getElementById('ac-streak-val');
             const statusText = document.getElementById('ac-status-text');
 
-            if (acDays) acDays.innerText = currentDaysVal;
-            if (acStreak) acStreak.innerText = currentDaysVal;
+            if (acDays) acDays.innerText = completedFullDays;
+            if (acStreak) acStreak.innerText = completedFullDays;
 
             if (isRelapsedToday) {
                 if (statusText) statusText.innerText = "⚠️ СРЫВ: ОЖИДАНИЕ ПОЛНОЧИ (00:00)";
@@ -3738,7 +4001,7 @@
                 if (fillEl) fillEl.style.background = "linear-gradient(90deg, #ffaa00, #ff004c)";
             }
 
-            // Сколько дней в просматриваемом месяце
+            // Отрисовка дней месяца
             const daysInMonth = new Date(calendarViewYear, calendarViewMonth + 1, 0).getDate();
 
             for (let d = 1; d <= daysInMonth; d++) {
@@ -3746,28 +4009,24 @@
                 cell.className = 'ac-cal-cell';
                 cell.innerText = d;
 
-                // Ключ даты для проверки истории (YYYY-MM-DD)
                 const dateKey = `${calendarViewYear}-${String(calendarViewMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-
-                // Проверяем: это реальный сегодняшний день?
                 const isToday = (calendarViewYear === currentRealYear && calendarViewMonth === currentRealMonth && d === currentRealDay);
 
-                // 1. Проверяем сохранённую историю дня
                 const dayStatus = playerData.asceticismHistory[dateKey];
 
                 if (dayStatus === 'relapse') {
-                    // День со срывом — красный крестик НАВСЕГДА
+                    // Срыв
                     cell.style.borderColor = '#ff004c';
                     cell.style.color = '#ff004c';
                     cell.style.background = 'rgba(255, 0, 76, 0.2)';
                     cell.innerText = '✕';
                 } else if (dayStatus === 'checked') {
-                    // Успешный прожитый день — зелёная/синяя галочка
+                    // Честно завершенный день
                     cell.className = 'ac-cal-cell checked';
                     cell.innerText = '✓';
                 }
 
-                // 2. Если это СЕГОДНЯ:
+                // Текущий незавершенный день
                 if (isToday) {
                     if (isRelapsedToday) {
                         cell.style.borderColor = '#ff004c';
@@ -3775,7 +4034,7 @@
                         cell.style.background = 'rgba(255, 0, 76, 0.25)';
                         cell.innerText = '✕';
                     } else {
-                        // Неоновая рамка СЕГОДНЯШНЕГО ДНЯ
+                        // Сияющая рамка текущего дня (он куется прямо сейчас, галочки на нем еще НЕТ!)
                         cell.style.border = '2px solid var(--accent-blue)';
                         cell.style.boxShadow = '0 0 10px rgba(0, 212, 255, 0.7)';
                     }
@@ -3784,17 +4043,17 @@
                 calGrid.appendChild(cell);
             }
 
-            // Цели аскезы (30, 60, 90 дней)
+            // Цели аскезы
             const g30 = document.getElementById('goal-30');
             const g60 = document.getElementById('goal-60-item');
             const g90 = document.getElementById('goal-90');
-            if (g30) g30.classList.toggle('active-goal', currentDaysVal >= 30);
-            if (g60) g60.classList.toggle('active-goal', currentDaysVal >= 60);
-            if (g90) g90.classList.toggle('active-goal', currentDaysVal >= 90);
+            if (g30) g30.classList.toggle('active-goal', completedFullDays >= 30);
+            if (g60) g60.classList.toggle('active-goal', completedFullDays >= 60);
+            if (g90) g90.classList.toggle('active-goal', completedFullDays >= 90);
 
             // Рекорд
-            if (currentDaysVal > (playerData.personalRecord || 9)) {
-                playerData.personalRecord = currentDaysVal;
+            if (completedFullDays > (playerData.personalRecord || 9)) {
+                playerData.personalRecord = completedFullDays;
             }
             const acBest = document.getElementById('ac-best-record');
             const wsRecord = document.getElementById('ws-record-days');

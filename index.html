@@ -3936,8 +3936,9 @@
             rank: "C-Ранг (Авангард)",
             level: 34,
             xp: 0,
-            asceticismDays: 196,
-            personalRecord: 196,
+            totalAsceticismDays: 196,
+totalAsceticismAwardedDates: [],
+
   
             nextLevelXp: 8450,
             completedMissionsDate: "",      // Дата, когда миссии были выполнены (например, "2026-10-11")
@@ -4010,45 +4011,115 @@
 
         let isFirebaseLoaded = false; // 🛡️ ПРЕДОХРАНИТЕЛЬ: запрещает запись в базу до полной загрузки!
 
-        // 🛡️ ЖЕЛЕЗОБЕТОННОЕ ПОДКЛЮЧЕНИЕ К FIREBASE БЕЗ РИСКА СБРОСА
-        profileDocRef.onSnapshot((doc) => {
-            if (doc.exists) {
-                const cloudData = doc.data();
+  // 🛡️ ПОДКЛЮЧЕНИЕ К FIREBASE БЕЗ СБРОСА ПРОГРЕССА
+profileDocRef.onSnapshot((doc) => {
+    if (doc.exists) {
+        const cloudData = doc.data();
 
-                // 1. Берем то, что прилетело из облака (опыт, уровень, миссии, историю)
-                // Если в облаке какого-то нового поля еще нет, подстраховываем текущим playerData
-                playerData = {...playerData, ...cloudData};
+        // Загружаем данные из Firebase поверх локальных значений
+        playerData = {
+            ...playerData,
+            ...cloudData
+        };
 
-                // Восстанавливаем опыт из истории графика, если вдруг он слетел
-                const msk = getMskDateInfo();
-                const todayHistoryXp = (playerData.chartHistory && playerData.chartHistory[msk.dateString]) || 0;
+        /*
+         * Отдельный счётчик общей аскезы.
+         * Он НЕ равен текущей серии воздержания.
+         * Если поля ещё нет, создаём его со стартом 196.
+         */
+        if (cloudData.totalAsceticismDays === undefined) {
+            playerData.totalAsceticismDays = 196;
+            playerData.totalAsceticismAwardedDates =
+                Array.isArray(playerData.totalAsceticismAwardedDates)
+                    ? playerData.totalAsceticismAwardedDates
+                    : [];
 
-                // Если опыт стал меньше, чем зафиксировано в графике — восстанавливаем правду!
-                if (playerData.xp < todayHistoryXp) {
-                    playerData.xp = todayHistoryXp;
+            profileDocRef.set({
+                totalAsceticismDays: 196,
+                totalAsceticismAwardedDates:
+                    playerData.totalAsceticismAwardedDates
+            }, { merge: true });
+        } else {
+            playerData.totalAsceticismDays =
+                Number(cloudData.totalAsceticismDays) || 196;
+
+            playerData.totalAsceticismAwardedDates =
+                Array.isArray(cloudData.totalAsceticismAwardedDates)
+                    ? cloudData.totalAsceticismAwardedDates
+                    : [];
+        }
+
+        // Восстановление XP по истории графика, если он оказался меньше
+        const msk = getMskDateInfo();
+
+        const todayHistoryXp =
+            playerData.chartHistory &&
+            Number(playerData.chartHistory[msk.dateString])
+                ? Number(playerData.chartHistory[msk.dateString])
+                : 0;
+
+        if (Number(playerData.xp) < todayHistoryXp) {
+            playerData.xp = todayHistoryXp;
+        }
+
+        // Firebase полностью загрузился
+        isFirebaseLoaded = true;
+
+        // Проверяем переход суток только после загрузки данных
+        if (typeof checkAsceticismDayTransition === 'function') {
+            checkAsceticismDayTransition();
+        }
+
+        // Обновляем интерфейс
+        updateMainUI();
+
+        if (typeof renderMissionsList === 'function') {
+            renderMissionsList();
+        }
+
+        console.log(
+            "☁️ Данные синхронизированы. " +
+            "Текущий XP:",
+            playerData.xp,
+            "| Серия:",
+            playerData.asceticismDays,
+            "| Рекорд:",
+            playerData.personalRecord,
+            "| Общая аскеза:",
+            playerData.totalAsceticismDays
+        );
+
+    } else {
+        // Документа нет — создаём новый профиль
+        playerData.totalAsceticismDays =
+            Number(playerData.totalAsceticismDays) || 196;
+
+        playerData.totalAsceticismAwardedDates =
+            Array.isArray(playerData.totalAsceticismAwardedDates)
+                ? playerData.totalAsceticismAwardedDates
+                : [];
+
+        profileDocRef.set(playerData, { merge: true })
+            .then(() => {
+                isFirebaseLoaded = true;
+
+                if (typeof checkAsceticismDayTransition === 'function') {
+                    checkAsceticismDayTransition();
                 }
 
-                isFirebaseLoaded = true;
-
-                // Перерисовываем интерфейс актуальными данными из базы
                 updateMainUI();
-                if (typeof renderMissionsList === 'function') renderMissionsList();
 
-                console.log("☁️ СИСТЕМА: Данные успешно синхронизированы из облака Firebase. Опыт:", playerData.xp);
-            } else {
-                // Если документа в базе физически нет (самый первый запуск в жизни) — создаем
-                isFirebaseLoaded = true;
-                profileDocRef.set(playerData).then(() => {
-                    console.log("⚡️ СИСТЕМА: Создан новый профиль в облаке!");
-                });
-            }
-        }, (error) => {
-            console.error("Ошибка связи с Firebase:", error);
-            // Если пропал интернет, работаем на локальных данных, но НЕ сбрасываем их в ноль!
-            isFirebaseLoaded = true;
-            updateMainUI();
-        });
+                console.log("⚡️ Создан новый профиль в Firebase.");
+            });
+    }
 
+}, (error) => {
+    console.error("Ошибка связи с Firebase:", error);
+
+    // При ошибке не затираем локальные данные
+    isFirebaseLoaded = true;
+    updateMainUI();
+});
 
 
 
@@ -4097,6 +4168,13 @@
             const topDays = document.getElementById('top-asceticism-days');
 if (topDays) {
     topDays.textContent = Number(playerData.asceticismDays) || 0;
+}
+
+
+const totalDaysEl = document.getElementById('top-asceticism-days');
+if (totalDaysEl) {
+    totalDaysEl.textContent =
+        Number(playerData.totalAsceticismDays ?? 196);
 }
 
 
@@ -5026,54 +5104,73 @@ if (topDays) {
 
 
               // 🔄 АВТО-ПЕРЕХОД ПОСЛЕ 00:00 + НАЧИСЛЕНИЕ +50 XP + ВСПЛЫВАЮЩАЯ ПЛАШКА
-        function checkAsceticismDayTransition() {
-            const msk = getMskDateInfo();
-            if (!playerData.asceticismHistory) playerData.asceticismHistory = {};
-            if (!playerData.rewardedAsceticismDates) playerData.rewardedAsceticismDates = [];
+      function checkAsceticismDayTransition() {
+    if (!isFirebaseLoaded) return;
 
-            // Если дата в системе ещё не была инициализирована
-            if (!playerData.lastCheckedDate) {
-                playerData.lastCheckedDate = msk.dateString;
-                return;
-            }
+    const today = getMskDateInfo().dateString;
 
-            // Наступили новые сутки (после 00:00)
-            if (playerData.lastCheckedDate !== msk.dateString) {
-                const yesterdayKey = playerData.lastCheckedDate;
+    if (!playerData.asceticismHistory) {
+        playerData.asceticismHistory = {};
+    }
+    if (!Array.isArray(playerData.totalAsceticismAwardedDates)) {
+        playerData.totalAsceticismAwardedDates = [];
+    }
 
-                // Если вчера не было срыва — день закрыт успешно!
-                if (playerData.asceticismHistory[yesterdayKey] !== 'relapse') {
-                    playerData.asceticismHistory[yesterdayKey] = 'checked';
+    // При первом запуске запоминаем дату, но не начисляем день авансом.
+    if (!playerData.lastCheckedDate) {
+        playerData.lastCheckedDate = today;
+        profileDocRef.set({ lastCheckedDate: today }, { merge: true });
+        return;
+    }
 
-                    playerData.asceticismDays = (Number(playerData.asceticismDays) || 0) + 1;
-playerData.personalRecord = Math.max(
-    Number(playerData.personalRecord) || 0,
-    playerData.asceticismDays
-);
+    // Дата не сменилась — ничего не начисляем.
+    if (playerData.lastCheckedDate === today) return;
 
+    const completedDate = playerData.lastCheckedDate;
+    const wasRelapse = playerData.asceticismHistory[completedDate] === 'relapse';
 
-                    // Проверяем: начисляли ли уже 50 XP за этот день
-                    if (!playerData.rewardedAsceticismDates.includes(yesterdayKey)) {
-                        playerData.rewardedAsceticismDates.push(yesterdayKey);
-                        
-                        // Честно начисляем +50 XP в систему, уровень и график
-                        addExpToSystem(50, "+1 День аскезы");
+    if (!wasRelapse) {
+        playerData.asceticismHistory[completedDate] = 'checked';
 
-                        // Показываем плашку перед лицом!
-                        showAsceticismRewardModal();
-                    }
-                }
+        // Общие дни аскезы: максимум +1 за конкретную дату.
+        if (!playerData.totalAsceticismAwardedDates.includes(completedDate)) {
+            playerData.totalAsceticismDays =
+                Number(playerData.totalAsceticismDays ?? 196) + 1;
 
-                playerData.isLockedUntilMidnight = false;
-                playerData.lastCheckedDate = msk.dateString;
-
-                updateMainUI();
-
-                if (typeof profileDocRef !== 'undefined') {
-                    profileDocRef.set(playerData, { merge: true });
-                }
-            }
+            playerData.totalAsceticismAwardedDates.push(completedDate);
         }
+
+        // Текущая серия — отдельный счётчик воздержания.
+        playerData.asceticismDays =
+            (Number(playerData.asceticismDays) || 0) + 1;
+
+        playerData.personalRecord = Math.max(
+            Number(playerData.personalRecord) || 0,
+            playerData.asceticismDays
+        );
+    } else {
+        // Срыв завершает серию, но не уменьшает общий счётчик аскезы.
+        playerData.asceticismDays = 0;
+    }
+
+    playerData.lastCheckedDate = today;
+    playerData.lastRelapseDate = wasRelapse ? playerData.lastRelapseDate : '';
+
+    profileDocRef.set({
+        totalAsceticismDays: playerData.totalAsceticismDays,
+        totalAsceticismAwardedDates: playerData.totalAsceticismAwardedDates,
+        asceticismDays: playerData.asceticismDays,
+        personalRecord: playerData.personalRecord,
+        asceticismHistory: playerData.asceticismHistory,
+        lastCheckedDate: playerData.lastCheckedDate,
+        lastRelapseDate: playerData.lastRelapseDate
+    }, { merge: true }).then(() => {
+        updateMainUI();
+    }).catch(error => {
+        console.error("Не удалось сохранить переход суток:", error);
+    });
+}
+
 
         // Показ модалки
         function showAsceticismRewardModal() {
@@ -5758,6 +5855,16 @@ playerData.personalRecord = Math.max(
             if (label) label.textContent = `СТАДИЯ ${["I", "II", "III", "IV", "V"][stage - 1]}`;
         }
 
+
+// Проверяем наступление новых суток раз в минуту
+setInterval(() => {
+    if (
+        isFirebaseLoaded &&
+        typeof checkAsceticismDayTransition === 'function'
+    ) {
+        checkAsceticismDayTransition();
+    }
+}, 60000);
 
     </script>
 

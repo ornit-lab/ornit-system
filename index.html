@@ -1915,10 +1915,19 @@
                 <div class="profile-card">
                     <div class="pc-label">PLAYER PROFILE</div>
                     <div class="pc-header">
-                        <div class="pc-name-block">
-                            <h2 class="pc-nickname">ORNIT</h2>
-                            <p class="pc-title">Высший архитектор</p>
+                                               <div class="pc-name-block" style="display: flex; align-items: center; gap: 12px;">
+                            <span id="player-rank-badge" style="
+                                font-family: 'Orbitron'; font-size: 1.1rem; font-weight: bold;
+                                padding: 4px 10px; border-radius: 6px; background: rgba(0, 212, 255, 0.15);
+                                border: 1px solid var(--accent-cyan); color: var(--accent-cyan);
+                                text-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
+                            ">C</span>
+                            <div>
+                                <h2 class="pc-nickname" style="margin: 0;">ornit</h2>
+                                <p class="pc-title" style="margin: 2px 0 0 0;">Архитектор</p>
+                            </div>
                         </div>
+
                         <div class="pc-lvl-block">
                             <span class="pc-lvl-text">LV.</span>
                             <span id="main-level-big" class="pc-lvl-val">173</span>
@@ -2612,8 +2621,35 @@
             renderLiveChart();
             // Добавь строчку внутри updateMainUI():
             checkAsceticismDayTransition();
+            updatePlayerRankBadge();
 
         }
+
+
+                // ⚔️ РАСЧЕТ БОЕВОГО РАНГА ПО ОБЩЕМУ ОПЫТУ (TOTAL XP)
+        function updatePlayerRankBadge() {
+            const total = playerData.totalXp || 70382;
+            let rankLetter = "E";
+            let rankColor = "#ffffff";
+
+            if (total >= 1350000) { rankLetter = "SS"; rankColor = "#ffd700"; } // Золотой Абсолют
+            else if (total >= 800000) { rankLetter = "S"; rankColor = "#ffaa00"; }  // Янтарный S
+            else if (total >= 350000) { rankLetter = "A"; rankColor = "#ff004c"; }  // Красный A
+            else if (total >= 120000) { rankLetter = "B"; rankColor = "#8a2be2"; }  // Фиолетовый B
+            else if (total >= 35000)  { rankLetter = "C"; rankColor = "#00d4ff"; }  // Синий C (Ты здесь!)
+            else if (total >= 10000)  { rankLetter = "D"; rankColor = "#00ff88"; }  // Зеленый D
+            else                      { rankLetter = "E"; rankColor = "#ffffff"; }  // Белый E
+
+            const badge = document.getElementById('player-rank-badge');
+            if (badge) {
+                badge.innerText = rankLetter;
+                badge.style.color = rankColor;
+                badge.style.borderColor = rankColor;
+                badge.style.backgroundColor = `${rankColor}15`;
+                badge.style.textShadow = `0 0 10px ${rankColor}`;
+            }
+        }
+
 
                   function addExpToSystem(amount, sourceTitle) {
             playerData.xp += amount;

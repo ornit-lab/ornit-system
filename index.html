@@ -2260,7 +2260,7 @@
             lastRelapseDate: "",            // Дата последнего срыва (строка YYYY-MM-DD)
             isLockedUntilMidnight: false,   // Заблокирован ли набор дней до завтра
             relapseLockTimestamp: 0,        // Точное время срыва
-
+            asceticismHistory: {},
 
             branches: {
                 int: { name: "Интеллект и Архитектура", icon: "🧠", color: "#00d4ff" },
@@ -2434,6 +2434,9 @@
             renderAsceticismCalendar();
             updateAchievementsUI();
             renderLiveChart();
+            // Добавь строчку внутри updateMainUI():
+            checkAsceticismDayTransition();
+
         }
 
                   function addExpToSystem(amount, sourceTitle) {
@@ -3330,14 +3333,57 @@
         };
 
 
+                // 🔄 АВТО-ПРОВЕРКА И ЗАСЧИТЫВАНИЕ ДНЕЙ ПРИ СМЕНЕ СУТОК
+        function checkAsceticismDayTransition() {
+            const msk = getMskDateInfo();
+            if (!playerData.asceticismHistory) playerData.asceticismHistory = {};
+
+            // Запоминаем последний проверенный системой день
+            if (!playerData.lastCheckedDate) {
+                playerData.lastCheckedDate = msk.dateString;
+                return;
+            }
+
+            // Если дата сменилась (наступили следующие сутки)
+            if (playerData.lastCheckedDate !== msk.dateString) {
+                const yesterdayKey = playerData.lastCheckedDate;
+
+                // Если вчера не было срыва — засчитываем день как чистый!
+                if (playerData.asceticismHistory[yesterdayKey] !== 'relapse') {
+                    playerData.asceticismHistory[yesterdayKey] = 'checked';
+                    playerData.asceticismDays = (playerData.asceticismDays || 0) + 1;
+                }
+
+                // Снимаем блокировку срыва, так как наступил новый день
+                playerData.isLockedUntilMidnight = false;
+                playerData.lastCheckedDate = msk.dateString;
+
+                updateMainUI();
+
+                if (typeof profileDocRef !== 'undefined') {
+                    profileDocRef.set(playerData, { merge: true });
+                }
+            }
+        }
+
+        // Запускаем проверку перехода суток раз в минуту
+        setInterval(checkAsceticismDayTransition, 60000);
+
+
            
 
-        // КНОПКА СРЫВА
+   
+        // ФИКСАЦИЯ СРЫВА С СОХРАНЕНИЕМ В ИСТОРИЮ
         function triggerRelapse() {
-            if (confirm("ВНИМАНИЕ, МОНАРХ! Зафиксировать срыв? Счетчик обнулится, и новый набор дней начнется только завтра после 00:00.")) {
+            if (confirm("ВНИМАНИЕ, МОНАРХ! Зафиксировать срыв? Счётчик обнулится, день будет помечен крестиком.")) {
                 const msk = getMskDateInfo();
-                playerData.asceticismDays = 0;
+
+                if (!playerData.asceticismHistory) playerData.asceticismHistory = {};
+
+                // Записываем крестик в историю сегодняшнего дня
+                playerData.asceticismHistory[msk.dateString] = 'relapse';
                 playerData.lastRelapseDate = msk.dateString;
+                playerData.asceticismDays = 0;
                 playerData.isLockedUntilMidnight = true;
 
                 updateMainUI();
@@ -3345,9 +3391,10 @@
                 if (typeof profileDocRef !== 'undefined') {
                     profileDocRef.set(playerData, { merge: true });
                 }
-                alert("СИСТЕМА: Срыв зафиксирован. Воля закаляется в падениях. Ожидание нового рассвета...");
+                alert("СИСТЕМА: Срыв зафиксирован в Хронике. Новый набор дней откроется в 00:00.");
             }
         }
+
 
         // Запускаем тиканье таймера суточного прогресса каждую секунду
         setInterval(() => {
@@ -3628,17 +3675,24 @@
         }
 
 
+       // 🗓 ДИНАМИЧЕСКИЙ КАЛЕНДАРЬ АСКЕЗЫ С ЧЕСТНОЙ ИСТОРИЕЙ
         function renderAsceticismCalendar() {
             const calGrid = document.getElementById('ac-cal-grid');
             if (!calGrid) return;
             calGrid.innerHTML = "";
 
-            // Название месяца в заголовке
-            const titleEl = document.getElementById('cal-month-title');
-            if (titleEl) titleEl.innerText = `${monthNamesRus[calendarViewMonth]} ${calendarViewYear}`;
+            if (!playerData.asceticismHistory) {
+                playerData.asceticismHistory = {};
+            }
 
-            // Таймер суток
+            // Получаем РЕАЛЬНУЮ текущую дату по МСК
+            const msk = getMskDateInfo();
             const now = new Date();
+            const currentRealYear = now.getFullYear();
+            const currentRealMonth = now.getMonth(); // 9 = Октябрь
+            const currentRealDay = now.getDate();   // Реальный день месяца
+
+            // Таймер прогресса суток (00:00 -> 23:59)
             const elapsedSeconds = (now.getHours() * 3600) + (now.getMinutes() * 60) + now.getSeconds();
             const dayPercent = Math.min((elapsedSeconds / 86400) * 100, 100);
 
@@ -3647,63 +3701,93 @@
             if (fillEl) fillEl.style.width = dayPercent + "%";
             if (percentEl) percentEl.innerText = dayPercent.toFixed(1) + "%";
 
-            const msk = getMskDateInfo();
-            if (playerData.lastRelapseDate === msk.dateString) {
-                playerData.isLockedUntilMidnight = true;
-                playerData.asceticismDays = 0;
+            // Проверка срыва на сегодня
+            const isRelapsedToday = (playerData.lastRelapseDate === msk.dateString);
+            playerData.isLockedUntilMidnight = isRelapsedToday;
+
+            // Название месяца в шапке
+            const titleEl = document.getElementById('cal-month-title');
+            if (titleEl) titleEl.innerText = `${monthNamesRus[calendarViewMonth]} ${calendarViewYear}`;
+
+            // Статус и счетчики
+            const currentDaysVal = playerData.asceticismDays || 0;
+            const acDays = document.getElementById('ac-days-num');
+            const acStreak = document.getElementById('ac-streak-val');
+            const statusText = document.getElementById('ac-status-text');
+
+            if (acDays) acDays.innerText = currentDaysVal;
+            if (acStreak) acStreak.innerText = currentDaysVal;
+
+            if (isRelapsedToday) {
+                if (statusText) statusText.innerText = "⚠️ СРЫВ: ОЖИДАНИЕ ПОЛНОЧИ (00:00)";
+                if (fillEl) fillEl.style.background = "#ff004c";
             } else {
-                if (playerData.isLockedUntilMidnight && playerData.lastRelapseDate !== msk.dateString) {
-                    playerData.isLockedUntilMidnight = false;
-                }
+                if (statusText) statusText.innerText = "Сила в контроле";
+                if (fillEl) fillEl.style.background = "linear-gradient(90deg, #ffaa00, #ff004c)";
             }
 
-            const currentDaysVal = playerData.asceticismDays || 0;
-            document.getElementById('ac-days-num').innerText = playerData.isLockedUntilMidnight ? 0 : currentDaysVal;
-            document.getElementById('ac-streak-val').innerText = playerData.isLockedUntilMidnight ? 0 : currentDaysVal;
-            document.getElementById('ac-status-text').innerText = playerData.isLockedUntilMidnight ? "⚠️ СРЫВ: ОЖИДАНИЕ ПОЛНОЧИ" : "Сила в контроле";
-
-            // Генерация дней выбранного месяца
+            // Сколько дней в просматриваемом месяце
             const daysInMonth = new Date(calendarViewYear, calendarViewMonth + 1, 0).getDate();
-            const today = new Date();
 
-            for (let i = 1; i <= daysInMonth; i++) {
+            for (let d = 1; d <= daysInMonth; d++) {
                 const cell = document.createElement('div');
                 cell.className = 'ac-cal-cell';
-                cell.innerText = i;
+                cell.innerText = d;
 
-                // Подсветка текущего реального дня (11 октября 2026)
-                const isRealToday = (calendarViewYear === 2026 && calendarViewMonth === 9 && i === 11);
+                // Ключ даты для проверки истории (YYYY-MM-DD)
+                const dateKey = `${calendarViewYear}-${String(calendarViewMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
 
-                if (isRealToday && playerData.isLockedUntilMidnight) {
+                // Проверяем: это реальный сегодняшний день?
+                const isToday = (calendarViewYear === currentRealYear && calendarViewMonth === currentRealMonth && d === currentRealDay);
+
+                // 1. Проверяем сохранённую историю дня
+                const dayStatus = playerData.asceticismHistory[dateKey];
+
+                if (dayStatus === 'relapse') {
+                    // День со срывом — красный крестик НАВСЕГДА
                     cell.style.borderColor = '#ff004c';
                     cell.style.color = '#ff004c';
-                    cell.style.background = 'rgba(255, 0, 76, 0.15)';
+                    cell.style.background = 'rgba(255, 0, 76, 0.2)';
                     cell.innerText = '✕';
-                } else if (i <= currentDaysVal && calendarViewYear === 2026 && calendarViewMonth === 9 && !playerData.isLockedUntilMidnight) {
+                } else if (dayStatus === 'checked') {
+                    // Успешный прожитый день — зелёная/синяя галочка
                     cell.className = 'ac-cal-cell checked';
                     cell.innerText = '✓';
                 }
 
-                if (isRealToday && !playerData.isLockedUntilMidnight) {
-                    cell.style.border = '2px solid var(--accent-blue)';
-                    cell.style.boxShadow = '0 0 8px rgba(0, 212, 255, 0.6)';
+                // 2. Если это СЕГОДНЯ:
+                if (isToday) {
+                    if (isRelapsedToday) {
+                        cell.style.borderColor = '#ff004c';
+                        cell.style.color = '#ff004c';
+                        cell.style.background = 'rgba(255, 0, 76, 0.25)';
+                        cell.innerText = '✕';
+                    } else {
+                        // Неоновая рамка СЕГОДНЯШНЕГО ДНЯ
+                        cell.style.border = '2px solid var(--accent-blue)';
+                        cell.style.boxShadow = '0 0 10px rgba(0, 212, 255, 0.7)';
+                    }
                 }
 
                 calGrid.appendChild(cell);
             }
 
-            // Цели и рекорды
-            document.getElementById('goal-30').classList.toggle('active-goal', currentDaysVal >= 30);
-            document.getElementById('goal-60-item').classList.toggle('active-goal', currentDaysVal >= 60);
-            document.getElementById('goal-90').classList.toggle('active-goal', currentDaysVal >= 90);
+            // Цели аскезы (30, 60, 90 дней)
+            const g30 = document.getElementById('goal-30');
+            const g60 = document.getElementById('goal-60-item');
+            const g90 = document.getElementById('goal-90');
+            if (g30) g30.classList.toggle('active-goal', currentDaysVal >= 30);
+            if (g60) g60.classList.toggle('active-goal', currentDaysVal >= 60);
+            if (g90) g90.classList.toggle('active-goal', currentDaysVal >= 90);
 
+            // Рекорд
             if (currentDaysVal > (playerData.personalRecord || 9)) {
                 playerData.personalRecord = currentDaysVal;
             }
-            document.getElementById('ac-best-record').innerText = `${playerData.personalRecord || 9} дней`;
-            document.getElementById('ws-record-days').innerText = `${playerData.personalRecord || 9} дней`;
-
-            renderMissionsList();
+            const acBest = document.getElementById('ac-best-record');
+            const wsRecord = document.getElementById('ws-record-days');
+            if (acBest) acBest.innerText = `${playerData.personalRecord || 9} дней`;
+            if (wsRecord) wsRecord.innerText = `${playerData.personalRecord || 9} дней`;
         }
 
 

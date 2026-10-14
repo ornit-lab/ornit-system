@@ -3258,6 +3258,32 @@
 
 <body>
 
+
+        <!-- 🎧 КИБЕР-ПЛЕЕР И ФОНОВЫЙ АУДИОКОНТЕЙНЕР -->
+    <div id="cyber-audio-widget" style="
+        position: fixed; bottom: 20px; right: 20px; z-index: 99999;
+        display: flex; align-items: center; gap: 10px; background: rgba(8, 8, 20, 0.9);
+        border: 1px solid var(--accent-blue); padding: 8px 14px; border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 212, 255, 0.25); backdrop-filter: blur(5px);
+        font-family: 'Orbitron'; font-size: 0.7rem; color: #fff;
+    ">
+        <span id="audio-status-icon" style="color: #ff004c; text-shadow: 0 0 8px #ff004c;">🔇 АУДИО ВЫКЛ</span>
+        <button onclick="toggleCyberAudio()" style="
+            background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #fff;
+            padding: 4px 10px; border-radius: 4px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.65rem;
+        ">ВКЛ / ВЫКЛ</button>
+    </div>
+
+    <!-- Аудиоэлементы для SFX -->
+    <audio id="sfx-click" src="click.mp3" preload="auto"></audio>
+    <audio id="sfx-mission" src="success.mp3" preload="auto"></audio>
+    <audio id="sfx-relapse" src="warning.mp3" preload="auto"></audio>
+    <audio id="sfx-tab" src="tab.mp3" preload="auto"></audio>
+    
+    <!-- Фоновый плеер -->
+    <audio id="bg-music" preload="auto" loop></audio>
+
+
     <!-- =================================================== -->
     <!-- 🌌 ЭКРАН 1: ГЛАВНАЯ (МЕНЮ)                          -->
     <!-- =================================================== -->
@@ -3275,21 +3301,21 @@
                 </div>
             </div>
 
-            <div class="buttons-3d-container">
-                <button class="btn-3d btn-blue" onclick="switchPage('level-page')">
+                      <div class="buttons-3d-container">
+                <button class="btn-3d btn-blue" onclick="playSfx('sfx-click'); switchPage('level-page')">
                     <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polygon points="5 3 19 12 5 21 5 3"></polygon>
                     </svg>
                     <span class="btn-text">Начать</span>
                 </button>
-                <button class="btn-3d btn-purple" onclick="openNotesTab()">
+                <button class="btn-3d btn-purple" onclick="playSfx('sfx-click'); openNotesTab()">
                     <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M12 20h9"></path>
                         <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
                     </svg>
                     <span class="btn-text">Сделать заметку</span>
                 </button>
-                <button class="btn-3d btn-orange" onclick="openStatisticsTab()">
+                <button class="btn-3d btn-orange" onclick="playSfx('sfx-click'); openStatisticsTab()">
                     <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="18" y1="20" x2="18" y2="10"></line>
                         <line x1="12" y1="20" x2="12" y2="4"></line>
@@ -3298,6 +3324,7 @@
                     <span class="btn-text">Статистика</span>
                 </button>
             </div>
+
         </div>
     </div>
 
@@ -4290,6 +4317,7 @@ if (totalDaysEl) {
 
         // ПЕРЕКЛЮЧЕНИЕ СТРАНИЦ С УМНЫМ ПОКАЗОМ САЙДБАРА
         function switchPage(pageId) {
+             playSfx('sfx-tab'); // Звук смены вкладки
             const pages = document.querySelectorAll('.page-view');
             const navBox = document.getElementById('liquid-nav-box');
 
@@ -4395,6 +4423,7 @@ if (totalDaysEl) {
         }
 
         function openNotesTab() {
+              playSfx('sfx-click');
             const msk = getMskDateInfo();
             document.getElementById('note-date-label').innerText = `ОТЧЕТ СИСТЕМЫ ЗА ${msk.displayDate}`;
             document.getElementById('daily-note-text').value = "";
@@ -5197,7 +5226,8 @@ if (totalDaysEl) {
 
         // ФИКСАЦИЯ СРЫВА С СОХРАНЕНИЕМ В ИСТОРИЮ
         function triggerRelapse() {
-            if (confirm("ВНИМАНИЕ, МОНАРХ! Зафиксировать срыв? Счётчик обнулится, день будет помечен крестиком.")) {
+              playSfx('sfx-relapse'); 
+            if (confirm("ВНИМАНИЕ! Зафиксировать срыв? Счётчик обнулится, день будет помечен крестиком.")) {
                 const msk = getMskDateInfo();
 
                 if (!playerData.asceticismHistory) playerData.asceticismHistory = {};
@@ -5526,6 +5556,10 @@ if (totalDaysEl) {
             if (typeof profileDocRef !== 'undefined') {
                 profileDocRef.set(playerData, {merge: true});
             }
+              if (!m.completed) {
+       playSfx('sfx-mission'); // Звук выполнения миссии
+       // ... остальной код ...
+   }
         }
 
 
@@ -5865,6 +5899,81 @@ setInterval(() => {
         checkAsceticismDayTransition();
     }
 }, 60000);
+
+
+
+        // 🎧 ЗВУКОВОЙ ДВИЖОК СИСТЕМЫ
+        const playlist = ["ambient1.mp3", "ambient2.mp3", "ambient3.mp3"];
+        let isAudioAllowed = false;
+
+        function initCyberAudio() {
+            const bgMusic = document.getElementById('bg-music');
+            if (!bgMusic) return;
+
+            // Выбираем случайный трек из массива при перезаходе на сайт
+            const randomTrack = playlist[Math.floor(Math.random() * playlist.length)];
+            bgMusic.src = randomTrack;
+            bgMusic.volume = 0.35; // Комфортная фоновая громкость
+
+            // Разрешаем воспроизведение при первом клике на экран (обход автоплей-защиты браузеров)
+            const unlockAudio = () => {
+                if (!isAudioAllowed) {
+                    isAudioAllowed = true;
+                    bgMusic.play().then(() => {
+                        updateAudioWidgetUI(true);
+                    }).catch(e => console.log("Автозапуск заблокирован браузером до клика"));
+                    window.removeEventListener('click', unlockAudio);
+                    window.removeEventListener('keydown', unlockAudio);
+                }
+            };
+
+            window.addEventListener('click', unlockAudio);
+            window.addEventListener('keydown', unlockAudio);
+        }
+
+        function toggleCyberAudio() {
+            const bgMusic = document.getElementById('bg-music');
+            if (!bgMusic) return;
+
+            isAudioAllowed = !isAudioAllowed;
+            if (isAudioAllowed) {
+                bgMusic.play();
+                updateAudioWidgetUI(true);
+            } else {
+                bgMusic.pause();
+                updateAudioWidgetUI(false);
+            }
+        }
+
+        function updateAudioWidgetUI(isPlaying) {
+            const icon = document.getElementById('audio-status-icon');
+            if (icon) {
+                if (isPlaying) {
+                    icon.innerText = "🔊 АУДИО ВКЛ";
+                    icon.style.color = "#00ff88";
+                    icon.style.textShadow = "0 0 8px #00ff88";
+                } else {
+                    icon.innerText = "🔇 АУДИО ВЫКЛ";
+                    icon.style.color = "#ff004c";
+                    icon.style.textShadow = "0 0 8px #ff004c";
+                }
+            }
+        }
+
+        // Функция безопасного воспроизведения SFX
+        function playSfx(id) {
+            const sound = document.getElementById(id);
+            if (sound) {
+                sound.currentTime = 0;
+                sound.volume = 0.5;
+                sound.play().catch(e => {}); // Игнорируем блокировку, если браузер еще не разрешил звук
+            }
+        }
+
+        // Инициализируем аудио при загрузке страницы
+        window.addEventListener('DOMContentLoaded', () => {
+            initCyberAudio();
+        });
 
     </script>
 

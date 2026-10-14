@@ -4154,22 +4154,21 @@ profileDocRef.onSnapshot((doc) => {
 
 
 
-        function updateMainUI() {
-            // 1. Авто-рекорд: если текущие дни стали больше рекорда — рекорд растет
-            if (playerData.asceticismDays > (playerData.personalRecord || 9)) {
-                playerData.personalRecord = playerData.asceticismDays;
+               function updateMainUI() {
+            // 1. Авто-рекорд: если текущая серия перебила старый рекорд — обновляем его
+            if (Number(playerData.asceticismDays) > (Number(playerData.personalRecord) || 0)) {
+                playerData.personalRecord = Number(playerData.asceticismDays);
             }
 
-            // 2. Обновляем уровень (в шапке сайта и в карточке со шрифтом Chinyen)
+            // 2. Обновляем уровень (в шапке и в профиле)
             const mainLvl = document.getElementById('main-level-big');
             const headerLvl = document.getElementById('header-lvl');
             if (mainLvl) mainLvl.innerText = playerData.level || 34;
             if (headerLvl) headerLvl.innerText = playerData.level || 34;
 
-            // 3. Обновляем текущий опыт и прогресс-бар уровня
+            // 3. Текущий опыт и прогресс-бар уровня
             const xp = Number(playerData.xp) || 0;
             const needed = Number(playerData.nextLevelXp) || 8450;
-
             const xpCurrent = document.getElementById('xp-current');
             const xpNeeded = document.getElementById('xp-needed');
             const xpFill = document.getElementById('xp-fill-main');
@@ -4182,40 +4181,33 @@ profileDocRef.onSnapshot((doc) => {
             if (xpFill) xpFill.style.width = percent + "%";
             if (xpPercent) xpPercent.innerText = percent.toFixed(1) + "%";
 
-            // 4. Обновляем Общий опыт
+            // 4. Общий опыт (totalXp)
             const totalXpEl = document.getElementById('unique-total-xp');
             if (totalXpEl) {
                 const displayTotal = playerData.totalXp || 70382;
                 totalXpEl.innerText = `${Number(displayTotal).toLocaleString()} XP`;
             }
 
-            // 5. Рекорды аскезы (9 дней и выше)
+            // 5. РЕКОРДЫ АСКИЗЫ (тот самый Best Result)
             const acBest = document.getElementById('ac-best-record');
             const wsRecord = document.getElementById('ws-record-days');
-            if (acBest) acBest.innerText = `${playerData.personalRecord || 9} дней`;
-            if (wsRecord) wsRecord.innerText = `${playerData.personalRecord || 9} дней`;
+            const bestVal = playerData.personalRecord || 9; // Если в базе пусто, берем твои честные 9 дней
+            if (acBest) acBest.innerText = `${bestVal} дней`;
+            if (wsRecord) wsRecord.innerText = `${bestVal} дней`;
 
-            const topDays = document.getElementById('top-asceticism-days');
-if (topDays) {
-    topDays.textContent = Number(playerData.asceticismDays) || 0;
-}
+            // 6. ВЕРХНИЙ СЧЕТЧИК АСКЕЗЫ (196+ дней)
+            const totalDaysTop = document.getElementById('top-asceticism-days');
+            if (totalDaysTop) {
+                totalDaysTop.textContent = Number(playerData.totalAsceticismDays || 196);
+            }
 
-
-const totalDaysEl = document.getElementById('top-asceticism-days');
-if (totalDaysEl) {
-    totalDaysEl.textContent =
-        Number(playerData.totalAsceticismDays ?? 196);
-}
-
-
-            // 6. Статистика недели (автоматически страхуется графиком)
+            // 7. Статистика недели (синхрон с графиком)
             let calcWeeklyFromHistory = 0;
             if (playerData.chartHistory) {
                 Object.values(playerData.chartHistory).forEach(val => {
                     calcWeeklyFromHistory += (Number(val) || 0);
                 });
             }
-
             playerData.weeklyXp = Math.max(playerData.weeklyXp || 0, calcWeeklyFromHistory, playerData.xp || 0);
 
             const wsWeeklyXp = document.getElementById('ws-weekly-xp');
@@ -4224,18 +4216,18 @@ if (totalDaysEl) {
             const wsWeeklyBadge = document.getElementById('ws-weekly-badge');
             if (wsWeeklyBadge) wsWeeklyBadge.innerText = `+${playerData.weeklyXp.toLocaleString()} ↑`;
 
+            // 8. Миссии
             const wsMissions = document.getElementById('ws-missions-count');
             if (wsMissions) wsMissions.innerText = `${playerData.completedMissionsCount || 0} / 7`;
 
             const wsMissionsBadge = document.getElementById('ws-missions-badge');
             if (wsMissionsBadge) wsMissionsBadge.innerText = `+${playerData.completedMissionsCount || 0} ↑`;
 
-            // 7. Перерисовка всех визуальных подсистем
+            // 9. Отрисовка всех вложенных систем
             if (typeof renderSkillsGrid === 'function') renderSkillsGrid();
             if (typeof renderAsceticismCalendar === 'function') renderAsceticismCalendar();
             if (typeof updateAchievementsUI === 'function') updateAchievementsUI();
             if (typeof renderLiveChart === 'function') renderLiveChart();
-            if (typeof checkAsceticismDayTransition === 'function') checkAsceticismDayTransition();
             if (typeof updatePlayerRankBadge === 'function') updatePlayerRankBadge();
             if (typeof updateEvolutionProfile === 'function') updateEvolutionProfile();
         }

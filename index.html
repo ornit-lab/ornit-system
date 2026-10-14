@@ -3781,7 +3781,8 @@
 
             <ul class="nav-menu">
                 <!-- 1. УРОВЕНЬ -->
-                <li class="nav-item active" onclick="selectLiquidTab(this, 0, 'level-page')">
+                <li class="nav-item active" onclick="playSfx('sfx-tab'); selectLiquidTab(this, 0, 'level-page')">
+
                     <a href="javascript:void(0)">
                         <span class="nav-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -3795,7 +3796,8 @@
                 </li>
 
                 <!-- 2. НАВЫКИ -->
-                <li class="nav-item" onclick="selectLiquidTab(this, 1, 'skills-page')">
+                <li class="nav-item" onclick="playSfx('sfx-tab'); selectLiquidTab(this, 1, 'skills-page')">
+
                     <a href="javascript:void(0)">
                         <span class="nav-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -3807,7 +3809,8 @@
                 </li>
 
                 <!-- 3. ГЛАВНАЯ -->
-                <li class="nav-item" onclick="selectLiquidTab(this, 2, 'main-menu')">
+                <li class="nav-item" onclick="playSfx('sfx-tab'); selectLiquidTab(this, 2, 'main-menu')">
+
                     <a href="javascript:void(0)">
                         <span class="nav-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -4317,7 +4320,6 @@ if (totalDaysEl) {
 
         // ПЕРЕКЛЮЧЕНИЕ СТРАНИЦ С УМНЫМ ПОКАЗОМ САЙДБАРА
         function switchPage(pageId) {
-             playSfx('sfx-tab'); // Звук смены вкладки
             const pages = document.querySelectorAll('.page-view');
             const navBox = document.getElementById('liquid-nav-box');
 
@@ -4343,6 +4345,7 @@ if (totalDaysEl) {
 
         // КЛИК ПО LIQUID NAV С ФИЗИКОЙ НЫРЯНИЯ В ГЛУБИНУ
         function selectLiquidTab(element, index, pageId) {
+              playSfx('sfx-tab');
             const indicator = document.getElementById('nav-indicator');
             const nav = document.querySelector('.liquid-nav');
             const items = document.querySelectorAll('.nav-item');
@@ -4883,7 +4886,7 @@ if (totalDaysEl) {
 
 
 
-        // 🗓 РЕНДЕР КАЛЕНДАРЯ ОКТЯБРЯ 2026 (КРЕСТИК СТРОГО НА 11 ЧИСЛЕ)
+             // 🗓 РЕНДЕР КАЛЕНДАРЯ ОКТЯБРЯ 2026 (С ЖЕЛЕЗОБЕТОННЫМ РЕКОРДОМ)
         function renderAsceticismCalendar() {
             const calGrid = document.getElementById('ac-cal-grid');
             if (!calGrid) return;
@@ -4972,13 +4975,16 @@ if (totalDaysEl) {
             if (g60) g60.classList.toggle('active-goal', days >= 60);
             if (g90) g90.classList.toggle('active-goal', days >= 90);
 
-            if (days > (playerData.personalRecord || 9)) {
+            // 🏆 ЖЕЛЕЗОБЕТОННЫЙ РЕКОРД (НИКОГДА НЕ ПАДАЕТ НИЖЕ МАКСИМУМУ)
+            if (!playerData.personalRecord) playerData.personalRecord = 9;
+            if (days > playerData.personalRecord) {
                 playerData.personalRecord = days;
             }
+
             const acBest = document.getElementById('ac-best-record');
             const wsRecord = document.getElementById('ws-record-days');
-            if (acBest) acBest.innerText = `${playerData.personalRecord || 9} дней`;
-            if (wsRecord) wsRecord.innerText = `${playerData.personalRecord || 9} дней`;
+            if (acBest) acBest.innerText = `${playerData.personalRecord} дней`;
+            if (wsRecord) wsRecord.innerText = `${playerData.personalRecord} дней`;
 
             updateWeeklyMissionsUI();
         }

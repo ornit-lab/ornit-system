@@ -3973,15 +3973,14 @@ totalAsceticismAwardedDates: [],
             nextLevelXp: 8450,
             completedMissionsDate: "",      // Дата, когда миссии были выполнены (например, "2026-10-11")
             completedMissionsIds: [],       // Список ID выполненных сегодня миссий
-            asceticismDays: 1,
-            personalRecord: 9,
-            weeklyXp: 0,
-            completedMissionsCount: 0,
-            totalXp: 70382,                 // <-- ВОТ ОНА, ЧЕСТНАЯ ЦИФРА ДЛЯ 34 ЛВЛА!
-            dailyMissionCompleted: false,
-            weeklyHistory: [0, 0, 0, 0, 0, 0, 0],
-            asceticismDays: 0,              // Начинаем честно с 0
-            personalRecord: 9,
+           asceticismDays: 1, // текущая серия; укажи здесь своё фактическое число
+personalRecord: 9, // личный рекорд
+weeklyXp: 0,
+completedMissionsCount: 0,
+totalXp: 70382,
+dailyMissionCompleted: false,
+weeklyHistory: [0, 0, 0, 0, 0, 0, 0],
+
             lastRelapseDate: "",            // Дата последнего срыва (строка YYYY-MM-DD)
             isLockedUntilMidnight: false,   // Заблокирован ли набор дней до завтра
             relapseLockTimestamp: 0,        // Точное время срыва
@@ -5053,72 +5052,73 @@ profileDocRef.onSnapshot((doc) => {
             {days: 180, name: "Абсолют", icon: "absolute.webp", badgeId: "rank-badge-180", color: "#ffffff"}
         ];
 
-        function updateAchievementsUI() {
-            // Текущая живая серия
-            let completedFullDays = playerData.asceticismDays || 0;
-            if (playerData.isLockedUntilMidnight) completedFullDays = 0;
+       function updateAchievementsUI() {
+    const currentStreak = Number(playerData.asceticismDays) || 0;
 
-            // 🏆 РЕКОРД ЗА ВСЁ ВРЕМЯ (Не сгорает при срыве!)
-            const record = Number(playerData.asceticismDays) || 0;
+    // Рекорд никогда не уменьшаем
+    playerData.personalRecord = Math.max(
+        Number(playerData.personalRecord) || 9,
+        currentStreak
+    );
 
-            playerData.personalRecord = record;
+    const record = playerData.personalRecord;
+    let highestUnlockedRank = null;
+    let nextTargetRank = null;
 
-            let highestUnlockedRank = null;
-            let nextTargetRank = null;
+    ascRanksLadder.forEach(rank => {
+        const badge = document.getElementById(rank.badgeId);
+        const unlocked = record >= rank.days;
 
-            // Подсвечиваем алтарь достижений
-            ascRanksLadder.forEach(r => {
-                const el = document.getElementById(r.badgeId);
-                const isUnlocked = record >= r.days;
-
-                if (el) {
-                    if (isUnlocked) {
-                        el.classList.remove('locked');
-                        el.classList.add('unlocked');
-                        highestUnlockedRank = r; // Сохраняем высший покоренный ранг
-                    } else {
-                        el.classList.add('locked');
-                        el.classList.remove('unlocked');
-                        if (!nextTargetRank) {
-                            nextTargetRank = r; // Первый непокоренный ранг становиться СЛЕДУЮЩЕЙ ЦЕЛЬЮ
-                        }
-                    }
-                }
-            });
-
-            // 1. ОБНОВЛЯЕМ РАНГ В ПРОФИЛЕ (Несгораемый высший ранг!)
-            let rankTextInProfile = `? (${completedFullDays} дн)`;
-            if (highestUnlockedRank) {
-                rankTextInProfile = `${highestUnlockedRank.name} (${completedFullDays} дн)`;
-            }
-            playerData.rank = rankTextInProfile;
-            const rankLabel = document.getElementById('player-asceticism-rank');
-            if (rankLabel) rankLabel.innerText = rankTextInProfile;
-
-            // 2. ОБНОВЛЯЕМ ВИТРИНУ "СЛЕДУЮЩАЯ ЦЕЛЬ"
-            const goalIcon = document.getElementById('next-goal-icon');
-            const goalName = document.getElementById('next-goal-name');
-            const goalDays = document.getElementById('next-goal-days');
-            // Внутри updateAchievementsUI добавь строчку:
-            const rankIconEl = document.getElementById('player-asceticism-rank-icon');
-            if (rankIconEl && highestUnlockedRank) {
-                rankIconEl.src = highestUnlockedRank.icon;
-            }
-
-            if (nextTargetRank) {
-                if (goalIcon) goalIcon.src = nextTargetRank.icon;
-                if (goalName) {
-                    goalName.innerText = nextTargetRank.name;
-                    goalName.style.color = nextTargetRank.color;
-                }
-                if (goalDays) goalDays.innerText = `${nextTargetRank.days} дней`;
-            } else {
-                // Если покорены все 180 дней
-                if (goalIcon) goalIcon.src = "absolute.webp";
-                if (goalName) goalName.innerText = "Абсолют";
-                if (goalDays) goalDays.innerText = "Максимум!";
-            }
+        if (badge) {
+            badge.classList.toggle('unlocked', unlocked);
+            badge.classList.toggle('locked', !unlocked);
         }
+
+        if (unlocked) {
+            highestUnlockedRank = rank;
+        } else if (!nextTargetRank) {
+            nextTargetRank = rank;
+        }
+    });
+
+    // В профиле сохраняем достигнутый ранг, а рядом показываем текущую серию
+    const rankLabel = document.getElementById('player-asceticism-rank');
+    if (rankLabel) {
+        rankLabel.textContent = highestUnlockedRank
+            ? `${highestUnlockedRank.name} (${currentStreak} дн)`
+            : `? (${currentStreak} дн)`;
+    }
+
+    const rankIcon = document.getElementById('player-asceticism-rank-icon');
+    if (rankIcon && highestUnlockedRank) {
+        rankIcon.src = highestUnlockedRank.icon;
+    }
+
+    const goalIcon = document.getElementById('next-goal-icon');
+    const goalName = document.getElementById('next-goal-name');
+    const goalDays = document.getElementById('next-goal-days');
+
+    if (nextTargetRank) {
+        if (goalIcon) goalIcon.src = nextTargetRank.icon;
+        if (goalName) {
+            goalName.textContent = nextTargetRank.name;
+            goalName.style.color = nextTargetRank.color;
+        }
+        if (goalDays) goalDays.textContent = `${nextTargetRank.days} дней`;
+    } else {
+        if (goalIcon) goalIcon.src = 'absolute.webp';
+        if (goalName) goalName.textContent = 'Абсолют';
+        if (goalDays) goalDays.textContent = 'Максимум!';
+    }
+
+    // Синхронизируем рекорд в интерфейсе
+    const acBest = document.getElementById('ac-best-record');
+    const wsRecord = document.getElementById('ws-record-days');
+
+    if (acBest) acBest.textContent = `${record} дней`;
+    if (wsRecord) wsRecord.textContent = `${record} дней`;
+}
+
 
 
 
@@ -5522,14 +5522,13 @@ profileDocRef.onSnapshot((doc) => {
             if (wsMissionsBadge) wsMissionsBadge.innerText = `+${completedTotal} ↑`;
         }
 
-        function toggleMission(id) {
+               function toggleMission(id) {
             if (!isFirebaseLoaded) return; // Ждем загрузку базы
 
             const m = dailyMissionsList.find(item => item.id === id);
             if (!m) return;
 
-            // 🛡️ ЗАЩИТА ОТ ДЮПА: Если миссия уже выполнена, отменить её нельзя! 
-            // Монарх держит свое слово: сделал — значит сделал.
+            // 🛡️ ЗАЩИТА ОТ ДЮПА: Если миссия уже выполнена, отменить её нельзя!
             if (m.completed) {
                 alert("СИСТЕМА: Эта миссия уже засчитана в реестр дня. Возврат невозможен.");
                 return;
@@ -5538,6 +5537,9 @@ profileDocRef.onSnapshot((doc) => {
             if (!playerData.completedMissionsIds) playerData.completedMissionsIds = [];
             const msk = getMskDateInfo();
             playerData.completedMissionsDate = msk.dateString;
+
+            // 🔊 ВОСПРОИЗВОДИМ ЗВУК ВЫПОЛНЕНИЯ СРАЗУ (ДО СМЕНЫ СТАТУСА)
+            playSfx('sfx-mission');
 
             // Начисляем опыт ровно один раз
             m.completed = true;
@@ -5555,11 +5557,8 @@ profileDocRef.onSnapshot((doc) => {
             if (typeof profileDocRef !== 'undefined') {
                 profileDocRef.set(playerData, {merge: true});
             }
-              if (!m.completed) {
-       playSfx('sfx-mission'); // Звук выполнения миссии
-       // ... остальной код ...
-   }
         }
+
 
 
         // =========================================================

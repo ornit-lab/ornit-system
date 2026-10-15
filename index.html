@@ -3321,8 +3321,34 @@
 }
 
 
+#modal-skill-title svg {
+    width: 28px;
+    height: 28px;
+    vertical-align: middle;
+    margin-right: 10px;
+    stroke: currentColor;
+    stroke-width: 2;
+}
 
 
+/* ⚡️ СТИЛИ ДЛЯ ИКОНОК НАВЫКОВ БЕЗ КВАДРАТНЫХ КОНТЕЙНЕРОВ */
+.skill-icon-clean {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.skill-icon-clean svg {
+    width: 24px !important;
+    height: 24px !important;
+    stroke: currentColor !important;
+    fill: none !important;
+    stroke-width: 2px !important;
+    display: block !important;
+}
 
 
 
@@ -3457,7 +3483,7 @@
         <path d="M12 3c1.8 3 5.5 5.1 5.5 10a5.5 5.5 0 1 1-11 0c0-2.3 1-4.1 2.5-5.8.1 2 1 3.1 2 3.8C12 9 12.4 6.2 12 3Z"></path>
     </svg>
     <div class="streak-banner-copy">
-        <span class="streak-banner-label">ЗАВЕРШЁННЫЕ ДНИ АСКЕЗЫ</span>
+        <span class="streak-banner-label">ДНИ АСКЕЗЫ</span>
         <strong id="top-asceticism-days">196</strong>
     </div>
     <span class="streak-banner-suffix">дней</span>
@@ -3898,10 +3924,53 @@
         </div>
     </div>
 
-    <!-- СТРАНИЦА ПРОГРАММ -->
-    <div id="programs-page" class="page-view" style="display:none;">
-        <h1 style="color: #fff; font-family: 'Orbitron'; text-align: center; margin-top: 100px;">ПРОГРАММЫ СИСТЕМЫ</h1>
-        <p style="color: #666; text-align: center;">Модуль находится в разработке...</p>
+    <!-- =================================================== -->
+    <!-- 🦾 ПРОГРАММА ТРЕНИРОВОК: ПРОТОКОЛ «МОНОЛИТ»          -->
+    <!-- =================================================== -->
+    <div id="programs-page" class="page-view" style="display:none; max-width: 900px; margin: 0 auto; padding: 20px 10px 100px; font-family: 'Orbitron', sans-serif;">
+        
+        <!-- Заголовок протокола -->
+        <div style="text-align: center; margin-bottom: 25px; padding-top: 10px;">
+            <div style="font-size: 1.5rem; filter: drop-shadow(0 0 10px #00d4ff);">🦾</div>
+            <h2 style="font-family: 'Orbitron'; color: #fff; font-size: 1.2rem; letter-spacing: 2px; margin-top: 5px;">ПРОТОКОЛ «МОНОЛИТ»</h2>
+            <div style="font-size: 0.7rem; color: #00d4ff; letter-spacing: 1px; margin-top: 4px;">СВЕРХАРХИТЕКТУРА ТЕЛА И ГИПЕРТРОФИЯ</div>
+            <div style="width: 220px; height: 1px; background: linear-gradient(90deg, transparent, #00d4ff, transparent); margin: 12px auto 0;"></div>
+        </div>
+
+        <!-- 1. Архитектурные зоны -->
+        <div style="background: rgba(10, 10, 22, 0.8); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 12px; padding: 18px; margin-bottom: 25px; box-shadow: 0 0 15px rgba(0, 212, 255, 0.1);">
+            <div style="font-size: 0.85rem; color: #00d4ff; font-weight: bold; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                <span>🎯</span> ЦЕЛЕВЫЕ АРХИТЕКТУРНЫЕ ЗОНЫ
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; font-size: 0.75rem; color: #ccc;">
+                <div style="background: rgba(0,212,255,0.05); border-left: 2px solid #00d4ff; padding: 8px 12px; border-radius: 4px;">
+                    <strong style="color:#fff;">1. Верх груди:</strong> Ключичная головка для оверсайз-эффекта.
+                </div>
+                <div style="background: rgba(255,0,76,0.05); border-left: 2px solid #ff004c; padding: 8px 12px; border-radius: 4px;">
+                    <strong style="color:#fff;">2. Дельты:</strong> Средние и задние пучки для ширины плеч.
+                </div>
+                <div style="background: rgba(138,43,226,0.05); border-left: 2px solid #8a2be2; padding: 8px 12px; border-radius: 4px;">
+                    <strong style="color:#fff;">3. Шея и трапеции:</strong> Монолитная посадка головы.
+                </div>
+                <div style="background: rgba(255,170,0,0.05); border-left: 2px solid #ffaa00; padding: 8px 12px; border-radius: 4px;">
+                    <strong style="color:#fff;">4. Армрестлинг:</strong> Пронатор, кисть и предплечья.
+                </div>
+            </div>
+        </div>
+
+        <!-- Переключатель дней тренировок -->
+        <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px;" id="workout-tabs">
+            <button onclick="switchWorkoutDay(1, this)" class="workout-tab-btn active" style="flex: 1; min-width: 130px; background: rgba(0,212,255,0.15); border: 1px solid #00d4ff; color: #fff; padding: 10px; border-radius: 8px; font-family: 'Orbitron'; font-size: 0.7rem; cursor: pointer; transition: 0.3s;">ДЕНЬ 1: ГРУДЬ</button>
+            <button onclick="switchWorkoutDay(2, this)" class="workout-tab-btn" style="flex: 1; min-width: 130px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #aaa; padding: 10px; border-radius: 8px; font-family: 'Orbitron'; font-size: 0.7rem; cursor: pointer; transition: 0.3s;">ДЕНЬ 2: СПИНА</button>
+            <button onclick="switchWorkoutDay(3, this)" class="workout-tab-btn" style="flex: 1; min-width: 130px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #aaa; padding: 10px; border-radius: 8px; font-family: 'Orbitron'; font-size: 0.7rem; cursor: pointer; transition: 0.3s;">ДЕНЬ 3: НИЗ/ОТДЫХ</button>
+            <button onclick="switchWorkoutDay(4, this)" class="workout-tab-btn" style="flex: 1; min-width: 130px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #aaa; padding: 10px; border-radius: 8px; font-family: 'Orbitron'; font-size: 0.7rem; cursor: pointer; transition: 0.3s;">ДЕНЬ 4: ДОЖИМ</button>
+        </div>
+
+        <!-- Контейнер для отображения выбранного дня -->
+        <div id="workout-content-box" style="background: rgba(10, 10, 22, 0.85); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.5);">
+            <!-- Динамически заполняется через JS -->
+        </div>
+
     </div>
 
 
@@ -4105,7 +4174,7 @@
             relapseLockTimestamp: 0,        
             asceticismHistory: {},
 
-            branches: {
+                        branches: {
                 int: {name: "Интеллект", icon: "🧠", color: "#00d4ff"},
                 str: {name: "Сила", icon: "💪", color: "#ff004c"},
                 wil: {name: "Душа", icon: "✨", color: "#8a2be2"},
@@ -5026,16 +5095,27 @@ function setManualRating(rating, button) {
 
 
 
+               // Словарь чистых SVG иконок без контейнеров (защита от сбоя базы)
+        const defaultSkillIcons = {
+            coding: '<svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
+            cooking: '<svg viewBox="0 0 24 24"><path d="M6 13.87A4 4 0 0 1 7.41 6.13a5.11 5.11 0 0 1 9.18 0 4 4 0 0 1 1.41 7.74 4 4 0 0 1-2 7.26H8a4 4 0 0 1-2-7.26z"/></svg>',
+            arm: '<svg viewBox="0 0 24 24"><path d="M6 18l6-6 6 6M6 6l6 6 6-6"/></svg>',
+            acrobatics: '<svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/><path d="M6 22l3-10h6l3 10"/></svg>',
+            body: '<svg viewBox="0 0 24 24"><path d="M20.42 4.58a5 5 0 0 0-7.07 0l-.35.35-.35-.35a5 5 0 0 0-7.07 7.07l.35.35L13 19.07l7.07-7.07.35-.35a5 5 0 0 0 0-7.07z"/></svg>',
+            asceticism: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>',
+            abstinence: '<svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+            guitar: '<svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>',
+            diction: '<svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>',
+            resource: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><line x1="3" y1="3" x2="21" y2="21"/><path d="M12 8v8M8 12h8"/></svg>',
+            storytelling: '<svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
+            sewing: '<svg viewBox="0 0 24 24"><path d="m3 21 18-18"/><circle cx="18" cy="6" r="3"/></svg>'
+        };
 
-        // =========================================================
-        // 🎮 СИСТЕМА ПРОКАЧКИ НАВЫКОВ И ПЕРЕЛИВАНИЯ В ОСНОВНОЙ LVL
-        // =========================================================
- function renderSkillsGrid() {
+        function renderSkillsGrid() {
             const grid = document.querySelector('.skills-grid');
             if (!grid || !playerData.skills) return;
             grid.innerHTML = "";
 
-            // Контейнер для всего реестра
             grid.style.cssText = `
                 display: flex; flex-direction: column; gap: 24px;
                 max-width: 900px; margin: 0 auto; padding: 20px 10px;
@@ -5048,18 +5128,15 @@ function setManualRating(rating, button) {
                 const b = playerData.branches[bKey];
                 if (!b) return;
 
-                // Находим все навыки этой ветки
                 const branchSkills = Object.keys(playerData.skills)
                     .map(sKey => ({ key: sKey, ...playerData.skills[sKey] }))
                     .filter(s => s.branch === bKey);
 
                 if (branchSkills.length === 0) return;
 
-                // Секция ветки
                 const section = document.createElement('div');
                 section.style.cssText = `display: flex; flex-direction: column; gap: 12px;`;
 
-                // Заголовок ветки с линией
                 const header = document.createElement('div');
                 header.style.cssText = `
                     display: flex; align-items: center; gap: 10px;
@@ -5069,21 +5146,25 @@ function setManualRating(rating, button) {
                 header.innerHTML = `<span>${b.icon}</span><span>${b.name.toUpperCase()}</span>`;
                 section.appendChild(header);
 
-                // Грид карточек навыков в ряд
                 const cardsRow = document.createElement('div');
                 cardsRow.style.cssText = `
                     display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
                     gap: 15px;
                 `;
 
                 branchSkills.forEach(s => {
                     const percent = Math.min((s.xp / s.nextLevelXp) * 100, 100);
 
+                    // Берем SVG из базы либо из словаря по ключу
+                    const iconSvg = (s.icon && s.icon.includes('<svg')) 
+                        ? s.icon 
+                        : (defaultSkillIcons[s.key] || defaultSkillIcons.coding);
+
                     const card = document.createElement('div');
                     card.style.cssText = `
                         background: rgba(10, 10, 22, 0.75);
-                        border: 1px solid ${b.color};
+                        border: 1px solid ${b.color}70;
                         border-radius: 12px;
                         padding: 16px;
                         display: flex;
@@ -5092,31 +5173,29 @@ function setManualRating(rating, button) {
                         gap: 14px;
                         cursor: pointer;
                         transition: 0.3s;
-                        box-shadow: 0 0 12px ${b.color}25, inset 0 0 10px ${b.color}10;
+                        box-shadow: 0 0 12px ${b.color}20, inset 0 0 10px ${b.color}10;
                     `;
                     card.onmouseover = () => { card.style.boxShadow = `0 0 20px ${b.color}50, inset 0 0 15px ${b.color}20`; };
-                    card.onmouseout = () => { card.style.boxShadow = `0 0 12px ${b.color}25, inset 0 0 10px ${b.color}10`; };
+                    card.onmouseout = () => { card.style.boxShadow = `0 0 12px ${b.color}20, inset 0 0 10px ${b.color}10`; };
                     card.onclick = () => openSkillModal(s.key);
 
                     card.innerHTML = `
                         <div style="display: flex; align-items: center; gap: 14px;">
-                            <div style="
-                                width: 42px; height: 42px; border-radius: 10px;
-                                background: ${b.color}15; border: 1px solid ${b.color}60;
-                                display: flex; align-items: center; justify-content: center;
-                                font-size: 1.2rem; box-shadow: 0 0 10px ${b.color}30;
-                            ">${s.icon}</div>
+                            <!-- ИКОНКА БЕЗ КВАДРАТНОГО КОНТЕЙНЕРА И РАМОК -->
+                            <div class="skill-icon-clean" style="color: ${b.color}; filter: drop-shadow(0 0 8px ${b.color});">
+                                ${iconSvg}
+                            </div>
                             <div>
-                                <div style="font-size: 0.82rem; color: #fff; font-weight: bold; margin-bottom: 4px;">${s.name}</div>
+                                <div style="font-size: 0.82rem; color: #fff; font-weight: bold; margin-bottom: 3px;">${s.name}</div>
                                 <div style="
-                                    display: inline-block; font-size: 0.65rem; color: ${b.color};
-                                    border: 1px solid ${b.color}50; padding: 2px 8px; border-radius: 4px;
+                                    display: inline-block; font-size: 0.62rem; color: ${b.color};
+                                    border: 1px solid ${b.color}50; padding: 1px 6px; border-radius: 4px;
                                     background: ${b.color}10;
                                 ">LV. ${s.level}</div>
                             </div>
                         </div>
                         <div style="
-                            width: 100%; height: 6px; background: #05050a;
+                            width: 100%; height: 5px; background: #05050a;
                             border-radius: 4px; border: 1px solid rgba(255,255,255,0.06);
                             overflow: hidden;
                         ">
@@ -5511,22 +5590,25 @@ function setManualRating(rating, button) {
             }
         }, 1000);
 
-        // ОТКРЫТИЕ КОНСОЛИ НАВЫКА С КВЕСТАМИ СООТВЕТСТВУЮЩЕЙ ВЕТКИ
-        function openSkillModal(skillKey) {
+               function openSkillModal(skillKey) {
             currentActiveSkillKey = skillKey;
             const s = playerData.skills[skillKey];
             if (!s) return;
 
             const branch = playerData.branches[s.branch] || {name: "Общая", color: "#00d4ff"};
 
-            document.getElementById('modal-skill-title').innerText = `${s.icon} ${s.name.toUpperCase()}`;
+            // ⚡️ ИСПРАВЛЕНИЕ: Используем innerHTML вместо innerText
+            const modalTitle = document.getElementById('modal-skill-title');
+            if (modalTitle) {
+                modalTitle.innerHTML = `${s.icon} <span style="vertical-align: middle;">${s.name.toUpperCase()}</span>`;
+            }
+
             document.getElementById('modal-skill-level').innerText = `LV. ${s.level}`;
             document.getElementById('modal-skill-xp-text').innerText = `${s.xp} / ${s.nextLevelXp} EXP`;
 
             const percent = Math.min((s.xp / s.nextLevelXp) * 100, 100);
             document.getElementById('modal-skill-xp-fill').style.width = percent + "%";
 
-            // Вставляем квесты именно этой ветки
             const questsContainer = document.getElementById('skill-quests-container');
             if (questsContainer) {
                 questsContainer.innerHTML = "";
@@ -5551,6 +5633,7 @@ function setManualRating(rating, button) {
 
             document.getElementById('skill-modal').style.display = 'flex';
         }
+
 
         function addExpToActiveSkill(amount, questTitle) {
             if (!currentActiveSkillKey || !playerData.skills) return;
@@ -6227,6 +6310,112 @@ setInterval(() => {
         // Инициализируем аудио при загрузке страницы
         window.addEventListener('DOMContentLoaded', () => {
             initCyberAudio();
+        });
+
+
+
+          // 🦾 ДАННЫЕ ПРОГРАММЫ «МОНОЛИТ»
+        const workoutDaysData = {
+            1: {
+                title: "ДЕНЬ 1: ВЕРХНИЙ ПЛЕЧЕВОЙ ПОЯС (ГРУДЬ + СРЕДНЯЯ ДЕЛЬТА + ШЕЯ)",
+                color: "#00d4ff",
+                exercises: [
+                    { name: "Жим гантелей под углом 30–45°", sets: "4", reps: "8 – 12", rest: "2–3 мин" },
+                    { name: "Жим в Смите под углом 30°", sets: "3", reps: "10 – 12", rest: "2 мин" },
+                    { name: "Сведение рук в 'Пека-Дек' (верхний акцент)", sets: "3", reps: "12 – 15", rest: "1.5 мин" },
+                    { name: "Махи гантелями в стороны (Средняя дельта)", sets: "4", reps: "12 – 15", rest: "1.5 мин" },
+                    { name: "Махи одной рукой в кроссовере", sets: "3", reps: "15", rest: "1 мин" },
+                    { name: "Сгибания шеи лежа на спине с блином", sets: "3", reps: "15 – 20", rest: "1 мин" },
+                    { name: "Разгибания шеи лежа на животе", sets: "3", reps: "15 – 20", rest: "1 мин" }
+                ]
+            },
+            2: {
+                title: "ДЕНЬ 2: СПИНА + ЗАДНЯЯ ДЕЛЬТА + АРМРЕСТЛИНГ БЛОК",
+                color: "#ff004c",
+                exercises: [
+                    { name: "Подтягивания / Тяга верхнего блока", sets: "4", reps: "8 – 12", rest: "2 мин" },
+                    { name: "Тяга горизонтального блока к поясу", sets: "3", reps: "10 – 12", rest: "1.5 мин" },
+                    { name: "Обратные махи в 'Пека-Дек' (Задняя дельта)", sets: "4", reps: "12 – 15", rest: "1.5 мин" },
+                    { name: "Шраги с гантелями (с пиковой фиксацией)", sets: "3", reps: "12 – 15", rest: "1 мин" },
+                    { name: "Пронатор с лямкой через блок / гантель", sets: "4", reps: "10 – 12", rest: "1.5 мин" },
+                    { name: "Сгибания кисти на скамье", sets: "3", reps: "12 – 15", rest: "1 мин" }
+                ]
+            },
+            3: {
+                title: "ДЕНЬ 3: АКТИВНОЕ ВОССТАНОВЛЕНИЕ / НИЗ ТЕЛА И ПРЕСС",
+                color: "#8a2be2",
+                exercises: [
+                    { name: "Жим ногами / Приседания в тренажере", sets: "3", reps: "10 – 12", rest: "2 мин" },
+                    { name: "Румынская тяга с гантелями", sets: "3", reps: "10 – 12", rest: "2 мин" },
+                    { name: "Подъем ног в висе (Пресс)", sets: "3", reps: "15", rest: "1 мин" },
+                    { name: "Плато Аскезы (Медитация / Прогулка / Растяжка)", sets: "1", reps: "1 сессия", rest: "—" }
+                ]
+            },
+            4: {
+                title: "ДЕНЬ 4: СПЕЦИАЛИЗИРОВАННЫЙ ДОЖИМ (ПЛЕЧИ + ВЕРХ ГРУДИ + ШЕЯ)",
+                color: "#ffaa00",
+                exercises: [
+                    { name: "Армейский жим гантелей сидя (75°)", sets: "4", reps: "10 – 12", rest: "2 мин" },
+                    { name: "Махи гантелями в стороны (Дроп-сет в конце)", sets: "4", reps: "15", rest: "1.2 мин" },
+                    { name: "Отжимания с ногами на возвышенности", sets: "3", reps: "До отказа", rest: "1.5 мин" },
+                    { name: "Молотковые сгибания (Хаммеры)", sets: "3", reps: "10 – 12", rest: "1.5 мин" },
+                    { name: "Комплекс на шею (Сгибания + Разгибания)", sets: "3", reps: "по 15–20", rest: "1 мин" }
+                ]
+            }
+        };
+
+        function switchWorkoutDay(dayNum, btnElement) {
+            playSfx('sfx-click');
+            
+            // Подсветка кнопок
+            document.querySelectorAll('.workout-tab-btn').forEach(b => {
+                b.style.background = "rgba(255,255,255,0.03)";
+                b.style.borderColor = "rgba(255,255,255,0.1)";
+                b.style.color = "#aaa";
+            });
+            btnElement.style.background = "rgba(0,212,255,0.15)";
+            btnElement.style.borderColor = "#00d4ff";
+            btnElement.style.color = "#fff";
+
+            const data = workoutDaysData[dayNum];
+            const box = document.getElementById('workout-content-box');
+            if (!box) return;
+
+            let html = `
+                <div style="font-size: 0.9rem; color: ${data.color}; font-weight: bold; margin-bottom: 18px; border-bottom: 1px solid ${data.color}40; padding-bottom: 8px;">
+                    🔥 ${data.title}
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+            `;
+
+            data.exercises.forEach((ex, idx) => {
+                html += `
+                    <div style="
+                        display: flex; justify-content: space-between; align-items: center;
+                        background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);
+                        padding: 12px 16px; border-radius: 8px; gap: 10px;
+                    ">
+                        <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
+                            <span style="font-size: 0.75rem; color: ${data.color}; font-weight: bold; min-width: 20px;">0${idx+1}.</span>
+                            <span style="font-size: 0.8rem; color: #fff;">${ex.name}</span>
+                        </div>
+                        <div style="display: flex; gap: 15px; font-size: 0.75rem; font-family: 'Orbitron';">
+                            <span style="color: #ffaa00;" title="Подходы">${ex.sets} подх.</span>
+                            <span style="color: #00ff88;" title="Повторения">${ex.reps} повτ.</span>
+                            <span style="color: #aaa; min-width: 60px; text-align: right;" title="Отдых">${ex.rest}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            box.innerHTML = html;
+        }
+
+        // Авто-инициализация первого дня при загрузке
+        window.addEventListener('load', () => {
+            const firstBtn = document.querySelector('.workout-tab-btn');
+            if (firstBtn) switchWorkoutDay(1, firstBtn);
         });
 
     </script>

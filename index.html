@@ -1020,16 +1020,22 @@
 
 
 
+             /* =================================================== */
+        /* 🌊 НОВЫЙ УЗКИЙ КИБЕР-САЙДБАР С ГРАДИЕНТОМ           */
         /* =================================================== */
-        /* 🌊 ЧИСТЫЙ SVG LIQUID NAV (НИКАКИХ РОГОВ И ТЕНЕЙ)     */
-        /* =================================================== */
+
         .liquid-nav-container {
             position: fixed;
             bottom: 25px;
             left: 50%;
             transform: translateX(-50%);
+            width: 320px; /* Сделали уже */
+            height: 60px; /* Компактный */
             z-index: 1000;
-            width: 320px;
+            padding: 2px; /* Толщина градиентной рамки */
+            background: linear-gradient(90deg, #00d4ff, #8a2be2); /* Сине-фиолетовая обводка */
+            border-radius: 30px;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2), 0 10px 30px rgba(0,0,0,0.8);
             transition: transform 0.4s ease, opacity 0.4s ease;
         }
 
@@ -1039,132 +1045,100 @@
             pointer-events: none;
         }
 
-        /* Корпус панели */
         .liquid-nav {
             position: relative;
             width: 100%;
-            height: 65px;
-            background: #1c1c2b;
-            /* Основной цвет панели */
-            border-radius: 20px;
+            height: 100%;
+            background: #080812; /* Внутренний темный фон */
+            border-radius: 28px;
             display: flex;
-            justify-content: center;
+            justify-content: space-around;
             align-items: center;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+            overflow: hidden;
         }
 
-        .nav-menu {
-            display: flex;
-            width: 100%;
-            position: relative;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            z-index: 10;
+        /* Розовые плавающие пузырьки на фоне панели */
+        .bubble {
+            position: absolute;
+            background: #ff007f; /* Розовый неон */
+            border-radius: 50%;
+            filter: blur(8px);
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 1;
         }
 
         .nav-item {
             position: relative;
+            z-index: 5;
             flex: 1;
-            height: 65px;
-        }
-
-        .nav-item a {
+            height: 100%;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
-            width: 100%;
-            height: 100%;
-            text-decoration: none;
-        }
-
-        /* Неактивные серые иконки */
-        .nav-icon {
-            color: rgba(255, 255, 255, 0.4);
-            transition: 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
-            transform: translateY(0);
-            display: flex;
             align-items: center;
-            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
         .nav-icon svg {
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
+            color: #666;
+            transition: 0.3s;
         }
 
-        /* Иконка вылетает точно внутрь белого шара */
-        .nav-item.active .nav-icon {
-            transform: translateY(-29px);
-            color: #1c1c2b;
-            /* Темная иконка на белом круге */
-            z-index: 25;
-        }
 
-        /* Текст под лункой */
+
         .nav-text {
             position: absolute;
-            font-family: 'Exo 2', sans-serif;
-            font-size: 0.72rem;
-            color: #ffffff;
+            bottom: 6px;
+            font-size: 0.55rem;
+            font-family: 'Orbitron';
+            color: #fff;
             opacity: 0;
-            transform: translateY(18px);
-            transition: 0.35s ease;
-            letter-spacing: 0.5px;
-            font-weight: 600;
+            transform: translateY(8px);
+            transition: 0.3s;
         }
 
         .nav-item.active .nav-text {
-            opacity: 0.95;
-            transform: translateY(14px);
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        /* =================================================== */
-        /* 🔘 SVG ИНДИКАТОР: ЛУНКА + БЕЛЫЙ ШАР                */
-        /* =================================================== */
-        .nav-indicator {
-            position: absolute;
-            top: 0;
-            width: 80px;
-            /* Ширина плавной лунки */
-            height: 65px;
-            pointer-events: none;
-            z-index: 5;
-            transition: left 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+        /* Выравниваем иконку строго по центру белого шара */
+        .nav-item.active .nav-icon svg {
+            color: #1c1c2b; /* Темная иконка внутри белого шара */
+            transform: translateY(-20px); /* Приподнимаем иконку точно на шар */
+            filter: none;
         }
 
-        /* Сама SVG-лунка, идеально встроенная в панель */
-        .nav-svg-cutout {
-            position: absolute;
-            top: -1px;
-            left: 0;
-            width: 100%;
-            height: 38px;
-            fill: #030307;
-            /* Фоновый цвет страницы, дает настоящий физический вырез! */
-            filter: drop-shadow(0 2px 0 #1c1c2b);
+        .nav-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%; /* Центрируем иконку по вертикали всей панели */
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* БЕЛЫЙ ШАР, ПАРЯЩИЙ В ЛУНКЕ */
-        .nav-ball {
+        /* Исправляем стартовую позицию белого шара по вертикали */
+        #nav-indicator {
             position: absolute;
-            top: -24px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 48px;
-            height: 48px;
+            top: 8px; /* Центрируем шар по высоте узкой панели */
+            width: 44px;
+            height: 44px;
             background: #ffffff;
             border-radius: 50%;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 6;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), inset 0 0 10px rgba(0,0,0,0.15);
+            z-index: 4;
+            transition: left 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55), transform 0.3s ease;
         }
 
-        /* Анимация погружения шара */
-        .nav-indicator.diving .nav-ball {
-            transform: translateX(-50%) translateY(26px) scale(0.5);
-            opacity: 0;
+
+        /* Анимация ныряния шара при переключении */
+        #nav-indicator.diving {
+            transform: scale(0.3);
+            opacity: 0.3;
         }
 
 
@@ -3246,6 +3220,112 @@
 }
 
 
+
+
+.mood-options {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin: 14px 0 20px;
+}
+
+.mood-btn {
+    --mood-color: #fff;
+    min-width: 0;
+    min-height: 76px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 10px 6px;
+    color: var(--mood-color);
+    background: linear-gradient(160deg, rgba(255,255,255,.09), rgba(5,5,15,.95));
+    border: 1px solid color-mix(in srgb, var(--mood-color) 65%, transparent);
+    border-bottom-width: 3px;
+    border-radius: 8px;
+    box-shadow:
+        0 5px 0 rgba(0,0,0,.45),
+        0 0 12px color-mix(in srgb, var(--mood-color) 18%, transparent),
+        inset 0 1px rgba(255,255,255,.14);
+    cursor: pointer;
+    transition: transform .16s ease, box-shadow .16s ease, filter .16s ease;
+}
+
+.mood-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 5px currentColor);
+}
+
+.mood-btn span {
+    font-size: .72rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.mood-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.15);
+}
+
+.mood-btn:active {
+    transform: translateY(2px);
+    border-bottom-width: 1px;
+    box-shadow: 0 1px 0 rgba(0,0,0,.45);
+}
+
+.mood-btn.selected {
+    transform: translateY(-2px);
+    background: color-mix(in srgb, var(--mood-color) 18%, #080812);
+    box-shadow:
+        0 0 18px color-mix(in srgb, var(--mood-color) 45%, transparent),
+        inset 0 0 12px color-mix(in srgb, var(--mood-color) 20%, transparent);
+}
+
+.mood-best   { --mood-color: #00bfff; }
+.mood-great   { --mood-color: #b45cff; }
+.mood-good    { --mood-color: #36df83; }
+.mood-normal  { --mood-color: #ffd34e; }
+.mood-bad     { --mood-color: #ff922e; }
+.mood-awful   { --mood-color: #ff4055; }
+
+@media (max-width: 480px) {
+    .mood-options {
+        gap: 8px;
+    }
+
+    .mood-btn {
+        min-height: 68px;
+    }
+
+    .mood-btn span {
+        font-size: .65rem;
+    }
+}
+
+
+
+.skill-card svg, .evolution-info svg {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+
+
+
+
+
     </style>
 
 
@@ -3687,7 +3767,7 @@
                 <!-- 2. СТАТИСТИКА НЕДЕЛИ (ЖИВЫЕ ДИНАМИЧЕСКИЕ ЦИФРЫ) -->
                 <div class="week-stats-card">
                     <div class="ws-row">
-                        <span class="ws-label">XP за неделю</span>
+                        <span class="ws-label">XP за день</span>
                         <div class="ws-val-box">
                             <span class="ws-val" id="ws-weekly-xp">0</span>
                             <span class="ws-badge green" id="ws-weekly-badge">+0% ↑</span>
@@ -3731,9 +3811,11 @@
     <!-- =================================================== -->
     <div id="skills-page" class="page-view">
         <div class="system-container">
-            <h1
-                style="font-family: 'Orbitron'; color: var(--accent-blue); text-align: center; margin-top: 20px; text-shadow: var(--neon-shadow);">
-                РЕЕСТР НАВЫКОВ МОНАРХА</h1>
+            <div style="text-align: center; margin-bottom: 25px; padding-top: 10px;">
+    <div style="font-size: 1.5rem; filter: drop-shadow(0 0 10px var(--accent-cyan));">👑</div>
+    <h2 style="font-family: 'Orbitron'; color: #fff; font-size: 1.1rem; letter-spacing: 2px; margin-top: 5px;">РЕЕСТР НАВЫКОВ МОНАРХА</h2>
+    <div style="width: 180px; height: 1px; background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent); margin: 8px auto 0;"></div>
+</div>
 
             <div class="skills-grid" style="margin-top: 40px;">
                 <div class="skill-card"><span class="skill-icon">🎸</span>
@@ -3764,66 +3846,64 @@
         </div>
     </div>
 
-    <!-- =================================================== -->
-    <!-- 🌊 ИСТИННЫЙ LIQUID NAVIGATION (SVG ВЫРЕЗ БЕЗ РОГОВ)  -->
+     <!-- =================================================== -->
+    <!-- 🌊 ИСТИННЫЙ LIQUID NAVIGATION (4 ВКЛАДКИ)           -->
     <!-- =================================================== -->
     <div id="liquid-nav-box" class="liquid-nav-container hidden-nav">
         <div class="liquid-nav">
-            <!-- Плавающий блок: лунка с идеальным изгибом + белый шар -->
-            <div id="nav-indicator" class="nav-indicator">
-                <!-- SVG-вырез в цвет панели (дает плавные ушки и дугу) -->
-                <svg class="nav-svg-cutout" viewBox="0 0 100 50">
-                    <path d="M 0 0 C 15 0 20 38 50 38 C 80 38 85 0 100 0 Z"></path>
-                </svg>
-                <!-- Белый парящий шар -->
-                <div class="nav-ball"></div>
-            </div>
+            <div id="nav-indicator"></div>
+            
+            <!-- 1. УРОВЕНЬ -->
+            <li class="nav-item active" onclick="playSfx('sfx-tab'); selectLiquidTab(this, 0, 'level-page')">
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                    </svg>
+                </span>
+                <span class="nav-text">Уровень</span>
+            </li>
 
-            <ul class="nav-menu">
-                <!-- 1. УРОВЕНЬ -->
-                <li class="nav-item active" onclick="playSfx('sfx-tab'); selectLiquidTab(this, 0, 'level-page')">
+            <!-- 2. ПРОГРАММЫ (НОВАЯ) -->
+            <li class="nav-item" onclick="playSfx('sfx-tab'); selectLiquidTab(this, 1, 'programs-page')">
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                </span>
+                <span class="nav-text">Программы</span>
+            </li>
 
-                    <a href="javascript:void(0)">
-                        <span class="nav-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                <path
-                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
-                                </path>
-                            </svg>
-                        </span>
-                        <span class="nav-text">Уровень</span>
-                    </a>
-                </li>
+            <!-- 3. НАВЫКИ -->
+            <li class="nav-item" onclick="playSfx('sfx-tab'); selectLiquidTab(this, 2, 'skills-page')">
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                </span>
+                <span class="nav-text">Навыки</span>
+            </li>
 
-                <!-- 2. НАВЫКИ -->
-                <li class="nav-item" onclick="playSfx('sfx-tab'); selectLiquidTab(this, 1, 'skills-page')">
-
-                    <a href="javascript:void(0)">
-                        <span class="nav-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                            </svg>
-                        </span>
-                        <span class="nav-text">Навыки</span>
-                    </a>
-                </li>
-
-                <!-- 3. ГЛАВНАЯ -->
-                <li class="nav-item" onclick="playSfx('sfx-tab'); selectLiquidTab(this, 2, 'main-menu')">
-
-                    <a href="javascript:void(0)">
-                        <span class="nav-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                            </svg>
-                        </span>
-                        <span class="nav-text">Главная</span>
-                    </a>
-                </li>
-            </ul>
+            <!-- 4. ГЛАВНАЯ -->
+            <li class="nav-item" onclick="playSfx('sfx-tab'); selectLiquidTab(this, 3, 'main-menu')">
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                </span>
+                <span class="nav-text">Главная</span>
+            </li>
         </div>
     </div>
+
+    <!-- СТРАНИЦА ПРОГРАММ -->
+    <div id="programs-page" class="page-view" style="display:none;">
+        <h1 style="color: #fff; font-family: 'Orbitron'; text-align: center; margin-top: 100px;">ПРОГРАММЫ СИСТЕМЫ</h1>
+        <p style="color: #666; text-align: center;">Модуль находится в разработке...</p>
+    </div>
+
 
 
 
@@ -3852,23 +3932,65 @@
                 <!-- ВЫБОР ОЦЕНКИ ДНЯ (КНОПКИ НАСТРОЕНИЯ) -->
                 <p style="color: var(--text-gray); font-size: 0.85rem; margin-bottom: 10px;">ВЫБЕРИТЕ ЭНЕРГИЮ ДНЯ ДЛЯ
                     СТАТИСТИКИ:</p>
-                <div style="display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;">
-                    <button type="button" class="mood-btn" onclick="setManualRating('Лучший день', '#8a2be2', this)"
-                        style="flex: 1; padding: 8px; border: 1px solid #8a2be2; background: rgba(138,43,226,0.1); color: #fff; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">🔥
-                        Лучший</button>
-                    <button type="button" class="mood-btn" onclick="setManualRating('Отличный день', '#ffffff', this)"
-                        style="flex: 1; padding: 8px; border: 1px solid #fff; background: rgba(255,255,255,0.1); color: #fff; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">✨
-                        Отличный</button>
-                    <button type="button" class="mood-btn" onclick="setManualRating('Хороший день', '#ffaa00', this)"
-                        style="flex: 1; padding: 8px; border: 1px solid #ffaa00; background: rgba(255,170,0,0.1); color: #fff; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">⚡️
-                        Хороший</button>
-                    <button type="button" class="mood-btn" onclick="setManualRating('Плохой день', '#ff004c', this)"
-                        style="flex: 1; padding: 8px; border: 1px solid #ff004c; background: rgba(255,0,76,0.1); color: #fff; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">⚠️
-                        Плохой</button>
-                    <button type="button" class="mood-btn" onclick="setManualRating('Ужасный день', '#111111', this)"
-                        style="flex: 1; padding: 8px; border: 1px solid #444; background: rgba(0,0,0,0.5); color: #aaa; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">💀
-                        Ужасный</button>
-                </div>
+                <div class="mood-options">
+    <button type="button" class="mood-btn mood-best"
+        onclick="setManualRating('Лучший день', this)" aria-label="Лучший день">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2.8 14.8 9l6.7.6-5.1 4.4 1.5 6.6-5.9-3.5-5.9 3.5 1.5-6.6-5.1-4.4 6.7-.6L12 2.8Z"/>
+        </svg>
+        <span>Лучший</span>
+    </button>
+
+    <button type="button" class="mood-btn mood-great"
+        onclick="setManualRating('Классный день', this)" aria-label="Классный день">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m12 3 2.4 5.1 5.6.8-4 3.9.9 5.6-4.9-2.7-4.9 2.7.9-5.6-4-3.9 5.6-.8L12 3Z"/>
+            <path d="m19 15 .8 1.7 1.7.3-1.3 1.2.3 1.8-1.5-.9-1.5.9.3-1.8-1.3-1.2 1.7-.3L19 15Z"/>
+        </svg>
+        <span>Классный</span>
+    </button>
+
+    <button type="button" class="mood-btn mood-good"
+        onclick="setManualRating('Хороший день', this)" aria-label="Хороший день">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+            <path d="M9 9h.01M15 9h.01"/>
+        </svg>
+        <span>Хороший</span>
+    </button>
+
+    <button type="button" class="mood-btn mood-normal"
+        onclick="setManualRating('Обычный день', this)" aria-label="Обычный день">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M8 15h8"/>
+            <path d="M9 9h.01M15 9h.01"/>
+        </svg>
+        <span>Обычный</span>
+    </button>
+
+    <button type="button" class="mood-btn mood-bad"
+        onclick="setManualRating('Плохой день', this)" aria-label="Плохой день">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M8 16s1.5-2 4-2 4 2 4 2"/>
+            <path d="M9 9h.01M15 9h.01"/>
+        </svg>
+        <span>Плохой</span>
+    </button>
+
+    <button type="button" class="mood-btn mood-awful"
+        onclick="setManualRating('Ужасный день', this)" aria-label="Ужасный день">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3 22 20H2L12 3Z"/>
+            <path d="M12 9v4"/>
+            <path d="M12 16h.01"/>
+        </svg>
+        <span>Ужасный</span>
+    </button>
+</div>
+
 
                 <textarea id="daily-note-text" class="note-textarea"
                     placeholder="Опиши события, мысли и то, почему день получил именно такую оценку..."
@@ -3960,76 +4082,113 @@
             return sum + currentXp;
         }
 
-        let playerData = {
+               let playerData = {
             name: "Борис (Орнит)",
             role: "Теневой Демиург / Архитектор Кода",
             rank: "C-Ранг (Авангард)",
             level: 34,
             xp: 0,
-            totalAsceticismDays: 196,
-totalAsceticismAwardedDates: [],
-
-  
+            totalAsceticismDays: 198, // Поставил твой актуальный день
+            totalAsceticismAwardedDates: [],
             nextLevelXp: 8450,
-            completedMissionsDate: "",      // Дата, когда миссии были выполнены (например, "2026-10-11")
-            completedMissionsIds: [],       // Список ID выполненных сегодня миссий
-           asceticismDays: 1, // текущая серия; укажи здесь своё фактическое число
-personalRecord: 9, // личный рекорд
-weeklyXp: 0,
-completedMissionsCount: 0,
-totalXp: 70382,
-dailyMissionCompleted: false,
-weeklyHistory: [0, 0, 0, 0, 0, 0, 0],
-
-            lastRelapseDate: "",            // Дата последнего срыва (строка YYYY-MM-DD)
-            isLockedUntilMidnight: false,   // Заблокирован ли набор дней до завтра
-            relapseLockTimestamp: 0,        // Точное время срыва
+            completedMissionsDate: "",
+            completedMissionsIds: [],
+            asceticismDays: 1, 
+            personalRecord: 9, 
+            weeklyXp: 0,
+            completedMissionsCount: 0,
+            totalXp: 70382,
+            dailyMissionCompleted: false,
+            weeklyHistory: [0, 0, 0, 0, 0, 0, 0],
+            lastRelapseDate: "",            
+            isLockedUntilMidnight: false,   
+            relapseLockTimestamp: 0,        
             asceticismHistory: {},
 
             branches: {
-                int: {name: "Интеллект и Архитектура", icon: "🧠", color: "#00d4ff"},
-                str: {name: "Сила и Биомеханика", icon: "💪", color: "#ff004c"},
-                wil: {name: "Суверенитет и Стоицизм", icon: "🛡️", color: "#8a2be2"},
-                res: {name: "Ресурс и Творчество", icon: "💰", color: "#ffaa00"}
+                int: {name: "Интеллект", icon: "🧠", color: "#00d4ff"},
+                str: {name: "Сила", icon: "💪", color: "#ff004c"},
+                wil: {name: "Душа", icon: "✨", color: "#8a2be2"},
+                res: {name: "Творчество", icon: "🎨", color: "#ffaa00"}
             },
 
             skills: {
-                coding: {branch: "int", name: "Кодинг / Архитектура", icon: "💻", level: 28, xp: 450, nextLevelXp: 1200},
-                cooking: {branch: "int", name: "Кулинария", icon: "🍳", level: 50, xp: 800, nextLevelXp: 2000},
-                arm: {branch: "str", name: "Армрестлинг", icon: "💪", level: 12, xp: 210, nextLevelXp: 600},
-                body: {branch: "str", name: "Тело и Сила", icon: "🔥", level: 15, xp: 350, nextLevelXp: 800},
-                acrobatics: {branch: "str", name: "Акробатика", icon: "🤸", level: 5, xp: 40, nextLevelXp: 300},
-                stoicism: {branch: "wil", name: "Аскеза и Контроль", icon: "🧘", level: 21, xp: 1050, nextLevelXp: 1500},
-                guitar: {branch: "res", name: "Гитара", icon: "🎸", level: 10, xp: 120, nextLevelXp: 500},
-                recitative: {branch: "res", name: "Речитатив", icon: "🎤", level: 8, xp: 90, nextLevelXp: 400},
-                finance: {branch: "res", name: "Ресурс / Доход", icon: "💵", level: 14, xp: 300, nextLevelXp: 700}
+                // ИНТЕЛЛЕКТ
+                coding: {
+                    branch: "int", name: "Кодинг", level: 28, xp: 450, nextLevelXp: 1200,
+                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>'
+                },
+                cooking: {
+                    branch: "int", name: "Кулинария", level: 50, xp: 800, nextLevelXp: 2000,
+                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 13.87A4 4 0 0 1 7.41 6.13a5.11 5.11 0 0 1 9.18 0 4 4 0 0 1 1.41 7.74 4 4 0 0 1-2 7.26H8a4 4 0 0 1-2-7.26z"/></svg>'
+                },
+                // СИЛА
+                arm: {
+                    branch: "str", name: "Армрестлинг", level: 12, xp: 210, nextLevelXp: 600,
+                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 18l6-6 6 6M6 6l6 6 6-6"/></svg>'
+                },
+                acrobatics: {
+                    branch: "str", name: "Акробатика", level: 5, xp: 40, nextLevelXp: 300,
+                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="3"/><path d="M6 22l3-10h6l3 10"/></svg>'
+                },
+                body: {
+                    branch: "str", name: "Тело", level: 15, xp: 350, nextLevelXp: 800,
+                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.42 4.58a5 5 0 0 0-7.07 0l-.35.35-.35-.35a5 5 0 0 0-7.07 7.07l.35.35L13 19.07l7.07-7.07.35-.35a5 5 0 0 0 0-7.07z"/></svg>'
+                },
+                // ДУША
+                asceticism: {
+                    branch: "wil", name: "Аскеза", level: 21, xp: 1050, nextLevelXp: 1500,
+                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>'
+                },
+                abstinence: {
+                    branch: "wil", name: "Воздержание", level: 1, xp: 0, nextLevelXp: 500,
+                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>'
+                },
+                // ТВОРЧЕСТВО
+                guitar: {
+                    branch: "res", name: "Гитара", level: 10, xp: 120, nextLevelXp: 500,
+                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>'
+                },
+                diction: {
+                    branch: "res", name: "Дикция", level: 8, xp: 90, nextLevelXp: 400,
+                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>'
+                },
+                resource: {
+                    branch: "res", name: "Ресурс", level: 14, xp: 300, nextLevelXp: 700,
+                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><line x1="3" y1="3" x2="21" y2="21"/><path d="M12 8v8M8 12h8"/></svg>'
+                },
+                storytelling: {
+                    branch: "res", name: "Сторителлинг", level: 1, xp: 0, nextLevelXp: 300,
+                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>'
+                },
+                sewing: {
+                    branch: "res", name: "Шитьё", level: 1, xp: 0, nextLevelXp: 300,
+                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 21 18-18"/><circle cx="18" cy="6" r="3"/></svg>'
+                }
             }
         };
 
 
         // Квесты для каждой ветки с твоим точным опытом
-        const branchQuests = {
+               const branchQuests = {
             int: [
-                {title: "+500 строк чистого кода", xp: 100},
-                {title: "Релиз новой фичи (звук/UI)", xp: 250},
-                {title: "Релиз сервиса / сайта (Ornit System)", xp: 1500}
+                {title: "Решение сложной логической задачи", xp: 100},
+                {title: "Изучение новой технологии/рецепта", xp: 150}
             ],
             str: [
-                {title: "Тяжелая тренировка армрестлинга", xp: 150},
-                {title: "Рекорд на пронатор / кисть", xp: 300},
-                {title: "15 000 шагов по городу", xp: 200}
+                {title: "Интенсивная тренировка", xp: 200},
+                {title: "Преодоление силового порога", xp: 300}
             ],
             wil: [
-                {title: "День аскезы без срывов", xp: 50},
-                {title: "Победа над эмоциональной ловушкой", xp: 300},
-                {title: "Осознал и уничтожил внутренний баг", xp: 1000}
+                {title: "День в абсолютном контроле", xp: 100},
+                {title: "Победа над импульсом", xp: 250}
             ],
             res: [
-                {title: "Заработал 1 000 руб своим трудом", xp: 50},
-                {title: "Заработал 10 000 руб", xp: 600},
-                {title: "Выучил сложную партию на гитаре", xp: 150}
+                {title: "Творческая практика (1 час)", xp: 120},
+                {title: "Завершение проекта/партии", xp: 200}
             ]
         };
+
 
 
         let currentActiveSkillKey = null;
@@ -4152,8 +4311,7 @@ profileDocRef.onSnapshot((doc) => {
 
 
 
-
-               function updateMainUI() {
+        function updateMainUI() {
             // 1. Авто-рекорд: если текущая серия перебила старый рекорд — обновляем его
             if (Number(playerData.asceticismDays) > (Number(playerData.personalRecord) || 0)) {
                 playerData.personalRecord = Number(playerData.asceticismDays);
@@ -4187,33 +4345,28 @@ profileDocRef.onSnapshot((doc) => {
                 totalXpEl.innerText = `${Number(displayTotal).toLocaleString()} XP`;
             }
 
-            // 5. РЕКОРДЫ АСКИЗЫ (тот самый Best Result)
+            // 5. РЕКОРДЫ АСКЕЗЫ (Best Result)
             const acBest = document.getElementById('ac-best-record');
             const wsRecord = document.getElementById('ws-record-days');
-            const bestVal = playerData.personalRecord || 9; // Если в базе пусто, берем твои честные 9 дней
+            const bestVal = playerData.personalRecord || 9;
             if (acBest) acBest.innerText = `${bestVal} дней`;
             if (wsRecord) wsRecord.innerText = `${bestVal} дней`;
 
-            // 6. ВЕРХНИЙ СЧЕТЧИК АСКЕЗЫ (196+ дней)
+            // 6. ВЕРХНИЙ СЧЕТЧИК АСКЕЗЫ (198 дней)
             const totalDaysTop = document.getElementById('top-asceticism-days');
             if (totalDaysTop) {
-                totalDaysTop.textContent = Number(playerData.totalAsceticismDays || 196);
+                totalDaysTop.textContent = Number(playerData.totalAsceticismDays || 198);
             }
 
-            // 7. Статистика недели (синхрон с графиком)
-            let calcWeeklyFromHistory = 0;
-            if (playerData.chartHistory) {
-                Object.values(playerData.chartHistory).forEach(val => {
-                    calcWeeklyFromHistory += (Number(val) || 0);
-                });
-            }
-            playerData.weeklyXp = Math.max(playerData.weeklyXp || 0, calcWeeklyFromHistory, playerData.xp || 0);
+            // 7. СТАТИСТИКА ЗА СЕГОДНЯ (Берем строго из истории за текущую дату)
+            const mskToday = getMskDateInfo().dateString;
+            const dailyXp = (playerData.chartHistory && playerData.chartHistory[mskToday]) || 0;
 
-            const wsWeeklyXp = document.getElementById('ws-weekly-xp');
-            if (wsWeeklyXp) wsWeeklyXp.innerText = playerData.weeklyXp.toLocaleString();
+            const wsDailyXpDisplay = document.getElementById('ws-weekly-xp'); 
+            if (wsDailyXpDisplay) wsDailyXpDisplay.innerText = dailyXp.toLocaleString();
 
-            const wsWeeklyBadge = document.getElementById('ws-weekly-badge');
-            if (wsWeeklyBadge) wsWeeklyBadge.innerText = `+${playerData.weeklyXp.toLocaleString()} ↑`;
+            const wsDailyBadge = document.getElementById('ws-weekly-badge');
+            if (wsDailyBadge) wsDailyBadge.innerText = `+${dailyXp.toLocaleString()} ↑`;
 
             // 8. Миссии
             const wsMissions = document.getElementById('ws-missions-count');
@@ -4230,6 +4383,7 @@ profileDocRef.onSnapshot((doc) => {
             if (typeof updatePlayerRankBadge === 'function') updatePlayerRankBadge();
             if (typeof updateEvolutionProfile === 'function') updateEvolutionProfile();
         }
+
 
 
         // ⚔️ РАСЧЕТ БОЕВОГО РАНГА ПО ОБЩЕМУ ОПЫТУ (TOTAL XP)
@@ -4256,20 +4410,19 @@ profileDocRef.onSnapshot((doc) => {
             }
         }
 
-
         function addExpToSystem(amount, sourceTitle) {
-            playerData.xp += amount;
-            playerData.totalXp = (playerData.totalXp || 70382) + amount;
-            playerData.weeklyXp = (playerData.weeklyXp || 0) + amount;
+            const msk = getMskDateInfo();
+            const today = msk.dateString;
 
-            // ⚡️ ЗАПИСЬ В ИСТОРИЮ ГРАФИКА
-            const msk = getMskDateInfo(); // Это даст нам "2026-10-11"
+            // 1. Опыт в текущий уровень и общий зачет
+            playerData.xp = (Number(playerData.xp) || 0) + amount;
+            playerData.totalXp = (Number(playerData.totalXp) || 70382) + amount;
+
+            // 2. ⚡️ ГЛАВНОЕ: Запись опыта строго за СЕГОДНЯ
             if (!playerData.chartHistory) playerData.chartHistory = {};
+            playerData.chartHistory[today] = (Number(playerData.chartHistory[today]) || 0) + amount;
 
-            // Плюсуем опыт к сегодняшней дате
-            playerData.chartHistory[msk.dateString] = (playerData.chartHistory[msk.dateString] || 0) + amount;
-
-            // Проверка Level Up
+            // 3. Проверка Level Up
             if (playerData.xp >= playerData.nextLevelXp && playerData.level < 100) {
                 playerData.xp -= playerData.nextLevelXp;
                 playerData.level += 1;
@@ -4277,12 +4430,14 @@ profileDocRef.onSnapshot((doc) => {
                 alert(`🔥 LEVEL UP! ОРНИТ ДОСТИГ LV. ${playerData.level}!`);
             }
 
+            // 4. Синхронизация с UI и Базой
             updateMainUI();
 
             if (typeof profileDocRef !== 'undefined') {
-                profileDocRef.set(playerData, {merge: true});
+                profileDocRef.set(playerData, { merge: true });
             }
         }
+
 
 
 
@@ -4334,28 +4489,25 @@ profileDocRef.onSnapshot((doc) => {
         }
 
 
-        // КЛИК ПО LIQUID NAV С ФИЗИКОЙ НЫРЯНИЯ В ГЛУБИНУ
+                // 🔄 ИСПРАВЛЕННЫЙ ВЫБОР ВКЛАДКИ (ФИКС ЦЕНТРОВКИ)
         function selectLiquidTab(element, index, pageId) {
-              playSfx('sfx-tab');
             const indicator = document.getElementById('nav-indicator');
             const nav = document.querySelector('.liquid-nav');
             const items = document.querySelectorAll('.nav-item');
 
-            // 1. Шар сначала «ныряет» вниз
             indicator.classList.add('diving');
 
             setTimeout(() => {
-                // 2. Снимаем активность и ставим на новую кнопку
                 items.forEach(item => item.classList.remove('active'));
                 element.classList.add('active');
 
-                // 3. Перемещаем лунку на новую позицию
-                const tabWidth = nav.offsetWidth / 3;
-                const indicatorWidth = 54;
+                // ТЕПЕРЬ ДЕЛИМ НА 4! 
+                const tabWidth = nav.offsetWidth / 4;
+                const indicatorWidth = 50; 
                 const centerPosition = (index * tabWidth) + (tabWidth / 2) - (indicatorWidth / 2);
+                
                 indicator.style.left = `${centerPosition}px`;
 
-                // 4. Через мгновение белый шар «выныривает» вверх!
                 setTimeout(() => {
                     indicator.classList.remove('diving');
                 }, 100);
@@ -4364,37 +4516,86 @@ profileDocRef.onSnapshot((doc) => {
             }, 150);
         }
 
-        // ЖЕСТКИЙ СТАРТ НА ГЛАВНОЙ (НИКАКОГО АВТОВХОДА)
+        // 🛡️ ФИКС ПУСТОГО ЭКРАНА И КРИВОГО ШАРИКА ПРИ СТАРТЕ
         window.addEventListener('load', () => {
+            // Сначала переключаем страницу
             switchPage('main-menu');
-            // Заранее центрируем индикатор на первой кнопке
-            const nav = document.querySelector('.liquid-nav');
-            if (nav) {
+            
+            // Даем браузеру отрисовать ширину нава, потом ставим шарик
+            setTimeout(() => {
+                const nav = document.querySelector('.liquid-nav');
                 const indicator = document.getElementById('nav-indicator');
-                const tabWidth = nav.offsetWidth / 3;
-                indicator.style.left = `${(tabWidth / 2) - 27}px`;
-            }
+                if (nav && indicator) {
+                    const tabWidth = nav.offsetWidth / 4;
+                    const centerPosition = (3 * tabWidth) + (tabWidth / 2) - (25); // Индекс 3 = Главная
+                    indicator.style.left = `${centerPosition}px`;
+                    
+                    // Убираем активность со всех и ставим на Главную (индекс 3)
+                    const items = document.querySelectorAll('.nav-item');
+                    items.forEach(item => item.classList.remove('active'));
+                    items[3].classList.add('active');
+                }
+            }, 300); 
         });
 
+        // Исправленный switchPage (чтобы не было пустого экрана)
+        function switchPage(pageId) {
+            const pages = document.querySelectorAll('.page-view');
+            const navBox = document.getElementById('liquid-nav-box');
 
+            // Сайдбар виден на Уровне, Программах и Навыках
+            const visiblePages = ['level-page', 'programs-page', 'skills-page'];
+            if (visiblePages.includes(pageId)) {
+                navBox.classList.remove('hidden-nav');
+            } else {
+                navBox.classList.add('hidden-nav');
+            }
 
-
-        let currentDayRating = "Хороший день"; // Дефолтное значение
-        let currentDayColor = "#ffaa00";
-
-        // Ручной выбор настроения при клике в заметках
-        function setManualRating(rating, color, btnElement) {
-            currentDayRating = rating;
-            currentDayColor = color;
-
-            // Подсветка выбранной кнопки
-            document.querySelectorAll('.mood-btn').forEach(b => {
-                b.style.boxShadow = 'none';
-                b.style.opacity = '0.6';
+            pages.forEach(p => {
+                if (p.id === pageId) {
+                    // ФИКС: Явно задаем flex для главного меню, чтобы не пропадало
+                    p.style.display = (pageId === 'main-menu') ? 'flex' : 'block';
+                    p.classList.add('active-page');
+                } else {
+                    p.classList.remove('active-page');
+                    p.style.display = 'none';
+                }
             });
-            btnElement.style.boxShadow = `0 0 12px ${color}`;
-            btnElement.style.opacity = '1';
         }
+
+
+
+
+
+              const ratingColors = {
+            "Лучший день": "#00bfff",
+            "Классный день": "#b45cff",
+            "Отличный день": "#b45cff", // Страховка: если из базы прилетит старая запись "Отличный", подтянется фиолетовый
+            "Хороший день": "#36df83",
+            "Обычный день": "#ffd34e",
+            "Плохой день": "#ff922e",
+            "Ужасный день": "#ff4055"
+        };
+
+
+let currentDayRating = "Обычный день";
+let currentDayColor = ratingColors[currentDayRating];
+
+function setManualRating(rating, button) {
+    currentDayRating = rating;
+    currentDayColor = ratingColors[rating] || "#ffd34e";
+
+    document.querySelectorAll(".mood-btn").forEach(item => {
+        item.classList.remove("selected");
+        item.setAttribute("aria-pressed", "false");
+    });
+
+    if (button) {
+        button.classList.add("selected");
+        button.setAttribute("aria-pressed", "true");
+    }
+}
+
 
 
         // Получение МСК даты (UTC+3)
@@ -4417,7 +4618,7 @@ profileDocRef.onSnapshot((doc) => {
         }
 
         function openNotesTab() {
-              playSfx('sfx-click');
+            playSfx('sfx-click');
             const msk = getMskDateInfo();
             document.getElementById('note-date-label').innerText = `ОТЧЕТ СИСТЕМЫ ЗА ${msk.displayDate}`;
             document.getElementById('daily-note-text').value = "";
@@ -4426,8 +4627,8 @@ profileDocRef.onSnapshot((doc) => {
                 .then((doc) => {
                     if (doc.exists) {
                         const data = doc.data();
-                        currentDayRating = data.rating || "Хороший день";
-                        currentDayColor = data.color || "#ffaa00";
+                        currentDayRating = data.rating || "Обычный день";
+                        currentDayColor = ratingColors[currentDayRating] || "#ffd34e";
                         document.getElementById('daily-note-text').value = data.note || "";
                     }
                     switchPage('notes-page');
@@ -4437,6 +4638,7 @@ profileDocRef.onSnapshot((doc) => {
                     switchPage('notes-page');
                 });
         }
+
 
         // Сохранение лога в базу (+50 XP строго 1 раз в день)
         function saveDayLog() {
@@ -4548,30 +4750,28 @@ profileDocRef.onSnapshot((doc) => {
                     cell.title = `${d} ${name} ${year}`;
                     cell.innerText = d;
 
-                    // ⚡️ ПОЛНАЯ ЗАЛИВКА КВАДРАТИКА ЦВЕТОМ ЛОГА
+                                        // ⚡️ ПОЛНАЯ ЗАЛИВКА КВАДРАТИКА ЦВЕТОМ ЛОГАС АВТО-ЗАМЕНОЙ "ОТЛИЧНЫЙ" -> "КЛАССНЫЙ"
                     if (loadedLogs[curDateString]) {
-                        const logColor = loadedLogs[curDateString].color;
+                        const logData = loadedLogs[curDateString];
+                        // Если ранее был "Отличный день", переименовываем на "Классный день"
+                        if (logData.rating === "Отличный день") {
+                            logData.rating = "Классный день";
+                        }
+
+                        const logColor = ratingColors[logData.rating] || logData.color || "#ffd34e";
+
                         cell.classList.add('has-log');
                         cell.style.setProperty('background-color', logColor, 'important');
                         cell.style.setProperty('border-color', logColor, 'important');
                         cell.style.setProperty('box-shadow', `0 0 12px ${logColor}`, 'important');
 
-                        // Если цвет слишком светлый (белый или желтый), текст делаем черным для читаемости
-                        if (logColor === '#ffffff' || logColor === '#ffaa00') {
-                            cell.style.setProperty('color', '#000000', 'important');
-                            cell.style.setProperty('font-weight', 'bold', 'important');
-                        } else {
-                            cell.style.setProperty('color', '#ffffff', 'important');
-                        }
+                        cell.style.setProperty('color', '#ffffff', 'important');
 
                         cell.onclick = () => {
-                            openReadModal(loadedLogs[curDateString]);
-                        };
-                    } else {
-                        cell.onclick = () => {
-                            alert(`Запись отсутствует: ${d} ${name} ${year}`);
+                            openReadModal(logData);
                         };
                     }
+
 
                     matrix.appendChild(cell);
                 }
@@ -4583,19 +4783,24 @@ profileDocRef.onSnapshot((doc) => {
         }
 
 
-        // Просмотр лога
+                // Просмотр лога с авто-заменой устаревшего названия
         function openReadModal(log) {
             const dateArr = log.date.split('-');
             document.getElementById('modal-read-date').innerText = `ОТЧЕТ ЗА ${dateArr[2]}.${dateArr[1]}.${dateArr[0]}`;
 
+            // Если в старой заметке лежал "Отличный день", выводим "Классный день"
+            let finalRating = log.rating === "Отличный день" ? "Классный день" : log.rating;
+            let finalColor = ratingColors[finalRating] || log.color || "#ffd34e";
+
             const ratingLabel = document.getElementById('modal-read-rating');
-            ratingLabel.innerText = log.rating;
-            ratingLabel.style.background = log.color;
-            ratingLabel.style.color = (log.color === '#ffffff' || log.color === '#ffaa00') ? '#000' : '#fff';
+            ratingLabel.innerText = finalRating;
+            ratingLabel.style.background = finalColor;
+            ratingLabel.style.color = '#fff';
 
             document.getElementById('modal-read-text').innerText = log.note;
             document.getElementById('read-note-modal').style.display = 'flex';
         }
+
 
         function closeReadModal() {
             document.getElementById('read-note-modal').style.display = 'none';
@@ -4825,44 +5030,109 @@ profileDocRef.onSnapshot((doc) => {
         // =========================================================
         // 🎮 СИСТЕМА ПРОКАЧКИ НАВЫКОВ И ПЕРЕЛИВАНИЯ В ОСНОВНОЙ LVL
         // =========================================================
-
-        function renderSkillsGrid() {
+ function renderSkillsGrid() {
             const grid = document.querySelector('.skills-grid');
             if (!grid || !playerData.skills) return;
             grid.innerHTML = "";
 
-            // Группируем по 4 веткам
+            // Контейнер для всего реестра
+            grid.style.cssText = `
+                display: flex; flex-direction: column; gap: 24px;
+                max-width: 900px; margin: 0 auto; padding: 20px 10px;
+                font-family: 'Orbitron', sans-serif;
+            `;
+
             const branchOrder = ['int', 'str', 'wil', 'res'];
 
             branchOrder.forEach(bKey => {
                 const b = playerData.branches[bKey];
-                const header = document.createElement('div');
-                header.style.gridColumn = '1 / -1';
-                header.style.marginTop = '20px';
-                header.style.marginBottom = '10px';
-                header.style.fontFamily = 'Orbitron';
-                header.style.fontSize = '0.9rem';
-                header.style.color = b.color;
-                header.style.borderBottom = `1px solid ${b.color}40`;
-                header.style.paddingBottom = '6px';
-                header.innerText = `${b.icon} ${b.name.toUpperCase()}`;
-                grid.appendChild(header);
+                if (!b) return;
 
-                for (let sKey in playerData.skills) {
-                    const s = playerData.skills[sKey];
-                    if (s.branch === bKey) {
-                        const card = document.createElement('div');
-                        card.className = 'skill-card';
-                        card.style.borderColor = `${b.color}60`;
-                        card.onclick = () => openSkillModal(sKey);
-                        card.innerHTML = `
-                            <span class="skill-icon">${s.icon}</span>
-                            <div class="skill-name" style="color: ${b.color};">${s.name}</div>
-                            <div class="skill-level">LV. ${s.level}</div>
-                        `;
-                        grid.appendChild(card);
-                    }
-                }
+                // Находим все навыки этой ветки
+                const branchSkills = Object.keys(playerData.skills)
+                    .map(sKey => ({ key: sKey, ...playerData.skills[sKey] }))
+                    .filter(s => s.branch === bKey);
+
+                if (branchSkills.length === 0) return;
+
+                // Секция ветки
+                const section = document.createElement('div');
+                section.style.cssText = `display: flex; flex-direction: column; gap: 12px;`;
+
+                // Заголовок ветки с линией
+                const header = document.createElement('div');
+                header.style.cssText = `
+                    display: flex; align-items: center; gap: 10px;
+                    font-size: 0.85rem; color: ${b.color}; letter-spacing: 1px;
+                    border-bottom: 1px solid ${b.color}50; padding-bottom: 8px;
+                `;
+                header.innerHTML = `<span>${b.icon}</span><span>${b.name.toUpperCase()}</span>`;
+                section.appendChild(header);
+
+                // Грид карточек навыков в ряд
+                const cardsRow = document.createElement('div');
+                cardsRow.style.cssText = `
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                    gap: 15px;
+                `;
+
+                branchSkills.forEach(s => {
+                    const percent = Math.min((s.xp / s.nextLevelXp) * 100, 100);
+
+                    const card = document.createElement('div');
+                    card.style.cssText = `
+                        background: rgba(10, 10, 22, 0.75);
+                        border: 1px solid ${b.color};
+                        border-radius: 12px;
+                        padding: 16px;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        gap: 14px;
+                        cursor: pointer;
+                        transition: 0.3s;
+                        box-shadow: 0 0 12px ${b.color}25, inset 0 0 10px ${b.color}10;
+                    `;
+                    card.onmouseover = () => { card.style.boxShadow = `0 0 20px ${b.color}50, inset 0 0 15px ${b.color}20`; };
+                    card.onmouseout = () => { card.style.boxShadow = `0 0 12px ${b.color}25, inset 0 0 10px ${b.color}10`; };
+                    card.onclick = () => openSkillModal(s.key);
+
+                    card.innerHTML = `
+                        <div style="display: flex; align-items: center; gap: 14px;">
+                            <div style="
+                                width: 42px; height: 42px; border-radius: 10px;
+                                background: ${b.color}15; border: 1px solid ${b.color}60;
+                                display: flex; align-items: center; justify-content: center;
+                                font-size: 1.2rem; box-shadow: 0 0 10px ${b.color}30;
+                            ">${s.icon}</div>
+                            <div>
+                                <div style="font-size: 0.82rem; color: #fff; font-weight: bold; margin-bottom: 4px;">${s.name}</div>
+                                <div style="
+                                    display: inline-block; font-size: 0.65rem; color: ${b.color};
+                                    border: 1px solid ${b.color}50; padding: 2px 8px; border-radius: 4px;
+                                    background: ${b.color}10;
+                                ">LV. ${s.level}</div>
+                            </div>
+                        </div>
+                        <div style="
+                            width: 100%; height: 6px; background: #05050a;
+                            border-radius: 4px; border: 1px solid rgba(255,255,255,0.06);
+                            overflow: hidden;
+                        ">
+                            <div style="
+                                width: ${percent}%; height: 100%;
+                                background: linear-gradient(90deg, ${b.color}, #ffffff);
+                                box-shadow: 0 0 8px ${b.color};
+                                border-radius: 4px; transition: width 0.4s ease;
+                            "></div>
+                        </div>
+                    `;
+                    cardsRow.appendChild(card);
+                });
+
+                section.appendChild(cardsRow);
+                grid.appendChild(section);
             });
         }
 
@@ -4991,7 +5261,7 @@ profileDocRef.onSnapshot((doc) => {
             {day: 0, name: "Воскресенье: Итоги Недели", desc: "Анализ достижений системы, планирование прорыва на следующую неделю."}
         ];
 
-        function updateWeeklyMissionsUI() {
+              function updateWeeklyMissionsUI() {
             const now = new Date();
             const dayOfWeek = now.getDay(); // 0 - ВС, 1 - ПН, ... 6 - СБ
             const mission = weeklyMissionsPool.find(m => m.day === dayOfWeek) || weeklyMissionsPool[0];
@@ -5012,6 +5282,7 @@ profileDocRef.onSnapshot((doc) => {
             const wsMissionsBadge = document.getElementById('ws-missions-badge');
             if (wsMissionsBadge) wsMissionsBadge.innerText = `+${completedCount} ↑`;
         }
+
 
         // ВЫПОЛНЕНИЕ МИССИИ ДНЯ С ИНКРЕМЕНТОМ В 0/7
         function completeDailyMission() {
@@ -5052,82 +5323,75 @@ profileDocRef.onSnapshot((doc) => {
             {days: 180, name: "Абсолют", icon: "absolute.webp", badgeId: "rank-badge-180", color: "#ffffff"}
         ];
 
-       function updateAchievementsUI() {
-    const currentStreak = Number(playerData.asceticismDays) || 0;
+           function updateAchievementsUI() {
+            const currentStreak = Number(playerData.asceticismDays) || 0;
 
-    // Рекорд никогда не уменьшаем
-    playerData.personalRecord = Math.max(
-        Number(playerData.personalRecord) || 9,
-        currentStreak
-    );
+            // Рекорд никогда не уменьшаем
+            playerData.personalRecord = Math.max(
+                Number(playerData.personalRecord) || 9,
+                currentStreak
+            );
 
-    const record = playerData.personalRecord;
-    let highestUnlockedRank = null;
-    let nextTargetRank = null;
+            const record = playerData.personalRecord;
+            let highestUnlockedRank = null;
+            let nextTargetRank = null;
 
-    ascRanksLadder.forEach(rank => {
-        const badge = document.getElementById(rank.badgeId);
-        const unlocked = record >= rank.days;
+            ascRanksLadder.forEach(rank => {
+                const badge = document.getElementById(rank.badgeId);
+                const unlocked = record >= rank.days;
 
-        if (badge) {
-            badge.classList.toggle('unlocked', unlocked);
-            badge.classList.toggle('locked', !unlocked);
+                if (badge) {
+                    badge.classList.toggle('unlocked', unlocked);
+                    badge.classList.toggle('locked', !unlocked);
+                }
+
+                if (unlocked) {
+                    highestUnlockedRank = rank;
+                } else if (!nextTargetRank) {
+                    nextTargetRank = rank;
+                }
+            });
+
+            // В профиле сохраняем достигнутый ранг, а рядом показываем текущую серию
+            const rankLabel = document.getElementById('player-asceticism-rank');
+            if (rankLabel) {
+                rankLabel.textContent = highestUnlockedRank
+                    ? `${highestUnlockedRank.name} (${currentStreak} дн)`
+                    : `? (${currentStreak} дн)`;
+            }
+
+            const rankIcon = document.getElementById('player-asceticism-rank-icon');
+            if (rankIcon && highestUnlockedRank) {
+                rankIcon.src = highestUnlockedRank.icon;
+            }
+
+            const goalIcon = document.getElementById('next-goal-icon');
+            const goalName = document.getElementById('next-goal-name');
+            const goalDays = document.getElementById('next-goal-days');
+
+            if (nextTargetRank) {
+                if (goalIcon) goalIcon.src = nextTargetRank.icon;
+                if (goalName) {
+                    goalName.textContent = nextTargetRank.name;
+                    goalName.style.color = nextTargetRank.color;
+                }
+                if (goalDays) goalDays.textContent = `${nextTargetRank.days} дней`;
+            } else {
+                if (goalIcon) goalIcon.src = 'absolute.webp';
+                if (goalName) goalName.textContent = 'Абсолют';
+                if (goalDays) goalDays.textContent = 'Максимум!';
+            }
+
+            // Синхронизируем рекорд в интерфейсе
+            const acBest = document.getElementById('ac-best-record');
+            const wsRecord = document.getElementById('ws-record-days');
+
+            if (acBest) acBest.textContent = `${record} дней`;
+            if (wsRecord) wsRecord.textContent = `${record} дней`;
         }
 
-        if (unlocked) {
-            highestUnlockedRank = rank;
-        } else if (!nextTargetRank) {
-            nextTargetRank = rank;
-        }
-    });
-
-    // В профиле сохраняем достигнутый ранг, а рядом показываем текущую серию
-    const rankLabel = document.getElementById('player-asceticism-rank');
-    if (rankLabel) {
-        rankLabel.textContent = highestUnlockedRank
-            ? `${highestUnlockedRank.name} (${currentStreak} дн)`
-            : `? (${currentStreak} дн)`;
-    }
-
-    const rankIcon = document.getElementById('player-asceticism-rank-icon');
-    if (rankIcon && highestUnlockedRank) {
-        rankIcon.src = highestUnlockedRank.icon;
-    }
-
-    const goalIcon = document.getElementById('next-goal-icon');
-    const goalName = document.getElementById('next-goal-name');
-    const goalDays = document.getElementById('next-goal-days');
-
-    if (nextTargetRank) {
-        if (goalIcon) goalIcon.src = nextTargetRank.icon;
-        if (goalName) {
-            goalName.textContent = nextTargetRank.name;
-            goalName.style.color = nextTargetRank.color;
-        }
-        if (goalDays) goalDays.textContent = `${nextTargetRank.days} дней`;
-    } else {
-        if (goalIcon) goalIcon.src = 'absolute.webp';
-        if (goalName) goalName.textContent = 'Абсолют';
-        if (goalDays) goalDays.textContent = 'Максимум!';
-    }
-
-    // Синхронизируем рекорд в интерфейсе
-    const acBest = document.getElementById('ac-best-record');
-    const wsRecord = document.getElementById('ws-record-days');
-
-    if (acBest) acBest.textContent = `${record} дней`;
-    if (wsRecord) wsRecord.textContent = `${record} дней`;
-}
 
 
-
-
-        // Интегрируем проверку в основной цикл обновления
-        const prevUIUpdate = updateMainUI;
-        updateMainUI = function () {
-            prevUIUpdate();
-            updateAchievementsUI();
-        };
 
 
                  function checkAsceticismDayTransition() {
@@ -5516,6 +5780,8 @@ profileDocRef.onSnapshot((doc) => {
         }
 
                function toggleMission(id) {
+                 // 🔊 ВОСПРОИЗВОДИМ ЗВУК ВЫПОЛНЕНИЯ СРАЗУ (ДО СМЕНЫ СТАТУСА)
+            playSfx('sfx-mission');
             if (!isFirebaseLoaded) return; // Ждем загрузку базы
 
             const m = dailyMissionsList.find(item => item.id === id);
@@ -5530,9 +5796,6 @@ profileDocRef.onSnapshot((doc) => {
             if (!playerData.completedMissionsIds) playerData.completedMissionsIds = [];
             const msk = getMskDateInfo();
             playerData.completedMissionsDate = msk.dateString;
-
-            // 🔊 ВОСПРОИЗВОДИМ ЗВУК ВЫПОЛНЕНИЯ СРАЗУ (ДО СМЕНЫ СТАТУСА)
-            playSfx('sfx-mission');
 
             // Начисляем опыт ровно один раз
             m.completed = true;

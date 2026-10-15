@@ -5130,73 +5130,66 @@ profileDocRef.onSnapshot((doc) => {
         };
 
 
-              // 🔄 АВТО-ПЕРЕХОД ПОСЛЕ 00:00 + НАЧИСЛЕНИЕ +50 XP + ВСПЛЫВАЮЩАЯ ПЛАШКА
-      function checkAsceticismDayTransition() {
-    if (!isFirebaseLoaded) return;
+                 function checkAsceticismDayTransition() {
+            if (!isFirebaseLoaded) return;
 
-    const today = getMskDateInfo().dateString;
+            const msk = getMskDateInfo();
+            const today = msk.dateString;
 
-    if (!playerData.asceticismHistory) {
-        playerData.asceticismHistory = {};
-    }
-    if (!Array.isArray(playerData.totalAsceticismAwardedDates)) {
-        playerData.totalAsceticismAwardedDates = [];
-    }
+            if (!playerData.asceticismHistory) playerData.asceticismHistory = {};
+            if (!Array.isArray(playerData.totalAsceticismAwardedDates)) {
+                playerData.totalAsceticismAwardedDates = [];
+            }
 
-    // При первом запуске запоминаем дату, но не начисляем день авансом.
-    if (!playerData.lastCheckedDate) {
-        playerData.lastCheckedDate = today;
-        profileDocRef.set({ lastCheckedDate: today }, { merge: true });
-        return;
-    }
+            // Если зашли первый раз в жизни — просто запоминаем дату и выходим
+            if (!playerData.lastCheckedDate) {
+                playerData.lastCheckedDate = today;
+                profileDocRef.set({ lastCheckedDate: today }, { merge: true });
+                return;
+            }
 
-    // Дата не сменилась — ничего не начисляем.
-    if (playerData.lastCheckedDate === today) return;
+            // ГЛАВНОЕ УСЛОВИЕ: Если дата в базе (вчера) НЕ РАВНА дате на часах (сегодня)
+            if (playerData.lastCheckedDate !== today) {
+                const yesterdayKey = playerData.lastCheckedDate;
+                const wasRelapse = playerData.asceticismHistory[yesterdayKey] === 'relapse';
 
-    const completedDate = playerData.lastCheckedDate;
-    const wasRelapse = playerData.asceticismHistory[completedDate] === 'relapse';
+                // 1. Если вчера НЕ БЫЛО срыва — начисляем награды
+                if (!wasRelapse) {
+                    playerData.asceticismHistory[yesterdayKey] = 'checked';
 
-    if (!wasRelapse) {
-        playerData.asceticismHistory[completedDate] = 'checked';
+                    // Начисляем +1 к общему счетчику (196 -> 197), если за эту дату еще не давали
+                    if (!playerData.totalAsceticismAwardedDates.includes(yesterdayKey)) {
+                        playerData.totalAsceticismDays = Number(playerData.totalAsceticismDays || 196) + 1;
+                        playerData.totalAsceticismAwardedDates.push(yesterdayKey);
+                        
+                        // 🔥 НАЧИСЛЯЕМ +50 XP В СИСТЕМУ
+                        addExpToSystem(50, "Чистые сутки (Аскеза)");
 
-        // Общие дни аскезы: максимум +1 за конкретную дату.
-        if (!playerData.totalAsceticismAwardedDates.includes(completedDate)) {
-            playerData.totalAsceticismDays =
-                Number(playerData.totalAsceticismDays ?? 196) + 1;
+                        // 🏆 ПОКАЗЫВАЕМ ПЛАШКУ ПЕРЕД ЛИЦОМ
+                        setTimeout(() => {
+                            showAsceticismRewardModal();
+                        }, 1000); 
+                    }
 
-            playerData.totalAsceticismAwardedDates.push(completedDate);
+                    // Начисляем +1 к серии воздержания
+                    playerData.asceticismDays = (Number(playerData.asceticismDays) || 0) + 1;
+                } else {
+                    // Если вчера был срыв — серия обнуляется, а общий счетчик (196) не растет
+                    playerData.asceticismDays = 0;
+                }
+
+                // 2. Снимаем блок срыва и обновляем дату последней проверки
+                playerData.isLockedUntilMidnight = false;
+                playerData.lastCheckedDate = today;
+
+                // 3. Сохраняем всё в Firebase
+                profileDocRef.set(playerData, { merge: true }).then(() => {
+                    updateMainUI();
+                    console.log("🚀 СИСТЕМА: Переход суток завершен. Награды выданы.");
+                });
+            }
         }
 
-        // Текущая серия — отдельный счётчик воздержания.
-        playerData.asceticismDays =
-            (Number(playerData.asceticismDays) || 0) + 1;
-
-        playerData.personalRecord = Math.max(
-            Number(playerData.personalRecord) || 0,
-            playerData.asceticismDays
-        );
-    } else {
-        // Срыв завершает серию, но не уменьшает общий счётчик аскезы.
-        playerData.asceticismDays = 0;
-    }
-
-    playerData.lastCheckedDate = today;
-    playerData.lastRelapseDate = wasRelapse ? playerData.lastRelapseDate : '';
-
-    profileDocRef.set({
-        totalAsceticismDays: playerData.totalAsceticismDays,
-        totalAsceticismAwardedDates: playerData.totalAsceticismAwardedDates,
-        asceticismDays: playerData.asceticismDays,
-        personalRecord: playerData.personalRecord,
-        asceticismHistory: playerData.asceticismHistory,
-        lastCheckedDate: playerData.lastCheckedDate,
-        lastRelapseDate: playerData.lastRelapseDate
-    }, { merge: true }).then(() => {
-        updateMainUI();
-    }).catch(error => {
-        console.error("Не удалось сохранить переход суток:", error);
-    });
-}
 
 
         // Показ модалки

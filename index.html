@@ -3331,26 +3331,149 @@
 }
 
 
-/* ⚡️ СТИЛИ ДЛЯ ИКОНОК НАВЫКОВ БЕЗ КВАДРАТНЫХ КОНТЕЙНЕРОВ */
-.skill-icon-clean {
-    width: 26px;
-    height: 26px;
-    min-width: 26px;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.programs-workout-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 190px;
+    gap: 16px;
+    align-items: start;
+    margin-top: 15px;
+}
+
+#workout-content-box {
+    min-width: 0;
+}
+
+.workout-reward-button {
+    position: sticky;
+    top: 16px;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    padding: 18px 12px;
+    color: #fff;
+    background: linear-gradient(145deg, #101326, #080811);
+    border: 1px solid rgba(0, 212, 255, .55);
+    border-radius: 14px;
+    box-shadow: 0 0 18px rgba(0, 212, 255, .13);
+    cursor: pointer;
+    font: 700 .68rem 'Orbitron', sans-serif;
+}
+
+.workout-reward-button svg,
+.workout-modal-icon svg {
+    width: 54px;
+    height: 54px;
+    fill: rgba(0, 212, 255, .16);
+    stroke: #00d4ff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 8px rgba(0, 212, 255, .65));
+}
+
+.workout-reward-button small {
+    color: #48e99a;
+    font-size: .55rem;
+    text-align: center;
+}
+
+.workout-reward-button:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+}
+
+/* Модалка выбора интенсивности */
+.workout-reward-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
     align-items: center;
     justify-content: center;
+    padding: 16px;
+    background: rgba(2, 3, 12, .82);
+    backdrop-filter: blur(8px);
 }
 
-.skill-icon-clean svg {
-    width: 24px !important;
-    height: 24px !important;
-    stroke: currentColor !important;
-    fill: none !important;
-    stroke-width: 2px !important;
-    display: block !important;
+.workout-reward-modal.open {
+    display: flex;
 }
 
+.workout-modal-card {
+    position: relative;
+    width: min(420px, 100%);
+    padding: 28px 22px;
+    text-align: center;
+    background: #0b0c19;
+    border: 1px solid rgba(0, 212, 255, .5);
+    border-radius: 16px;
+    box-shadow: 0 0 30px rgba(0, 212, 255, .18);
+}
 
+.workout-modal-close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    color: #aaa;
+    background: none;
+    border: 0;
+    font-size: 1.6rem;
+    cursor: pointer;
+}
+
+.workout-choice {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+    padding: 13px 15px;
+    color: #fff;
+    background: rgba(255,255,255,.03);
+    border: 1px solid;
+    border-radius: 8px;
+    cursor: pointer;
+    font: .72rem 'Orbitron', sans-serif;
+}
+
+.workout-choice strong { text-shadow: 0 0 8px currentColor; }
+.workout-warmup { border-color: #35df83; }
+.workout-warmup strong { color: #35df83; }
+.workout-working { border-color: #ffd34e; }
+.workout-working strong { color: #ffd34e; }
+.workout-beast { border-color: #ff4055; }
+.workout-beast strong { color: #ff4055; }
+
+@media (max-width: 700px) {
+    .programs-workout-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .workout-reward-button {
+        position: static;
+        flex-direction: row;
+        justify-content: center;
+        padding: 10px;
+    }
+    .workout-reward-button svg {
+        width: 32px;
+        height: 32px;
+    }
+}
 
     </style>
 
@@ -3966,10 +4089,52 @@
             <button onclick="switchWorkoutDay(4, this)" class="workout-tab-btn" style="flex: 1; min-width: 130px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #aaa; padding: 10px; border-radius: 8px; font-family: 'Orbitron'; font-size: 0.7rem; cursor: pointer; transition: 0.3s;">ДЕНЬ 4: ДОЖИМ</button>
         </div>
 
-        <!-- Контейнер для отображения выбранного дня -->
-        <div id="workout-content-box" style="background: rgba(10, 10, 22, 0.85); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.5);">
-            <!-- Динамически заполняется через JS -->
+       <div class="programs-workout-layout">
+    <div id="workout-content-box"></div>
+
+    <button id="workout-reward-button" class="workout-reward-button"
+            type="button" onclick="openWorkoutRewardModal()"
+            aria-label="Получить награду за тренировку">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+            <circle cx="32" cy="9" r="6"/>
+            <path d="M22 21c2-4 6-6 10-6s8 2 10 6l5 13-7 3-5-9 2 14 10 13H38L32 43l-6 15H14l10-16 2-14-5 9-7-3 8-13Z"/>
+            <path d="m20 20-8 4-4 12 6 2 4-8M44 20l8 4 4 12-6 2-4-8"/>
+        </svg>
+        <span>ТРЕНИРОВКА</span>
+        <small id="workout-cooldown-label">НАГРАДА ДОСТУПНА</small>
+    </button>
+</div>
+
+<div id="workout-reward-modal" class="workout-reward-modal"
+     role="dialog" aria-modal="true" aria-labelledby="workout-modal-title"
+     onclick="if(event.target === this) closeWorkoutRewardModal()">
+    <div class="workout-modal-card">
+        <button class="workout-modal-close" type="button"
+                onclick="closeWorkoutRewardModal()" aria-label="Закрыть">×</button>
+
+        <div class="workout-modal-icon">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+                <circle cx="32" cy="9" r="6"/>
+                <path d="M22 21c2-4 6-6 10-6s8 2 10 6l5 13-7 3-5-9 2 14 10 13H38L32 43l-6 15H14l10-16 2-14-5 9-7-3 8-13Z"/>
+                <path d="m20 20-8 4-4 12 6 2 4-8M44 20l8 4 4 12-6 2-4-8"/>
+            </svg>
         </div>
+
+        <h2 id="workout-modal-title">КАКАЯ БЫЛА ТРЕНИРОВКА?</h2>
+        <p>Выбери интенсивность. Награда доступна раз в 24 часа.</p>
+
+        <button class="workout-choice workout-warmup" onclick="claimWorkoutReward('warmup')">
+            <span>Разминка</span><strong>+50 XP</strong>
+        </button>
+        <button class="workout-choice workout-working" onclick="claimWorkoutReward('working')">
+            <span>В рабочем режиме</span><strong>+80 XP</strong>
+        </button>
+        <button class="workout-choice workout-beast" onclick="claimWorkoutReward('beast')">
+            <span>В мясо</span><strong>+100 XP</strong>
+        </button>
+    </div>
+</div>
+
 
     </div>
 
@@ -4511,6 +4676,8 @@ profileDocRef.onSnapshot((doc) => {
 
 
 
+
+
         // ВЫПОЛНЕНИЕ МИССИИ ДНЯ С ИНКРЕМЕНТОМ
         function completeDailyMission() {
             if (playerData.dailyMissionCompleted) return;
@@ -4533,29 +4700,6 @@ profileDocRef.onSnapshot((doc) => {
 
 
 
-        // ПЕРЕКЛЮЧЕНИЕ СТРАНИЦ С УМНЫМ ПОКАЗОМ САЙДБАРА
-        function switchPage(pageId) {
-            const pages = document.querySelectorAll('.page-view');
-            const navBox = document.getElementById('liquid-nav-box');
-
-            // Сайдбар виден ТОЛЬКО на страницах «Уровень» и «Навыки»
-            if (pageId === 'level-page' || pageId === 'skills-page') {
-                navBox.classList.remove('hidden-nav');
-            } else {
-                // На Главной, в Заметках и в Статистике — скрываем его!
-                navBox.classList.add('hidden-nav');
-            }
-
-            pages.forEach(p => {
-                if (p.id === pageId) {
-                    p.style.display = (pageId === 'main-menu') ? 'flex' : 'block';
-                    setTimeout(() => p.classList.add('active-page'), 50);
-                } else {
-                    p.classList.remove('active-page');
-                    setTimeout(() => p.style.display = 'none', 500);
-                }
-            });
-        }
 
 
                 // 🔄 ИСПРАВЛЕННЫЙ ВЫБОР ВКЛАДКИ (ФИКС ЦЕНТРОВКИ)
@@ -4607,8 +4751,7 @@ profileDocRef.onSnapshot((doc) => {
             }, 300); 
         });
 
-        // Исправленный switchPage (чтобы не было пустого экрана)
-        function switchPage(pageId) {
+               function switchPage(pageId) {
             const pages = document.querySelectorAll('.page-view');
             const navBox = document.getElementById('liquid-nav-box');
 
@@ -4622,15 +4765,16 @@ profileDocRef.onSnapshot((doc) => {
 
             pages.forEach(p => {
                 if (p.id === pageId) {
-                    // ФИКС: Явно задаем flex для главного меню, чтобы не пропадало
+                    // Явно задаем flex для главного меню, для остальных block
                     p.style.display = (pageId === 'main-menu') ? 'flex' : 'block';
-                    p.classList.add('active-page');
+                    setTimeout(() => p.classList.add('active-page'), 50);
                 } else {
                     p.classList.remove('active-page');
-                    p.style.display = 'none';
+                    setTimeout(() => p.style.display = 'none', 500);
                 }
             });
         }
+
 
 
 
@@ -4708,6 +4852,185 @@ function setManualRating(rating, button) {
                 });
         }
 
+
+
+                // =========================================================
+        // 🦾 МОДУЛЬ ПРОГРАММЫ «МОНОЛИТ» И НАГРАД ЗА ТРЕНИРОВКИ
+        // =========================================================
+        const WORKOUT_COOLDOWN_MS = 24 * 60 * 60 * 1000;
+
+        const workoutDaysData = {
+            1: {
+                title: "ДЕНЬ 1: ВЕРХНИЙ ПЛЕЧЕВОЙ ПОЯС (ГРУДЬ + СРЕДНЯЯ ДЕЛЬТА + ШЕЯ)",
+                color: "#00d4ff",
+                exercises: [
+                    { name: "Жим гантелей под углом 30–45°", sets: "4", reps: "8 – 12", rest: "2–3 мин" },
+                    { name: "Жим в Смите под углом 30°", sets: "3", reps: "10 – 12", rest: "2 мин" },
+                    { name: "Сведение рук в 'Пека-Дек' (верхний акцент)", sets: "3", reps: "12 – 15", rest: "1.5 мин" },
+                    { name: "Махи гантелями в стороны (Средняя дельта)", sets: "4", reps: "12 – 15", rest: "1.5 мин" },
+                    { name: "Махи одной рукой в кроссовере", sets: "3", reps: "15", rest: "1 мин" },
+                    { name: "Сгибания шеи лежа на спине с блином", sets: "3", reps: "15 – 20", rest: "1 мин" },
+                    { name: "Разгибания шеи лежа на животе", sets: "3", reps: "15 – 20", rest: "1 мин" }
+                ]
+            },
+            2: {
+                title: "ДЕНЬ 2: СПИНА + ЗАДНЯЯ ДЕЛЬТА + АРМРЕСТЛИНГ БЛОК",
+                color: "#ff004c",
+                exercises: [
+                    { name: "Подтягивания / Тяга верхнего блока", sets: "4", reps: "8 – 12", rest: "2 мин" },
+                    { name: "Тяга горизонтального блока к поясу", sets: "3", reps: "10 – 12", rest: "1.5 мин" },
+                    { name: "Обратные махи в 'Пека-Дек' (Задняя дельта)", sets: "4", reps: "12 – 15", rest: "1.5 мин" },
+                    { name: "Шраги с гантелями (с пиковой фиксацией)", sets: "3", reps: "12 – 15", rest: "1 мин" },
+                    { name: "Пронатор с лямкой через блок / гантель", sets: "4", reps: "10 – 12", rest: "1.5 мин" },
+                    { name: "Сгибания кисти на скамье", sets: "3", reps: "12 – 15", rest: "1 мин" }
+                ]
+            },
+            3: {
+                title: "ДЕНЬ 3: АКТИВНОЕ ВОССТАНОВЛЕНИЕ / НИЗ ТЕЛА И ПРЕСС",
+                color: "#8a2be2",
+                exercises: [
+                    { name: "Жим ногами / Приседания в тренажере", sets: "3", reps: "10 – 12", rest: "2 мин" },
+                    { name: "Румынская тяга с гантелями", sets: "3", reps: "10 – 12", rest: "2 мин" },
+                    { name: "Подъем ног в висе (Пресс)", sets: "3", reps: "15", rest: "1 мин" },
+                    { name: "Плато Аскезы (Медитация / Прогулка / Растяжка)", sets: "1", reps: "1 сессия", rest: "—" }
+                ]
+            },
+            4: {
+                title: "ДЕНЬ 4: СПЕЦИАЛИЗИРОВАННЫЙ ДОЖИМ (ПЛЕЧИ + ВЕРХ ГРУДИ + ШЕЯ)",
+                color: "#ffaa00",
+                exercises: [
+                    { name: "Армейский жим гантелей сидя (75°)", sets: "4", reps: "10 – 12", rest: "2 мин" },
+                    { name: "Махи гантелями в стороны (Дроп-сет в конце)", sets: "4", reps: "15", rest: "1.2 мин" },
+                    { name: "Отжимания с ногами на возвышенности", sets: "3", reps: "До отказа", rest: "1.5 мин" },
+                    { name: "Молотковые сгибания (Хаммеры)", sets: "3", reps: "10 – 12", rest: "1.5 мин" },
+                    { name: "Комплекс на шею (Сгибания + Разгибания)", sets: "3", reps: "по 15–20", rest: "1 мин" }
+                ]
+            }
+        };
+
+        function switchWorkoutDay(dayNum, btnElement) {
+            playSfx('sfx-click');
+            
+            document.querySelectorAll('.workout-tab-btn').forEach(b => {
+                b.style.background = "rgba(255,255,255,0.03)";
+                b.style.borderColor = "rgba(255,255,255,0.1)";
+                b.style.color = "#aaa";
+            });
+            btnElement.style.background = "rgba(0,212,255,0.15)";
+            btnElement.style.borderColor = "#00d4ff";
+            btnElement.style.color = "#fff";
+
+            const data = workoutDaysData[dayNum];
+            const box = document.getElementById('workout-content-box');
+            if (!box) return;
+
+            let html = `
+                <div style="font-size: 0.9rem; color: ${data.color}; font-weight: bold; margin-bottom: 18px; border-bottom: 1px solid ${data.color}40; padding-bottom: 8px;">
+                    🔥 ${data.title}
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+            `;
+
+            data.exercises.forEach((ex, idx) => {
+                html += `
+                    <div style="
+                        display: flex; justify-content: space-between; align-items: center;
+                        background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);
+                        padding: 12px 16px; border-radius: 8px; gap: 10px;
+                    ">
+                        <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
+                            <span style="font-size: 0.75rem; color: ${data.color}; font-weight: bold; min-width: 20px;">0${idx+1}.</span>
+                            <span style="font-size: 0.8rem; color: #fff;">${ex.name}</span>
+                        </div>
+                        <div style="display: flex; gap: 15px; font-size: 0.75rem; font-family: 'Orbitron';">
+                            <span style="color: #ffaa00;" title="Подходы">${ex.sets} подх.</span>
+                            <span style="color: #00ff88;" title="Повторения">${ex.reps} повτ.</span>
+                            <span style="color: #aaa; min-width: 60px; text-align: right;" title="Отдых">${ex.rest}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            box.innerHTML = html;
+        }
+
+        const workoutRewardOptions = {
+            warmup:  { label: "Разминка", xp: 50 },
+            working: { label: "В рабочем режиме", xp: 80 },
+            beast:   { label: "В мясо", xp: 100 }
+        };
+
+        function openWorkoutRewardModal() {
+            if (!isFirebaseLoaded) {
+                alert("Профиль ещё загружается. Попробуй через секунду.");
+                return;
+            }
+            if (getWorkoutCooldownRemaining() > 0) {
+                updateWorkoutRewardUI();
+                return;
+            }
+            document.getElementById("workout-reward-modal")?.classList.add("open");
+        }
+
+        function closeWorkoutRewardModal() {
+            document.getElementById("workout-reward-modal")?.classList.remove("open");
+        }
+
+        function getWorkoutCooldownRemaining() {
+            const lastAt = Number(playerData.workoutLastAt) || 0;
+            return Math.max(0, lastAt + WORKOUT_COOLDOWN_MS - Date.now());
+        }
+
+        function updateWorkoutRewardUI() {
+            const button = document.getElementById("workout-reward-button");
+            const label = document.getElementById("workout-cooldown-label");
+            if (!button || !label) return;
+
+            const remaining = getWorkoutCooldownRemaining();
+            button.disabled = remaining > 0;
+
+            if (remaining <= 0) {
+                label.textContent = "НАГРАДА ДОСТУПНА";
+                return;
+            }
+
+            const hours = Math.floor(remaining / 3600000);
+            const minutes = Math.floor((remaining % 3600000) / 60000);
+            label.textContent = `СЛЕДУЮЩАЯ ЧЕРЕЗ ${hours}ч ${minutes}м`;
+        }
+
+        function claimWorkoutReward(optionKey) {
+            if (!isFirebaseLoaded || getWorkoutCooldownRemaining() > 0) {
+                closeWorkoutRewardModal();
+                updateWorkoutRewardUI();
+                return;
+            }
+
+            const option = workoutRewardOptions[optionKey];
+            if (!option) return;
+
+            const previousLastAt = Number(playerData.workoutLastAt) || 0;
+            const now = Date.now();
+
+            playerData.workoutLastAt = now;
+            updateWorkoutRewardUI();
+            closeWorkoutRewardModal();
+
+            profileDocRef.set({ workoutLastAt: now }, { merge: true })
+                .then(() => {
+                    addExpToSystem(option.xp, `Тренировка: ${option.label}`);
+                    alert(`${option.label}: начислено +${option.xp} XP`);
+                })
+                .catch(error => {
+                    playerData.workoutLastAt = previousLastAt;
+                    updateWorkoutRewardUI();
+                    console.error("Ошибка сохранения кулдауна тренировки:", error);
+                    alert("Не удалось сохранить тренировку. Награда не начислена.");
+                });
+        }
+
+        setInterval(updateWorkoutRewardUI, 60000);
 
         // Сохранение лога в базу (+50 XP строго 1 раз в день)
         function saveDayLog() {
@@ -5473,7 +5796,7 @@ function setManualRating(rating, button) {
 
 
 
-                 function checkAsceticismDayTransition() {
+                   function checkAsceticismDayTransition() {
             if (!isFirebaseLoaded) return;
 
             const msk = getMskDateInfo();
@@ -5484,54 +5807,57 @@ function setManualRating(rating, button) {
                 playerData.totalAsceticismAwardedDates = [];
             }
 
-            // Если зашли первый раз в жизни — просто запоминаем дату и выходим
             if (!playerData.lastCheckedDate) {
                 playerData.lastCheckedDate = today;
                 profileDocRef.set({ lastCheckedDate: today }, { merge: true });
                 return;
             }
 
-            // ГЛАВНОЕ УСЛОВИЕ: Если дата в базе (вчера) НЕ РАВНА дате на часах (сегодня)
+            // ПЕРЕХОД ПОСЛЕ 00:00 (дата в базе не равна сегодняшней)
             if (playerData.lastCheckedDate !== today) {
                 const yesterdayKey = playerData.lastCheckedDate;
                 const wasRelapse = playerData.asceticismHistory[yesterdayKey] === 'relapse';
 
-                // 1. Если вчера НЕ БЫЛО срыва — начисляем награды
-                if (!wasRelapse) {
-                    playerData.asceticismHistory[yesterdayKey] = 'checked';
-
-                    // Начисляем +1 к общему счетчику (196 -> 197), если за эту дату еще не давали
-                    if (!playerData.totalAsceticismAwardedDates.includes(yesterdayKey)) {
-                        playerData.totalAsceticismDays = Number(playerData.totalAsceticismDays || 196) + 1;
-                        playerData.totalAsceticismAwardedDates.push(yesterdayKey);
-                        
-                        // 🔥 НАЧИСЛЯЕМ +50 XP В СИСТЕМУ
-                        addExpToSystem(50, "Чистые сутки (Аскеза)");
-
-                        // 🏆 ПОКАЗЫВАЕМ ПЛАШКУ ПЕРЕД ЛИЦОМ
-                        setTimeout(() => {
-                            showAsceticismRewardModal();
-                        }, 1000); 
-                    }
-
-                    // Начисляем +1 к серии воздержания
-                    playerData.asceticismDays = (Number(playerData.asceticismDays) || 0) + 1;
-                } else {
-                    // Если вчера был срыв — серия обнуляется, а общий счетчик (196) не растет
-                    playerData.asceticismDays = 0;
+                // 1. Общий счётчик пути (198 -> 199 -> 200...) растёт ВСЕГДА
+                if (!playerData.totalAsceticismAwardedDates.includes(yesterdayKey)) {
+                    playerData.totalAsceticismDays = Number(playerData.totalAsceticismDays || 198) + 1;
+                    playerData.totalAsceticismAwardedDates.push(yesterdayKey);
                 }
 
-                // 2. Снимаем блок срыва и обновляем дату последней проверки
+                // 2. Серия воздержания
+                if (!wasRelapse) {
+                    // Чистые сутки: ставим галочку, даем опыт и растим серию
+                    playerData.asceticismHistory[yesterdayKey] = 'checked';
+                    playerData.asceticismDays = (Number(playerData.asceticismDays) || 0) + 1;
+
+                    addExpToSystem(50, "Чистые сутки (Аскеза)");
+                    setTimeout(() => {
+                        showAsceticismRewardModal();
+                    }, 1000);
+                } else {
+                    // Был срыв вчера: сегодня начинается новый чистый день 1
+                    playerData.asceticismDays = 1;
+                }
+
+                // 3. Снимаем замок ожидания полночи
                 playerData.isLockedUntilMidnight = false;
                 playerData.lastCheckedDate = today;
 
-                // 3. Сохраняем всё в Firebase
-                profileDocRef.set(playerData, { merge: true }).then(() => {
+                profileDocRef.set({
+                    totalAsceticismDays: playerData.totalAsceticismDays,
+                    totalAsceticismAwardedDates: playerData.totalAsceticismAwardedDates,
+                    asceticismDays: playerData.asceticismDays,
+                    personalRecord: Math.max(Number(playerData.personalRecord) || 9, playerData.asceticismDays),
+                    asceticismHistory: playerData.asceticismHistory,
+                    isLockedUntilMidnight: false,
+                    lastCheckedDate: today
+                }, { merge: true }).then(() => {
                     updateMainUI();
-                    console.log("🚀 СИСТЕМА: Переход суток завершен. Награды выданы.");
+                    console.log("🚀 СИСТЕМА: Полночь обработана. Наступил новый день аскезы!");
                 });
             }
         }
+
 
 
 
@@ -6314,109 +6640,18 @@ setInterval(() => {
 
 
 
-          // 🦾 ДАННЫЕ ПРОГРАММЫ «МОНОЛИТ»
-        const workoutDaysData = {
-            1: {
-                title: "ДЕНЬ 1: ВЕРХНИЙ ПЛЕЧЕВОЙ ПОЯС (ГРУДЬ + СРЕДНЯЯ ДЕЛЬТА + ШЕЯ)",
-                color: "#00d4ff",
-                exercises: [
-                    { name: "Жим гантелей под углом 30–45°", sets: "4", reps: "8 – 12", rest: "2–3 мин" },
-                    { name: "Жим в Смите под углом 30°", sets: "3", reps: "10 – 12", rest: "2 мин" },
-                    { name: "Сведение рук в 'Пека-Дек' (верхний акцент)", sets: "3", reps: "12 – 15", rest: "1.5 мин" },
-                    { name: "Махи гантелями в стороны (Средняя дельта)", sets: "4", reps: "12 – 15", rest: "1.5 мин" },
-                    { name: "Махи одной рукой в кроссовере", sets: "3", reps: "15", rest: "1 мин" },
-                    { name: "Сгибания шеи лежа на спине с блином", sets: "3", reps: "15 – 20", rest: "1 мин" },
-                    { name: "Разгибания шеи лежа на животе", sets: "3", reps: "15 – 20", rest: "1 мин" }
-                ]
-            },
-            2: {
-                title: "ДЕНЬ 2: СПИНА + ЗАДНЯЯ ДЕЛЬТА + АРМРЕСТЛИНГ БЛОК",
-                color: "#ff004c",
-                exercises: [
-                    { name: "Подтягивания / Тяга верхнего блока", sets: "4", reps: "8 – 12", rest: "2 мин" },
-                    { name: "Тяга горизонтального блока к поясу", sets: "3", reps: "10 – 12", rest: "1.5 мин" },
-                    { name: "Обратные махи в 'Пека-Дек' (Задняя дельта)", sets: "4", reps: "12 – 15", rest: "1.5 мин" },
-                    { name: "Шраги с гантелями (с пиковой фиксацией)", sets: "3", reps: "12 – 15", rest: "1 мин" },
-                    { name: "Пронатор с лямкой через блок / гантель", sets: "4", reps: "10 – 12", rest: "1.5 мин" },
-                    { name: "Сгибания кисти на скамье", sets: "3", reps: "12 – 15", rest: "1 мин" }
-                ]
-            },
-            3: {
-                title: "ДЕНЬ 3: АКТИВНОЕ ВОССТАНОВЛЕНИЕ / НИЗ ТЕЛА И ПРЕСС",
-                color: "#8a2be2",
-                exercises: [
-                    { name: "Жим ногами / Приседания в тренажере", sets: "3", reps: "10 – 12", rest: "2 мин" },
-                    { name: "Румынская тяга с гантелями", sets: "3", reps: "10 – 12", rest: "2 мин" },
-                    { name: "Подъем ног в висе (Пресс)", sets: "3", reps: "15", rest: "1 мин" },
-                    { name: "Плато Аскезы (Медитация / Прогулка / Растяжка)", sets: "1", reps: "1 сессия", rest: "—" }
-                ]
-            },
-            4: {
-                title: "ДЕНЬ 4: СПЕЦИАЛИЗИРОВАННЫЙ ДОЖИМ (ПЛЕЧИ + ВЕРХ ГРУДИ + ШЕЯ)",
-                color: "#ffaa00",
-                exercises: [
-                    { name: "Армейский жим гантелей сидя (75°)", sets: "4", reps: "10 – 12", rest: "2 мин" },
-                    { name: "Махи гантелями в стороны (Дроп-сет в конце)", sets: "4", reps: "15", rest: "1.2 мин" },
-                    { name: "Отжимания с ногами на возвышенности", sets: "3", reps: "До отказа", rest: "1.5 мин" },
-                    { name: "Молотковые сгибания (Хаммеры)", sets: "3", reps: "10 – 12", rest: "1.5 мин" },
-                    { name: "Комплекс на шею (Сгибания + Разгибания)", sets: "3", reps: "по 15–20", rest: "1 мин" }
-                ]
-            }
-        };
 
-        function switchWorkoutDay(dayNum, btnElement) {
-            playSfx('sfx-click');
-            
-            // Подсветка кнопок
-            document.querySelectorAll('.workout-tab-btn').forEach(b => {
-                b.style.background = "rgba(255,255,255,0.03)";
-                b.style.borderColor = "rgba(255,255,255,0.1)";
-                b.style.color = "#aaa";
-            });
-            btnElement.style.background = "rgba(0,212,255,0.15)";
-            btnElement.style.borderColor = "#00d4ff";
-            btnElement.style.color = "#fff";
+   window.addEventListener('load', () => {
+    switchPage('main-menu');
+    updateMainUI();
+    
+    const firstWorkoutBtn = document.querySelector('.workout-tab-btn');
+    if (firstWorkoutBtn) {
+        switchWorkoutDay(1, firstWorkoutBtn);
+    }
+    updateWorkoutRewardUI();
+});
 
-            const data = workoutDaysData[dayNum];
-            const box = document.getElementById('workout-content-box');
-            if (!box) return;
-
-            let html = `
-                <div style="font-size: 0.9rem; color: ${data.color}; font-weight: bold; margin-bottom: 18px; border-bottom: 1px solid ${data.color}40; padding-bottom: 8px;">
-                    🔥 ${data.title}
-                </div>
-                <div style="display: flex; flex-direction: column; gap: 10px;">
-            `;
-
-            data.exercises.forEach((ex, idx) => {
-                html += `
-                    <div style="
-                        display: flex; justify-content: space-between; align-items: center;
-                        background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);
-                        padding: 12px 16px; border-radius: 8px; gap: 10px;
-                    ">
-                        <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
-                            <span style="font-size: 0.75rem; color: ${data.color}; font-weight: bold; min-width: 20px;">0${idx+1}.</span>
-                            <span style="font-size: 0.8rem; color: #fff;">${ex.name}</span>
-                        </div>
-                        <div style="display: flex; gap: 15px; font-size: 0.75rem; font-family: 'Orbitron';">
-                            <span style="color: #ffaa00;" title="Подходы">${ex.sets} подх.</span>
-                            <span style="color: #00ff88;" title="Повторения">${ex.reps} повτ.</span>
-                            <span style="color: #aaa; min-width: 60px; text-align: right;" title="Отдых">${ex.rest}</span>
-                        </div>
-                    </div>
-                `;
-            });
-
-            html += `</div>`;
-            box.innerHTML = html;
-        }
-
-        // Авто-инициализация первого дня при загрузке
-        window.addEventListener('load', () => {
-            const firstBtn = document.querySelector('.workout-tab-btn');
-            if (firstBtn) switchWorkoutDay(1, firstBtn);
-        });
 
     </script>
 

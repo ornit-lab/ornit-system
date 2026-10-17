@@ -3933,6 +3933,274 @@
     display: none !important; /* Убираем лишние точки, оставляем монолитную неоновую планку */
 }
 
+
+
+
+
+
+
+
+/* ======================================================== */
+/* 📱 МОБИЛЬНАЯ АДАПТАЦИЯ КИБЕР-САЙДБАРА (ЭКРАНЫ <= 900px)   */
+/* ======================================================== */
+@media (max-width: 900px) {
+    .cyber-sidebar {
+        left: 50% !important;
+        right: auto !important;
+        top: auto !important;
+        bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important;
+        transform: translateX(-50%) !important;
+        width: calc(100% - 24px) !important;
+        max-width: 440px !important;
+        z-index: 99990 !important;
+        margin: 0 !important;
+        transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.35s ease !important;
+    }
+
+    .cyber-sidebar.hidden-nav {
+        opacity: 0 !important;
+        pointer-events: none !important;
+        transform: translateX(-50%) translateY(140px) !important;
+    }
+
+    .sidebar-track {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 6px !important;
+        border-radius: 20px !important;
+        background: rgba(10, 10, 24, 0.94) !important;
+        border: 1px solid rgba(138, 43, 226, 0.35) !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85), 0 0 20px rgba(138, 43, 226, 0.2) !important;
+        backdrop-filter: blur(16px) !important;
+        -webkit-backdrop-filter: blur(16px) !important;
+        position: relative !important;
+        overflow: visible !important;
+    }
+
+    .sidebar-items {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 6px !important;
+        width: 100% !important;
+        justify-content: space-between !important;
+        position: relative !important;
+        z-index: 2 !important;
+    }
+
+    .sidebar-btn {
+        flex: 1 1 0 !important;
+        width: auto !important;
+        min-width: 0 !important;
+        height: 52px !important;
+        padding: 4px 6px !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 4px !important;
+        border-radius: 14px !important;
+        background: transparent !important;
+        border: 1px solid transparent !important;
+        transition: transform 0.2s ease, background 0.25s ease, border-color 0.25s ease !important;
+    }
+
+    .sidebar-btn:active {
+        transform: scale(0.92) !important;
+    }
+
+    .sidebar-btn .sb-icon {
+        width: 22px !important;
+        height: 22px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    .sidebar-btn .sb-icon svg {
+        width: 20px !important;
+        height: 20px !important;
+        stroke: #8f94a6 !important;
+        transition: stroke 0.25s ease, filter 0.25s ease, transform 0.25s ease !important;
+    }
+
+    .sidebar-btn .sb-label {
+        display: block !important;
+        font-size: 0.55rem !important;
+        letter-spacing: 0.8px !important;
+        line-height: 1 !important;
+        color: #7b8096 !important;
+        white-space: nowrap !important;
+    }
+
+    .sidebar-btn.active {
+        background: linear-gradient(180deg, rgba(138, 43, 226, 0.32), rgba(138, 43, 226, 0.08)) !important;
+        border-color: rgba(192, 132, 252, 0.5) !important;
+        box-shadow: inset 0 0 12px rgba(138, 43, 226, 0.3) !important;
+    }
+
+    .sidebar-btn.active .sb-icon svg {
+        stroke: #ffffff !important;
+        filter: drop-shadow(0 0 8px #c084fc) !important;
+        transform: translateY(-1px) !important;
+    }
+
+    .sidebar-btn.active .sb-label {
+        color: #ffffff !important;
+        font-weight: 800 !important;
+        text-shadow: 0 0 6px rgba(192, 132, 252, 0.8) !important;
+    }
+
+    /* Лазерный индикатор сверху активной кнопки */
+    .sidebar-clip-carriage {
+        position: absolute !important;
+        top: -4px !important;
+        left: 0 !important;
+        right: auto !important;
+        width: 32px !important;
+        height: 5px !important;
+        z-index: 10 !important;
+        pointer-events: none !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+    }
+
+    .clip-bracket {
+        width: 100% !important;
+        height: 100% !important;
+        background: #c084fc !important;
+        border-radius: 4px 4px 0 0 !important;
+        box-shadow: 0 0 10px #c084fc, 0 0 20px #8a2be2, 0 -2px 6px #ffffff !important;
+    }
+
+    .page-view {
+        padding-bottom: calc(90px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+}
+
+
+/* ======================================================== */
+/* 🎧 3D КИБЕР-КАПСУЛА АУДИО (ВВЕРХУ СПРАВА)                */
+/* ======================================================== */
+.cyber-audio-3d-btn {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 7px 14px;
+    background: linear-gradient(145deg, #15182c, #0a0b16);
+    border: 1px solid rgba(0, 212, 255, 0.45);
+    border-radius: 24px;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    color: #fff;
+    outline: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    
+    /* Сочный 3D-объём */
+    box-shadow: 
+        0 5px 0 #05060d,
+        0 8px 16px rgba(0, 0, 0, 0.7),
+        0 0 14px rgba(0, 212, 255, 0.25),
+        inset 0 1px 1px rgba(255, 255, 255, 0.25);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.25s ease;
+}
+
+.cyber-audio-3d-btn:hover {
+    border-color: #00d4ff;
+    box-shadow: 
+        0 5px 0 #05060d,
+        0 10px 20px rgba(0, 0, 0, 0.8),
+        0 0 20px rgba(0, 212, 255, 0.45),
+        inset 0 1px 2px rgba(255, 255, 255, 0.4);
+}
+
+/* 3D-клик: физическое вдавливание */
+.cyber-audio-3d-btn:active {
+    transform: translateY(3px);
+    box-shadow: 
+        0 2px 0 #05060d,
+        0 4px 8px rgba(0, 0, 0, 0.9),
+        0 0 15px rgba(0, 212, 255, 0.4),
+        inset 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* Анимированный эквалайзер */
+.audio-waves-container {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    height: 14px;
+}
+
+.audio-bar {
+    width: 3px;
+    height: 5px;
+    background: #ff004c;
+    border-radius: 2px;
+    box-shadow: 0 0 6px #ff004c;
+    transition: background 0.3s, box-shadow 0.3s, height 0.2s;
+}
+
+/* Активное состояние (когда музыка включена) */
+.cyber-audio-3d-btn.playing {
+    border-color: rgba(0, 255, 136, 0.6);
+    box-shadow: 
+        0 5px 0 #05060d,
+        0 8px 16px rgba(0, 0, 0, 0.7),
+        0 0 18px rgba(0, 255, 136, 0.35),
+        inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+.cyber-audio-3d-btn.playing .audio-bar {
+    background: #00ff88;
+    box-shadow: 0 0 8px #00ff88;
+    animation: eqPulse 0.9s ease-in-out infinite alternate;
+}
+
+.cyber-audio-3d-btn.playing .b1 { animation-delay: 0.1s; height: 13px; }
+.cyber-audio-3d-btn.playing .b2 { animation-delay: 0.3s; height: 7px; }
+.cyber-audio-3d-btn.playing .b3 { animation-delay: 0.2s; height: 15px; }
+.cyber-audio-3d-btn.playing .b4 { animation-delay: 0.4s; height: 10px; }
+
+@keyframes eqPulse {
+    0% { height: 4px; }
+    50% { height: 15px; }
+    100% { height: 6px; }
+}
+
+.audio-3d-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    color: #ff004c;
+    text-shadow: 0 0 8px rgba(255, 0, 76, 0.6);
+    transition: color 0.3s, text-shadow 0.3s;
+}
+
+.cyber-audio-3d-btn.playing .audio-3d-label {
+    color: #00ff88;
+    text-shadow: 0 0 8px rgba(0, 255, 136, 0.7);
+}
+
+@media (max-width: 900px) {
+    .cyber-audio-3d-btn {
+        top: 12px;
+        right: 12px;
+        padding: 6px 11px;
+        gap: 7px;
+    }
+    .audio-3d-label {
+        font-size: 0.55rem;
+    }
+}
+
     </style>
 
 
@@ -3946,20 +4214,17 @@
 <body>
 
 
-        <!-- 🎧 КИБЕР-ПЛЕЕР И ФОНОВЫЙ АУДИОКОНТЕЙНЕР -->
-    <div id="cyber-audio-widget" style="
-        position: fixed; bottom: 20px; right: 20px; z-index: 99999;
-        display: flex; align-items: center; gap: 10px; background: rgba(8, 8, 20, 0.9);
-        border: 1px solid var(--accent-blue); padding: 8px 14px; border-radius: 8px;
-        box-shadow: 0 0 15px rgba(0, 212, 255, 0.25); backdrop-filter: blur(5px);
-        font-family: 'Orbitron'; font-size: 0.7rem; color: #fff;
-    ">
-        <span id="audio-status-icon" style="color: #ff004c; text-shadow: 0 0 8px #ff004c;">🔇 АУДИО ВЫКЛ</span>
-        <button onclick="toggleCyberAudio()" style="
-            background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #fff;
-            padding: 4px 10px; border-radius: 4px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.65rem;
-        ">ВКЛ / ВЫКЛ</button>
+   <!-- 🎧 МОНОЛИТНАЯ 3D-КНОПКА АУДИО В ПРАВОМ ВЕРХНЕМ УГЛУ -->
+<button id="cyber-audio-btn" class="cyber-audio-3d-btn" type="button" onclick="toggleCyberAudio()" aria-label="Включить / Выключить фоновое аудио">
+    <div class="audio-waves-container">
+        <span class="audio-bar b1"></span>
+        <span class="audio-bar b2"></span>
+        <span class="audio-bar b3"></span>
+        <span class="audio-bar b4"></span>
     </div>
+    <span id="audio-3d-status" class="audio-3d-label">BGM OFF</span>
+</button>
+
 
     <!-- Аудиоэлементы для SFX -->
     <audio id="sfx-click" src="click.mp3" preload="auto"></audio>
@@ -5321,11 +5586,49 @@ profileDocRef.onSnapshot((doc) => {
                     const clipHeight = clip.offsetHeight || 26;
                     const targetY = (btnRect.top - trackRect.top) + (btnRect.height / 2) - (clipHeight / 2);
                     clip.style.transform = `translateY(${targetY}px)`;
+                    positionSidebarClip(btns[targetIdx]);
+
                 }
             }
         }
 
 
+        // 📎 УНИВЕРСАЛЬНОЕ ВЫРАВНИВАНИЕ ЗАЖИМА (ПК = Вертикаль, Смартфон = Горизонталь)
+        function positionSidebarClip(activeBtn) {
+            const clip = document.getElementById('sidebar-clip');
+            const track = document.querySelector('.sidebar-track');
+            if (!activeBtn || !clip || !track) return;
+
+            const isMobile = window.innerWidth <= 900;
+            const btnRect = activeBtn.getBoundingClientRect();
+            const trackRect = track.getBoundingClientRect();
+
+            if (isMobile) {
+                // На мобилке двигаем по горизонтали (X) по центру кнопки
+                const clipWidth = clip.offsetWidth || 32;
+                const targetX = (btnRect.left - trackRect.left) + (btnRect.width / 2) - (clipWidth / 2);
+                clip.style.transform = `translateX(${targetX}px)`;
+            } else {
+                // На ПК двигаем по вертикали (Y)
+                const clipHeight = clip.offsetHeight || 26;
+                const targetY = (btnRect.top - trackRect.top) + (btnRect.height / 2) - (clipHeight / 2);
+                clip.style.transform = `translateY(${targetY}px)`;
+            }
+        }
+
+        // Обновленная функция клика по сайдбару
+        function selectModernSidebar(btnElement, index, pageId) {
+            document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
+            positionSidebarClip(btnElement);
+            switchPage(pageId);
+        }
+
+        // Выравнивание при ресайзе экрана (поворот смартфона)
+        window.addEventListener('resize', () => {
+            const activeBtn = document.querySelector('.sidebar-btn.active') || document.querySelector('.sidebar-btn');
+            positionSidebarClip(activeBtn);
+        });
 
 
 
@@ -7130,20 +7433,21 @@ setInterval(() => {
             }
         }
 
-        function updateAudioWidgetUI(isPlaying) {
-            const icon = document.getElementById('audio-status-icon');
-            if (icon) {
+               function updateAudioWidgetUI(isPlaying) {
+            const btn = document.getElementById('cyber-audio-btn');
+            const statusLabel = document.getElementById('audio-3d-status');
+            
+            if (btn && statusLabel) {
                 if (isPlaying) {
-                    icon.innerText = "🔊 АУДИО ВКЛ";
-                    icon.style.color = "#00ff88";
-                    icon.style.textShadow = "0 0 8px #00ff88";
+                    btn.classList.add('playing');
+                    statusLabel.textContent = "BGM ON";
                 } else {
-                    icon.innerText = "🔇 АУДИО ВЫКЛ";
-                    icon.style.color = "#ff004c";
-                    icon.style.textShadow = "0 0 8px #ff004c";
+                    btn.classList.remove('playing');
+                    statusLabel.textContent = "BGM OFF";
                 }
             }
         }
+
 
         // Функция безопасного воспроизведения SFX
         function playSfx(id) {

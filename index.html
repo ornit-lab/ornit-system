@@ -1020,127 +1020,6 @@
 
 
 
-             /* =================================================== */
-        /* 🌊 НОВЫЙ УЗКИЙ КИБЕР-САЙДБАР С ГРАДИЕНТОМ           */
-        /* =================================================== */
-
-        .liquid-nav-container {
-            position: fixed;
-            bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 320px; /* Сделали уже */
-            height: 60px; /* Компактный */
-            z-index: 1000;
-            padding: 2px; /* Толщина градиентной рамки */
-            background: linear-gradient(90deg, #00d4ff, #8a2be2); /* Сине-фиолетовая обводка */
-            border-radius: 30px;
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2), 0 10px 30px rgba(0,0,0,0.8);
-            transition: transform 0.4s ease, opacity 0.4s ease;
-        }
-
-        .liquid-nav-container.hidden-nav {
-            transform: translateX(-50%) translateY(140px);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .liquid-nav {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            background: #080812; /* Внутренний темный фон */
-            border-radius: 28px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        /* Розовые плавающие пузырьки на фоне панели */
-        .bubble {
-            position: absolute;
-            background: #ff007f; /* Розовый неон */
-            border-radius: 50%;
-            filter: blur(8px);
-            opacity: 0.4;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .nav-item {
-            position: relative;
-            z-index: 5;
-            flex: 1;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .nav-icon svg {
-            width: 20px;
-            height: 20px;
-            color: #666;
-            transition: 0.3s;
-        }
-
-
-
-        .nav-text {
-            position: absolute;
-            bottom: 6px;
-            font-size: 0.55rem;
-            font-family: 'Orbitron';
-            color: #fff;
-            opacity: 0;
-            transform: translateY(8px);
-            transition: 0.3s;
-        }
-
-        .nav-item.active .nav-text {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Выравниваем иконку строго по центру белого шара */
-        .nav-item.active .nav-icon svg {
-            color: #1c1c2b; /* Темная иконка внутри белого шара */
-            transform: translateY(-20px); /* Приподнимаем иконку точно на шар */
-            filter: none;
-        }
-
-        .nav-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%; /* Центрируем иконку по вертикали всей панели */
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        /* Исправляем стартовую позицию белого шара по вертикали */
-        #nav-indicator {
-            position: absolute;
-            top: 8px; /* Центрируем шар по высоте узкой панели */
-            width: 44px;
-            height: 44px;
-            background: #ffffff;
-            border-radius: 50%;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), inset 0 0 10px rgba(0,0,0,0.15);
-            z-index: 4;
-            transition: left 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55), transform 0.3s ease;
-        }
-
-
-        /* Анимация ныряния шара при переключении */
-        #nav-indicator.diving {
-            transform: scale(0.3);
-            opacity: 0.3;
-        }
-
 
 
         /* [ HUD HEADER ] */
@@ -3160,64 +3039,6 @@
 
 
 
-.streak-banner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    width: fit-content;
-    max-width: 100%;
-    margin: 0 auto 20px;
-    padding: 10px 22px;
-    border: 1px solid rgba(255, 190, 50, 0.38);
-    border-radius: 14px;
-    background: linear-gradient(120deg, rgba(255,170,0,.08), rgba(138,43,226,.08));
-    box-shadow: 0 0 20px rgba(255,170,0,.1);
-}
-
-.streak-banner-icon {
-    width: 30px;
-    height: 30px;
-    fill: none;
-    stroke: #ffc247;
-    stroke-width: 1.7;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    filter: drop-shadow(0 0 7px rgba(255,190,50,.7));
-}
-
-.streak-banner-copy {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.streak-banner-label {
-    color: #aaa;
-    font: .58rem 'Orbitron', sans-serif;
-    letter-spacing: 1px;
-}
-
-#top-asceticism-days {
-    color: #ffd166;
-    font: 2rem 'Chinyen', 'Orbitron', sans-serif;
-    line-height: 1;
-    text-shadow: 0 0 12px rgba(255,190,50,.55);
-}
-
-.streak-banner-suffix {
-    align-self: flex-end;
-    padding-bottom: 2px;
-    color: #e5c987;
-    font: .75rem 'Orbitron', sans-serif;
-}
-
-@media (max-width: 700px) {
-    .streak-banner {
-        margin-bottom: 14px;
-        padding: 9px 16px;
-    }
-}
 
 
 
@@ -3475,6 +3296,642 @@
     }
 }
 
+
+
+
+/* ======================================================== */
+/* 💎 НОВЫЙ ЛЕВЫЙ САЙДБАР СО СКРЕПКОЙ-ИНДИКАТОРОМ           */
+/* ======================================================== */
+.cyber-sidebar {
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 99990;
+    transition: opacity 0.4s ease, transform 0.4s ease, left 0.4s ease;
+}
+
+.cyber-sidebar.hidden-nav {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-50%) translateX(-40px);
+}
+
+.sidebar-track {
+    position: relative;
+    background: rgba(10, 10, 24, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7), inset 0 0 20px rgba(138, 43, 226, 0.08);
+    backdrop-filter: blur(12px);
+}
+
+.sidebar-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    z-index: 2;
+}
+
+.sidebar-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 160px;
+    padding: 12px 14px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    color: #8f94a6;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+.sidebar-btn .sb-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+}
+
+.sidebar-btn .sb-icon svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    transition: transform 0.3s ease;
+}
+
+.sidebar-btn:hover {
+    color: #fff;
+    background: rgba(138, 43, 226, 0.08);
+}
+
+.sidebar-btn.active {
+    color: #ffffff;
+    background: linear-gradient(90deg, rgba(138, 43, 226, 0.28), rgba(138, 43, 226, 0.05));
+    border-color: rgba(138, 43, 226, 0.6);
+    box-shadow: inset 0 0 15px rgba(138, 43, 226, 0.25);
+}
+
+.sidebar-btn.active .sb-icon svg {
+    stroke: #b45cff;
+    filter: drop-shadow(0 0 8px #8a2be2);
+    transform: scale(1.1);
+}
+
+
+
+/* ======================================================== */
+/* 📎 ИДЕАЛЬНЫЙ КИБЕР-ЗАЖИМ (ФИКСАТОР АКТИВНОЙ ВКЛАДКИ)     */
+/* ======================================================== */
+.sidebar-clip-carriage {
+    position: absolute;
+    top: 0;
+    right: -6px;
+    width: 10px;
+    height: 24px;
+    z-index: 10;
+    pointer-events: none;
+    transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* Сам зажим: монолитный фиолетовый неоновый карабин */
+.clip-bracket {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #c084fc, #7c3aed);
+    border-radius: 0 6px 6px 0;
+    box-shadow: 
+        0 0 12px rgba(192, 132, 252, 0.9),
+        0 0 25px rgba(124, 58, 237, 0.6),
+        inset -1px 0 3px rgba(255, 255, 255, 0.6);
+    position: relative;
+}
+
+/* Внутренняя лазерная риска замка */
+.clip-glow-core {
+    position: absolute;
+    top: 50%;
+    right: 2px;
+    transform: translateY(-50%);
+    width: 2px;
+    height: 12px;
+    background: #ffffff;
+    border-radius: 1px;
+    box-shadow: 0 0 6px #ffffff;
+}
+
+
+/* ======================================================== */
+/* 💵 ЗЕЛЕНЫЙ БЛОК НАКОПЛЕНИЙ НА ГЛАВНОМ ЭКРАНЕ             */
+/* ======================================================== */
+.savings-banner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: linear-gradient(135deg, rgba(10, 24, 16, 0.9), rgba(5, 14, 9, 0.95));
+    border: 1px solid rgba(0, 255, 136, 0.45);
+    border-radius: 12px;
+    padding: 12px 18px;
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.15), inset 0 0 12px rgba(0, 255, 136, 0.08);
+    cursor: pointer;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.savings-banner:hover {
+    transform: translateY(-2px);
+    border-color: #00ff88;
+    box-shadow: 0 0 28px rgba(0, 255, 136, 0.35), inset 0 0 16px rgba(0, 255, 136, 0.15);
+}
+
+.savings-banner-icon {
+    width: 32px;
+    height: 32px;
+    stroke: #00ff88;
+    fill: none;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.8));
+}
+
+.savings-banner-copy {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.savings-banner-label {
+    font-size: 0.62rem;
+    color: #48e99a;
+    letter-spacing: 1.5px;
+}
+
+.savings-banner-copy strong {
+    font-size: 1.15rem;
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+}
+
+.savings-banner-suffix {
+    font-size: 0.7rem;
+    color: #00ff88;
+    border: 1px solid rgba(0, 255, 136, 0.4);
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: rgba(0, 255, 136, 0.08);
+}
+
+/* МОДАЛКА КАЗНЫ */
+.savings-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: rgba(2, 6, 4, 0.85);
+    backdrop-filter: blur(10px);
+}
+
+.savings-modal.open {
+    display: flex;
+}
+
+.savings-modal-card {
+    position: relative;
+    width: min(440px, 100%);
+    background: #080f0c;
+    border: 1px solid rgba(0, 255, 136, 0.5);
+    border-radius: 18px;
+    padding: 26px 22px;
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+    box-shadow: 0 0 40px rgba(0, 255, 136, 0.2);
+}
+
+.savings-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: none;
+    border: none;
+    color: #667;
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+
+.savings-vault-svg {
+    width: 48px;
+    height: 48px;
+    stroke: #00ff88;
+    fill: none;
+    stroke-width: 2;
+    filter: drop-shadow(0 0 10px #00ff88);
+}
+
+.savings-modal-title {
+    font-size: 1.1rem;
+    color: #fff;
+    margin: 8px 0 4px;
+    letter-spacing: 2px;
+}
+
+.savings-modal-desc {
+    font-size: 0.72rem;
+    color: #8ca396;
+    margin-bottom: 18px;
+    font-family: 'Exo 2', sans-serif;
+}
+
+.savings-balance-hero {
+    background: rgba(0, 255, 136, 0.06);
+    border: 1px solid rgba(0, 255, 136, 0.25);
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 20px;
+}
+
+.sb-hero-caption {
+    font-size: 0.6rem;
+    color: #48e99a;
+    letter-spacing: 1px;
+}
+
+.sb-hero-number {
+    font-size: 1.8rem;
+    color: #fff;
+    font-weight: 700;
+    text-shadow: 0 0 15px rgba(0, 255, 136, 0.7);
+}
+
+.savings-buttons-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.savings-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(0, 255, 136, 0.35);
+    border-radius: 10px;
+    padding: 12px 6px;
+    cursor: pointer;
+    transition: 0.2s;
+    font-family: 'Orbitron';
+}
+
+.savings-chip:hover {
+    background: rgba(0, 255, 136, 0.15);
+    border-color: #00ff88;
+    transform: scale(1.03);
+}
+
+.chip-rub {
+    font-size: 0.85rem;
+    color: #fff;
+    font-weight: 700;
+}
+
+.chip-xp {
+    font-size: 0.65rem;
+    color: #00ff88;
+    text-shadow: 0 0 6px #00ff88;
+}
+
+.chip-gold {
+    grid-column: span 2;
+    border-color: #ffd700;
+    background: rgba(255, 215, 0, 0.06);
+}
+
+.chip-gold .chip-xp {
+    color: #ffd700;
+    text-shadow: 0 0 6px #ffd700;
+}
+
+.savings-sub-actions {
+    margin-top: 15px;
+}
+
+.savings-withdraw-btn {
+    background: transparent;
+    border: none;
+    color: #6d7e75;
+    font-size: 0.65rem;
+    font-family: 'Orbitron';
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+/* Мобильная адаптация сайдбара */
+@media (max-width: 900px) {
+    .cyber-sidebar {
+        left: 0;
+        right: 0;
+        top: auto;
+        bottom: 12px;
+        transform: none;
+        display: flex;
+        justify-content: center;
+    }
+    .cyber-sidebar.hidden-nav {
+        transform: translateY(120px);
+    }
+    .sidebar-track {
+        padding: 6px;
+        border-radius: 30px;
+    }
+    .sidebar-items {
+        flex-direction: row;
+        gap: 4px;
+    }
+    .sidebar-btn {
+        width: auto;
+        padding: 8px 12px;
+        gap: 6px;
+    }
+    .sidebar-btn .sb-label {
+        display: none;
+    }
+    .sidebar-clip-carriage {
+        display: none; /* На мобилке скрываем скрепку для компактности */
+    }
+}
+
+
+/* ======================================================== */
+/* 🎯 ЦЕНТРИРОВАНИЕ И ОДИНАКОВЫЙ РАЗМЕР ВЕРХНИХ БЛОКОВ     */
+/* ======================================================== */
+.top-banners-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin: 15px auto 25px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* Одинаковые габариты для обеих плашек */
+.streak-banner,
+.savings-banner {
+    width: 240px;
+    min-width: 240px;
+    max-width: 240px;
+    height: 58px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-family: 'Orbitron', sans-serif;
+    margin: 0;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+
+/* Специфика аскезы (янтарная) */
+.streak-banner {
+    background: linear-gradient(135deg, rgba(28, 18, 5, 0.85), rgba(14, 9, 3, 0.95));
+    border: 1px solid rgba(255, 170, 0, 0.45);
+    box-shadow: 0 0 18px rgba(255, 170, 0, 0.12), inset 0 0 10px rgba(255, 170, 0, 0.05);
+}
+
+.streak-banner-icon {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: #ffaa00;
+    stroke-width: 2;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 6px #ffaa00);
+}
+
+.streak-banner-copy {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+}
+
+.streak-banner-label {
+    font-size: 0.58rem;
+    color: #ffaa00;
+    letter-spacing: 1.5px;
+    white-space: nowrap;
+}
+
+.streak-banner-copy strong {
+    font-size: 1.15rem;
+    color: #ffffff;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.streak-banner-suffix {
+    font-size: 0.65rem;
+    color: #888;
+    align-self: flex-end;
+    margin-bottom: 3px;
+}
+
+/* Специфика накоплений (зелёная) */
+.savings-banner {
+    background: linear-gradient(135deg, rgba(6, 22, 14, 0.85), rgba(3, 12, 8, 0.95));
+    border: 1px solid rgba(0, 255, 136, 0.45);
+    box-shadow: 0 0 18px rgba(0, 255, 136, 0.12), inset 0 0 10px rgba(0, 255, 136, 0.05);
+    cursor: pointer;
+}
+
+.savings-banner:hover {
+    transform: translateY(-2px);
+    border-color: #00ff88;
+    box-shadow: 0 0 24px rgba(0, 255, 136, 0.3), inset 0 0 12px rgba(0, 255, 136, 0.1);
+}
+
+.savings-banner-icon {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: #00ff88;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 6px #00ff88);
+}
+
+.savings-banner-copy {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+}
+
+.savings-banner-label {
+    font-size: 0.58rem;
+    color: #48e99a;
+    letter-spacing: 1.5px;
+    white-space: nowrap;
+}
+
+.savings-banner-copy strong {
+    font-size: 1.15rem;
+    color: #ffffff;
+    line-height: 1.2;
+    text-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.savings-banner-suffix {
+    font-size: 0.62rem;
+    color: #00ff88;
+    border: 1px solid rgba(0, 255, 136, 0.4);
+    padding: 2px 7px;
+    border-radius: 5px;
+    background: rgba(0, 255, 136, 0.08);
+    white-space: nowrap;
+    align-self: center;
+}
+
+/* ======================================================== */
+/* 📎 ИДЕАЛЬНО ВЫРАВНЕННАЯ СКРЕПКА САЙДБАРА                */
+/* ======================================================== */
+.sidebar-track {
+    position: relative;
+    background: rgba(10, 10, 24, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7), inset 0 0 20px rgba(138, 43, 226, 0.08);
+    backdrop-filter: blur(12px);
+    overflow: visible; /* скрепка аккуратно торчит справа */
+}
+
+/* Высота кнопки зафиксирована, чтобы центровка не гуляла */
+.sidebar-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 160px;
+    height: 44px;
+    box-sizing: border-box;
+    padding: 0 14px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    color: #8f94a6;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: color 0.25s, border-color 0.25s, background 0.25s;
+}
+
+/* Сама каретка скрепки: строго высота 30px, по центру 44px кнопки */
+.sidebar-clip-carriage {
+    position: absolute;
+    top: 0;
+    right: -8px;
+    width: 14px;
+    height: 30px;
+    z-index: 10;
+    pointer-events: none;
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.clip-bracket {
+    display: block;
+    width: 12px;
+    height: 100%;
+    background: #120924;
+    border: 2px solid #8a2be2;
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+    box-shadow: 0 0 14px rgba(138, 43, 226, 0.9), inset 0 0 6px #b45cff;
+    box-sizing: border-box;
+}
+
+.clip-glow-core {
+    position: absolute;
+    top: 50%;
+    left: -2px;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 16px;
+    background: #00d4ff;
+    border-radius: 2px;
+    box-shadow: 0 0 10px #00d4ff;
+}
+
+@media (max-width: 700px) {
+    .top-banners-center {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .streak-banner,
+    .savings-banner {
+        width: 100%;
+        max-width: 320px;
+    }
+}
+
+
+/* ⚡️ ФИНАЛЬНАЯ ЛИКВИДАЦИЯ СТАРОГО ИНДИКАТОРА И ЧИСТЫЙ ЗАЖИМ */
+#nav-indicator {
+    display: none !important; /* Намертво гасит старый синий овал, если он где-то остался */
+}
+
+.sidebar-clip-carriage {
+    position: absolute !important;
+    top: 0 !important;
+    right: -4px !important;
+    width: 6px !important;
+    height: 26px !important;
+    z-index: 99 !important;
+    pointer-events: none !important;
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}
+
+.clip-bracket {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: #c084fc !important;
+    border-radius: 0 4px 4px 0 !important;
+    box-shadow: 0 0 12px #c084fc, 0 0 24px #8a2be2 !important;
+}
+
+.clip-glow-core {
+    display: none !important; /* Убираем лишние точки, оставляем монолитную неоновую планку */
+}
+
     </style>
 
 
@@ -3601,16 +4058,37 @@
                 </div>
             </div>
 
-<div class="streak-banner">
-    <svg class="streak-banner-icon" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M12 3c1.8 3 5.5 5.1 5.5 10a5.5 5.5 0 1 1-11 0c0-2.3 1-4.1 2.5-5.8.1 2 1 3.1 2 3.8C12 9 12.4 6.2 12 3Z"></path>
-    </svg>
-    <div class="streak-banner-copy">
-        <span class="streak-banner-label">ДНИ АСКЕЗЫ</span>
-        <strong id="top-asceticism-days">196</strong>
+
+<!-- ЦЕНТРАЛЬНАЯ ПАРА: АСКЕЗА + НАКОПЛЕНИЯ -->
+<div class="top-banners-center">
+
+    <!-- 1. АСКЕЗА -->
+    <div class="streak-banner">
+        <svg class="streak-banner-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3c1.8 3 5.5 5.1 5.5 10a5.5 5.5 0 1 1-11 0c0-2.3 1-4.1 2.5-5.8.1 2 1 3.1 2 3.8C12 9 12.4 6.2 12 3Z"></path>
+        </svg>
+        <div class="streak-banner-copy">
+            <span class="streak-banner-label">ДНИ АСКЕЗЫ</span>
+            <strong id="top-asceticism-days">200</strong>
+        </div>
+        <span class="streak-banner-suffix">дней</span>
     </div>
-    <span class="streak-banner-suffix">дней</span>
+
+    <!-- 2. НАКОПЛЕНИЯ (ТОЧНО ТАКОЙ ЖЕ РАЗМЕР) -->
+    <div class="savings-banner" onclick="openSavingsModal()" title="Открыть Казну">
+        <svg class="savings-banner-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+        </svg>
+        <div class="savings-banner-copy">
+            <span class="savings-banner-label">НАКОПЛЕНИЯ</span>
+            <strong id="top-savings-rub">0 ₽</strong>
+        </div>
+        <span class="savings-banner-suffix">+ Внести</span>
+    </div>
+
 </div>
+
+
 
 
             <!-- [ MAIN GRID CONTENT ] -->
@@ -3995,57 +4473,119 @@
         </div>
     </div>
 
-     <!-- =================================================== -->
-    <!-- 🌊 ИСТИННЫЙ LIQUID NAVIGATION (4 ВКЛАДКИ)           -->
-    <!-- =================================================== -->
-    <div id="liquid-nav-box" class="liquid-nav-container hidden-nav">
-        <div class="liquid-nav">
-            <div id="nav-indicator"></div>
-            
-            <!-- 1. УРОВЕНЬ -->
-            <li class="nav-item active" onclick="playSfx('sfx-tab'); selectLiquidTab(this, 0, 'level-page')">
-                <span class="nav-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                    </svg>
-                </span>
-                <span class="nav-text">Уровень</span>
-            </li>
+    <!-- ======================================================== -->
+<!-- 1. НОВЫЙ ЛЕВЫЙ КИБЕР-САЙДБАР СО СКРЕПКОЙ (ФИОЛЕТОВЫЙ КАРАБИН) -->
+<!-- ======================================================== -->
+<aside id="liquid-nav-box" class="cyber-sidebar hidden-nav" aria-label="Навигация системы">
+    <div class="sidebar-track">
+        <!-- Анимированная торчащая скрепка/клипса-индикатор -->
+        <div id="sidebar-clip" class="sidebar-clip-carriage" aria-hidden="true">
+            <span class="clip-glow-core"></span>
+            <span class="clip-bracket"></span>
+        </div>
 
-            <!-- 2. ПРОГРАММЫ (НОВАЯ) -->
-            <li class="nav-item" onclick="playSfx('sfx-tab'); selectLiquidTab(this, 1, 'programs-page')">
-                <span class="nav-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                        <line x1="8" y1="21" x2="16" y2="21"></line>
-                        <line x1="12" y1="17" x2="12" y2="21"></line>
+        <nav class="sidebar-items">
+            <!-- 0: Уровень -->
+            <button type="button" class="sidebar-btn active" data-tab-idx="0" onclick="playSfx('sfx-tab'); selectModernSidebar(this, 0, 'level-page')">
+                <span class="sb-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                     </svg>
                 </span>
-                <span class="nav-text">Программы</span>
-            </li>
+                <span class="sb-label">УРОВЕНЬ</span>
+            </button>
 
-            <!-- 3. НАВЫКИ -->
-            <li class="nav-item" onclick="playSfx('sfx-tab'); selectLiquidTab(this, 2, 'skills-page')">
-                <span class="nav-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            <!-- 1: Программы -->
+            <button type="button" class="sidebar-btn" data-tab-idx="1" onclick="playSfx('sfx-tab'); selectModernSidebar(this, 1, 'programs-page')">
+                <span class="sb-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                        <line x1="8" y1="21" x2="16" y2="21"/>
+                        <line x1="12" y1="17" x2="12" y2="21"/>
                     </svg>
                 </span>
-                <span class="nav-text">Навыки</span>
-            </li>
+                <span class="sb-label">ПРОГРАММЫ</span>
+            </button>
 
-            <!-- 4. ГЛАВНАЯ -->
-            <li class="nav-item" onclick="playSfx('sfx-tab'); selectLiquidTab(this, 3, 'main-menu')">
-                <span class="nav-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            <!-- 2: Навыки -->
+            <button type="button" class="sidebar-btn" data-tab-idx="2" onclick="playSfx('sfx-tab'); selectModernSidebar(this, 2, 'skills-page')">
+                <span class="sb-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
                     </svg>
                 </span>
-                <span class="nav-text">Главная</span>
-            </li>
+                <span class="sb-label">НАВЫКИ</span>
+            </button>
+
+            <!-- 3: Главная -->
+            <button type="button" class="sidebar-btn" data-tab-idx="3" onclick="playSfx('sfx-tab'); selectModernSidebar(this, 3, 'main-menu')">
+                <span class="sb-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                </span>
+                <span class="sb-label">ГЛАВНАЯ</span>
+            </button>
+        </nav>
+    </div>
+</aside>
+
+<!-- ======================================================== -->
+<!-- 2. МОДАЛКА ХРАНИЛИЩА НАКОПЛЕНИЙ (КАЗНА МОНАРХА)           -->
+<!-- ======================================================== -->
+<div id="savings-modal" class="savings-modal" role="dialog" aria-modal="true" onclick="if(event.target === this) closeSavingsModal()">
+    <div class="savings-modal-card">
+        <button class="savings-modal-close" type="button" onclick="closeSavingsModal()" aria-label="Закрыть">✕</button>
+
+        <div class="savings-modal-badge">
+            <svg viewBox="0 0 24 24" class="savings-vault-svg">
+                <path d="M2 7h20v13a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7z"/>
+                <circle cx="12" cy="14" r="3"/>
+                <path d="M12 11v6M9 14h6"/>
+                <path d="m5 7 2-4h10l2 4"/>
+            </svg>
+        </div>
+
+        <h2 class="savings-modal-title">КАЗНА МОНАРХА</h2>
+        <p class="savings-modal-desc">Пополнение реального баланса накоплений. Курс системы: 50 ₽ = +10 XP.</p>
+
+        <div class="savings-balance-hero">
+            <span class="sb-hero-caption">ТЕКУЩИЕ СБЕРЕЖЕНИЯ</span>
+            <div class="sb-hero-number"><span id="savings-modal-display">0</span> <small>₽</small></div>
+        </div>
+
+        <div class="savings-buttons-grid">
+            <button type="button" class="savings-chip" onclick="depositSavings(50)">
+                <span class="chip-rub">+50 ₽</span>
+                <span class="chip-xp">+10 XP</span>
+            </button>
+            <button type="button" class="savings-chip" onclick="depositSavings(100)">
+                <span class="chip-rub">+100 ₽</span>
+                <span class="chip-xp">+20 XP</span>
+            </button>
+            <button type="button" class="savings-chip" onclick="depositSavings(500)">
+                <span class="chip-rub">+500 ₽</span>
+                <span class="chip-xp">+100 XP</span>
+            </button>
+            <button type="button" class="savings-chip" onclick="depositSavings(1000)">
+                <span class="chip-rub">+1 000 ₽</span>
+                <span class="chip-xp">+200 XP</span>
+            </button>
+            <button type="button" class="savings-chip chip-gold" onclick="depositSavings(5000)">
+                <span class="chip-rub">+5 000 ₽</span>
+                <span class="chip-xp">+1 000 XP</span>
+            </button>
+        </div>
+
+        <div class="savings-sub-actions">
+            <button type="button" class="savings-withdraw-btn" onclick="openResetSavingsPrompt()">
+                Коррекция / Списание баланса
+            </button>
         </div>
     </div>
+</div>
+
 
     <!-- =================================================== -->
     <!-- 🦾 ПРОГРАММА ТРЕНИРОВОК: ПРОТОКОЛ «МОНОЛИТ»          -->
@@ -4370,10 +4910,6 @@
                     icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.42 4.58a5 5 0 0 0-7.07 0l-.35.35-.35-.35a5 5 0 0 0-7.07 7.07l.35.35L13 19.07l7.07-7.07.35-.35a5 5 0 0 0 0-7.07z"/></svg>'
                 },
                 // ДУША
-                asceticism: {
-                    branch: "wil", name: "Аскеза", level: 21, xp: 1050, nextLevelXp: 1500,
-                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>'
-                },
                 abstinence: {
                     branch: "wil", name: "Воздержание", level: 1, xp: 0, nextLevelXp: 500,
                     icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>'
@@ -4386,10 +4922,6 @@
                 diction: {
                     branch: "res", name: "Дикция", level: 8, xp: 90, nextLevelXp: 400,
                     icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>'
-                },
-                resource: {
-                    branch: "res", name: "Ресурс", level: 14, xp: 300, nextLevelXp: 700,
-                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><line x1="3" y1="3" x2="21" y2="21"/><path d="M12 8v8M8 12h8"/></svg>'
                 },
                 storytelling: {
                     branch: "res", name: "Сторителлинг", level: 1, xp: 0, nextLevelXp: 300,
@@ -4616,6 +5148,8 @@ profileDocRef.onSnapshot((doc) => {
             if (typeof renderLiveChart === 'function') renderLiveChart();
             if (typeof updatePlayerRankBadge === 'function') updatePlayerRankBadge();
             if (typeof updateEvolutionProfile === 'function') updateEvolutionProfile();
+            if (typeof updateSavingsUI === 'function') updateSavingsUI();
+
         }
 
 
@@ -4702,78 +5236,66 @@ profileDocRef.onSnapshot((doc) => {
 
 
 
-                // 🔄 ИСПРАВЛЕННЫЙ ВЫБОР ВКЛАДКИ (ФИКС ЦЕНТРОВКИ)
-        function selectLiquidTab(element, index, pageId) {
-            const indicator = document.getElementById('nav-indicator');
-            const nav = document.querySelector('.liquid-nav');
-            const items = document.querySelectorAll('.nav-item');
+          
 
-            indicator.classList.add('diving');
 
-            setTimeout(() => {
-                items.forEach(item => item.classList.remove('active'));
-                element.classList.add('active');
-
-                // ТЕПЕРЬ ДЕЛИМ НА 4! 
-                const tabWidth = nav.offsetWidth / 4;
-                const indicatorWidth = 50; 
-                const centerPosition = (index * tabWidth) + (tabWidth / 2) - (indicatorWidth / 2);
-                
-                indicator.style.left = `${centerPosition}px`;
-
-                setTimeout(() => {
-                    indicator.classList.remove('diving');
-                }, 100);
-
-                switchPage(pageId);
-            }, 150);
-        }
-
-        // 🛡️ ФИКС ПУСТОГО ЭКРАНА И КРИВОГО ШАРИКА ПРИ СТАРТЕ
-        window.addEventListener('load', () => {
-            // Сначала переключаем страницу
-            switchPage('main-menu');
-            
-            // Даем браузеру отрисовать ширину нава, потом ставим шарик
-            setTimeout(() => {
-                const nav = document.querySelector('.liquid-nav');
-                const indicator = document.getElementById('nav-indicator');
-                if (nav && indicator) {
-                    const tabWidth = nav.offsetWidth / 4;
-                    const centerPosition = (3 * tabWidth) + (tabWidth / 2) - (25); // Индекс 3 = Главная
-                    indicator.style.left = `${centerPosition}px`;
-                    
-                    // Убираем активность со всех и ставим на Главную (индекс 3)
-                    const items = document.querySelectorAll('.nav-item');
-                    items.forEach(item => item.classList.remove('active'));
-                    items[3].classList.add('active');
-                }
-            }, 300); 
-        });
-
-               function switchPage(pageId) {
+                  // 🚀 БРОНЕБОЙНОЕ ПЕРЕКЛЮЧЕНИЕ СТРАНИЦ (БЕЗ ГОНОК ТАЙМЕРОВ И ЧЁРНЫХ ЭКРАНОВ)
+        function switchPage(pageId) {
             const pages = document.querySelectorAll('.page-view');
             const navBox = document.getElementById('liquid-nav-box');
 
-            // Сайдбар виден на Уровне, Программах и Навыках
+            // 1. Управление видимостью сайдбара
             const visiblePages = ['level-page', 'programs-page', 'skills-page'];
-            if (visiblePages.includes(pageId)) {
-                navBox.classList.remove('hidden-nav');
-            } else {
-                navBox.classList.add('hidden-nav');
+            if (navBox) {
+                if (visiblePages.includes(pageId)) {
+                    navBox.classList.remove('hidden-nav');
+                } else {
+                    navBox.classList.add('hidden-nav');
+                }
             }
 
+            // 2. Мгновенное и чистое переключение экранов
             pages.forEach(p => {
                 if (p.id === pageId) {
-                    // Явно задаем flex для главного меню, для остальных block
                     p.style.display = (pageId === 'main-menu') ? 'flex' : 'block';
-                    setTimeout(() => p.classList.add('active-page'), 50);
+                    // Форсируем отрисовку браузером для плавного появления
+                    void p.offsetWidth;
+                    p.classList.add('active-page');
                 } else {
                     p.classList.remove('active-page');
-                    setTimeout(() => p.style.display = 'none', 500);
+                    p.style.display = 'none'; // Скрываем мгновенно, без багующих таймеров!
                 }
             });
+
+            // 3. Синхронизация сайдбара (кнопки и зажима) при любом переходе
+            const pageIndexMap = {
+                'level-page': 0,
+                'programs-page': 1,
+                'skills-page': 2,
+                'main-menu': 3
+            };
+
+            const targetIdx = pageIndexMap[pageId];
+            if (targetIdx !== undefined) {
+                const btns = document.querySelectorAll('.sidebar-btn');
+                btns.forEach((b, idx) => {
+                    b.classList.toggle('active', idx === targetIdx);
+                });
+
+                // Выравниваем неоновый зажим на активную кнопку
+                const activeBtn = btns[targetIdx];
+                const clip = document.getElementById('sidebar-clip');
+                const track = document.querySelector('.sidebar-track');
+                if (activeBtn && clip && track) {
+                    const btnRect = activeBtn.getBoundingClientRect();
+                    const trackRect = track.getBoundingClientRect();
+                    const clipHeight = clip.offsetHeight || 26;
+                    const targetY = (btnRect.top - trackRect.top) + (btnRect.height / 2) - (clipHeight / 2);
+                    clip.style.transform = `translateY(${targetY}px)`;
+                }
+            }
         }
+
 
 
 
@@ -5376,35 +5898,6 @@ function setManualRating(rating, button) {
             ctx.restore();
         }
 
-
-
-
-        function selectLiquidTab(element, index, pageId) {
-            const indicator = document.getElementById('nav-indicator');
-            const nav = document.querySelector('.liquid-nav');
-            const items = document.querySelectorAll('.nav-item');
-
-            // 1. Шар ныряет
-            indicator.classList.add('diving');
-
-            setTimeout(() => {
-                items.forEach(item => item.classList.remove('active'));
-                element.classList.add('active');
-
-                // Точный расчет центра под ширину индикатора 80px
-                const tabWidth = nav.offsetWidth / 3;
-                const indicatorWidth = 80;
-                const centerPosition = (index * tabWidth) + (tabWidth / 2) - (indicatorWidth / 2);
-                indicator.style.left = `${centerPosition}px`;
-
-                // 2. Шар выныривает на новой позиции
-                setTimeout(() => {
-                    indicator.classList.remove('diving');
-                }, 80);
-
-                switchPage(pageId);
-            }, 120);
-        }
 
 
 
@@ -6652,16 +7145,115 @@ setInterval(() => {
 
 
 
-   window.addEventListener('load', () => {
-    switchPage('main-menu');
-    updateMainUI();
+         window.addEventListener('load', () => {
+            switchPage('main-menu');
+            updateMainUI();
+
+            // 🦾 Активируем первый день тренировки в Программах
+            const firstWorkoutBtn = document.querySelector('.workout-tab-btn');
+            if (firstWorkoutBtn) {
+                switchWorkoutDay(1, firstWorkoutBtn);
+            }
+            if (typeof updateWorkoutRewardUI === 'function') {
+                updateWorkoutRewardUI();
+            }
+
+               // Выравниваем полоску ровно по центру активной кнопки при старте
+    const activeBtn = document.querySelector('.sidebar-btn.active') || document.querySelector('.sidebar-btn');
+    const clip = document.getElementById('sidebar-clip');
+    const track = document.querySelector('.sidebar-track');
     
-    const firstWorkoutBtn = document.querySelector('.workout-tab-btn');
-    if (firstWorkoutBtn) {
-        switchWorkoutDay(1, firstWorkoutBtn);
+    if (activeBtn && clip && track) {
+        const btnRect = activeBtn.getBoundingClientRect();
+        const trackRect = track.getBoundingClientRect();
+        const clipHeight = clip.offsetHeight || 26;
+        
+        const startY = (btnRect.top - trackRect.top) + (btnRect.height / 2) - (clipHeight / 2);
+        clip.style.transform = `translateY(${startY}px)`;
     }
-    updateWorkoutRewardUI();
-});
+
+
+        });
+
+
+
+
+
+        // =========================================================
+        // 💰 КАЗНА МОНАРХА (НАКОПЛЕНИЯ) И УПРАВЛЕНИЕ САЙДБАРОМ
+        // =========================================================
+
+        function updateSavingsUI() {
+            const rub = Number(playerData.totalSavingsRub) || 0;
+            const topEl = document.getElementById('top-savings-rub');
+            const modalEl = document.getElementById('savings-modal-display');
+            if (topEl) topEl.textContent = `${rub.toLocaleString()} ₽`;
+            if (modalEl) modalEl.textContent = rub.toLocaleString();
+        }
+
+        function openSavingsModal() {
+            playSfx('sfx-click');
+            updateSavingsUI();
+            document.getElementById('savings-modal')?.classList.add('open');
+        }
+
+        function closeSavingsModal() {
+            document.getElementById('savings-modal')?.classList.remove('open');
+        }
+
+        // Пополнение: 50 ₽ = +10 XP (пропорция 5 к 1)
+        function depositSavings(amountRub) {
+            playSfx('sfx-mission');
+            const xpGained = Math.floor(amountRub / 5);
+
+            playerData.totalSavingsRub = (Number(playerData.totalSavingsRub) || 0) + amountRub;
+            updateSavingsUI();
+
+            // Начисляем опыт в систему (пойдет в уровень, в totalXp и в день)
+            addExpToSystem(xpGained, `Накопления: +${amountRub} ₽`);
+
+            if (typeof profileDocRef !== 'undefined') {
+                profileDocRef.set({ totalSavingsRub: playerData.totalSavingsRub }, { merge: true });
+            }
+
+            alert(`💰 В КАЗНУ ВНЕСЕНО: +${amountRub} ₽\n🔥 НАГРАДА: +${xpGained} XP!`);
+        }
+
+        // Ручная коррекция баланса (без начисления опыта)
+        function openResetSavingsPrompt() {
+            const input = prompt("Введи точную сумму реального баланса накоплений (₽):", playerData.totalSavingsRub || 0);
+            if (input !== null && !isNaN(Number(input))) {
+                playerData.totalSavingsRub = Math.max(0, Number(input));
+                updateSavingsUI();
+                if (typeof profileDocRef !== 'undefined') {
+                    profileDocRef.set({ totalSavingsRub: playerData.totalSavingsRub }, { merge: true });
+                }
+            }
+        }
+
+                function selectModernSidebar(btnElement, index, pageId) {
+            document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            const clip = document.getElementById('sidebar-clip');
+            const track = document.querySelector('.sidebar-track');
+            
+            if (clip && track) {
+                const btnRect = btnElement.getBoundingClientRect();
+                const trackRect = track.getBoundingClientRect();
+                const clipHeight = clip.offsetHeight || 26;
+                
+                // Ювелирный расчет центра кнопки относительно рамки сайдбара
+                const targetY = (btnRect.top - trackRect.top) + (btnRect.height / 2) - (clipHeight / 2);
+                clip.style.transform = `translateY(${targetY}px)`;
+            }
+
+            switchPage(pageId);
+        }
+
+
+
+
 
 
     </script>

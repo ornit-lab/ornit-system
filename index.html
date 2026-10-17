@@ -3783,6 +3783,7 @@
     filter: drop-shadow(0 0 6px #00ff88);
 }
 
+
 .savings-banner-copy {
     display: flex;
     flex-direction: column;
@@ -4077,8 +4078,14 @@
     <!-- 2. НАКОПЛЕНИЯ (ТОЧНО ТАКОЙ ЖЕ РАЗМЕР) -->
     <div class="savings-banner" onclick="openSavingsModal()" title="Открыть Казну">
         <svg class="savings-banner-icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-        </svg>
+    <!-- Вертикальная стойка -->
+    <path d="M7 4h7a4.5 4.5 0 0 1 0 9H7V4Z"></path>
+    <!-- Основная линия ноги -->
+    <line x1="7" y1="13" x2="7" y2="21"></line>
+    <!-- Нижняя перекладина рубля -->
+    <line x1="5" y1="16" x2="13" y2="16"></line>
+</svg>
+
         <div class="savings-banner-copy">
             <span class="savings-banner-label">НАКОПЛЕНИЯ</span>
             <strong id="top-savings-rub">0 ₽</strong>
@@ -4531,30 +4538,32 @@
     </div>
 </aside>
 
-<!-- ======================================================== -->
-<!-- 2. МОДАЛКА ХРАНИЛИЩА НАКОПЛЕНИЙ (КАЗНА МОНАРХА)           -->
-<!-- ======================================================== -->
+<!-- 💰 КАЗНА МОНАРХА С ПОПОЛНЕНИЕМ И ЧЕСТНЫМ СПИСАНИЕМ -->
 <div id="savings-modal" class="savings-modal" role="dialog" aria-modal="true" onclick="if(event.target === this) closeSavingsModal()">
     <div class="savings-modal-card">
         <button class="savings-modal-close" type="button" onclick="closeSavingsModal()" aria-label="Закрыть">✕</button>
 
         <div class="savings-modal-badge">
             <svg viewBox="0 0 24 24" class="savings-vault-svg">
-                <path d="M2 7h20v13a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7z"/>
-                <circle cx="12" cy="14" r="3"/>
-                <path d="M12 11v6M9 14h6"/>
-                <path d="m5 7 2-4h10l2 4"/>
-            </svg>
+    <path d="M8 4h6.5a4.5 4.5 0 0 1 0 9H8V4Z"></path>
+    <line x1="8" y1="13" x2="8" y2="21"></line>
+    <line x1="5" y1="16" x2="14" y2="16"></line>
+</svg>
+
         </div>
 
         <h2 class="savings-modal-title">КАЗНА МОНАРХА</h2>
-        <p class="savings-modal-desc">Пополнение реального баланса накоплений. Курс системы: 50 ₽ = +10 XP.</p>
+        <p class="savings-modal-desc">Реальные сбережения. Пополнение: 50 ₽ = +10 XP.</p>
 
         <div class="savings-balance-hero">
-            <span class="sb-hero-caption">ТЕКУЩИЕ СБЕРЕЖЕНИЯ</span>
+            <span class="sb-hero-caption">ТЕКУЩИЙ БАЛАНС</span>
             <div class="sb-hero-number"><span id="savings-modal-display">0</span> <small>₽</small></div>
         </div>
 
+        <!-- ВКЛАД / ПОПОЛНЕНИЕ -->
+        <div style="font-size: 0.65rem; color: #00ff88; letter-spacing: 1.5px; text-align: left; margin: 15px 0 8px; font-weight: bold;">
+            ▲ ПОПОЛНИТЬ КАЗНУ (+XP)
+        </div>
         <div class="savings-buttons-grid">
             <button type="button" class="savings-chip" onclick="depositSavings(50)">
                 <span class="chip-rub">+50 ₽</span>
@@ -4578,9 +4587,29 @@
             </button>
         </div>
 
-        <div class="savings-sub-actions">
+        <!-- ЧЕСТНЫЙ РАСХОД / СПИСАНИЕ БЕЗ ШТРАФА ПО XP -->
+        <div style="font-size: 0.65rem; color: #ff004c; letter-spacing: 1.5px; text-align: left; margin: 20px 0 8px; font-weight: bold;">
+            ▼ СПИСАТЬ ТРАТУ (РАСХОД)
+        </div>
+        <div class="savings-buttons-grid" style="grid-template-columns: repeat(3, 1fr);">
+            <button type="button" class="savings-chip chip-spend" onclick="withdrawSavings(100)">
+                <span class="chip-rub">-100 ₽</span>
+            </button>
+            <button type="button" class="savings-chip chip-spend" onclick="withdrawSavings(500)">
+                <span class="chip-rub">-500 ₽</span>
+            </button>
+            <button type="button" class="savings-chip chip-spend" onclick="withdrawSavings(1000)">
+                <span class="chip-rub">-1 000 ₽</span>
+            </button>
+        </div>
+
+        <!-- ТОЧНЫЙ ВВОД РУКАМИ -->
+        <div class="savings-sub-actions" style="margin-top: 18px; display: flex; justify-content: space-between; gap: 10px;">
+            <button type="button" class="savings-withdraw-btn" onclick="customExpensePrompt()" style="color: #ff6b8b;">
+                - Ввести точную трату
+            </button>
             <button type="button" class="savings-withdraw-btn" onclick="openResetSavingsPrompt()">
-                Коррекция / Списание баланса
+                Задать точный остаток
             </button>
         </div>
     </div>
@@ -6144,17 +6173,6 @@ function setManualRating(rating, button) {
 
             updateWeeklyMissionsUI();
         }
-
-        // ПУЛ ИЗ 7 РЕАЛЬНЫХ МИССИЙ НА КАЖДЫЙ ДЕНЬ НЕДЕЛИ
-        const weeklyMissionsPool = [
-            {day: 1, name: "Понедельник: Архитектура Разума", desc: "Написать минимум 500 строк чистого кода или изучить новую концепцию."},
-            {day: 2, name: "Понедельник: День Железа", desc: "Провести тяжелую тренировку на кисти/пронатор или базовую нагрузку."},
-            {day: 3, name: "Среда: Инспекция Кода", desc: "Полный рефакторинг старых сервисов, устранение архитектурных багов."},
-            {day: 4, name: "Четверг: Цифровой Суверенитет", desc: "Полный фокус на задачах монетизации и ресурсах. Никакой прокрастинации."},
-            {day: 5, name: "Пятница: Искусство Монарха", desc: "Освоение сложной партии на гитаре или тренировка речитатива."},
-            {day: 6, name: "Суббота: Воля и Стоицизм", desc: "Пройти 15 000 шагов по городу или выдержать жесткую аскезу без триггеров."},
-            {day: 0, name: "Воскресенье: Итоги Недели", desc: "Анализ достижений системы, планирование прорыва на следующую неделю."}
-        ];
 
               function updateWeeklyMissionsUI() {
             const now = new Date();

@@ -5796,7 +5796,7 @@ function setManualRating(rating, button) {
 
 
 
-                   function checkAsceticismDayTransition() {
+                function checkAsceticismDayTransition() {
             if (!isFirebaseLoaded) return;
 
             const msk = getMskDateInfo();
@@ -5813,7 +5813,7 @@ function setManualRating(rating, button) {
                 return;
             }
 
-            // ПЕРЕХОД ПОСЛЕ 00:00 (дата в базе не равна сегодняшней)
+            // ПЕРЕХОД ПОСЛЕ 00:00 (на часах новый день)
             if (playerData.lastCheckedDate !== today) {
                 const yesterdayKey = playerData.lastCheckedDate;
                 const wasRelapse = playerData.asceticismHistory[yesterdayKey] === 'relapse';
@@ -5824,9 +5824,10 @@ function setManualRating(rating, button) {
                     playerData.totalAsceticismAwardedDates.push(yesterdayKey);
                 }
 
-                // 2. Серия воздержания
+                // 2. Серия воздержания (ЧЕСТНЫЙ ПОДСЧЕТ)
                 if (!wasRelapse) {
-                    // Чистые сутки: ставим галочку, даем опыт и растим серию
+                    // Вчера срыва НЕ БЫЛО: вчерашний день закрывается галочкой,
+                    // начисляется +1 прожитый день воздержания и опыт
                     playerData.asceticismHistory[yesterdayKey] = 'checked';
                     playerData.asceticismDays = (Number(playerData.asceticismDays) || 0) + 1;
 
@@ -5835,11 +5836,12 @@ function setManualRating(rating, button) {
                         showAsceticismRewardModal();
                     }, 1000);
                 } else {
-                    // Был срыв вчера: сегодня начинается новый чистый день 1
-                    playerData.asceticismDays = 1;
+                    // ⚠️ Вчера БЫЛ срыв: вчера остается с крестиком,
+                    // а сегодня день только начался, поэтому строго 0 полных дней!
+                    playerData.asceticismDays = 0;
                 }
 
-                // 3. Снимаем замок ожидания полночи
+                // 3. Снимаем замок срыва (так как наступил новый день) и сохраняем
                 playerData.isLockedUntilMidnight = false;
                 playerData.lastCheckedDate = today;
 
@@ -5853,10 +5855,11 @@ function setManualRating(rating, button) {
                     lastCheckedDate: today
                 }, { merge: true }).then(() => {
                     updateMainUI();
-                    console.log("🚀 СИСТЕМА: Полночь обработана. Наступил новый день аскезы!");
+                    console.log("🚀 СИСТЕМА: Полночь обработана. Сегодня идет набор дня, серия:", playerData.asceticismDays);
                 });
             }
         }
+
 
 
 
@@ -6058,7 +6061,7 @@ function setManualRating(rating, button) {
             {id: 12, rank: "D", rankColor: "#00ff88", title: "Практика вокала или партии на гитаре", xp: 60},
             {id: 13, rank: "D", rankColor: "#00ff88", title: "Создание концепт-арта или лора", xp: 100},
             {id: 14, rank: "D", rankColor: "#00ff88", title: "Выписать на бумагу весь ментальный мусор, тревоги и незавершенные дела", xp: 40},
-            {id: 15, rank: "D", rankColor: "#00ff88", title: "Изучение 10 новых слов/фраз", xp: 80},
+            {id: 15, rank: "D", rankColor: "#00ff88", title: "Изучение 3 новых слова/фраз", xp: 80},
             {id: 16, rank: "D", rankColor: "#00ff88", title: "Лэйкостаз", xp: 100},
             {id: 17, rank: "D", rankColor: "#00ff88", title: "Помочь кому-то без выгоды", xp: 100},
 

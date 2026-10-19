@@ -4201,6 +4201,221 @@
     }
 }
 
+
+/* ======================================================== */
+/* 🎴 STATUS WINDOW: СТИЛИ АНИМЕ-СТАТОВ МОНАРХА             */
+/* ======================================================== */
+.anime-status-window {
+    min-height: 520px;
+}
+
+.status-stats-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+/* 👑 ЗОЛОТОЙ ГЛАВНЫЙ УРОВЕНЬ */
+.main-core-level-block {
+    background: linear-gradient(135deg, rgba(35, 26, 8, 0.7), rgba(16, 12, 4, 0.85));
+    border: 1px solid rgba(255, 215, 0, 0.45);
+    border-radius: 12px;
+    padding: 12px 14px;
+    box-shadow: 0 0 18px rgba(255, 170, 0, 0.15), inset 0 0 12px rgba(255, 215, 0, 0.08);
+}
+
+.mcl-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.mcl-title-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mcl-icon-gold {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 215, 0, 0.15);
+    border: 1px solid rgba(255, 215, 0, 0.6);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+}
+
+.mcl-icon-gold svg {
+    width: 18px;
+    height: 18px;
+    fill: #ffd700;
+    filter: drop-shadow(0 0 6px #ffd700);
+}
+
+.mcl-caption {
+    display: block;
+    font-size: 0.52rem;
+    color: #ffaa00;
+    letter-spacing: 1px;
+}
+
+.mcl-label {
+    display: block;
+    font-size: 0.72rem;
+    color: #ffffff;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.mcl-lvl-val {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: #ffffff;
+    font-family: 'Orbitron', sans-serif;
+    text-shadow: 0 0 12px rgba(255, 215, 0, 0.8);
+    letter-spacing: 1px;
+}
+
+.mcl-track {
+    width: 100%;
+    height: 8px;
+    background: #09080e;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    overflow: hidden;
+    margin-bottom: 6px;
+    position: relative;
+}
+
+.mcl-fill-gold {
+    height: 100%;
+    width: 49.1%;
+    background: linear-gradient(90deg, #ffaa00, #ffe600, #ffffff);
+    box-shadow: 0 0 14px rgba(255, 215, 0, 0.9);
+    border-radius: 6px;
+    transition: width 0.5s ease;
+}
+
+.mcl-numbers {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.62rem;
+    color: #aaa;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.mcl-numbers .mcl-percent {
+    color: #ffd700;
+    font-weight: bold;
+}
+
+/* 🔮 ФИОЛЕТОВЫЕ ВЕТКИ ХАРАКТЕРИСТИК */
+.branch-stats-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.branch-stat-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(18, 12, 32, 0.6);
+    border: 1px solid rgba(138, 43, 226, 0.3);
+    border-radius: 9px;
+    padding: 7px 10px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.branch-stat-row:hover {
+    background: rgba(28, 16, 52, 0.85);
+    border-color: #b45cff;
+    transform: translateX(4px);
+    box-shadow: 0 0 12px rgba(138, 43, 226, 0.35);
+}
+
+.bsr-icon {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(138, 43, 226, 0.15);
+    border: 1px solid rgba(138, 43, 226, 0.5);
+    border-radius: 6px;
+    box-shadow: 0 0 8px rgba(138, 43, 226, 0.4);
+}
+
+.bsr-icon svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: #c084fc;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 5px #a855f7);
+}
+
+.bsr-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.bsr-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.bsr-name {
+    font-size: 0.64rem;
+    font-weight: 700;
+    color: #e9d5ff;
+    letter-spacing: 1px;
+}
+
+.bsr-lvl {
+    font-size: 0.64rem;
+    font-weight: 800;
+    color: #c084fc;
+    text-shadow: 0 0 6px #9333ea;
+}
+
+.bsr-track {
+    width: 100%;
+    height: 5px;
+    background: #090514;
+    border-radius: 4px;
+    border: 1px solid rgba(138, 43, 226, 0.3);
+    overflow: hidden;
+}
+
+.bsr-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #7c3aed, #c084fc);
+    box-shadow: 0 0 8px #a855f7;
+    border-radius: 4px;
+    transition: width 0.4s ease;
+}
+
+.status-footer-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
     </style>
 
 
@@ -4366,56 +4581,136 @@
             <!-- [ MAIN GRID CONTENT ] -->
             <div class="level-main-grid">
 
-                <!-- 1. КАРТОЧКА ПРОФИЛЯ: ЭВОЛЮЦИЯ С АРТОМ -->
-                <div class="profile-card evolution-profile">
-                    <div class="evolution-art-wrap">
-                        <img id="player-stage-art" src="stage1.webp" alt="Стадия персонажа">
-                        <div class="evolution-art-shade"></div>
-                        <div class="evolution-stage-label" id="player-stage-label">СТАДИЯ I</div>
+               <!-- 🎴 STATUS WINDOW: КАРТОЧКА МОНАРХА С ВЕТКАМИ ХАРАКТЕРИСТИК -->
+<div class="profile-card evolution-profile anime-status-window">
+    <!-- Левая колонка: Арт Монарха со стадией -->
+    <div class="evolution-art-wrap">
+        <img id="player-stage-art" src="stage1.webp" alt="Стадия персонажа">
+        <div class="evolution-art-shade"></div>
+        <div class="evolution-stage-label" id="player-stage-label">СТАДИЯ I</div>
+    </div>
+
+    <!-- Правая колонка: Характеристики и уровни системы -->
+    <div class="evolution-info status-stats-column">
+        <!-- Шапка: Имя + Ранг -->
+        <div class="evolution-name-block">
+            <span id="player-rank-badge" class="evolution-rank-badge">C</span>
+            <div>
+                <h2 class="evolution-name">ORNIT</h2>
+                <p class="evolution-title">Архитектор</p>
+            </div>
+        </div>
+
+        <!-- 👑 ГЛАВНЫЙ УРОВЕНЬ: ЗОЛОТОЙ ДОМИНАНТ -->
+        <div class="main-core-level-block">
+            <div class="mcl-header">
+                <div class="mcl-title-box">
+                    <div class="mcl-icon-gold">
+                        <svg viewBox="0 0 24 24">
+                            <path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zM5 20h14v2H5z"/>
+                        </svg>
                     </div>
-
-                    <div class="evolution-info">
-                        <div class="evolution-name-block">
-                            <span id="player-rank-badge" class="evolution-rank-badge">C</span>
-                            <div>
-                                <h2 class="evolution-name">ORNIT</h2>
-                                <p class="evolution-title">Архитектор</p>
-                            </div>
-                        </div>
-
-                        <div class="evolution-level">
-                            <span class="evolution-level-label">УРОВЕНЬ</span>
-                            <span class="evolution-level-number" id="main-level-big">34</span>
-                        </div>
-
-                        <div class="evolution-xp">
-                            <div class="evolution-xp-heading">
-                                <span>ОПЫТ ДО СЛЕДУЮЩЕГО УРОВНЯ</span>
-                                <span id="xp-current">0</span>
-                                <span>/</span>
-                                <span id="xp-needed">8450</span>
-                            </div>
-
-                            <div class="evolution-xp-track">
-                                <div id="xp-fill-main" class="evolution-xp-fill"></div>
-                            </div>
-                            <div class="evolution-xp-percent" id="xp-percent-label">0%</div>
-
-                            <div class="evolution-total-xp">
-                                <span>ОБЩИЙ ОПЫТ</span>
-                                <strong id="unique-total-xp">70 382 XP</strong>
-                            </div>
-                        </div>
-
-                        <div class="evolution-ascension-rank">
-                            <img id="player-asceticism-rank-icon" src="bronze.webp" alt="" class="ascension-rank-icon">
-                            <div>
-                                <span class="evolution-rank-caption">РАНГ ВОЗДЕРЖАНИЯ</span>
-                                <strong id="player-asceticism-rank">? (0 дн)</strong>
-                            </div>
-                        </div>
+                    <div>
+                        <span class="mcl-caption">ОСНОВНОЙ РАНГ</span>
+                        <span class="mcl-label">УРОВЕНЬ СИСТЕМЫ</span>
                     </div>
                 </div>
+                <div class="mcl-lvl-val">LV. <span id="main-level-big">34</span></div>
+            </div>
+
+            <div class="mcl-track">
+                <div id="xp-fill-main" class="mcl-fill-gold"></div>
+            </div>
+            <div class="mcl-numbers">
+                <span class="mcl-xp-text"><span id="xp-current">4 150</span> / <span id="xp-needed">8 450</span> EXP</span>
+                <span id="xp-percent-label" class="mcl-percent">49.1%</span>
+            </div>
+        </div>
+
+        <!-- 🔮 4 ВЕТКИ ХАРАКТЕРИСТИК: ФИОЛЕТОВЫЙ НЕОН -->
+        <div class="branch-stats-list">
+            <!-- 1. ИНТЕЛЛЕКТ -->
+            <div class="branch-stat-row" onclick="openBranchModal('int')" title="Ветка Интеллекта">
+                <div class="bsr-icon">
+                    <svg viewBox="0 0 24 24"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.04zM14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.04z"/></svg>
+                </div>
+                <div class="bsr-content">
+                    <div class="bsr-info">
+                        <span class="bsr-name">ИНТЕЛЛЕКТ</span>
+                        <span class="bsr-lvl" id="branch-lvl-int">LV. 28</span>
+                    </div>
+                    <div class="bsr-track">
+                        <div class="bsr-fill" id="branch-fill-int" style="width: 45%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. СИЛА -->
+            <div class="branch-stat-row" onclick="openBranchModal('str')" title="Ветка Силы">
+                <div class="bsr-icon">
+                    <svg viewBox="0 0 24 24"><path d="m14.5 17.5 4-4m-7-3 4-4m-7.5 5 2 2m4-8.5-7 7a3 3 0 0 0 0 4.24l2.26 2.26a3 3 0 0 0 4.24 0l7-7-6.5-6.5zM4 20l3.5-3.5"/></svg>
+                </div>
+                <div class="bsr-content">
+                    <div class="bsr-info">
+                        <span class="bsr-name">СИЛА</span>
+                        <span class="bsr-lvl" id="branch-lvl-str">LV. 22</span>
+                    </div>
+                    <div class="bsr-track">
+                        <div class="bsr-fill" id="branch-fill-str" style="width: 60%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. ДУША -->
+            <div class="branch-stat-row" onclick="openBranchModal('wil')" title="Ветка Души и Воли">
+                <div class="bsr-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 2 4.5 9 12 22l7.5-13L12 2zM4.5 9h15M12 2v20"/></svg>
+                </div>
+                <div class="bsr-content">
+                    <div class="bsr-info">
+                        <span class="bsr-name">ДУША</span>
+                        <span class="bsr-lvl" id="branch-lvl-wil">LV. 25</span>
+                    </div>
+                    <div class="bsr-track">
+                        <div class="bsr-fill" id="branch-fill-wil" style="width: 70%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. ТВОРЧЕСТВО -->
+            <div class="branch-stat-row" onclick="openBranchModal('res')" title="Ветка Творчества">
+                <div class="bsr-icon">
+                    <svg viewBox="0 0 24 24"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3z"/></svg>
+                </div>
+                <div class="bsr-content">
+                    <div class="bsr-info">
+                        <span class="bsr-name">ТВОРЧЕСТВО</span>
+                        <span class="bsr-lvl" id="branch-lvl-res">LV. 18</span>
+                    </div>
+                    <div class="bsr-track">
+                        <div class="bsr-fill" id="branch-fill-res" style="width: 35%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Подвал: Общий опыт + Ранг воздержания -->
+        <div class="status-footer-row">
+            <div class="evolution-total-xp">
+                <span>ОБЩИЙ ОПЫТ</span>
+                <strong id="unique-total-xp">71 832 XP</strong>
+            </div>
+
+            <div class="evolution-ascension-rank">
+                <img id="player-asceticism-rank-icon" src="silver.webp" alt="" class="ascension-rank-icon">
+                <div>
+                    <span class="evolution-rank-caption">РАНГ ВОЗДЕРЖАНИЯ</span>
+                    <strong id="player-asceticism-rank">Серебро (2 дн)</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
                                <!-- 3. КАРТОЧКА ВОЗДЕРЖАНИЯ (С ВЕРТИКАЛЬНОЙ ЖИВОЙ ШКАЛОЙ И КНОПКОЙ СРЫВА) -->
                 <div class="asceticism-card">
@@ -4705,58 +5000,12 @@
         </div>
     </div>
 
-    <!-- =================================================== -->
-    <!-- ⚔️ ЭКРАН 3: ВКЛАДКА "НАВЫКИ"                      -->
-    <!-- =================================================== -->
-    <div id="skills-page" class="page-view">
-        <div class="system-container">
-            <div style="text-align: center; margin-bottom: 25px; padding-top: 10px;">
-    <div style="font-size: 1.5rem; filter: drop-shadow(0 0 10px var(--accent-cyan));">👑</div>
-    <h2 style="font-family: 'Orbitron'; color: #fff; font-size: 1.1rem; letter-spacing: 2px; margin-top: 5px;">РЕЕСТР НАВЫКОВ МОНАРХА</h2>
-    <div style="width: 180px; height: 1px; background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent); margin: 8px auto 0;"></div>
-</div>
-
-            <div class="skills-grid" style="margin-top: 40px;">
-                <div class="skill-card"><span class="skill-icon">🎸</span>
-                    <div class="skill-name">Гитара</div>
-                    <div class="skill-level">LV. 10</div>
-                </div>
-                <div class="skill-card"><span class="skill-icon">🤸</span>
-                    <div class="skill-name">Акробатика</div>
-                    <div class="skill-level">LV. 5</div>
-                </div>
-                <div class="skill-card"><span class="skill-icon">💪</span>
-                    <div class="skill-name">Армрестлинг</div>
-                    <div class="skill-level">LV. 12</div>
-                </div>
-                <div class="skill-card"><span class="skill-icon">🍳</span>
-                    <div class="skill-name">Кулинария</div>
-                    <div class="skill-level">LV. 50</div>
-                </div>
-                <div class="skill-card"><span class="skill-icon">🎤</span>
-                    <div class="skill-name">Речетатив</div>
-                    <div class="skill-level">LV. 8</div>
-                </div>
-                <div class="skill-card"><span class="skill-icon">🔥</span>
-                    <div class="skill-name">Тело</div>
-                    <div class="skill-level">LV. 15</div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- ======================================================== -->
 <!-- 1. НОВЫЙ ЛЕВЫЙ КИБЕР-САЙДБАР СО СКРЕПКОЙ (ФИОЛЕТОВЫЙ КАРАБИН) -->
 <!-- ======================================================== -->
 <aside id="liquid-nav-box" class="cyber-sidebar hidden-nav" aria-label="Навигация системы">
-    <div class="sidebar-track">
-        <!-- Анимированная торчащая скрепка/клипса-индикатор -->
-        <div id="sidebar-clip" class="sidebar-clip-carriage" aria-hidden="true">
-            <span class="clip-glow-core"></span>
-            <span class="clip-bracket"></span>
-        </div>
-
-        <nav class="sidebar-items">
+           <nav class="sidebar-items">
             <!-- 0: Уровень -->
             <button type="button" class="sidebar-btn active" data-tab-idx="0" onclick="playSfx('sfx-tab'); selectModernSidebar(this, 0, 'level-page')">
                 <span class="sb-icon">
@@ -4779,18 +5028,8 @@
                 <span class="sb-label">ПРОГРАММЫ</span>
             </button>
 
-            <!-- 2: Навыки -->
-            <button type="button" class="sidebar-btn" data-tab-idx="2" onclick="playSfx('sfx-tab'); selectModernSidebar(this, 2, 'skills-page')">
-                <span class="sb-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-                    </svg>
-                </span>
-                <span class="sb-label">НАВЫКИ</span>
-            </button>
-
-            <!-- 3: Главная -->
-            <button type="button" class="sidebar-btn" data-tab-idx="3" onclick="playSfx('sfx-tab'); selectModernSidebar(this, 3, 'main-menu')">
+            <!-- 2: Главная -->
+            <button type="button" class="sidebar-btn" data-tab-idx="2" onclick="playSfx('sfx-tab'); selectModernSidebar(this, 2, 'main-menu')">
                 <span class="sb-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
@@ -4800,7 +5039,7 @@
                 <span class="sb-label">ГЛАВНАЯ</span>
             </button>
         </nav>
-    </div>
+
 </aside>
 
 <!-- 💰 КАЗНА МОНАРХА С ПОПОЛНЕНИЕМ И ЧЕСТНЫМ СПИСАНИЕМ -->
@@ -5136,10 +5375,13 @@
         // 👤 ПРОФИЛЬ ОРНИТА: ЧЕСТНАЯ МАТЕМАТИКА 34 LVL
         // =========================================================
 
+                   // 📈 ПРАВИЛЬНАЯ ПРОГРЕССИЯ ОПЫТА (ЧЕМ ВЫШЕ УРОВЕНЬ, ТЕМ БОЛЬШЕ ТРЕБУЕТСЯ)
         function calculateXpForNextLevel(lvl) {
             if (lvl >= 100) return 999999;
-            return Math.floor(120 * Math.pow(lvl, 1.22) + (lvl * 35));
+            // База 5000 XP на 1 уровне, с каждым лвл растет по плавной прогрессии
+            return Math.floor(4500 + (lvl * 120) * Math.pow(lvl, 1.08));
         }
+
 
         // Честный расчет накопительного опыта для 34 уровня (~70382 XP)
         function calculateTotalCumulativeXp(currentLvl, currentXp) {
@@ -5173,188 +5415,160 @@
             relapseLockTimestamp: 0,        
             asceticismHistory: {},
 
-                        branches: {
-                int: {name: "Интеллект", icon: "🧠", color: "#00d4ff"},
-                str: {name: "Сила", icon: "💪", color: "#ff004c"},
-                wil: {name: "Душа", icon: "✨", color: "#8a2be2"},
-                res: {name: "Творчество", icon: "🎨", color: "#ffaa00"}
-            },
+                              // =========================================================
+        // 🔮 4 ВЕТКИ ХАРАКТЕРИСТИК МОНАРХА (СТАТУС-ОКНО АНИМЕ)
+        // =========================================================
+        branchStats: {
+            int: { name: "Интеллект", level: 28, xp: 450, nextLevelXp: 1200 },
+            str: { name: "Сила", level: 22, xp: 350, nextLevelXp: 1000 },
+            wil: { name: "Душа", level: 25, xp: 600, nextLevelXp: 1100 },
+            res: { name: "Творчество", level: 18, xp: 200, nextLevelXp: 900 }
+        }
+    }; // <- это закрывает объект playerData!
 
-            skills: {
-                // ИНТЕЛЛЕКТ
-                coding: {
-                    branch: "int", name: "Кодинг", level: 28, xp: 450, nextLevelXp: 1200,
-                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>'
-                },
-                cooking: {
-                    branch: "int", name: "Кулинария", level: 50, xp: 800, nextLevelXp: 2000,
-                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 13.87A4 4 0 0 1 7.41 6.13a5.11 5.11 0 0 1 9.18 0 4 4 0 0 1 1.41 7.74 4 4 0 0 1-2 7.26H8a4 4 0 0 1-2-7.26z"/></svg>'
-                },
-                // СИЛА
-                arm: {
-                    branch: "str", name: "Армрестлинг", level: 12, xp: 210, nextLevelXp: 600,
-                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 18l6-6 6 6M6 6l6 6 6-6"/></svg>'
-                },
-                acrobatics: {
-                    branch: "str", name: "Акробатика", level: 5, xp: 40, nextLevelXp: 300,
-                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="3"/><path d="M6 22l3-10h6l3 10"/></svg>'
-                },
-                body: {
-                    branch: "str", name: "Тело", level: 15, xp: 350, nextLevelXp: 800,
-                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.42 4.58a5 5 0 0 0-7.07 0l-.35.35-.35-.35a5 5 0 0 0-7.07 7.07l.35.35L13 19.07l7.07-7.07.35-.35a5 5 0 0 0 0-7.07z"/></svg>'
-                },
-                // ДУША
-                abstinence: {
-                    branch: "wil", name: "Воздержание", level: 1, xp: 0, nextLevelXp: 500,
-                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>'
-                },
-                // ТВОРЧЕСТВО
-                guitar: {
-                    branch: "res", name: "Гитара", level: 10, xp: 120, nextLevelXp: 500,
-                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>'
-                },
-                diction: {
-                    branch: "res", name: "Дикция", level: 8, xp: 90, nextLevelXp: 400,
-                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>'
-                },
-                storytelling: {
-                    branch: "res", name: "Сторителлинг", level: 1, xp: 0, nextLevelXp: 300,
-                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>'
-                },
-                sewing: {
-                    branch: "res", name: "Шитьё", level: 1, xp: 0, nextLevelXp: 300,
-                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 21 18-18"/><circle cx="18" cy="6" r="3"/></svg>'
-                }
+    // Локальное кэширование дневных логов для быстрого рендеринга статистики
+    let loadedLogs = {};
+    let isFirebaseLoaded = false; // 🛡 ПРЕДОХРАНИТЕЛЬ
+
+    // 🛡 ПОДКЛЮЧЕНИЕ К FIREBASE БЕЗ СБРОСА ПРОГРЕССА И БЕЗ БЕСКОНЕЧНЫХ ЦИКЛОВ
+    profileDocRef.onSnapshot((doc) => {
+        if (doc.exists) {
+            const cloudData = doc.data();
+
+            // Загружаем данные из Firebase поверх локальных значений
+            playerData = {
+                ...playerData,
+                ...cloudData
+            };
+
+            // Общая аскеза
+            if (cloudData.totalAsceticismDays === undefined) {
+                playerData.totalAsceticismDays = 200;
+                playerData.totalAsceticismAwardedDates =
+                    Array.isArray(playerData.totalAsceticismAwardedDates)
+                        ? playerData.totalAsceticismAwardedDates
+                        : [];
+
+                profileDocRef.set({
+                    totalAsceticismDays: 200,
+                    totalAsceticismAwardedDates: playerData.totalAsceticismAwardedDates
+                }, { merge: true });
+            } else {
+                playerData.totalAsceticismDays =
+                    Number(cloudData.totalAsceticismDays) || 200;
+
+                playerData.totalAsceticismAwardedDates =
+                    Array.isArray(cloudData.totalAsceticismAwardedDates)
+                        ? cloudData.totalAsceticismAwardedDates
+                        : [];
             }
-        };
 
+            // Подтягиваем сбережения
+            playerData.totalSavingsRub = Number(cloudData.totalSavingsRub) || 0;
 
-        // Квесты для каждой ветки с твоим точным опытом
-               const branchQuests = {
-            int: [
-                {title: "Решение сложной логической задачи", xp: 100},
-                {title: "Изучение новой технологии/рецепта", xp: 150}
-            ],
-            str: [
-                {title: "Интенсивная тренировка", xp: 200},
-                {title: "Преодоление силового порога", xp: 300}
-            ],
-            wil: [
-                {title: "День в абсолютном контроле", xp: 100},
-                {title: "Победа над импульсом", xp: 250}
-            ],
-            res: [
-                {title: "Творческая практика (1 час)", xp: 120},
-                {title: "Завершение проекта/партии", xp: 200}
-            ]
-        };
+            // Подтягиваем статы 4 веток, если они уже есть в облаке
+            if (cloudData.branchStats) {
+                playerData.branchStats = cloudData.branchStats;
+            }
 
+            // Восстановление XP по истории графика, если он оказался меньше
+            const msk = getMskDateInfo();
+            const todayHistoryXp =
+                playerData.chartHistory &&
+                Number(playerData.chartHistory[msk.dateString])
+                    ? Number(playerData.chartHistory[msk.dateString])
+                    : 0;
 
+            if (Number(playerData.xp) < todayHistoryXp) {
+                playerData.xp = todayHistoryXp;
+            }
 
-        let currentActiveSkillKey = null;
+            // Firebase полностью загрузился
+            isFirebaseLoaded = true;
 
+            // Обновляем интерфейс
+            updateMainUI();
 
-        // Локальное кэширование дневных логов для быстрого рендеринга статистики
-        let loadedLogs = {};
+            if (typeof renderMissionsList === 'function') {
+                renderMissionsList();
+            }
 
-        let isFirebaseLoaded = false; // 🛡️ ПРЕДОХРАНИТЕЛЬ: запрещает запись в базу до полной загрузки!
+            console.log(
+                "☁️ Данные синхронизированы. " +
+                "Текущий XP:", playerData.xp,
+                "| Серия:", playerData.asceticismDays,
+                "| Рекорд:", playerData.personalRecord,
+                "| Общая аскеза:", playerData.totalAsceticismDays
+            );
 
-// 🛡 ПОДКЛЮЧЕНИЕ К FIREBASE БЕЗ СБРОСА ПРОГРЕССА И БЕЗ БЕСКОНЕЧНЫХ ЦИКЛОВ
-profileDocRef.onSnapshot((doc) => {
-    if (doc.exists) {
-        const cloudData = doc.data();
+        } else {
+            // Документа нет — создаём новый профиль
+            playerData.totalAsceticismDays =
+                Number(playerData.totalAsceticismDays) || 200;
 
-        // Загружаем данные из Firebase поверх локальных значений
-        playerData = {
-            ...playerData,
-            ...cloudData
-        };
-
-        if (cloudData.totalAsceticismDays === undefined) {
-            playerData.totalAsceticismDays = 200;
             playerData.totalAsceticismAwardedDates =
                 Array.isArray(playerData.totalAsceticismAwardedDates)
                     ? playerData.totalAsceticismAwardedDates
                     : [];
 
-            profileDocRef.set({
-                totalAsceticismDays: 200,
-                totalAsceticismAwardedDates: playerData.totalAsceticismAwardedDates
-            }, { merge: true });
-        } else {
-            playerData.totalAsceticismDays =
-                Number(cloudData.totalAsceticismDays) || 200;
-
-            playerData.totalAsceticismAwardedDates =
-                Array.isArray(cloudData.totalAsceticismAwardedDates)
-                    ? cloudData.totalAsceticismAwardedDates
-                    : [];
+            profileDocRef.set(playerData, { merge: true })
+                .then(() => {
+                    isFirebaseLoaded = true;
+                    updateMainUI();
+                    console.log("⚡️ Создан новый профиль в Firebase.");
+                });
         }
 
-        // Подтягиваем сбережения
-        playerData.totalSavingsRub = Number(cloudData.totalSavingsRub) || 0;
-
-        // Восстановление XP по истории графика, если он оказался меньше
-        const msk = getMskDateInfo();
-
-        const todayHistoryXp =
-            playerData.chartHistory &&
-            Number(playerData.chartHistory[msk.dateString])
-                ? Number(playerData.chartHistory[msk.dateString])
-                : 0;
-
-        if (Number(playerData.xp) < todayHistoryXp) {
-            playerData.xp = todayHistoryXp;
-        }
-
-        // Firebase полностью загрузился
+    }, (error) => {
+        console.error("Ошибка связи с Firebase:", error);
         isFirebaseLoaded = true;
-
-        // ⚠️ ВНИМАНИЕ: checkAsceticismDayTransition() ОТСЮДА УДАЛЁН!
-        // Он вызывается ТОЛЬКО по таймеру setInterval раз в минуту!
-
-        // Обновляем интерфейс
         updateMainUI();
+    });
 
-        if (typeof renderMissionsList === 'function') {
-            renderMissionsList();
+            // 🔮 ОБНОВЛЕНИЕ ПОЛОСОК И УРОВНЕЙ 4 ВЕТОК
+        function updateBranchesUI() {
+            if (!playerData.branchStats) return;
+
+            ['int', 'str', 'wil', 'res'].forEach(key => {
+                const b = playerData.branchStats[key];
+                if (!b) return;
+
+                const lvlEl = document.getElementById(`branch-lvl-${key}`);
+                const fillEl = document.getElementById(`branch-fill-${key}`);
+
+                if (lvlEl) lvlEl.innerText = `LV. ${b.level}`;
+                if (fillEl) {
+                    const percent = Math.min((b.xp / b.nextLevelXp) * 100, 100);
+                    fillEl.style.width = percent + "%";
+                }
+            });
         }
 
-        console.log(
-            "☁️ Данные синхронизированы. " +
-            "Текущий XP:",
-            playerData.xp,
-            "| Серия:",
-            playerData.asceticismDays,
-            "| Рекорд:",
-            playerData.personalRecord,
-            "| Общая аскеза:",
-            playerData.totalAsceticismDays
-        );
+        // КЛИК ПО ВЕТКЕ: БЫСТРАЯ ТРЕНИРОВКА СТАТА
+        function openBranchModal(branchKey) {
+            const names = { int: "ИНТЕЛЛЕКТ", str: "СИЛА", wil: "ДУША", res: "ТВОРЧЕСТВО" };
+            const expToAdd = prompt(`Тренировка характеристики [${names[branchKey]}]. Сколько EXP начислить в ветку?`, "100");
+            
+            if (expToAdd !== null && !isNaN(Number(expToAdd)) && Number(expToAdd) > 0) {
+                const amount = Number(expToAdd);
+                const b = playerData.branchStats[branchKey];
+                
+                b.xp += amount;
+                addExpToSystem(amount, `Прокачка: ${names[branchKey]}`);
 
-    } else {
-        // Документа нет — создаём новый профиль
-        playerData.totalAsceticismDays =
-            Number(playerData.totalAsceticismDays) || 200;
+                if (b.xp >= b.nextLevelXp) {
+                    b.xp -= b.nextLevelXp;
+                    b.level += 1;
+                    b.nextLevelXp = Math.floor(b.nextLevelXp * 1.3);
+                    alert(`🔥 ХАРАКТЕРИСТИКА [${names[branchKey]}] ПОВЫШЕНА ДО LV. ${b.level}!`);
+                }
 
-        playerData.totalAsceticismAwardedDates =
-            Array.isArray(playerData.totalAsceticismAwardedDates)
-                ? playerData.totalAsceticismAwardedDates
-                : [];
-
-        profileDocRef.set(playerData, { merge: true })
-            .then(() => {
-                isFirebaseLoaded = true;
-                updateMainUI();
-                console.log("⚡️ Создан новый профиль в Firebase.");
-            });
-    }
-
-}, (error) => {
-    console.error("Ошибка связи с Firebase:", error);
-    isFirebaseLoaded = true;
-    updateMainUI();
-});
+                updateBranchesUI();
+                if (typeof profileDocRef !== 'undefined') {
+                    profileDocRef.set({ branchStats: playerData.branchStats }, { merge: true });
+                }
+            }
+        }
 
 
 
@@ -5431,6 +5645,8 @@ profileDocRef.onSnapshot((doc) => {
             if (typeof updatePlayerRankBadge === 'function') updatePlayerRankBadge();
             if (typeof updateEvolutionProfile === 'function') updateEvolutionProfile();
             if (typeof updateSavingsUI === 'function') updateSavingsUI();
+            if (typeof updateBranchesUI === 'function') updateBranchesUI();
+
 
         }
 
@@ -5550,12 +5766,12 @@ profileDocRef.onSnapshot((doc) => {
             });
 
             // 3. Синхронизация сайдбара (кнопки и зажима) при любом переходе
-            const pageIndexMap = {
-                'level-page': 0,
-                'programs-page': 1,
-                'skills-page': 2,
-                'main-menu': 3
-            };
+           const pageIndexMap = {
+    'level-page': 0,
+    'programs-page': 1,
+    'main-menu': 2
+};
+
 
             const targetIdx = pageIndexMap[pageId];
             if (targetIdx !== undefined) {
@@ -6863,13 +7079,6 @@ function setManualRating(rating, button) {
         }
 
 
-
-        // Расчет порога XP для любого уровня от 1 до 100
-        function calculateXpForNextLevel(lvl) {
-            if (lvl >= 100) return 999999;
-            // Точная формула Solo Leveling IRL
-            return Math.floor(120 * Math.pow(lvl, 1.22) + (lvl * 35));
-        }
 
 
         // =========================================================

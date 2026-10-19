@@ -4205,9 +4205,7 @@
 /* ======================================================== */
 /* 🎴 STATUS WINDOW: СТИЛИ АНИМЕ-СТАТОВ МОНАРХА             */
 /* ======================================================== */
-.anime-status-window {
-    min-height: 520px;
-}
+
 
 .status-stats-column {
     display: flex;
@@ -4834,11 +4832,7 @@
 /* 🌟 ЭПИЧНЫЕ ВИСЯЩИЕ СТИКЕРЫ ВНЕ РАМКИ КАРТОЧКИ             */
 /* ======================================================== */
 
-/* 1. Снимаем обрезку у арта, чтобы стикеры могли вылетать наружу */
-.evolution-art-wrap {
-    position: relative;
-    overflow: visible !important; /* Ключевое: позволяет элементам торчать за границей */
-}
+
 
 /* 2. Сам контейнер стикеров: выносим далеко влево поверх рамки */
 .character-rank-stickers {
@@ -4907,6 +4901,189 @@
     .sticker-ascetic img {
         width: 28px;
         height: 28px;
+    }
+}
+
+
+
+
+
+
+
+/* ======================================================== */
+/* 🌋 ЧИСТАЯ ЛАВОВАЯ КОЛБА С БУЛТЫХАЮЩЕЙСЯ ЖИЖЕЙ (50% FILL)  */
+/* ======================================================== */
+
+/* Убираем рамочный контейнер, оставляем прозрачный фон */
+.evolution-lava-banner {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 2px 0 !important;
+    font-family: 'Orbitron', sans-serif;
+}
+
+/* Стеклянная колба
+ для жидкости */
+.lava-wave-track {
+    position: relative;
+    width: 100%;
+    height: 14px;
+    background: rgba(10, 8, 22, 0.85);
+    border: 1px solid rgba(255, 170, 0, 0.35);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 6px;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.8), 0 0 12px rgba(255, 120, 0, 0.15);
+}
+
+/* 🧪 Жижа, заполненная на 50%, которая плавно колышется и переливается */
+.lava-fluid-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 51%; /* Заполнено наполовину */
+    background: linear-gradient(90deg, #ff1100 0%, #ff7700 45%, #ffe600 100%);
+    border-radius: 6px 0 0 6px;
+    box-shadow: 0 0 16px rgba(255, 136, 0, 0.85);
+    /* Анимация волнения и смещения уровня жижи */
+    animation: sloshFluid 3.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
+}
+
+/* Бурлящий всплеск на краю жидкой лавы */
+.lava-fluid-fill::after {
+    content: '';
+    position: absolute;
+    top: -8px;
+    right: -12px;
+    width: 24px;
+    height: 30px;
+    background: rgba(255, 230, 100, 0.8);
+    border-radius: 40%;
+    filter: blur(2px);
+    animation: sloshWave 1.8s ease-in-out infinite alternate;
+}
+
+/* Бегущий неоновый блик по поверхности магмы */
+.lava-fluid-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 51%;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
+    pointer-events: none;
+    animation: sloshGleam 2.8s ease-in-out infinite alternate;
+}
+
+/* 🌊 Физика колыхания жидкой массы из стороны в сторону */
+@keyframes sloshFluid {
+    0% {
+        width: 47%;
+        transform: skewX(-1.5deg);
+    }
+    50% {
+        width: 53%;
+        transform: skewX(2deg);
+    }
+    100% {
+        width: 49%;
+        transform: skewX(-1deg);
+    }
+}
+
+@keyframes sloshWave {
+    0% {
+        transform: scaleY(0.7) rotate(0deg);
+    }
+    100% {
+        transform: scaleY(1.3) rotate(180deg);
+    }
+}
+
+@keyframes sloshGleam {
+    0% { transform: translateX(-60%); }
+    100% { transform: translateX(40%); }
+}
+
+/* Текст с цифрами под колбой */
+.lava-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2px;
+}
+
+.lava-title {
+    font-size: 0.58rem;
+    color: #ffaa44;
+    letter-spacing: 1.2px;
+    font-weight: 700;
+}
+
+.lava-number {
+    font-size: 0.88rem;
+    font-weight: 900;
+    color: #ffffff;
+    text-shadow: 0 0 10px #ff6600, 0 0 20px rgba(255, 170, 0, 0.6);
+    letter-spacing: 0.8px;
+}
+
+
+
+/* =5. ИСПРАВЛЕНИЕ СЕТКИ СТАТУС-ОКНА = */
+.anime-status-window {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr); /* Фиксированная ширина арта и гибкая для статов */
+    gap: 24px;
+    align-items: start;
+}
+
+.character-portrait-column {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 260px; /* Строго по ширине арта */
+    flex-shrink: 0;
+}
+
+.evolution-art-wrap {
+    width: 260px;
+    height: 350px; /* Возвращаем стандартную высоту арта */
+    position: relative;
+    overflow: visible !important;
+}
+
+#player-stage-art {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.status-stats-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 900px) {
+    .anime-status-window {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .character-portrait-column,
+    .evolution-art-wrap {
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
     }
 }
 
@@ -5072,31 +5249,46 @@
 
 
 
-            <!-- [ MAIN GRID CONTENT ] -->
-            <div class="level-main-grid">
+          <!-- [ MAIN GRID CONTENT ] -->
+<div class="level-main-grid">
 
-               <!-- 🎴 STATUS WINDOW: КАРТОЧКА МОНАРХА С ВЕТКАМИ ХАРАКТЕРИСТИК -->
-<div class="profile-card evolution-profile anime-status-window">
-        <!-- Левая колонка: Арт Монарха + Стикеры рангов поверх -->
-    <div class="evolution-art-wrap">
-        <img id="player-stage-art" src="stage1.webp" alt="Стадия персонажа">
-        <div class="evolution-art-shade"></div>
-        <div class="evolution-stage-label" id="player-stage-label">СТАДИЯ I</div>
+   <!-- 🎴 STATUS WINDOW: КАРТОЧКА МОНАРХА С ВЕТКАМИ ХАРАКТЕРИСТИК -->
+   <div class="profile-card evolution-profile anime-status-window">
+    
+        <!-- Левая колонка карточки Монарха (Арт со стикерами + Лавовая жижа снизу) -->
+        <div class="character-portrait-column">
+            <!-- Твой арт со стикерами рангов -->
+            <div class="evolution-art-wrap">
+                <img id="player-stage-art" src="stage1.webp" alt="Стадия персонажа">
+                <div class="evolution-art-shade"></div>
+                <div class="evolution-stage-label" id="player-stage-label">СТАДИЯ I</div>
 
-        <!-- 🏷️ СТИКЕРЫ РАНГОВ ПОВЕРХ КАРТИНКИ (СЛЕВА СБОКУ) -->
-        <div class="character-rank-stickers">
-            <!-- Стикер 1: Ранг Уровня Системы -->
-            <div class="rank-sticker-badge sticker-level" title="Ранг уровня">
-    <img id="sticker-level-rank-icon" src="rank_c.webp" alt="Ранг C">
-</div>
+                <!-- 🏷 СТИКЕРЫ РАНГОВ ПОВЕРХ КАРТИНКИ (СЛЕВА СБОКУ) -->
+                <div class="character-rank-stickers">
+                    <!-- Стикер 1: Ранг Уровня Системы -->
+                    <div class="rank-sticker-badge sticker-level" title="Ранг уровня">
+                        <img id="sticker-level-rank-icon" src="rank_c.webp" alt="Ранг C">
+                    </div>
 
-            <!-- Стикер 2: Ранг Воздержания -->
-            <div class="rank-sticker-badge sticker-ascetic" title="Ранг Воздержания">
-                <img id="sticker-ascetic-icon" src="silver.webp" alt="Ранг">
+                    <!-- Стикер 2: Ранг Воздержания -->
+                    <div class="rank-sticker-badge sticker-ascetic" title="Ранг Воздержания">
+                        <img id="sticker-ascetic-icon" src="silver.webp" alt="Ранг">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🌋 ЛАВОВЫЙ ЖИВОЙ БАННЕР ОБЩЕГО ОПЫТА (СТРОГО ПО ШИРИНЕ АРТА) -->
+            <div class="evolution-lava-banner">
+                <div class="lava-wave-track">
+                    <div class="lava-fluid-fill"></div>
+                    <div class="lava-fluid-glow"></div>
+                </div>
+                <div class="lava-info-row">
+                    <span class="lava-title">ОБЩИЙ ОПЫТ</span>
+                    <span id="unique-total-xp" class="lava-number">72 122 XP</span>
+                </div>
             </div>
         </div>
-    </div>
-
 
     <!-- Правая колонка: Характеристики и уровни системы -->
     <div class="evolution-info status-stats-column">
@@ -5219,11 +5411,6 @@
 
         <!-- Подвал: Общий опыт + Ранг воздержания -->
         <div class="status-footer-row">
-            <div class="evolution-total-xp">
-                <span>ОБЩИЙ ОПЫТ</span>
-                <strong id="unique-total-xp">71 832 XP</strong>
-            </div>
-
             <div class="evolution-ascension-rank">
                 <img id="player-asceticism-rank-icon" src="silver.webp" alt="" class="ascension-rank-icon">
                 <div>

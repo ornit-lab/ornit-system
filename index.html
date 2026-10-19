@@ -4384,12 +4384,7 @@
     letter-spacing: 1px;
 }
 
-.bsr-lvl {
-    font-size: 0.64rem;
-    font-weight: 800;
-    color: #c084fc;
-    text-shadow: 0 0 6px #9333ea;
-}
+
 
 .bsr-track {
     width: 100%;
@@ -4400,13 +4395,7 @@
     overflow: hidden;
 }
 
-.bsr-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #7c3aed, #c084fc);
-    box-shadow: 0 0 8px #a855f7;
-    border-radius: 4px;
-    transition: width 0.4s ease;
-}
+
 
 .status-footer-row {
     display: flex;
@@ -4416,6 +4405,511 @@
     padding-top: 6px;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
+
+/* ⚡️ ЯРКИЕ И ЧИТБЕЛЬНЫЕ УРОВНИ И XP В ВЕТКАХ */
+.bsr-lvl {
+    font-size: 0.72rem;
+    font-weight: 900;
+    color: #ff2a85 !important; /* Ярко-розовый неон */
+    text-shadow: 0 0 10px #ff007f, 0 0 20px rgba(255, 0, 127, 0.6) !important;
+    letter-spacing: 1px;
+}
+
+.bsr-numbers {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: #ffffff !important; /* Чисто-белый текст для максимальной видимости */
+    font-family: 'Orbitron', sans-serif;
+    margin-top: 4px;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.5px;
+}
+
+/* Насыщенная фиолетовая полоска */
+.bsr-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #8b5cf6, #ec4899);
+    box-shadow: 0 0 10px #d946ef;
+    border-radius: 4px;
+    transition: width 0.4s ease;
+}
+
+
+
+
+
+
+.achievements-card-container {
+    padding: 16px;
+    background: var(--panel-bg, rgba(8, 8, 20, .95));
+    border: 1px solid var(--panel-border, rgba(0, 212, 255, .25));
+    border-radius: 14px;
+}
+
+.achievements-switcher-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.ach-switcher-title {
+    flex: 1;
+    text-align: center;
+    color: var(--accent-cyan, #00d4ff);
+    font: 700 .75rem 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+}
+
+.ach-switch-arrow {
+    width: 32px;
+    height: 32px;
+    color: #d7b5ff;
+    background: rgba(138, 43, 226, .14);
+    border: 1px solid rgba(180, 92, 255, .5);
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.ranks-sub-container { display: none; }
+.ranks-sub-container.active { display: block; }
+
+
+
+
+
+
+
+
+
+
+/* ======================================================== */
+/* 🏆 СЕТКА РАНГОВ: СТРОГО 3 В РЯД, КРУПНЫЕ ИКОНКИ          */
+/* ======================================================== */
+.ranks-ladder-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* Строго по 3 колонки */
+    gap: 12px;
+}
+
+.rank-badge-item {
+    min-width: 0;
+    min-height: 96px; /* Увеличили высоту */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #8d91a2;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    font: 0.65rem 'Orbitron', sans-serif;
+    padding: 8px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.rank-badge-item:hover {
+    transform: translateY(-2px);
+    border-color: rgba(180, 92, 255, 0.4);
+}
+
+/* Крупные, выразительные иконки */
+.rank-badge-item img {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    filter: grayscale(1);
+    opacity: 0.4;
+    transition: filter 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+}
+
+.rank-badge-item.unlocked {
+    color: #fff;
+    border-color: rgba(180, 92, 255, 0.7);
+    box-shadow: 0 0 16px rgba(138, 43, 226, 0.25);
+    background: linear-gradient(145deg, rgba(138, 43, 226, 0.12), rgba(10, 10, 24, 0.8));
+}
+
+.rank-badge-item.unlocked img {
+    filter: none;
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.rank-badge-item.locked {
+    filter: grayscale(1);
+    opacity: 0.5;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 480px) {
+    .ranks-ladder-grid {
+        gap: 8px;
+    }
+    .rank-badge-item {
+        min-height: 84px;
+        font-size: 0.58rem;
+    }
+    .rank-badge-item img {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+
+
+
+/* ======================================================== */
+/* 🏷️ СТИКЕРЫ РАНГОВ ПОВЕРХ АРТА И ТЕГ СПРАВА ОТ ИМЕНИ      */
+/* ======================================================== */
+.evolution-art-wrap {
+    position: relative;
+    overflow: hidden; /* чтобы стикеры аккуратно крепились по краям */
+}
+
+
+
+.sticker-level .stk-icon {
+    font-size: 0.65rem;
+}
+
+#sticker-lvl-val {
+    font-size: 0.75rem;
+    font-weight: 900;
+    color: #ffd700;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+}
+
+/* ======================================================== */
+/* 🏷️ ЭПИЧНЫЕ ВИСЯЩИЕ СТИКЕРЫ (БЕЗ РАМОК, ВЫХОДЯЩИЕ ЗА КРАЙ) */
+/* ======================================================== */
+
+/* Контейнер стикеров: крепим прямо по левому краю с выступом */
+.character-rank-stickers {
+    position: absolute;
+    top: 18px;
+    left: -10px; /* Частично свисают за левый край карточки */
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    pointer-events: none;
+}
+
+/* Полностью убираем рамки и фон — чистая иконка сочным стикером */
+.rank-sticker-badge {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    padding: 0 !important;
+}
+
+.sticker-level,
+.sticker-ascetic {
+    background: transparent !important;
+    border: none !important;
+}
+
+/* Крупные, выразительные иконки стикеров с глубокой тенью */
+.sticker-level img,
+.sticker-ascetic img {
+    display: block;
+    width: 52px !important;  /* Сделали заметно крупнее */
+    height: 52px !important;
+    object-fit: contain;
+    filter: drop-shadow(4px 6px 12px rgba(0, 0, 0, 0.9)) 
+            drop-shadow(0 0 10px rgba(180, 92, 255, 0.5));
+    transition: transform 0.3s ease;
+}
+
+.sticker-level img:hover,
+.sticker-ascetic img:hover {
+    transform: scale(1.1) rotate(-3deg);
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 700px) {
+    .character-rank-stickers {
+        left: -6px;
+        top: 12px;
+        gap: 8px;
+    }
+    .sticker-level img,
+    .sticker-ascetic img {
+        width: 40px !important;
+        height: 40px !important;
+    }
+}
+
+
+/* Тег ранга справа от имени ORNIT */
+.evolution-name-text-box {
+    flex: 1;
+    min-width: 0;
+}
+
+.name-with-rank-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-rank-tag {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: #00d4ff;
+    background: rgba(0, 212, 255, 0.12);
+    border: 1px solid rgba(0, 212, 255, 0.4);
+    padding: 2px 8px;
+    border-radius: 6px;
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+    white-space: nowrap;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.header-level-rank-icon {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+    flex: 0 0 auto;
+    filter: drop-shadow(0 0 8px rgba(180, 92, 255, .65));
+}
+
+.sticker-level {
+    padding: 4px;
+}
+
+.sticker-level img {
+    display: block;
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 7px rgba(180, 92, 255, .7));
+}
+
+@media (max-width: 700px) {
+    .header-level-rank-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    .sticker-level img {
+        width: 27px;
+        height: 27px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ======================================================== */
+/* 🌟 ИНДИВИДУАЛЬНОЕ ЦВЕТНОЕ СВЕЧЕНИЕ ДЛЯ КАЖДОГО РАНГА     */
+/* ======================================================== */
+
+/* Бронза */
+.rank-badge-item[id*="3"], .rank-badge-item[id*="bronze"] {
+    --rank-glow: #cd7f32;
+}
+/* Серебро / E Ранг */
+.rank-badge-item[id*="7"], .rank-badge-item[id*="silver"], .rank-badge-item[id*="10"] {
+    --rank-glow: #e0e0e0;
+}
+/* Золото / D Ранг */
+.rank-badge-item[id*="14"], .rank-badge-item[id*="gold"], .rank-badge-item[id*="20"] {
+    --rank-glow: #ffd700;
+}
+/* Платина / C Ранг */
+.rank-badge-item[id*="21"], .rank-badge-item[id*="platinum"], .rank-badge-item[id*="30"] {
+    --rank-glow: #00e5ff;
+}
+/* Аметист / B Ранг */
+.rank-badge-item[id*="30"], .rank-badge-item[id*="amethyst"], .rank-badge-item[id*="35"] {
+    --rank-glow: #9d4edd;
+}
+/* Рубин / A Ранг */
+.rank-badge-item[id*="50"], .rank-badge-item[id*="ruby"], .rank-badge-item[id*="45"] {
+    --rank-glow: #ff0055;
+}
+/* Сапфир / S Ранг */
+.rank-badge-item[id*="70"], .rank-badge-item[id*="sapphire"], .rank-badge-item[id*="60"] {
+    --rank-glow: #00ff88;
+}
+/* Янтарь / SS Ранг */
+.rank-badge-item[id*="100"], .rank-badge-item[id*="amber"], .rank-badge-item[id*="70"] {
+    --rank-glow: #ff9100;
+}
+/* Титан / SSS Ранг */
+.rank-badge-item[id*="140"], .rank-badge-item[id*="titan"], .rank-badge-item[id*="80"] {
+    --rank-glow: #b0bec5;
+}
+/* Абсолют / SSS+ / БОГ (Эпичные божественные цвета) */
+.rank-badge-item[id*="180"], .rank-badge-item[id*="absolute"], .rank-badge-item[id*="90"], .rank-badge-item[id*="100"] {
+    --rank-glow: #ff2255;
+}
+
+/* Эффект разблокированного ранга с его персональным цветом */
+.rank-badge-item.unlocked {
+    color: #fff;
+    border-color: var(--rank-glow, #b45cff);
+    box-shadow: 0 0 18px var(--rank-glow, #8a2be2);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(10, 10, 24, 0.85));
+}
+
+.rank-badge-item.unlocked img {
+    filter: drop-shadow(0 0 8px var(--rank-glow, #fff));
+    opacity: 1;
+    transform: scale(1.08);
+}
+
+/* ======================================================== */
+/* 👑 УВЕЛИЧЕНИЕ ПОСЛЕДНИХ 3 РАНГОВ В 1.5 РАЗА               */
+/* ======================================================== */
+/* Для списка аскезы (последние 3: Янтарь, Титан, Абсолют) */
+#rank-badge-100,
+#rank-badge-140,
+#rank-badge-180,
+/* Для списка уровней (последние 3: 80, 90, 100) */
+#lvl-rank-badge-80,
+#lvl-rank-badge-90,
+#lvl-rank-badge-100 {
+    grid-column: span 1;
+    transform: scale(1.05);
+}
+
+/* Делаем сами иконки последних 3 рангов больше (в 1.5 раза: 44px * 1.5 = ~66px) */
+#rank-badge-100 img,
+#rank-badge-140 img,
+#rank-badge-180 img,
+#lvl-rank-badge-80 img,
+#lvl-rank-badge-90 img,
+#lvl-rank-badge-100 img {
+    width: 62px !important;
+    height: 62px !important;
+    filter: drop-shadow(0 0 10px var(--rank-glow, #ffd700));
+}
+
+/* Чуть увеличиваем высоту карточки для этих гигантов */
+#rank-badge-100,
+#rank-badge-140,
+#rank-badge-180,
+#lvl-rank-badge-80,
+#lvl-rank-badge-90,
+#lvl-rank-badge-100 {
+    min-height: 115px;
+}
+
+
+
+/* ======================================================== */
+/* 🌟 ЭПИЧНЫЕ ВИСЯЩИЕ СТИКЕРЫ ВНЕ РАМКИ КАРТОЧКИ             */
+/* ======================================================== */
+
+/* 1. Снимаем обрезку у арта, чтобы стикеры могли вылетать наружу */
+.evolution-art-wrap {
+    position: relative;
+    overflow: visible !important; /* Ключевое: позволяет элементам торчать за границей */
+}
+
+/* 2. Сам контейнер стикеров: выносим далеко влево поверх рамки */
+.character-rank-stickers {
+    position: absolute;
+    top: 16px;
+    left: -24px; /* Торчат наружу слева от карточки */
+    z-index: 99; /* Самый высокий слой поверх всего */
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    pointer-events: none;
+}
+
+/* 3. Рамка и стиль самих стикеров */
+.rank-sticker-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    background: rgba(8, 8, 20, 0.92);
+    border-radius: 14px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.85);
+    transition: transform 0.25s ease;
+}
+
+.rank-sticker-badge:hover {
+    transform: scale(1.1);
+}
+
+/* 4. Тематическое неоновое свечение рамки для каждого стикера */
+.sticker-level {
+    border: 2px solid #00e5ff; /* Небесно-голубой неон для C-ранга уровня */
+    box-shadow: 0 0 16px rgba(0, 229, 255, 0.7), inset 0 0 10px rgba(0, 229, 255, 0.3);
+}
+
+.sticker-ascetic {
+    border: 2px solid #e0e0e0; /* Серебряное свечение для ранга воздержания */
+    box-shadow: 0 0 16px rgba(224, 224, 224, 0.6), inset 0 0 10px rgba(224, 224, 224, 0.2);
+}
+
+/* Размеры иконок внутри рамок */
+.sticker-level img,
+.sticker-ascetic img {
+    display: block;
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));
+}
+
+/* Мобильная адаптация */
+@media (max-width: 700px) {
+    .character-rank-stickers {
+        left: -16px;
+        top: 12px;
+        gap: 10px;
+    }
+    .rank-sticker-badge {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+    }
+    .sticker-level img,
+    .sticker-ascetic img {
+        width: 28px;
+        height: 28px;
+    }
+}
+
     </style>
 
 
@@ -4583,23 +5077,48 @@
 
                <!-- 🎴 STATUS WINDOW: КАРТОЧКА МОНАРХА С ВЕТКАМИ ХАРАКТЕРИСТИК -->
 <div class="profile-card evolution-profile anime-status-window">
-    <!-- Левая колонка: Арт Монарха со стадией -->
+        <!-- Левая колонка: Арт Монарха + Стикеры рангов поверх -->
     <div class="evolution-art-wrap">
         <img id="player-stage-art" src="stage1.webp" alt="Стадия персонажа">
         <div class="evolution-art-shade"></div>
         <div class="evolution-stage-label" id="player-stage-label">СТАДИЯ I</div>
+
+        <!-- 🏷️ СТИКЕРЫ РАНГОВ ПОВЕРХ КАРТИНКИ (СЛЕВА СБОКУ) -->
+        <div class="character-rank-stickers">
+            <!-- Стикер 1: Ранг Уровня Системы -->
+            <div class="rank-sticker-badge sticker-level" title="Ранг уровня">
+    <img id="sticker-level-rank-icon" src="rank_c.webp" alt="Ранг C">
+</div>
+
+            <!-- Стикер 2: Ранг Воздержания -->
+            <div class="rank-sticker-badge sticker-ascetic" title="Ранг Воздержания">
+                <img id="sticker-ascetic-icon" src="silver.webp" alt="Ранг">
+            </div>
+        </div>
     </div>
+
 
     <!-- Правая колонка: Характеристики и уровни системы -->
     <div class="evolution-info status-stats-column">
         <!-- Шапка: Имя + Ранг -->
+                <!-- Шапка: Имя + Ранг Уровня справа -->
         <div class="evolution-name-block">
             <span id="player-rank-badge" class="evolution-rank-badge">C</span>
-            <div>
-                <h2 class="evolution-name">ORNIT</h2>
+            <div class="evolution-name-text-box">
+                <div class="name-with-rank-row">
+                    <h2 class="evolution-name">ORNIT</h2>
+                    <!-- Справа от имени -->
+                   <img id="header-level-rank-icon"
+     class="header-level-rank-icon"
+     src="rank_c.webp"
+     alt="Ранг C"
+     title="Ранг уровня">
+
+                </div>
                 <p class="evolution-title">Архитектор</p>
             </div>
         </div>
+
 
         <!-- 👑 ГЛАВНЫЙ УРОВЕНЬ: ЗОЛОТОЙ ДОМИНАНТ -->
         <div class="main-core-level-block">
@@ -4627,58 +5146,61 @@
             </div>
         </div>
 
-        <!-- 🔮 4 ВЕТКИ ХАРАКТЕРИСТИК: ФИОЛЕТОВЫЙ НЕОН -->
+                <!-- 🔮 4 ВЕТКИ ХАРАКТЕРИСТИК: ФИОЛЕТОВЫЙ НЕОН С ТЕКСТОМ XP -->
         <div class="branch-stats-list">
             <!-- 1. ИНТЕЛЛЕКТ -->
-            <div class="branch-stat-row" onclick="openBranchModal('int')" title="Ветка Интеллекта">
+            <div class="branch-stat-row" onclick="openBranchModal('int')" title="Тренировать Интеллект">
                 <div class="bsr-icon">
                     <svg viewBox="0 0 24 24"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.04zM14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.04z"/></svg>
                 </div>
                 <div class="bsr-content">
                     <div class="bsr-info">
                         <span class="bsr-name">ИНТЕЛЛЕКТ</span>
-                        <span class="bsr-lvl" id="branch-lvl-int">LV. 28</span>
+                        <span class="bsr-lvl" id="branch-lvl-int">LV. 26</span>
                     </div>
                     <div class="bsr-track">
-                        <div class="bsr-fill" id="branch-fill-int" style="width: 45%;"></div>
+                        <div class="bsr-fill" id="branch-fill-int" style="width: 0%;"></div>
                     </div>
+                    <div class="bsr-numbers"><span id="branch-xp-int">0</span> / <span id="branch-max-int">100</span> XP</div>
                 </div>
             </div>
 
-            <!-- 2. СИЛА -->
-            <div class="branch-stat-row" onclick="openBranchModal('str')" title="Ветка Силы">
+            <!-- 2. СИЛА (Иконка кибер-кулака) -->
+            <div class="branch-stat-row" onclick="openBranchModal('str')" title="Тренировать Силу">
                 <div class="bsr-icon">
-                    <svg viewBox="0 0 24 24"><path d="m14.5 17.5 4-4m-7-3 4-4m-7.5 5 2 2m4-8.5-7 7a3 3 0 0 0 0 4.24l2.26 2.26a3 3 0 0 0 4.24 0l7-7-6.5-6.5zM4 20l3.5-3.5"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"/><path d="M18 11a4 4 0 0 1 4 4v3a3 3 0 0 1-3 3h-5a8 8 0 0 1-7-4l-1.5-3a2 2 0 0 1 1-2.7l1.5-.6"/></svg>
                 </div>
                 <div class="bsr-content">
                     <div class="bsr-info">
                         <span class="bsr-name">СИЛА</span>
-                        <span class="bsr-lvl" id="branch-lvl-str">LV. 22</span>
+                        <span class="bsr-lvl" id="branch-lvl-str">LV. 29</span>
                     </div>
                     <div class="bsr-track">
-                        <div class="bsr-fill" id="branch-fill-str" style="width: 60%;"></div>
+                        <div class="bsr-fill" id="branch-fill-str" style="width: 0%;"></div>
                     </div>
+                    <div class="bsr-numbers"><span id="branch-xp-str">0</span> / <span id="branch-max-str">100</span> XP</div>
                 </div>
             </div>
 
             <!-- 3. ДУША -->
-            <div class="branch-stat-row" onclick="openBranchModal('wil')" title="Ветка Души и Воли">
+            <div class="branch-stat-row" onclick="openBranchModal('wil')" title="Тренировать Душу">
                 <div class="bsr-icon">
                     <svg viewBox="0 0 24 24"><path d="M12 2 4.5 9 12 22l7.5-13L12 2zM4.5 9h15M12 2v20"/></svg>
                 </div>
                 <div class="bsr-content">
                     <div class="bsr-info">
                         <span class="bsr-name">ДУША</span>
-                        <span class="bsr-lvl" id="branch-lvl-wil">LV. 25</span>
+                        <span class="bsr-lvl" id="branch-lvl-wil">LV. 40</span>
                     </div>
                     <div class="bsr-track">
-                        <div class="bsr-fill" id="branch-fill-wil" style="width: 70%;"></div>
+                        <div class="bsr-fill" id="branch-fill-wil" style="width: 0%;"></div>
                     </div>
+                    <div class="bsr-numbers"><span id="branch-xp-wil">0</span> / <span id="branch-max-wil">100</span> XP</div>
                 </div>
             </div>
 
             <!-- 4. ТВОРЧЕСТВО -->
-            <div class="branch-stat-row" onclick="openBranchModal('res')" title="Ветка Творчества">
+            <div class="branch-stat-row" onclick="openBranchModal('res')" title="Тренировать Творчество">
                 <div class="bsr-icon">
                     <svg viewBox="0 0 24 24"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3z"/></svg>
                 </div>
@@ -4688,8 +5210,9 @@
                         <span class="bsr-lvl" id="branch-lvl-res">LV. 18</span>
                     </div>
                     <div class="bsr-track">
-                        <div class="bsr-fill" id="branch-fill-res" style="width: 35%;"></div>
+                        <div class="bsr-fill" id="branch-fill-res" style="width: 0%;"></div>
                     </div>
+                    <div class="bsr-numbers"><span id="branch-xp-res">0</span> / <span id="branch-max-res">100</span> XP</div>
                 </div>
             </div>
         </div>
@@ -4818,76 +5341,51 @@
 
 
 
-                <!-- 2. АЛТАРЬ ДОСТИЖЕНИЙ (10 РАНГОВ АСКЕЗЫ С КАСТОМНЫМИ WEBP ИКОНКАМИ) -->
-                <div class="achievements-card">
-                    <div class="ach-header">
-                        <span class="ach-icon">🛡️</span>
-                        <span class="ach-title">РАНГИ ВОЗДЕРЖАНИЯ СИСТЕМЫ</span>
-                    </div>
+               <!-- ======================================================== -->
+<!-- 🏆 ПЕРЕКЛЮЧАЕМЫЙ БЛОК РАНГОВ (ВОЗДЕРЖАНИЕ ⇄ УРОВНИ СИСТЕМЫ) -->
+<!-- ======================================================== -->
+<div class="achievements-card-container">
+    <!-- Шапка с переключателем и стрелками -->
+    <div class="achievements-switcher-header">
+        <button type="button" class="ach-switch-arrow" onclick="switchRanksContainer(-1)" aria-label="Назад">‹</button>
+        <div class="ach-switcher-title" id="ach-container-title">РАНГИ ВОЗДЕРЖАНИЯ</div>
+        <button type="button" class="ach-switch-arrow" onclick="switchRanksContainer(1)" aria-label="Вперед">›</button>
+    </div>
 
-                    <div class="ach-grid">
-                        <div class="ach-badge locked rank-bronze" id="rank-badge-3">
-                            <div class="ach-hex"><img src="bronze.webp" alt="Бронза"
-                                    style="width: 32px; height: 32px; object-fit: contain;"></div>
-                            <span class="ach-name">Бронза</span>
-                            <span class="ach-sub">3 дня</span>
-                        </div>
-                        <div class="ach-badge locked rank-silver" id="rank-badge-7">
-                            <div class="ach-hex"><img src="silver.webp" alt="Серебро"
-                                    style="width: 32px; height: 32px; object-fit: contain;"></div>
-                            <span class="ach-name">Серебро</span>
-                            <span class="ach-sub">7 дней</span>
-                        </div>
-                        <div class="ach-badge locked rank-gold" id="rank-badge-14">
-                            <div class="ach-hex"><img src="gold.webp" alt="Золото"
-                                    style="width: 32px; height: 32px; object-fit: contain;"></div>
-                            <span class="ach-name">Золото</span>
-                            <span class="ach-sub">14 дней</span>
-                        </div>
-                        <div class="ach-badge locked rank-plat" id="rank-badge-21">
-                            <div class="ach-hex"><img src="platinum.webp" alt="Платина"
-                                    style="width: 32px; height: 32px; object-fit: contain;"></div>
-                            <span class="ach-name">Платина</span>
-                            <span class="ach-sub">21 день</span>
-                        </div>
-                        <div class="ach-badge locked rank-ameth" id="rank-badge-30">
-                            <div class="ach-hex"><img src="amethyst.webp" alt="Аметист"
-                                    style="width: 32px; height: 32px; object-fit: contain;"></div>
-                            <span class="ach-name">Аметист</span>
-                            <span class="ach-sub">30 дней</span>
-                        </div>
-                        <div class="ach-badge locked rank-ruby" id="rank-badge-50">
-                            <div class="ach-hex"><img src="ruby.webp" alt="Рубин"
-                                    style="width: 32px; height: 32px; object-fit: contain;"></div>
-                            <span class="ach-name">Рубин</span>
-                            <span class="ach-sub">50 дней</span>
-                        </div>
-                        <div class="ach-badge locked rank-sapph" id="rank-badge-70">
-                            <div class="ach-hex"><img src="sapphire.webp" alt="Сапфир"
-                                    style="width: 32px; height: 32px; object-fit: contain;"></div>
-                            <span class="ach-name">Сапфир</span>
-                            <span class="ach-sub">70 дней</span>
-                        </div>
-                        <div class="ach-badge locked rank-amber" id="rank-badge-100">
-                            <div class="ach-hex"><img src="amber.webp" alt="Янтарь"
-                                    style="width: 32px; height: 32px; object-fit: contain;"></div>
-                            <span class="ach-name">Янтарь</span>
-                            <span class="ach-sub">100 дней</span>
-                        </div>
-                        <div class="ach-badge locked rank-titan" id="rank-badge-140">
-                            <div class="ach-hex"><img src="titan.webp" alt="Титан"
-                                    style="width: 32px; height: 32px; object-fit: contain;"></div>
-                            <span class="ach-name">Титан</span>
-                            <span class="ach-sub">140 дней</span>
-                        </div>
-                        <div class="ach-badge locked rank-abs" id="rank-badge-180">
-                            <div class="ach-hex"><img src="absolute.webp" alt="Абсолют"
-                                    style="width: 32px; height: 32px; object-fit: contain;"></div>
-                            <span class="ach-name">Абсолют</span>
-                            <span class="ach-sub">180 дней</span>
-                        </div>
-                    </div>
-                </div>
+    <!-- КОНТЕЙНЕР 1: РАНГИ АСКЕЗЫ (Существующий) -->
+    <div id="ranks-container-asceticism" class="ranks-sub-container active">
+        <div class="ranks-ladder-grid">
+            <div id="rank-badge-3" class="rank-badge-item locked" title="Бронза (3 дня)"><img src="bronze.webp" alt="Бронза"><span>3 дн</span></div>
+            <div id="rank-badge-7" class="rank-badge-item locked" title="Серебро (7 дней)"><img src="silver.webp" alt="Серебро"><span>7 дн</span></div>
+            <div id="rank-badge-14" class="rank-badge-item locked" title="Золото (14 дней)"><img src="gold.webp" alt="Золото"><span>14 дн</span></div>
+            <div id="rank-badge-21" class="rank-badge-item locked" title="Платина (21 день)"><img src="platinum.webp" alt="Платина"><span>21 дн</span></div>
+            <div id="rank-badge-30" class="rank-badge-item locked" title="Аметист (30 дней)"><img src="amethyst.webp" alt="Аметист"><span>30 дн</span></div>
+            <div id="rank-badge-50" class="rank-badge-item locked" title="Рубин (50 дней)"><img src="ruby.webp" alt="Рубин"><span>50 дн</span></div>
+            <div id="rank-badge-70" class="rank-badge-item locked" title="Сапфир (70 дней)"><img src="sapphire.webp" alt="Сапфир"><span>70 дн</span></div>
+            <div id="rank-badge-100" class="rank-badge-item locked" title="Янтарь (100 дней)"><img src="amber.webp" alt="Янтарь"><span>100 дн</span></div>
+            <div id="rank-badge-140" class="rank-badge-item locked" title="Титан (140 дней)"><img src="titan.webp" alt="Титан"><span>140 дн</span></div>
+            <div id="rank-badge-180" class="rank-badge-item locked" title="Абсолют (180 дней)"><img src="absolute.webp" alt="Абсолют"><span>180 дн</span></div>
+        </div>
+    </div>
+
+    <!-- КОНТЕЙНЕР 2: РАНГИ УРОВНЕЙ СИСТЕМЫ (Новый) -->
+    <div id="ranks-container-levels" class="ranks-sub-container">
+        <div class="ranks-ladder-grid">
+            <div id="lvl-rank-badge-10" class="rank-badge-item locked" title="E Ранг (10 ур)"><img src="rank_e.webp" alt="E"><span id="lvl-badge-txt-10">10 LV</span></div>
+            <div id="lvl-rank-badge-20" class="rank-badge-item locked" title="D Ранг (20 ур)"><img src="rank_d.webp" alt="D"><span id="lvl-badge-txt-20">20 LV</span></div>
+            <div id="lvl-rank-badge-30" class="rank-badge-item locked" title="C Ранг (30 ур)"><img src="rank_c.webp" alt="C"><span id="lvl-badge-txt-30">30 LV</span></div>
+            <div id="lvl-rank-badge-35" class="rank-badge-item locked" title="B Ранг (35 ур)"><img src="rank_b.webp" alt="B"><span id="lvl-badge-txt-35">35 LV</span></div>
+            <div id="lvl-rank-badge-45" class="rank-badge-item locked" title="A Ранг (45 ур)"><img src="rank_a.webp" alt="A"><span id="lvl-badge-txt-45">45 LV</span></div>
+            <div id="lvl-rank-badge-60" class="rank-badge-item locked" title="S Ранг (60 ур)"><img src="rank_s.webp" alt="S"><span id="lvl-badge-txt-60">60 LV</span></div>
+            <div id="lvl-rank-badge-70" class="rank-badge-item locked" title="SS Ранг (70 ур)"><img src="rank_ss.webp" alt="SS"><span id="lvl-badge-txt-70">70 LV</span></div>
+            <div id="lvl-rank-badge-80" class="rank-badge-item locked"><img src="rank_sss.webp" alt="SSS"><span>80 LV</span></div>
+<div id="lvl-rank-badge-90" class="rank-badge-item locked"><img src="rank_sss_plus.webp" alt="SSS+"><span>90 LV</span></div>
+<div id="lvl-rank-badge-100" class="rank-badge-item locked"><img src="rank_god.webp" alt="GOD"><span>100 LV</span></div>
+
+        </div>
+    </div>
+</div>
+
 
 
             </div>
@@ -5354,6 +5852,23 @@
 
 
     <script>
+
+
+
+// --- УНИВЕРСАЛЬНЫЙ ДВИЖОК ОПЫТА ORNIT SYSTEM ---
+const SKILL_K = 100;   // Коэффициент для веток (Интеллект, Сила и т.д.)
+const GLOBAL_K = 250;  // Коэффициент для Общего Уровня Системы
+
+// 1. Расчет порога для веток навыков
+function getSkillThreshold(level) {
+    return Number(level) * SKILL_K;
+}
+
+// 2. Расчет порога для Глобального Уровня
+function getGlobalThreshold(level) {
+    return Number(level) * GLOBAL_K;
+}
+
         // --- ТВОЙ РАБОЧИЙ КОНФИГ FIREBASE ---
         const firebaseConfig = {
             apiKey: "AIzaSyAJGnaJMFZydOTdBYGYhOXSi8jCkFP0Llw",
@@ -5546,29 +6061,15 @@
 
         // КЛИК ПО ВЕТКЕ: БЫСТРАЯ ТРЕНИРОВКА СТАТА
         function openBranchModal(branchKey) {
-            const names = { int: "ИНТЕЛЛЕКТ", str: "СИЛА", wil: "ДУША", res: "ТВОРЧЕСТВО" };
-            const expToAdd = prompt(`Тренировка характеристики [${names[branchKey]}]. Сколько EXP начислить в ветку?`, "100");
-            
-            if (expToAdd !== null && !isNaN(Number(expToAdd)) && Number(expToAdd) > 0) {
-                const amount = Number(expToAdd);
-                const b = playerData.branchStats[branchKey];
-                
-                b.xp += amount;
-                addExpToSystem(amount, `Прокачка: ${names[branchKey]}`);
+    const names = { int: "ИНТЕЛЛЕКТ", str: "СИЛА", wil: "ДУША", res: "ТВОРЧЕСТВО" };
+    const expToAdd = prompt(`Тренировка характеристики [${names[branchKey]}]. Сколько EXP начислить?`, "100");
+    
+    if (expToAdd !== null && !isNaN(Number(expToAdd)) && Number(expToAdd) > 0) {
+        // Вызываем функцию двойного начисления (в ветку + в глобал)
+        addExperienceToBranch(Number(expToAdd), branchKey, "Тренировка ветки");
+    }
+}
 
-                if (b.xp >= b.nextLevelXp) {
-                    b.xp -= b.nextLevelXp;
-                    b.level += 1;
-                    b.nextLevelXp = Math.floor(b.nextLevelXp * 1.3);
-                    alert(`🔥 ХАРАКТЕРИСТИКА [${names[branchKey]}] ПОВЫШЕНА ДО LV. ${b.level}!`);
-                }
-
-                updateBranchesUI();
-                if (typeof profileDocRef !== 'undefined') {
-                    profileDocRef.set({ branchStats: playerData.branchStats }, { merge: true });
-                }
-            }
-        }
 
 
 
@@ -5646,26 +6147,53 @@
             if (typeof updateEvolutionProfile === 'function') updateEvolutionProfile();
             if (typeof updateSavingsUI === 'function') updateSavingsUI();
             if (typeof updateBranchesUI === 'function') updateBranchesUI();
+            if (typeof updateLevelRanksUI === "function") updateLevelRanksUI();
+  
+                    // Обновление стикеров рангов на арте и тега у имени
+        const currentLvl = Number(playerData.level) || 33;
+        const rankInfo = getSystemRankInfo(currentLvl);
+
+        const stickerLvlEl = document.getElementById('sticker-lvl-val');
+        if (stickerLvlEl) stickerLvlEl.textContent = rankInfo.letter;
+
+        const headerTagEl = document.getElementById('header-level-rank-tag');
+        if (headerTagEl) {
+            headerTagEl.textContent = rankInfo.name;
+            headerTagEl.style.color = rankInfo.color;
+            headerTagEl.style.borderColor = rankInfo.color;
+            headerTagEl.style.boxShadow = `0 0 10px ${rankInfo.color}40`;
+        }
+
+        // Иконка ранга воздержания на стикере
+        const stickerAscIcon = document.getElementById('sticker-ascetic-icon');
+        if (stickerAscIcon && typeof highestUnlockedRank !== 'undefined' && highestUnlockedRank) {
+            stickerAscIcon.src = highestUnlockedRank.icon;
+        }
 
 
         }
 
 
 
-        // ⚔️ РАСЧЕТ БОЕВОГО РАНГА ПО ОБЩЕМУ ОПЫТУ (TOTAL XP)
+               // ⚔️ БОЕВОЙ РАНГ СИСТЕМЫ (ПО ГЛОБАЛЬНОМУ УРОВНЮ)
         function updatePlayerRankBadge() {
-            const total = playerData.totalXp || 70382;
+            const lvl = Number(playerData.level) || 33;
+            
             let rankLetter = "E";
             let rankColor = "#ffffff";
 
-            if (total >= 1350000) {rankLetter = "SS"; rankColor = "#ffd700";} // Золотой Абсолют
-            else if (total >= 800000) {rankLetter = "S"; rankColor = "#ffaa00";}  // Янтарный S
-            else if (total >= 350000) {rankLetter = "A"; rankColor = "#ff004c";}  // Красный A
-            else if (total >= 120000) {rankLetter = "B"; rankColor = "#8a2be2";}  // Фиолетовый B
-            else if (total >= 35000) {rankLetter = "C"; rankColor = "#00d4ff";}  // Синий C (Ты здесь!)
-            else if (total >= 10000) {rankLetter = "D"; rankColor = "#00ff88";}  // Зеленый D
-            else {rankLetter = "E"; rankColor = "#ffffff";}  // Белый E
+            if (lvl >= 100)      { rankLetter = "GOD"; rankColor = "#ffd700"; } // Абсолютное божество
+            else if (lvl >= 90)  { rankLetter = "SSS+"; rankColor = "#ff0055"; }
+            else if (lvl >= 80)  { rankLetter = "SSS";  rankColor = "#ff004c"; }
+            else if (lvl >= 70)  { rankLetter = "SS";   rankColor = "#ffaa00"; }
+            else if (lvl >= 60)  { rankLetter = "S";    rankColor = "#00ff88"; }
+            else if (lvl >= 45)  { rankLetter = "A";    rankColor = "#8a2be2"; }
+            else if (lvl >= 35)  { rankLetter = "B";    rankColor = "#00d4ff"; }
+            else if (lvl >= 30)  { rankLetter = "C";    rankColor = "#00d4ff"; } // Ты на 33 уровне — здесь!
+            else if (lvl >= 20)  { rankLetter = "D";    rankColor = "#00ff88"; }
+            else if (lvl >= 10)  { rankLetter = "E";    rankColor = "#ffffff"; }
 
+            // 1. Обновляем левый значок-бейджик ранга в карточке
             const badge = document.getElementById('player-rank-badge');
             if (badge) {
                 badge.innerText = rankLetter;
@@ -5674,35 +6202,132 @@
                 badge.style.backgroundColor = `${rankColor}15`;
                 badge.style.textShadow = `0 0 10px ${rankColor}`;
             }
+
+           const rankIcons = {
+    E: "rank_e.webp",
+    D: "rank_d.webp",
+    C: "rank_c.webp",
+    B: "rank_b.webp",
+    A: "rank_a.webp",
+    S: "rank_s.webp",
+    SS: "rank_ss.webp",
+    SSS: "rank_sss.webp",
+    "SSS+": "rank_sss_plus.webp",
+    GOD: "rank_god.webp"
+};
+
+const iconSrc = rankIcons[rankLetter] || rankIcons.E;
+
+const headerRankIcon = document.getElementById("header-level-rank-icon");
+if (headerRankIcon) {
+    headerRankIcon.src = iconSrc;
+    headerRankIcon.alt = `Ранг ${rankLetter}`;
+}
+
+const stickerRankIcon = document.getElementById("sticker-level-rank-icon");
+if (stickerRankIcon) {
+    stickerRankIcon.src = iconSrc;
+    stickerRankIcon.alt = `Ранг ${rankLetter}`;
+}
+
         }
 
-        function addExpToSystem(amount, sourceTitle) {
-            const msk = getMskDateInfo();
-            const today = msk.dateString;
 
-            // 1. Опыт в текущий уровень и общий зачет
-            playerData.xp = (Number(playerData.xp) || 0) + amount;
-            playerData.totalXp = (Number(playerData.totalXp) || 70382) + amount;
+        function addExpToSystem(amount, sourceTitle = "Награда") {
+    if (!isFirebaseLoaded) return;
 
-            // 2. ⚡️ ГЛАВНОЕ: Запись опыта строго за СЕГОДНЯ
-            if (!playerData.chartHistory) playerData.chartHistory = {};
-            playerData.chartHistory[today] = (Number(playerData.chartHistory[today]) || 0) + amount;
+    amount = Number(amount);
+    if (!Number.isFinite(amount) || amount <= 0) return;
 
-            // 3. Проверка Level Up
-            if (playerData.xp >= playerData.nextLevelXp && playerData.level < 100) {
-                playerData.xp -= playerData.nextLevelXp;
-                playerData.level += 1;
-                playerData.nextLevelXp = calculateXpForNextLevel(playerData.level);
-                alert(`🔥 LEVEL UP! ОРНИТ ДОСТИГ LV. ${playerData.level}!`);
-            }
+    playerData.level = Number(playerData.level) || 1;
+    playerData.xp = Number(playerData.xp) || 0;
+    playerData.totalXp = Number(playerData.totalXp) || 0;
+    playerData.chartHistory = playerData.chartHistory || {};
 
-            // 4. Синхронизация с UI и Базой
-            updateMainUI();
+    const today = getMskDateInfo().dateString;
 
-            if (typeof profileDocRef !== 'undefined') {
-                profileDocRef.set(playerData, { merge: true });
-            }
-        }
+    playerData.xp += amount;
+    playerData.totalXp += amount;
+    playerData.chartHistory[today] =
+        (Number(playerData.chartHistory[today]) || 0) + amount;
+
+    let leveledUp = false;
+
+    while (
+        playerData.level < 100 &&
+        playerData.xp >= getGlobalThreshold(playerData.level)
+    ) {
+        playerData.xp -= getGlobalThreshold(playerData.level);
+        playerData.level += 1;
+        leveledUp = true;
+    }
+
+    // Обновляем порог для текущего уровня в интерфейсе и данных.
+    playerData.nextLevelXp = getGlobalThreshold(playerData.level);
+
+    if (leveledUp) {
+        console.info(`GLOBAL SYSTEM UPGRADE: LV. ${playerData.level}`);
+    }
+
+    updateMainUI();
+
+    profileDocRef.set({
+        level: playerData.level,
+        xp: playerData.xp,
+        nextLevelXp: playerData.nextLevelXp,
+        totalXp: playerData.totalXp,
+        chartHistory: playerData.chartHistory
+    }, { merge: true }).catch(error => {
+        console.error("Не удалось сохранить XP:", error);
+    });
+}
+
+
+function addExperienceToBranch(amount, branchKey, sourceTitle = "Практика") {
+    if (!isFirebaseLoaded) return;
+
+    const branch = playerData.branchStats?.[branchKey];
+    if (!branch) {
+        console.error("Не найдена ветка:", branchKey);
+        return;
+    }
+
+    amount = Number(amount);
+    if (!Number.isFinite(amount) || amount <= 0) return;
+
+    branch.level = Number(branch.level) || 1;
+    branch.xp = Number(branch.xp) || 0;
+    branch.xp += amount;
+
+    let branchLeveledUp = false;
+
+    while (branch.xp >= getSkillThreshold(branch.level)) {
+        branch.xp -= getSkillThreshold(branch.level);
+        branch.level += 1;
+        branchLeveledUp = true;
+    }
+
+    branch.nextLevelXp = getSkillThreshold(branch.level);
+
+    // ⚡️ МАГИЯ СИНХРОНИЗАЦИИ: Тот же XP автоматически летит в Общую Систему!
+    addExpToSystem(amount, `${sourceTitle} (${branchKey})`);
+
+    profileDocRef.set({
+        branchStats: playerData.branchStats
+    }, { merge: true }).catch(error => {
+        console.error("Не удалось сохранить уровни веток:", error);
+    });
+
+    if (branchLeveledUp) {
+        console.info(`Уровень ветки ${branchKey}: LV. ${branch.level}`);
+    }
+
+    if (typeof updateBranchesUI === "function") {
+        updateBranchesUI();
+    }
+}
+
+
 
 
 
@@ -6766,6 +7391,59 @@ function setManualRating(rating, button) {
             {days: 140, name: "Титан", icon: "titan.webp", badgeId: "rank-badge-140", color: "#b0bec5"},
             {days: 180, name: "Абсолют", icon: "absolute.webp", badgeId: "rank-badge-180", color: "#ffffff"}
         ];
+        const levelRanksLadder = [
+    { level: 10,  badgeId: "lvl-rank-badge-10" },
+    { level: 20,  badgeId: "lvl-rank-badge-20" },
+    { level: 30,  badgeId: "lvl-rank-badge-30" },
+    { level: 35,  badgeId: "lvl-rank-badge-35" },
+    { level: 45,  badgeId: "lvl-rank-badge-45" },
+    { level: 60,  badgeId: "lvl-rank-badge-60" },
+    { level: 70,  badgeId: "lvl-rank-badge-70" },
+    { level: 80,  badgeId: "lvl-rank-badge-80" },
+    { level: 90,  badgeId: "lvl-rank-badge-90" },
+    { level: 100, badgeId: "lvl-rank-badge-100" }
+];
+
+function updateLevelRanksUI() {
+    const level = Number(playerData.level) || 1;
+
+    levelRanksLadder.forEach(rank => {
+        const badge = document.getElementById(rank.badgeId);
+        if (!badge) return;
+
+        const unlocked = level >= rank.level;
+        badge.classList.toggle("unlocked", unlocked);
+        badge.classList.toggle("locked", !unlocked);
+    });
+}
+
+let currentRanksView = 0;
+
+function showRanksView(index) {
+    currentRanksView = (index + 2) % 2;
+
+    document.getElementById("ranks-container-asceticism")
+        ?.classList.toggle("active", currentRanksView === 0);
+
+    document.getElementById("ranks-container-levels")
+        ?.classList.toggle("active", currentRanksView === 1);
+
+    const title = document.getElementById("ach-container-title");
+    if (title) {
+        title.textContent = currentRanksView === 0
+            ? "РАНГИ ВОЗДЕРЖАНИЯ"
+            : "РАНГИ УРОВНЯ СИСТЕМЫ";
+    }
+}
+
+function switchRanksContainer(direction) {
+    showRanksView(currentRanksView + direction);
+}
+
+setInterval(() => {
+    showRanksView(currentRanksView + 1);
+}, 10000);
+
 
            function updateAchievementsUI() {
             const currentStreak = Number(playerData.asceticismDays) || 0;
@@ -7803,7 +8481,123 @@ setInterval(() => {
 
 
 
+                const BRANCH_COOLDOWN_MS = 2 * 60 * 60 * 1000; // 2 часа кулдаун на каждую ветку
+        let activeBranchKeyForModal = null;
 
+        function openBranchModal(branchKey) {
+            if (!isFirebaseLoaded) return;
+            activeBranchKeyForModal = branchKey;
+
+            const names = { int: "ИНТЕЛЛЕКТ", str: "СИЛА", wil: "ДУША", res: "ТВОРЧЕСТВО" };
+            document.getElementById('branch-modal-title').textContent = `ТРЕНИРОВКА: ${names[branchKey]}`;
+
+            updateBranchModalUI();
+            document.getElementById('branch-upgrade-modal')?.classList.add('open');
+        }
+
+        function closeBranchModal() {
+            document.getElementById('branch-upgrade-modal')?.classList.remove('open');
+            activeBranchKeyForModal = null;
+        }
+
+        function getBranchCooldownRemaining(branchKey) {
+            if (!playerData.branchCooldowns) playerData.branchCooldowns = {};
+            const lastAt = Number(playerData.branchCooldowns[branchKey]) || 0;
+            return Math.max(0, lastAt + BRANCH_COOLDOWN_MS - Date.now());
+        }
+
+        function updateBranchModalUI() {
+            if (!activeBranchKeyForModal) return;
+            const label = document.getElementById('branch-cooldown-label');
+            const remaining = getBranchCooldownRemaining(activeBranchKeyForModal);
+
+            if (remaining <= 0) {
+                label.textContent = "НАГРАДА ДОСТУПНА";
+                return;
+            }
+
+            const hours = Math.floor(remaining / 3600000);
+            const minutes = Math.floor((remaining % 3600000) / 60000);
+            label.textContent = `СЛЕДУЮЩАЯ ТРЕНИРОВКА ЧЕРЕЗ ${hours}ч ${minutes}м`;
+        }
+
+        function claimBranchExp(amount) {
+            if (!isFirebaseLoaded || !activeBranchKeyForModal) return;
+
+            if (getBranchCooldownRemaining(activeBranchKeyForModal) > 0) {
+                alert("⏳ Кулдаун активен! Дай системе восстановиться.");
+                return;
+            }
+
+            const branchKey = activeBranchKeyForModal;
+            const branch = playerData.branchStats[branchKey];
+            const names = { int: "ИНТЕЛЛЕКТ", str: "СИЛА", wil: "ДУША", res: "ТВОРЧЕСТВО" };
+
+            const now = Date.now();
+            if (!playerData.branchCooldowns) playerData.branchCooldowns = {};
+            playerData.branchCooldowns[branchKey] = now;
+
+            // Начисляем опыт в ветку и в глобальный уровень через наш движок
+            addExperienceToBranch(amount, branchKey, `Тренировка: ${names[branchKey]}`);
+
+            closeBranchModal();
+            updateBranchesUI();
+
+            if (typeof profileDocRef !== 'undefined') {
+                profileDocRef.set({
+                    branchStats: playerData.branchStats,
+                    branchCooldowns: playerData.branchCooldowns
+                }, { merge: true });
+            }
+
+            alert(`⚡️ [${names[branchKey]}]: Успешно получено +${amount} XP!`);
+        }
+
+        // Обновленная функция рендеринга веток с показом текущего опыта
+        function updateBranchesUI() {
+            if (!playerData.branchStats) return;
+
+            ['int', 'str', 'wil', 'res'].forEach(key => {
+                const b = playerData.branchStats[key];
+                if (!b) return;
+
+                const lvlEl = document.getElementById(`branch-lvl-${key}`);
+                const fillEl = document.getElementById(`branch-fill-${key}`);
+                const xpEl = document.getElementById(`branch-xp-${key}`);
+                const maxEl = document.getElementById(`branch-max-${key}`);
+
+                if (lvlEl) lvlEl.innerText = `LV. ${b.level}`;
+                if (xpEl) xpEl.innerText = b.xp.toLocaleString();
+                if (maxEl) maxEl.innerText = getSkillThreshold(b.level).toLocaleString();
+
+                if (fillEl) {
+                    const threshold = getSkillThreshold(b.level);
+                    const percent = Math.min((b.xp / threshold) * 100, 100);
+                    fillEl.style.width = percent + "%";
+                }
+            });
+        }
+
+
+
+
+
+
+
+                // ⚔️ ОПРЕДЕЛЕНИЕ РАНГА СИСТЕМЫ ПО ТЕКУЩЕМУ УРОВНЮ
+        function getSystemRankInfo(lvl) {
+            lvl = Number(lvl) || 1;
+            if (lvl >= 100) return { name: "SSS+++ БОГ", letter: "GOD", color: "#ffd700" };
+            if (lvl >= 90)  return { name: "SSS+ Ранг",  letter: "SSS+", color: "#ff0055" };
+            if (lvl >= 80)  return { name: "SSS Ранг",   letter: "SSS", color: "#ff004c" };
+            if (lvl >= 70)  return { name: "SS Ранг",    letter: "SS",  color: "#ffaa00" };
+            if (lvl >= 60)  return { name: "S Ранг",     letter: "S",   color: "#00ff88" };
+            if (lvl >= 45)  return { name: "A Ранг",     letter: "A",   color: "#8a2be2" };
+            if (lvl >= 35)  return { name: "B Ранг",     letter: "B",   color: "#00d4ff" };
+            if (lvl >= 30)  return { name: "C Ранг",     letter: "C",   color: "#00d4ff" };
+            if (lvl >= 20)  return { name: "D Ранг",     letter: "D",   color: "#00ff88" };
+            return { name: "E Ранг", letter: "E", color: "#ffffff" };
+        }
 
     </script>
 
@@ -7887,6 +8681,45 @@ setInterval(() => {
             </div>
         </div>
     </div>
+
+
+
+    <!-- 🔮 МОДАЛЬНОЕ ОКНО ТРЕНИРОВКИ ВЕТКИ ХАРАКТЕРИСТИК -->
+<div id="branch-upgrade-modal" class="workout-reward-modal" role="dialog" aria-modal="true" onclick="if(event.target === this) closeBranchModal()">
+    <div class="workout-modal-card">
+        <button class="workout-modal-close" type="button" onclick="closeBranchModal()" aria-label="Закрыть">✕</button>
+
+        <div class="workout-modal-icon" style="color: #c084fc;">
+            <svg viewBox="0 0 24 24" style="width: 48px; height: 48px; fill: none; stroke: #c084fc; stroke-width: 2;">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+        </div>
+
+        <h2 id="branch-modal-title" style="font-family: 'Orbitron'; font-size: 1rem; color: #fff; margin: 10px 0 5px;">ТРЕНИРОВКА</h2>
+        <p id="branch-modal-subtitle" style="font-size: 0.7rem; color: #aaa; margin-bottom: 20px;">Выбери объем выполненной работы. Награда доступна раз в 2 часа.</p>
+
+        <!-- 5 плашек опыта -->
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+            <button class="workout-choice workout-warmup" onclick="claimBranchExp(50)">
+                <span>Базовая практика</span><strong>+50 XP</strong>
+            </button>
+            <button class="workout-choice workout-working" onclick="claimBranchExp(100)">
+                <span>Уверенная сессия</span><strong>+100 XP</strong>
+            </button>
+            <button class="workout-choice workout-beast" onclick="claimBranchExp(200)">
+                <span>Глубокий фокус</span><strong>+200 XP</strong>
+            </button>
+            <button class="workout-choice" style="border-color: #00d4ff; color: #fff;" onclick="claimBranchExp(500)">
+                <span style="color: #00d4ff;">Интенсивный спринт</span><strong style="color: #00d4ff;">+500 XP</strong>
+            </button>
+            <button class="workout-choice chip-gold" style="border-color: #ffd700; color: #fff;" onclick="claimBranchExp(1000)">
+                <span style="color: #ffd700;">Прорыв Монарха</span><strong style="color: #ffd700;">+1 000 XP</strong>
+            </button>
+        </div>
+
+        <div id="branch-cooldown-label" style="font-family: 'Orbitron'; font-size: 0.65rem; color: #00ff88; margin-top: 15px;">НАГРАДА ДОСТУПНА</div>
+    </div>
+</div>
 
 </body>
 

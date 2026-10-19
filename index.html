@@ -5653,24 +5653,48 @@ function setManualRating(rating, button) {
 
 
 
-        // Получение МСК даты (UTC+3)
+                // ⏰ ЖЕЛЕЗОБЕТОННОЕ МОСКОВСКОЕ ВРЕМЯ (МСК = UTC+3) БЕЗ ЗАДЕРЖЕК
         function getMskDateInfo() {
-            const date = new Date();
-            const utc = date.getTime() + (date.getTimezoneOffset() * 60000);
-            const mskDate = new Date(utc + (3600000 * 3)); // МСК = UTC+3
+            const now = new Date();
 
-            const y = mskDate.getFullYear();
-            const m = String(mskDate.getMonth() + 1).padStart(2, '0');
-            const d = String(mskDate.getDate()).padStart(2, '0');
-            const hours = mskDate.getHours();
+            // Запрашиваем дату и время строго в поясе Москвы
+            const formatter = new Intl.DateTimeFormat('en-CA', {
+                timeZone: 'Europe/Moscow',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+
+            // Форматируем части даты
+            const parts = formatter.formatToParts(now);
+            const p = {};
+            parts.forEach(part => { p[part.type] = part.value; });
+
+            const year = parseInt(p.year, 10);
+            const month = p.month;
+            const day = p.day;
+            const hours = parseInt(p.hour, 10);
+            const minutes = parseInt(p.minute, 10);
+            const seconds = parseInt(p.second, 10);
+
+            // Дата строго в формате "YYYY-MM-DD"
+            const dateString = `${year}-${month}-${day}`;
+            const displayDate = `${day}.${month}.${year}`;
 
             return {
-                dateString: `${y}-${m}-${d}`,
-                displayDate: `${d}.${m}.${y}`,
+                dateString: dateString,
+                displayDate: displayDate,
                 hours: hours,
-                year: y
+                minutes: minutes,
+                seconds: seconds,
+                year: year
             };
         }
+
 
         function openNotesTab() {
             playSfx('sfx-click');

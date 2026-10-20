@@ -8377,24 +8377,21 @@ setInterval(() => {
         }
 
 
-        function addExpToActiveSkill(amount, questTitle) {
+               function addExpToActiveSkill(amount, questTitle) {
             if (!currentActiveSkillKey || !playerData.skills) return;
 
+            // Спрашиваем подвиг/достижение перед начислением
+            const featNote = prompt(`🏆 Зафиксировать подвиг в Хронографе за этот навык (+${amount} XP)? (Опционально):`, "");
+
+            // Определяем ветку текущего навыка
             const s = playerData.skills[currentActiveSkillKey];
+            const branchKey = s.branch || 'int';
 
-            // 1. Опыт в навык
-            s.xp += amount;
-
-            // 2. Опыт в основной уровень, общий опыт и опыт за неделю
-            playerData.xp += amount;
-            playerData.totalXp = (playerData.totalXp || 70382) + amount;
-            playerData.weeklyXp = (playerData.weeklyXp || 0) + amount;
-
-            // 3. Запись сегодняшней активности в график (7-й день)
-            if (!playerData.weeklyHistory) playerData.weeklyHistory = [0, 0, 0, 0, 0, 0, 0];
-            playerData.weeklyHistory[6] = (playerData.weeklyHistory[6] || 0) + amount;
+            // Вызываем наш главный бронебойный движок ветки (он запишет и опыт, и подвиг, и обновит график)
+            addExperienceToBranch(amount, branchKey, questTitle, featNote);
 
             // Проверка Level Up Навыка
+            s.xp += amount;
             if (s.xp >= s.nextLevelXp) {
                 s.xp -= s.nextLevelXp;
                 s.level += 1;
@@ -8402,21 +8399,14 @@ setInterval(() => {
                 alert(`🎉 НАВЫК [${s.name.toUpperCase()}] ПОВЫШЕН ДО LV. ${s.level}!`);
             }
 
-            // Проверка Level Up Основного Уровня
-            if (playerData.xp >= playerData.nextLevelXp && playerData.level < 100) {
-                playerData.xp -= playerData.nextLevelXp;
-                playerData.level += 1;
-                playerData.nextLevelXp = calculateXpForNextLevel(playerData.level);
-                alert(`🔥 LEVEL UP! ОРНИТ ДОСТИГ LV. ${playerData.level}!`);
-            }
-
             openSkillModal(currentActiveSkillKey);
             updateMainUI();
 
             if (typeof profileDocRef !== 'undefined') {
-                profileDocRef.set(playerData, {merge: true});
+                profileDocRef.set({ skills: playerData.skills }, {merge: true});
             }
         }
+
 
 
 
@@ -8842,38 +8832,34 @@ function addExperienceToBranch(amount, branchKey, sourceTitle = "Практик�
 }
 
 // =========================================================
-// 📈 7-ДНЕВНЫЙ ГРАФИК НЕКСТ-ГЕН (АВТО-СТРАНИЦЫ НЕДЕЛЬ)
+// 📈 7-ДНЕВНЫЙ ГРАФИК (СТАРТ СТРОГО С 20 ОКТЯБРЯ)
 // =========================================================
 
 function renderLiveChart() {
     if (!playerData.chartHistory) playerData.chartHistory = {};
 
     const svgWidth = 500;
-    const svgHeight = 200; // Высокий красивый график
+    const svgHeight = 200;
     const maxVal = 2000;
 
-    // Точка отсчета: 11 октября 2026
-    const startDate = new Date(2026, 9, 11);
+    // 🎯 ТОЧКА СТАРТА СИСТЕМЫ: 20 октября 2026 (месяц 9 = Октябрь)
+    const startDate = new Date(2026, 9, 20);
     const todayDate = new Date();
 
-    // Вычисляем сколько дней прошло от старта
     const diffDays = Math.max(0, Math.floor((todayDate - startDate) / (1000 * 60 * 60 * 24)));
-    
-    // Номер текущей 7-дневной страницы (0, 1, 2...)
     const weekIndex = Math.floor(diffDays / 7);
     const weekStartDayOffset = weekIndex * 7;
 
     const weekBadge = document.getElementById('chart-week-badge');
     if (weekBadge) {
-        weekBadge.textContent = `НЕДЕЛЯ #${weekIndex + 1}`;
+        weekBadge.textContent = `НЕДЕЛЯ #${weekIndex + 1} (СТАРТ С 20 ОКТЯБРЯ)`;
     }
 
     let historyData = [];
     let labels = [];
 
-    // Генерируем ровно 7 дней текущей недели
     for (let i = 0; i < 7; i++) {
-        const d = new Date(2026, 9, 11 + weekStartDayOffset + i);
+        const d = new Date(2026, 9, 20 + weekStartDayOffset + i);
 
         const y = d.getFullYear();
         const m = String(d.getMonth() + 1).padStart(2, '0');
@@ -8932,8 +8918,9 @@ function renderLiveChart() {
     }
 }
 
+
 // =========================================================
-// 📜 РЕНДЕР ХРОНОГРАФА МЕСЯЦЕВ (ДЕТАЛИЗАЦИЯ И ПОДВИГИ)
+// 📜 ХРОНОГРАФ МЕСЯЦЕВ (ПО УБЫВАНИЮ, СТАРТ С 20, БЕЗ БУДУЩЕГО)
 // =========================================================
 
 let chronicleYear = 2026;
@@ -8960,11 +8947,26 @@ function renderMonthlyChronicle() {
     const monthNames = ["ЯНВАРЬ", "ФЕВРАЛЬ", "МАРТ", "АПРЕЛЬ", "МАЙ", "ИЮНЬ", "ИЮЛЬ", "АВГУСТ", "СЕНТЯБРЬ", "ОКТЯБРЬ", "НОЯБРЬ", "ДЕКАБРЬ"];
     if (monthLabel) monthLabel.textContent = `${monthNames[chronicleMonth]} ${chronicleYear}`;
 
+    // Получаем реальную сегодняшнюю дату, чтобы не показывать будущее
+    const realNow = new Date();
+    const realYear = realNow.getFullYear();
+    const realMonth = realNow.getMonth();
+    const realDay = realNow.getDate();
+
     const daysInMonth = new Date(chronicleYear, chronicleMonth + 1, 0).getDate();
     let html = '';
 
-    for (let d = daysInMonth; d >= 1; d--) {
-        if (chronicleYear === 2026 && chronicleMonth === 9 && d < 11) continue; // Старт с 11 октября
+    // 🔄 ИДЕМ ПО УБЫВАНИЮ: от конца месяца к началу (или к 20 числу)
+    for (let d = daysInMonth; d >= 20; d--) {
+        // Если это будущий день относительно реального сегодня — пропускаем (не показываем)
+        if (chronicleYear === realYear && chronicleMonth === realMonth && d > realDay) {
+            continue;
+        }
+
+        // Если год 2026 и октябрь, то старт строго с 20 числа (до 20 не показываем)
+        if (chronicleYear === 2026 && chronicleMonth === 9 && d < 20) {
+            continue;
+        }
 
         const dateKey = `${chronicleYear}-${String(chronicleMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
         
@@ -8972,7 +8974,6 @@ function renderMonthlyChronicle() {
         const branchBreakdown = (playerData.dailyBranchBreakdown && playerData.dailyBranchBreakdown[dateKey]) || { int: 0, str: 0, wil: 0, res: 0 };
         const feats = (playerData.dailyFeats && playerData.dailyFeats[dateKey]) || [];
 
-        // Если за день ничего не было — покажем аккуратную пустую строчку
         html += `
             <div class="chronicle-day-row">
                 <div class="cdr-top">
@@ -8988,7 +8989,6 @@ function renderMonthlyChronicle() {
                 </div>
         `;
 
-        // Отображаем список Подвигов за этот день
         if (feats.length > 0) {
             feats.forEach(f => {
                 const branchColor = branchMeta[f.branch]?.color || '#ffd700';
@@ -9001,6 +9001,10 @@ function renderMonthlyChronicle() {
         }
 
         html += `</div>`;
+    }
+
+    if (html === '') {
+        html = `<div style="text-align: center; padding: 20px; color: #888; font-family: 'Orbitron'; font-size: 0.8rem;">В ЭТОМ ПЕРИОДЕ ЕЩЕ НЕТ ЗАПИСЕЙ ХРОНИКИ.</div>`;
     }
 
     container.innerHTML = html;

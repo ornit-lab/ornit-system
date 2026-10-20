@@ -5226,6 +5226,189 @@
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ======================================================== */
+/* ⚡️ НЕОНОВЫЙ КИБЕР-РЕЕСТР МИССИЙ (SVG + ВСПЫШКА + УЛЁТ)    */
+/* ======================================================== */
+
+
+
+
+
+
+
+
+
+
+/* ======================================================== */
+/* 🎯 КИБЕР-КАРТОЧКА МИССИИ (ИДЕАЛЬНЫЙ ВОЗДУХ И НЕОН)       */
+/* ======================================================== */
+.neon-quest-card {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    background: rgba(14, 12, 26, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 4px solid var(--branch-color);
+    border-radius: 12px;
+    padding: 14px 20px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45), inset 0 0 15px rgba(255, 255, 255, 0.02);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-sizing: border-box;
+}
+
+.neon-quest-card:hover {
+    background: rgba(22, 18, 40, 0.95);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.6), 0 0 15px color-mix(in srgb, var(--branch-color) 40%, transparent);
+}
+
+.quest-main-box {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+    min-width: 0;
+}
+
+.branch-neon-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--branch-color) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--branch-color) 45%, transparent);
+    color: var(--branch-color);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    flex-shrink: 0;
+    box-shadow: 0 0 12px color-mix(in srgb, var(--branch-color) 25%, transparent);
+}
+
+.bnb-svg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 15px;
+}
+
+.bnb-svg svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 4px var(--branch-color));
+}
+
+/* Идеальные отступы и типографика текста миссии */
+.quest-text-desc {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 0.88rem;
+    color: #e5e7eb;
+    line-height: 1.5;
+    font-weight: 500;
+    padding: 2px 0;
+    word-break: normal;
+    overflow-wrap: break-word;
+}
+
+.quest-action-box {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-shrink: 0;
+}
+
+.quest-neon-xp {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 900;
+    color: var(--branch-color);
+    text-shadow: 0 0 10px var(--branch-color);
+    letter-spacing: 1px;
+}
+
+.quest-neon-btn {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 9px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #ffffff;
+    transition: all 0.2s ease;
+}
+
+.quest-neon-btn:hover:not(:disabled) {
+    background: rgba(0, 255, 136, 0.2);
+    border-color: #00ff88;
+    color: #00ff88;
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.6);
+    transform: scale(1.04);
+}
+
+/* 🟢 ВСПЫШКА ВЫПОЛНЕНИЯ (2 СЕКУНДЫ) */
+.neon-quest-card.flash-success {
+    background: rgba(0, 255, 136, 0.16) !important;
+    border-color: #00ff88 !important;
+    border-left-color: #00ff88 !important;
+    box-shadow: 0 0 35px rgba(0, 255, 136, 0.85), inset 0 0 20px rgba(0, 255, 136, 0.3) !important;
+    transform: scale(1.02);
+}
+
+.neon-quest-card.flash-success .quest-neon-xp,
+.neon-quest-card.flash-success .quest-text-desc,
+.neon-quest-card.flash-success .bnb-title {
+    color: #00ff88 !important;
+    text-shadow: 0 0 10px #00ff88;
+}
+
+.neon-quest-card.flash-success .branch-neon-badge {
+    border-color: #00ff88 !important;
+    color: #00ff88 !important;
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.5) !important;
+}
+
+.neon-quest-card.flash-success .quest-neon-btn {
+    background: #00ff88 !important;
+    border-color: #00ff88 !important;
+    color: #000000 !important;
+    font-weight: 900;
+    box-shadow: 0 0 20px #00ff88;
+}
+
+/* 🚀 УЛЁТ ВПРАВО */
+.neon-quest-card.fly-away {
+    transform: translateX(115%) scale(0.9) !important;
+    opacity: 0 !important;
+    max-height: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    border-width: 0 !important;
+    pointer-events: none;
+    transition: transform 0.5s cubic-bezier(0.55, 0, 0.1, 1), opacity 0.4s ease, max-height 0.5s ease, margin 0.5s ease, padding 0.5s ease !important;
+}
     </style>
 
 
@@ -6185,6 +6368,77 @@
 const SKILL_K = 100;   // Коэффициент для веток (Интеллект, Сила и т.д.)
 const GLOBAL_K = 250;  // Коэффициент для Общего Уровня Системы
 
+// 🎯 ВЕКТОРНЫЕ SVG ИКОНКИ С НЕОНОВЫМ СВЕЧЕНИЕМ
+const branchMeta = {
+    int: { 
+        name: "ИНТЕЛЛЕКТ", 
+        color: "#00d4ff", 
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a5 5 0 0 0-5 5c0 2 1 3.5 2 4.5V14h6v-2.5c1-1 2-2.5 2-4.5a5 5 0 0 0-5-5z"/><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="21" x2="14" y2="21"/></svg>`
+    },
+    str: { 
+        name: "СИЛА", 
+        color: "#ff004c", 
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"/><path d="M18 11a4 4 0 0 1 4 4v3a3 3 0 0 1-3 3h-5a8 8 0 0 1-7-4l-1.5-3a2 2 0 0 1 1-2.7l1.5-.6"/></svg>`
+    },
+    wil: { 
+        name: "ДУША", 
+        color: "#a855f7", 
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4.5 9 12 22l7.5-13L12 2zM4.5 9h15M12 2v20"/></svg>`
+    },
+    res: { 
+        name: "ТВОРЧЕСТВО", 
+        color: "#ffaa00", 
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3z"/></svg>`
+    }
+};
+
+
+const masterMissionsPool = [
+    {id: 1, branch: "int", title: "Измени привычный паттерн дня. Например, чистка зубов левой рукой", xp: 100},
+    {id: 4, branch: "int", title: "Узнайте один новый факт или разберитесь в сложном понятии", xp: 50},
+    {id: 9, branch: "int", title: "Прочитай статью и перескажи суть в 2-3 предложениях кому-то", xp: 150},
+    {id: 10, branch: "int", title: "Ликвидация критической ошибки", xp: 100},
+    {id: 15, branch: "int", title: "Изучение 3 новых слова/фраз", xp: 80},
+    {id: 21, branch: "int", title: "Редизайн UI/UX одного из разделов", xp: 90},
+    {id: 25, branch: "int", title: "Навайбкодить 2000+ строк кода", xp: 200},
+    {id: 32, branch: "int", title: "Беспрерывный кодинг 4 часа в потоке", xp: 150},
+
+    {id: 3, branch: "str", title: "Начни день со стакана воды. Пей только воду целый день (2.5л)", xp: 100},
+    {id: 8, branch: "str", title: "Тренировка кисти и связок до отказа", xp: 70},
+    {id: 19, branch: "str", title: "10 000 шагов по городу", xp: 100},
+    {id: 22, branch: "str", title: "Заработок денег через реальный труд", xp: 200},
+    {id: 23, branch: "str", title: "Лечь спать ровно до 00:00", xp: 50},
+    {id: 34, branch: "str", title: "При позыве к пикселям — упасть и отжаться 50 раз", xp: 300},
+
+    {id: 2, branch: "wil", title: "Делать мелочи сразу же, не откладывая", xp: 60},
+    {id: 5, branch: "wil", title: "Ниразу не оглянуться на чью-то жопу за весь день", xp: 150},
+    {id: 7, branch: "wil", title: "Удалить 5 токсичных аккаунтов из соцсетей", xp: 70},
+    {id: 11, branch: "wil", title: "Весь день без мата. Только чистая речь", xp: 150},
+    {id: 14, branch: "wil", title: "Выписать на бумагу весь ментальный мусор и тревоги", xp: 40},
+    {id: 17, branch: "wil", title: "Помочь кому-то без выгоды", xp: 100},
+    {id: 18, branch: "wil", title: "Удержать зрительный контакт с 5 незнакомцами", xp: 120},
+    {id: 20, branch: "wil", title: "День без сахара, мучного и фастфуда", xp: 60},
+    {id: 24, branch: "wil", title: "Прожить день без нытья и жалости", xp: 120},
+    {id: 26, branch: "wil", title: "3 часа без Telegram. Только созидание", xp: 130},
+    {id: 29, branch: "wil", title: "Провести день, не отвлекаясь на людей из прошлого", xp: 100},
+    {id: 30, branch: "wil", title: "Сохранить хладнокровие в ситуации бешенства", xp: 100},
+    {id: 31, branch: "wil", title: "Зайти в туалет/ванную БЕЗ телефона", xp: 70},
+    {id: 33, branch: "wil", title: "Сделать то, что страшно на людях", xp: 400},
+    {id: 35, branch: "wil", title: "Все приемы пищи без экранов", xp: 100},
+    {id: 36, branch: "wil", title: "Сделать сброс вместо пикселей (крайний случай)", xp: 70},
+    {id: 37, branch: "wil", title: "Заговорить с незнакомым человеком на нейтральную тему", xp: 370},
+    {id: 38, branch: "wil", title: "Сделать задачу, которую давно откладывал", xp: 400},
+    {id: 39, branch: "wil", title: "День без мессенджеров/тик-тока/ютуба", xp: 400},
+    {id: 40, branch: "wil", title: "Сделай 3-5 комплиментов любым людям", xp: 240},
+
+    {id: 6, branch: "res", title: "Выучить что-то новое из хобби (гитара, кулинария)", xp: 150},
+    {id: 12, branch: "res", title: "Практика вокала или партии на гитаре", xp: 60},
+    {id: 13, branch: "res", title: "Создание концепт-арта или лора", xp: 100},
+    {id: 16, branch: "res", title: "Лэйкостаз", xp: 100},
+    {id: 27, branch: "res", title: "Сделать что-то новое на своих сайтах, улучшить", xp: 100},
+    {id: 28, branch: "res", title: "Придумать сказку для LeyCore + обложка", xp: 250}
+];
+
 // 1. Расчет порога для веток навыков
 function getSkillThreshold(level) {
     return Number(level) * SKILL_K;
@@ -6326,10 +6580,9 @@ function getGlobalThreshold(level) {
             // Обновляем интерфейс
             updateMainUI();
 
-            if (typeof renderMissionsList === 'function') {
-                renderMissionsList();
-            }
-
+            if (typeof renderMissionsList === 'function' && !isMissionAnimating) {
+    renderMissionsList();
+}
             console.log(
                 "☁️ Данные синхронизированы без риска отката. " +
                 "Текущий XP:", playerData.xp,
@@ -8081,85 +8334,107 @@ setInterval(() => {
 
 
 
+  // 📋 ОТРИСОВКА ТОЛЬКО АКТИВНЫХ МИССИЙ (ВЫПОЛНЕННЫЕ УЛЕТЕЛИ)
+function renderMissionsList() {
+    const listEl = document.getElementById('missions-list-container') || document.getElementById('daily-missions-list');
+    if (!listEl) return;
 
-        // =========================================================
-        // 🎯 БОЛЬШОЙ ПУЛ МИССИЙ (ТЫ МОЖЕШЬ САМ ДОПИСАТЬ СЮДА ЛЮБЫЕ КВЕСТЫ)
-        // =========================================================
-               // =========================================================
-        // 🎯 РЕЕСТР МИССИЙ С ПРИВЯЗКОЙ К 4 ВЕТКАМ СИСТЕМЫ
-        // =========================================================
-        const branchMeta = {
-            int: {
-                name: "ИНТЕЛЛЕКТ",
-                color: "#00d4ff",
-                icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.04zM14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.04z"/></svg>'
-            },
-            str: {
-                name: "СИЛА",
-                color: "#ff004c",
-                icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"/><path d="M18 11a4 4 0 0 1 4 4v3a3 3 0 0 1-3 3h-5a8 8 0 0 1-7-4l-1.5-3a2 2 0 0 1 1-2.7l1.5-.6"/></svg>'
-            },
-            wil: {
-                name: "ДУША",
-                color: "#a855f7",
-                icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4.5 9 12 22l7.5-13L12 2zM4.5 9h15M12 2v20"/></svg>'
-            },
-            res: {
-                name: "ТВОРЧЕСТВО",
-                color: "#ffaa00",
-                icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3z"/></svg>'
+    let missions = playerData.dailyMissions;
+    if (!missions || !Array.isArray(missions) || missions.length === 0) {
+        missions = generateDailyMissions();
+    }
+
+    const completedCount = missions.filter(m => m.completed).length;
+    const counterEl = document.getElementById('missions-status-counter') || document.getElementById('missions-counter-label');
+    if (counterEl) {
+        counterEl.textContent = `${completedCount} / ${missions.length} ВЫПОЛНЕНО`;
+    }
+
+    let html = '';
+    missions.forEach(m => {
+        // Если миссия уже выполнена — не выводим её на экран (она уже улетела)
+        if (m.completed) return;
+
+        const meta = branchMeta[m.branch] || branchMeta.wil;
+
+        html += `
+            <div id="quest-card-${m.id}" class="neon-quest-card" style="--branch-color: ${meta.color};">
+                <div class="quest-main-box">
+                    <div class="branch-neon-badge">
+                        <span class="bnb-svg">${meta.icon}</span>
+                        <span class="bnb-title">${meta.name}</span>
+                    </div>
+                    <div class="quest-text-desc">${m.title}</div>
+                </div>
+
+                <div class="quest-action-box">
+                    <span class="quest-neon-xp">+${m.xp} XP</span>
+                    <button type="button" class="quest-neon-btn" onclick="completeMission(${m.id})">
+                        ВЫПОЛНИТЬ
+                    </button>
+                </div>
+            </div>
+        `;
+    });
+
+    if (html === '') {
+        html = `<div style="text-align: center; padding: 25px; color: #00ff88; font-family: 'Orbitron'; font-size: 0.85rem; letter-spacing: 1px;">⚡️ ВСЕ МИССИИ ДНЯ ВЫПОЛНЕНЫ! РЕЕСТР ЗАКРЫТ.</div>`;
+    }
+
+    listEl.innerHTML = html;
+}
+
+// Флаг защиты от перерисовки во время анимации
+let isMissionAnimating = false;
+
+// ⚡️ АНИМАЦИЯ: 2 СЕКУНДЫ ЗЕЛЕНОЙ ВСПЫШКИ ➔ 0.5 СЕК УЛЁТ ➔ ЗАПИСЬ ОПЫТА
+function completeMission(missionId) {
+    if (!isFirebaseLoaded || isMissionAnimating) return;
+    
+    const m = playerData.dailyMissions.find(item => item.id === missionId);
+    if (!m || m.completed) return;
+
+    const cardEl = document.getElementById(`quest-card-${m.id}`);
+    if (!cardEl) return;
+
+    // Блокируем любые сторонние перерисовки на время анимации
+    isMissionAnimating = true;
+
+    // 1. Звук и превращение кнопки
+    playSfx('sfx-mission');
+    const btn = cardEl.querySelector('.quest-neon-btn');
+    if (btn) {
+        btn.textContent = '✓ ГОТОВО';
+        btn.disabled = true;
+    }
+
+    // 2. Включаем сочную ядовито-зелёную вспышку
+    cardEl.classList.add('flash-success');
+
+    // 3. РОВНО 2 СЕКУНДЫ (2000 миллисекунд) карточка сияет победным огнем!
+    setTimeout(() => {
+        // 4. Включаем плавучий улёт вправо (0.5 сек)
+        cardEl.classList.add('fly-away');
+
+        // 5. Когда карточка полностью улетела — фиксируем опыт и Firebase
+        setTimeout(() => {
+            m.completed = true;
+
+            // Начисляем опыт в ветку и в глобал
+            addExperienceToBranch(m.xp, m.branch, `Миссия: ${m.title}`);
+
+            if (typeof profileDocRef !== 'undefined') {
+                profileDocRef.set({ dailyMissions: playerData.dailyMissions }, { merge: true });
             }
-        };
 
-        const masterMissionsPool = [
-            // 🧠 ИНТЕЛЛЕКТ
-            {id: 1, branch: "int", title: "Измени привычный паттерн дня. Например, чистка зубов левой рукой", xp: 100},
-            {id: 4, branch: "int", title: "Узнайте один новый факт или разберитесь в сложном понятии из сферы, в которой вы ничего не понимаете", xp: 100},
-            {id: 9, branch: "int", title: "Прочитай статью или досмотрев видео, мысленно или вслух перескажи суть в двух-трех простых предложениях кому-то", xp: 150},
-            {id: 10, branch: "int", title: "Ликвидация критической ошибки", xp: 100},
-            {id: 15, branch: "int", title: "Изучение 3 новых слова/фраз", xp: 80},
-            {id: 21, branch: "int", title: "Редизайн UI/UX одного из разделов", xp: 90},
-            {id: 25, branch: "int", title: "Навайбкодить 2000+ строк кода", xp: 200},
-            {id: 32, branch: "int", title: "Беспрерывный кодинг 4 часа в потоке", xp: 150},
+            // Снимаем замок и очищаем список
+            isMissionAnimating = false;
+            renderMissionsList();
+        }, 500); // 500мс на анимацию улёта
+    }, 2000); // 2000мс на зелёное сияние
+}
 
-            // 🦾 СИЛА
-            {id: 3, branch: "str", title: "Начни день со стакана воды. Пей только воду целый день, выпей не менее 2,5л", xp: 100},
-            {id: 8, branch: "str", title: "Тренировка кисти и связок до отказа", xp: 70},
-            {id: 19, branch: "str", title: "10 000 шагов по городу", xp: 100},
-            {id: 22, branch: "str", title: "Заработок денег через реальный труд", xp: 200},
-            {id: 23, branch: "str", title: "Лечь спать ровно до 00:00", xp: 50},
-            {id: 34, branch: "str", title: "Если почувствовал дикий позыв к пикселям — немедленно упасть и отжаться 50 раз. ", xp: 300},
 
-            // 💎 ДУША
-            {id: 2, branch: "wil", title: "Делать какие то мелочи сразу же, не откладывая (например помыть посуду)", xp: 60},
-            {id: 5, branch: "wil", title: "Ниразу не оглянуться на чью-то жопу. Ни в жизни, ни в соцсетях", xp: 150},
-            {id: 7, branch: "wil", title: "Удалить из ленты соцсетей 5 аккаунтов, которые транслируют «успешный успех» или пустой хайп. Очисти поле", xp: 70},
-            {id: 11, branch: "wil", title: "Весь день без мата. Используй только чистую речь", xp: 150},
-            {id: 14, branch: "wil", title: "Выписать на бумагу весь ментальный мусор, тревоги и незавершенные дела", xp: 40},
-            {id: 17, branch: "wil", title: "Помочь кому-то без выгоды", xp: 100},
-            {id: 18, branch: "wil", title: "Установить и удержать зрительный контакт (3-5 секунд) с 5-ю незнакомыми мужчинами на улице до их отвода глаз", xp: 120},
-            {id: 20, branch: "wil", title: "День без сахара, мучного и фастфуда", xp: 60},
-            {id: 24, branch: "wil", title: "Прожить день без нытья, и жалости", xp: 120},
-            {id: 26, branch: "wil", title: "3 часа подряд не заходить в Telegram. Только работа, гитара или созидание", xp: 130},
-            {id: 29, branch: "wil", title: "Провести день не отвлекаясь на людей с прошлого", xp: 100},
-            {id: 30, branch: "wil", title: "Сохранить хладнокровие в ситуации бешенства", xp: 100},
-            {id: 31, branch: "wil", title: "Зайти в туалет/ванную БЕЗ телефона", xp: 70},
-            {id: 33, branch: "wil", title: "Сделать то, что страшно на людях", xp: 400},
-            {id: 35, branch: "wil", title: "Проведи каждый прием пищи (завтрак, обед и ужин) без экранов. Фокусируйтесь только на вкусе еды и своих ощущениях.", xp: 100},
-            {id: 36, branch: "wil", title: "Сделать сброс вместо пикселей (крайний случай)", xp: 70},
-            {id: 37, branch: "wil", title: "Познакомиться или заговорить с незнакомым человеком в очереди/на улице на нейтральную тему", xp: 370},
-            {id: 38, branch: "wil", title: "Сделать задачу, которую давно откладывал", xp: 400},
-            {id: 39, branch: "wil", title: "Прожить полный день без использования мессенджеров/тик тока/ютуба", xp: 400},
-            {id: 40, branch: "wil", title: "Сделай 3-5 комплиментов людям, любым", xp: 240},
-
-            // 🎨 ТВОРЧЕСТВО
-            {id: 6, branch: "res", title: "Выучить что-то новое из своих хобби (гитара, кулинария и тд)", xp: 150},
-            {id: 12, branch: "res", title: "Практика вокала или партии на гитаре", xp: 100},
-            {id: 13, branch: "res", title: "Создание концепт-арта или лора", xp: 100},
-            {id: 16, branch: "res", title: "Лэйкостаз", xp: 100},
-            {id: 27, branch: "res", title: "Сделать что-то новое на своих сайтах, улучшить", xp: 100},
-            {id: 28, branch: "res", title: "Придумать новую сказку для LeyCore. Сгенерировать для нее обложку", xp: 250}
-        ];
 
         let dailyMissionsList = [];
 
@@ -8187,115 +8462,6 @@ setInterval(() => {
             return selected;
         }
 
-
-                // 📋 ОТРИСОВКА МИССИЙ С ИКОНКАМИ ВЕТОК
-        function renderMissionsList() {
-            const listEl = document.getElementById('daily-missions-list');
-            if (!listEl) return;
-
-            // Подтягиваем миссии из любого доступного источника
-            let missions = playerData.dailyMissions;
-            if (!missions || !Array.isArray(missions) || missions.length === 0) {
-                if (typeof dailyMissionsList !== 'undefined' && Array.isArray(dailyMissionsList) && dailyMissionsList.length > 0) {
-                    missions = dailyMissionsList;
-                    playerData.dailyMissions = dailyMissionsList;
-                } else {
-                    missions = generateDailyMissions();
-                }
-            }
-
-            if (!missions || missions.length === 0) {
-                listEl.innerHTML = '<div style="color: #666; font-size: 0.8rem; text-align: center; padding: 20px;">Генерация реестра миссий...</div>';
-                return;
-            }
-
-            const completedCount = missions.filter(m => m.completed).length;
-            const counterEl = document.getElementById('missions-counter-label');
-            if (counterEl) {
-                counterEl.textContent = `${completedCount} / ${missions.length} ВЫПОЛНЕНО`;
-            }
-
-            let html = '';
-            missions.forEach(m => {
-                const branchKey = m.branch || 'wil';
-                const meta = (typeof branchMeta !== 'undefined' && branchMeta[branchKey]) ? branchMeta[branchKey] : {
-                    name: "СИСТЕМА",
-                    color: "#00d4ff",
-                    icon: "⚡️"
-                };
-
-                const isDone = Boolean(m.completed);
-
-                html += `
-                    <div class="quest-card ${isDone ? 'completed' : ''}" style="border-left: 3px solid ${meta.color};">
-                        <div class="quest-main-info">
-                            <div class="branch-quest-pill" style="color: ${meta.color}; border-color: ${meta.color}50; background: ${meta.color}15;" title="Ветка: ${meta.name}">
-                                <span class="bqp-icon">${meta.icon}</span>
-                                <span class="bqp-name">${meta.name}</span>
-                            </div>
-                            <div class="quest-title-text">${m.title}</div>
-                        </div>
-
-                        <div class="quest-action-box">
-                            <span class="quest-xp-reward" style="color: ${meta.color};">+${m.xp} XP</span>
-                            <button 
-                                type="button" 
-                                class="quest-claim-btn ${isDone ? 'done' : ''}" 
-                                onclick="completeMission(${m.id})" 
-                                ${isDone ? 'disabled' : ''}>
-                                ${isDone ? '✓ ВЫПОЛНЕНО' : 'ВЫПОЛНИТЬ'}
-                            </button>
-                        </div>
-                    </div>
-                `;
-            });
-
-            listEl.innerHTML = html;
-        }
-
-
-                      // ⚡️ ВЫПОЛНЕНИЕ МИССИИ: ОПЫТ ЛЕТИТ В ВЕТКУ + В ГЛОБАЛ!
-        function completeMission(id) {
-            if (!isFirebaseLoaded) return; // Ждем загрузку базы
-
-            // Ищем миссию в текущем дневном списке
-            const m = playerData.dailyMissions.find(item => item.id === id);
-            if (!m) return;
-
-            // 🛡 ЗАЩИТА ОТ ДЮПА: Если миссия уже выполнена — выходим
-            if (m.completed) {
-                alert("СИСТЕМА: Эта миссия уже засчитана. Возврат невозможен.");
-                return;
-            }
-
-            // 🔊 Звук выполнения
-            playSfx('sfx-mission');
-
-            // Помечаем как выполненную
-            m.completed = true;
-            
-            // Сохраняем ID в список выполненных за сегодня (для синхронизации)
-            if (!playerData.completedMissionsIds) playerData.completedMissionsIds = [];
-            if (!playerData.completedMissionsIds.includes(id)) {
-                playerData.completedMissionsIds.push(id);
-            }
-
-            // 🚀 ГЛАВНАЯ МАГИЯ: Начисляем опыт в ветку миссии!
-            // Это автоматически добавит опыт И в ветку, И в Общий Уровень
-            addExperienceToBranch(m.xp, m.branch, `Миссия: ${m.title}`);
-
-            // Перерисовываем список (кнопка станет зеленой и "Выполнено")
-            renderMissionsList();
-
-            // Сохраняем обновленные данные в Firebase
-            if (typeof profileDocRef !== 'undefined') {
-                profileDocRef.set({
-                    dailyMissions: playerData.dailyMissions,
-                    completedMissionsIds: playerData.completedMissionsIds,
-                    branchStats: playerData.branchStats // сохраняем и статы веток
-                }, { merge: true });
-            }
-        }
 
 
 
@@ -8738,6 +8904,8 @@ setInterval(() => {
          window.addEventListener('load', () => {
             switchPage('main-menu');
             updateMainUI();
+                renderMissionsList();
+
 
             // 🦾 Активируем первый день тренировки в Программах
             const firstWorkoutBtn = document.querySelector('.workout-tab-btn');

@@ -6551,6 +6551,37 @@ const branchMeta = {
     }
 };
 
+const branchQuests = {
+    int: [
+        {title: "Микро импульс", xp: 50},
+        {title: "Фундамент", xp: 150},
+        {title: "Преодоление", xp: 300},
+        {title: "Разрыв", xp: 500},
+        {title: "Скачок", xp: 1300}
+    ],
+    str: [
+        {title: "Микро импульс", xp: 50},
+        {title: "Фундамент", xp: 150},
+        {title: "Преодоление", xp: 300},
+        {title: "Разрыв", xp: 500},
+        {title: "Скачок", xp: 1300}
+    ],
+    wil: [
+        {title: "Микро импульс", xp: 50},
+        {title: "Фундамент", xp: 150},
+        {title: "Преодоление", xp: 300},
+        {title: "Разрыв", xp: 500},
+        {title: "Скачок", xp: 1300}
+    ],
+    res: [
+        {title: "Микро импульс", xp: 50},
+        {title: "Фундамент", xp: 150},
+        {title: "Преодоление", xp: 300},
+        {title: "Разрыв", xp: 500},
+        {title: "Скачок", xp: 1300}
+    ]
+};
+
 
 const masterMissionsPool = [
     {id: 1, branch: "int", title: "Измени привычный паттерн дня. Например, чистка зубов левой рукой", xp: 100},
@@ -8377,35 +8408,36 @@ setInterval(() => {
         }
 
 
-               function addExpToActiveSkill(amount, questTitle) {
-            if (!currentActiveSkillKey || !playerData.skills) return;
+   function addExpToActiveSkill(amount, questTitle) {
+    if (!currentActiveSkillKey || !playerData.skills) return;
 
-            // Спрашиваем подвиг/достижение перед начислением
-            const featNote = prompt(`🏆 Зафиксировать подвиг в Хронографе за этот навык (+${amount} XP)? (Опционально):`, "");
+    const s = playerData.skills[currentActiveSkillKey];
+    const branchKey = s.branch || 'int';
 
-            // Определяем ветку текущего навыка
-            const s = playerData.skills[currentActiveSkillKey];
-            const branchKey = s.branch || 'int';
+    // 1. Окно записи подвига
+    const featNote = prompt(`🏆 Зафиксировать достижение за "${questTitle}" (+${amount} XP)? (Опционально):`, "");
 
-            // Вызываем наш главный бронебойный движок ветки (он запишет и опыт, и подвиг, и обновит график)
-            addExperienceToBranch(amount, branchKey, questTitle, featNote);
+    // 2. Растём в конкретном навыке (Кодинг, Армрестлинг и т.д.)
+    s.xp = (Number(s.xp) || 0) + amount;
+    while (s.xp >= s.nextLevelXp) {
+        s.xp -= s.nextLevelXp;
+        s.level += 1;
+        s.nextLevelXp = Math.floor(s.nextLevelXp * 1.35);
+        alert(`🎉 НАВЫК [${s.name.toUpperCase()}] ПОВЫШЕН ДО LV. ${s.level}!`);
+    }
 
-            // Проверка Level Up Навыка
-            s.xp += amount;
-            if (s.xp >= s.nextLevelXp) {
-                s.xp -= s.nextLevelXp;
-                s.level += 1;
-                s.nextLevelXp = Math.floor(s.nextLevelXp * 1.35);
-                alert(`🎉 НАВЫК [${s.name.toUpperCase()}] ПОВЫШЕН ДО LV. ${s.level}!`);
-            }
+    // 3. Синхронно растём в Ветке (Сила/Интеллект), Общем уровне и Хронографе
+    addExperienceToBranch(amount, branchKey, `Навык: ${s.name}`, featNote);
 
-            openSkillModal(currentActiveSkillKey);
-            updateMainUI();
+    // 4. Обновляем всё
+    openSkillModal(currentActiveSkillKey);
+    updateMainUI();
+    
+    if (typeof profileDocRef !== 'undefined') {
+        profileDocRef.set({ skills: playerData.skills }, { merge: true });
+    }
+}
 
-            if (typeof profileDocRef !== 'undefined') {
-                profileDocRef.set({ skills: playerData.skills }, {merge: true});
-            }
-        }
 
 
 
@@ -8947,7 +8979,6 @@ function renderMonthlyChronicle() {
     const monthNames = ["ЯНВАРЬ", "ФЕВРАЛЬ", "МАРТ", "АПРЕЛЬ", "МАЙ", "ИЮНЬ", "ИЮЛЬ", "АВГУСТ", "СЕНТЯБРЬ", "ОКТЯБРЬ", "НОЯБРЬ", "ДЕКАБРЬ"];
     if (monthLabel) monthLabel.textContent = `${monthNames[chronicleMonth]} ${chronicleYear}`;
 
-    // Получаем реальную сегодняшнюю дату, чтобы не показывать будущее
     const realNow = new Date();
     const realYear = realNow.getFullYear();
     const realMonth = realNow.getMonth();
@@ -8956,23 +8987,39 @@ function renderMonthlyChronicle() {
     const daysInMonth = new Date(chronicleYear, chronicleMonth + 1, 0).getDate();
     let html = '';
 
-    // 🔄 ИДЕМ ПО УБЫВАНИЮ: от конца месяца к началу (или к 20 числу)
-    for (let d = daysInMonth; d >= 20; d--) {
-        // Если это будущий день относительно реального сегодня — пропускаем (не показываем)
-        if (chronicleYear === realYear && chronicleMonth === realMonth && d > realDay) {
-            continue;
-        }
-
-        // Если год 2026 и октябрь, то старт строго с 20 числа (до 20 не показываем)
-        if (chronicleYear === 2026 && chronicleMonth === 9 && d < 20) {
-            continue;
-        }
+    for (let d = daysInMonth; d >= 1; d--) {
+        if (chronicleYear === realYear && chronicleMonth === realMonth && d > realDay) continue;
+        if (chronicleYear >= realYear && chronicleMonth > realMonth) continue;
+        if (chronicleYear === 2026 && chronicleMonth === 9 && d < 20) continue;
+        if (chronicleYear === 2026 && chronicleMonth < 9) continue;
 
         const dateKey = `${chronicleYear}-${String(chronicleMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
         
-        const totalXp = (playerData.chartHistory && playerData.chartHistory[dateKey]) || 0;
-        const branchBreakdown = (playerData.dailyBranchBreakdown && playerData.dailyBranchBreakdown[dateKey]) || { int: 0, str: 0, wil: 0, res: 0 };
+        // 📊 БЕРЕМ ДЕТАЛИЗАЦИЮ СТРОГО ИЗ ИСТОРИИ ИЛИ ИЗ ВЕТОК ДЛЯ СЕГОДНЯШНЕГО ДНЯ
+        let branchBreakdown = (playerData.dailyBranchBreakdown && playerData.dailyBranchBreakdown[dateKey]) || { int: 0, str: 0, wil: 0, res: 0 };
+        
+        // Если это сегодняшний день, а в истории пусто — подтянем текущий опыт веток для абсолютной правды
+        const todayStr = getMskDateInfo().dateString;
+        if (dateKey === todayStr && (!branchBreakdown.int && !branchBreakdown.str && !branchBreakdown.wil && !branchBreakdown.res)) {
+            branchBreakdown = {
+                int: playerData.branchStats?.int?.xp || 0,
+                str: playerData.branchStats?.str?.xp || 0,
+                wil: playerData.branchStats?.wil?.xp || 0,
+                res: playerData.branchStats?.res?.xp || 0
+            };
+        }
+
+        // Суммарный XP за день считается честно из веток
+        const totalXp = (branchBreakdown.int || 0) + (branchBreakdown.str || 0) + (branchBreakdown.wil || 0) + (branchBreakdown.res || 0);
+        
+        // Также синхронизируем с графиком
+        if (!playerData.chartHistory) playerData.chartHistory = {};
+        if (totalXp > 0) playerData.chartHistory[dateKey] = totalXp;
+
         const feats = (playerData.dailyFeats && playerData.dailyFeats[dateKey]) || [];
+
+        // Если за этот день вообще по нулям — пропускаем строку, чтобы не захламлять хронограф пустыми днями
+        if (totalXp === 0 && feats.length === 0) continue;
 
         html += `
             <div class="chronicle-day-row">
@@ -8980,7 +9027,6 @@ function renderMonthlyChronicle() {
                     <span class="cdr-date">📅 ${d} ${monthNames[chronicleMonth].toLowerCase()} ${chronicleYear}</span>
                     <span class="cdr-total-xp">+${totalXp.toLocaleString()} XP</span>
                 </div>
-
                 <div class="cdr-branches-pills">
                     <span class="cb-pill" style="background: rgba(0, 212, 255, 0.1); border: 1px solid rgba(0, 212, 255, 0.3); color: #00d4ff;">🧠 ИНТ: ${branchBreakdown.int || 0}</span>
                     <span class="cb-pill" style="background: rgba(255, 0, 76, 0.1); border: 1px solid rgba(255, 0, 76, 0.3); color: #ff004c;">🦾 СИЛ: ${branchBreakdown.str || 0}</span>
@@ -8992,23 +9038,16 @@ function renderMonthlyChronicle() {
         if (feats.length > 0) {
             feats.forEach(f => {
                 const branchColor = branchMeta[f.branch]?.color || '#ffd700';
-                html += `
-                    <div class="cdr-feat-note" style="border-color: ${branchColor}60; color: ${branchColor};">
-                        🏆 <strong>ПОДВИГ (+${f.xp} XP):</strong> ${f.title}
-                    </div>
-                `;
+                html += `<div class="cdr-feat-note" style="border-color: ${branchColor}60; color: ${branchColor};">🏆 <strong>ПОДВИГ (+${f.xp} XP):</strong> ${f.title}</div>`;
             });
         }
-
         html += `</div>`;
     }
 
-    if (html === '') {
-        html = `<div style="text-align: center; padding: 20px; color: #888; font-family: 'Orbitron'; font-size: 0.8rem;">В ЭТОМ ПЕРИОДЕ ЕЩЕ НЕТ ЗАПИСЕЙ ХРОНИКИ.</div>`;
-    }
-
+    if (html === '') html = `<div style="text-align: center; padding: 20px; color: #888; font-family: 'Orbitron'; font-size: 0.8rem;">НЕТ АКТИВНОСТИ ЗА ЭТОТ ПЕРИОД.</div>`;
     container.innerHTML = html;
 }
+
 
 
 function openBranchModal(branchKey) {
@@ -9310,37 +9349,42 @@ setInterval(() => {
             label.textContent = `СЛЕДУЮЩАЯ ТРЕНИРОВКА ЧЕРЕЗ ${hours}ч ${minutes}м`;
         }
 
-        function claimBranchExp(amount) {
-            if (!isFirebaseLoaded || !activeBranchKeyForModal) return;
+       function claimBranchExp(amount) {
+    if (!isFirebaseLoaded || !activeBranchKeyForModal) return;
 
-            if (getBranchCooldownRemaining(activeBranchKeyForModal) > 0) {
-                alert("⏳ Кулдаун активен! Дай системе восстановиться.");
-                return;
-            }
+    // 1. Проверка кулдауна (чтобы не тыкать бесконечно)
+    if (getBranchCooldownRemaining(activeBranchKeyForModal) > 0) {
+        alert("⏳ Система восстанавливается. Подожди завершения кулдауна.");
+        return;
+    }
 
-            const branchKey = activeBranchKeyForModal;
-            const branch = playerData.branchStats[branchKey];
-            const names = { int: "ИНТЕЛЛЕКТ", str: "СИЛА", wil: "ДУША", res: "ТВОРЧЕСТВО" };
+    const branchKey = activeBranchKeyForModal;
+    const names = { int: "ИНТЕЛЛЕКТ", str: "СИЛА", wil: "ДУША", res: "ТВОРЧЕСТВО" };
 
-            const now = Date.now();
-            if (!playerData.branchCooldowns) playerData.branchCooldowns = {};
-            playerData.branchCooldowns[branchKey] = now;
+    // 2. Спрашиваем Подвиг
+    const featNote = prompt(`🏆 Зафиксировать достижение в Хронограф по ветке [${names[branchKey]}] (+${amount} XP)? (Опционально):`, "");
 
-            // Начисляем опыт в ветку и в глобальный уровень через наш движок
-            addExperienceToBranch(amount, branchKey, `Тренировка: ${names[branchKey]}`);
+    // 3. Устанавливаем кулдаун (2 часа)
+    const now = Date.now();
+    if (!playerData.branchCooldowns) playerData.branchCooldowns = {};
+    playerData.branchCooldowns[branchKey] = now;
 
-            closeBranchModal();
-            updateBranchesUI();
+    // 4. Зачисляем опыт через основной движок (он обновит всё: ветку, систему и Хронограф)
+    addExperienceToBranch(amount, branchKey, `Тренировка: ${names[branchKey]}`, featNote);
 
-            if (typeof profileDocRef !== 'undefined') {
-                profileDocRef.set({
-                    branchStats: playerData.branchStats,
-                    branchCooldowns: playerData.branchCooldowns
-                }, { merge: true });
-            }
+    // 5. Закрываем и обновляем UI
+    closeBranchModal();
+    updateBranchesUI();
+    updateMainUI();
 
-            alert(`⚡️ [${names[branchKey]}]: Успешно получено +${amount} XP!`);
-        }
+    // Сохраняем кулдаун
+    if (typeof profileDocRef !== 'undefined') {
+        profileDocRef.set({ branchCooldowns: playerData.branchCooldowns }, { merge: true });
+    }
+
+    alert(`⚡️ Успешно! +${amount} XP зачислено в ${names[branchKey]}.`);
+}
+
 
         // Обновленная функция рендеринга веток с показом текущего опыта
         function updateBranchesUI() {

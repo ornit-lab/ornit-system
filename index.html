@@ -5409,6 +5409,205 @@
     pointer-events: none;
     transition: transform 0.5s cubic-bezier(0.55, 0, 0.1, 1), opacity 0.4s ease, max-height 0.5s ease, margin 0.5s ease, padding 0.5s ease !important;
 }
+
+
+
+
+/* ======================================================== */
+/* 🗑 Скрываем старые ненужные блоки                        */
+/* ======================================================== */
+#workspace-stats-box, 
+.quote-motto-box, 
+.chart-toggle-group {
+    display: none !important;
+}
+
+/* ======================================================== */
+/* 📈 ВЕЛИКИЙ КИБЕР-ГРАФИК НЕКСТ-ГЕН (РАСШИРЕННЫЙ)          
+*/
+/* ======================================================== */
+.chart-card-container {
+    background: rgba(12, 10, 24, 0.85);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(0, 212, 255, 0.05);
+}
+
+.chart-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.chart-title-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #00d4ff;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+}
+
+.chart-week-badge {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.72rem;
+    padding: 6px 14px;
+    border-radius: 8px;
+    background: rgba(0, 212, 255, 0.12);
+    border: 1px solid rgba(0, 212, 255, 0.4);
+    color: #00d4ff;
+    font-weight: 700;
+}
+
+/* Высокий увеличенный SVG-график */
+.chart-svg-box {
+    width: 100%;
+    height: 220px; /* Увеличили высоту с 150px до 220px */
+    position: relative;
+}
+
+.chart-svg-box svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.chart-x-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 14px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.72rem;
+    color: #94a3b8;
+}
+
+/* ======================================================== */
+/* 📜 ХРОНОГРАФ МЕСЯЦЕВ И ПОДВИГОВ (РЕЕСТР)                  */
+/* ======================================================== */
+.monthly-chronicle-card {
+    background: rgba(10, 8, 20, 0.9);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 16px;
+    padding: 24px;
+    margin-top: 25px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+}
+
+.chronicle-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+}
+
+.chronicle-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    color: #a855f7;
+    text-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
+    letter-spacing: 1.5px;
+}
+
+.chronicle-nav-btns {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.chronicle-btn {
+    background: rgba(168, 85, 247, 0.15);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    color: #a855f7;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    transition: all 0.2s;
+}
+
+.chronicle-btn:hover {
+    background: rgba(168, 85, 247, 0.3);
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+}
+
+/* Запись одного дня в хронике */
+.chronicle-day-row {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+    transition: all 0.25s ease;
+}
+
+.chronicle-day-row:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(168, 85, 247, 0.3);
+}
+
+.cdr-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.cdr-date {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.82rem;
+    color: #e2e8f0;
+    font-weight: 700;
+}
+
+.cdr-total-xp {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #00ff88;
+    text-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
+}
+
+/* Плюшки веток за день */
+.cdr-branches-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.cb-pill {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Подвиг / Достижение за день */
+.cdr-feat-note {
+    background: rgba(255, 215, 0, 0.08);
+    border: 1px dashed rgba(255, 215, 0, 0.4);
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-top: 8px;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 0.8rem;
+    color: #ffd700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
     </style>
 
 
@@ -5900,109 +6099,69 @@
             </div>
 
 
-            <!-- [ ROW 3: PROGRESS CHART & MANIFESTO ] -->
-            <div class="level-third-grid">
+            <!-- [ ROW 3: ВЕЛИКИЙ ХРОНОГРАФ И ГРАФИК ] -->
+<div class="level-third-grid" style="display: flex; flex-direction: column; gap: 20px;">
 
-                <!-- 1. НЕОНОВЫЙ ГРАФИК ДИНАМИКИ -->
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <div class="chart-title-group">
-                            <span class="chart-icon">📈</span>
-                            <span class="chart-title">ДИНАМИКА ПРОГРЕССА</span>
-                        </div>
-                        <div class="chart-toggles">
-                            <button class="chart-toggle-btn active" onclick="switchChartRange(7, this)">7 дней</button>
-                            <button class="chart-toggle-btn" onclick="switchChartRange(30, this)">30 дней</button>
-                            <button class="chart-toggle-btn" onclick="switchChartRange(90, this)">90 дней</button>
-                        </div>
-                    </div>
-
-                    <div class="chart-canvas-wrapper">
-                        <!-- Внутри chart-card найди этот блок и замени цифры -->
-                        <div class="chart-y-axis">
-                            <span>2000</span>
-                            <span>1500</span>
-                            <span>1000</span>
-                            <span>500</span>
-                            <span>0</span>
-                        </div>
-
-
-                        <!-- Векторный SVG график со светящейся неоновой волной -->
-                        <div class="chart-svg-box">
-                            <svg class="progress-svg" viewBox="0 0 500 150" preserveAspectRatio="none">
-                                <defs>
-                                    <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                        <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.35" />
-                                        <stop offset="100%" stop-color="#00d4ff" stop-opacity="0.0" />
-                                    </linearGradient>
-                                    <filter id="neonGlow">
-                                        <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#00d4ff" />
-                                    </filter>
-                                </defs>
-                                <!-- Заливка под графиком -->
-                                <path id="chart-area"
-                                    d="M 0 110 Q 70 80, 140 100 T 280 60 T 420 40 L 500 30 L 500 150 L 0 150 Z"
-                                    fill="url(#chartGradient)"></path>
-                                <!-- Сама неоновая линия -->
-                                <path id="chart-line" d="M 0 110 Q 70 80, 140 100 T 280 60 T 420 40 L 500 30"
-                                    fill="none" stroke="#00d4ff" stroke-width="3" filter="url(#neonGlow)"></path>
-                                <!-- Точки активности -->
-                                <circle cx="70" cy="88" r="4" fill="#fff" stroke="#00d4ff" stroke-width="2" />
-                                <circle cx="140" cy="98" r="4" fill="#fff" stroke="#00d4ff" stroke-width="2" />
-                                <circle cx="210" cy="80" r="4" fill="#fff" stroke="#00d4ff" stroke-width="2" />
-                                <circle cx="280" cy="62" r="4" fill="#fff" stroke="#00d4ff" stroke-width="2" />
-                                <circle cx="350" cy="52" r="4" fill="#fff" stroke="#00d4ff" stroke-width="2" />
-                                <circle cx="420" cy="40" r="4" fill="#fff" stroke="#00d4ff" stroke-width="2" />
-                                <circle cx="500" cy="30" r="5" fill="#fff" stroke="#8a2be2" stroke-width="2" />
-                            </svg>
-                        </div>
-                    </div>
-
-                    <!-- Даты внизу графика -->
-                    <div class="chart-x-axis" id="chart-x-labels">
-                        <span>15.11</span><span>16.11</span><span>17.11</span><span>18.11</span><span>19.11</span><span>20.11</span><span>21.11</span>
-                    </div>
-                </div>
-
-                <!-- 2. СТАТИСТИКА НЕДЕЛИ (ЖИВЫЕ ДИНАМИЧЕСКИЕ ЦИФРЫ) -->
-                <div class="week-stats-card">
-                    <div class="ws-row">
-                        <span class="ws-label">XP за день</span>
-                        <div class="ws-val-box">
-                            <span class="ws-val" id="ws-weekly-xp">0</span>
-                            <span class="ws-badge green" id="ws-weekly-badge">+0% ↑</span>
-                        </div>
-                    </div>
-                    <div class="ws-divider"></div>
-                    <div class="ws-row">
-                        <span class="ws-label">Выполнено миссий</span>
-                        <div class="ws-val-box">
-                            <span class="ws-val" id="ws-missions-count">0 / 7</span>
-                            <span class="ws-badge cyan" id="ws-missions-badge">0 ↑</span>
-                        </div>
-                    </div>
-                    <div class="ws-divider"></div>
-                    <div class="ws-row">
-                        <span class="ws-label">Личный рекорд</span>
-                        <div class="ws-val-box">
-                            <span class="ws-val" id="ws-record-days">9 дней</span>
-                            <span class="ws-badge purple">👑</span>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- 3. МАНИФЕСТ ОХОТНИКА -->
-                <div class="manifesto-card">
-                    <div class="manifesto-bracket top-left"></div>
-                    <div class="manifesto-bracket bottom-right"></div>
-                    <div class="manifesto-icon">❄️</div>
-                    <p class="manifesto-text">«Дисциплина — это свобода, которую ты выбираешь сам.»</p>
-                    <span class="manifesto-author">ORNIT SYSTEM</span>
-                </div>
-
+    <!-- 1. ОБНОВЛЕННЫЙ НЕОНОВЫЙ ГРАФИК (НА ВСЮ ШИРИНУ) -->
+    <div class="chart-card" style="width: 100%; min-height: 300px;">
+        <div class="chart-header">
+            <div class="chart-title-group">
+                <span class="chart-icon">📈</span>
+                <span class="chart-title" id="chart-week-badge">НЕДЕЛЯ #1</span>
             </div>
+            <!-- Кнопки 7/30/90 удалены, здесь теперь чистое пространство -->
+        </div>
+
+        <div class="chart-canvas-wrapper" style="height: 220px;">
+            <div class="chart-y-axis">
+                <span>2000</span>
+                <span>1500</span>
+                <span>1000</span>
+                <span>500</span>
+                <span>0</span>
+            </div>
+
+            <div class="chart-svg-box" style="height: 220px;">
+                <svg class="progress-svg" viewBox="0 0 500 200" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.3" />
+                            <stop offset="100%" stop-color="#00d4ff" stop-opacity="0.0" />
+                        </linearGradient>
+                        <filter id="neonGlow">
+                            <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#00d4ff" />
+                        </filter>
+                    </defs>
+                    <path id="chart-area" d="" fill="url(#chartGradient)"></path>
+                    <path id="chart-line" d="" fill="none" stroke="#00d4ff" stroke-width="3" filter="url(#neonGlow)"></path>
+                    <!-- Точки генерируются скриптом автоматически -->
+                </svg>
+            </div>
+        </div>
+
+        <div class="chart-x-axis" id="chart-x-labels" style="margin-top: 15px;">
+            <!-- Сюда скрипт вставит 7 дат недели -->
+        </div>
+    </div>
+
+    <!-- 2. НОВЫЙ БЛОК: 📜 ХРОНОГРАФ МЕСЯЦЕВ (ВМЕСТО МАНИФЕСТА И СТАТИСТИКИ) -->
+    <div class="monthly-chronicle-card">
+        <div class="chronicle-header" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 15px; border-bottom: 1px solid rgba(168, 85, 247, 0.2); margin-bottom: 20px;">
+            <div class="chronicle-title" style="font-family: 'Orbitron'; color: #a855f7; font-weight: 800; letter-spacing: 1px;">📜 ХРОНОГРАФ МЕСЯЦЕВ</div>
+            <div class="chronicle-nav-btns" style="display: flex; align-items: center; gap: 15px;">
+                <button class="chronicle-btn" onclick="changeChronicleMonth(-1)" style="cursor:pointer; background: rgba(168,85,247,0.1); border: 1px solid #a855f7; color: #a855f7; border-radius: 4px; padding: 2px 10px;">◄</button>
+                <span id="chronicle-month-label" style="font-family: 'Orbitron'; font-size: 0.8rem; color: #fff; font-weight: 800; min-width: 130px; text-align: center;">ОКТЯБРЬ 2026</span>
+                <button class="chronicle-btn" onclick="changeChronicleMonth(1)" style="cursor:pointer; background: rgba(168,85,247,0.1); border: 1px solid #a855f7; color: #a855f7; border-radius: 4px; padding: 2px 10px;">►</button>
+            </div>
+        </div>
+
+        <!-- Контейнер для динамического списка дней и подвигов -->
+        <div id="chronicle-days-container" style="display: flex; flex-direction: column; gap: 10px;">
+            <!-- Заполняется функцией renderMonthlyChronicle() -->
+        </div>
+    </div>
+
+</div>
 
         </div>
     </div>
@@ -6857,49 +7016,7 @@ if (stickerRankIcon) {
 }
 
 
-function addExperienceToBranch(amount, branchKey, sourceTitle = "Практика") {
-    if (!isFirebaseLoaded) return;
 
-    const branch = playerData.branchStats?.[branchKey];
-    if (!branch) {
-        console.error("Не найдена ветка:", branchKey);
-        return;
-    }
-
-    amount = Number(amount);
-    if (!Number.isFinite(amount) || amount <= 0) return;
-
-    branch.level = Number(branch.level) || 1;
-    branch.xp = Number(branch.xp) || 0;
-    branch.xp += amount;
-
-    let branchLeveledUp = false;
-
-    while (branch.xp >= getSkillThreshold(branch.level)) {
-        branch.xp -= getSkillThreshold(branch.level);
-        branch.level += 1;
-        branchLeveledUp = true;
-    }
-
-    branch.nextLevelXp = getSkillThreshold(branch.level);
-
-    // ⚡️ МАГИЯ СИНХРОНИЗАЦИИ: Тот же XP автоматически летит в Общую Систему!
-    addExpToSystem(amount, `${sourceTitle} (${branchKey})`);
-
-    profileDocRef.set({
-        branchStats: playerData.branchStats
-    }, { merge: true }).catch(error => {
-        console.error("Не удалось сохранить уровни веток:", error);
-    });
-
-    if (branchLeveledUp) {
-        console.info(`Уровень ветки ${branchKey}: LV. ${branch.level}`);
-    }
-
-    if (typeof updateBranchesUI === "function") {
-        updateBranchesUI();
-    }
-}
 
 
 
@@ -7661,12 +7778,6 @@ addExperienceToBranch(option.xp, 'str', `Тренировка: ${option.label}`)
 
 
 
-
-
-        window.addEventListener('load', () => {
-            switchPage('main-menu'); // Всегда на Главную
-            updateMainUI();          // Сразу генерирует карточки навыков
-        });
 
 
 
@@ -8669,103 +8780,244 @@ function completeMission(missionId) {
             renderLiveChart();
         }
 
-        function renderLiveChart() {
-            if (!playerData.chartHistory) playerData.chartHistory = {};
+      // =========================================================
+// 🧠 ДВИЖОК ОПЫТА ВЕТОК С ДЕТАЛИЗАЦИЕЙ И ПОДВИГАМИ
+// =========================================================
 
-            const svgWidth = 500;
-            const svgHeight = 150;
-            const maxVal = 2000; // Шкала Y до 2000 XP
+function addExperienceToBranch(amount, branchKey, sourceTitle = "Практика", featNote = "") {
+    if (!isFirebaseLoaded) return;
 
-            // Точка старта системы: 11 октября 2026
-            const startYear = 2026;
-            const startMonth = 9; // Октябрь (индекс 9)
-            const startDay = 11;
+    const branch = playerData.branchStats?.[branchKey];
+    if (!branch) return;
 
-            let historyData = [];
-            let labels = [];
+    amount = Number(amount);
+    if (!Number.isFinite(amount) || amount <= 0) return;
 
-            // Строим шкалу строго ВПЕРЁД от 11.10 на выбранное число дней (7, 30 или 90)
-            for (let i = 0; i < currentChartDays; i++) {
-                const d = new Date(startYear, startMonth, startDay + i);
+    const today = getMskDateInfo().dateString;
 
-                const y = d.getFullYear();
-                const m = String(d.getMonth() + 1).padStart(2, '0');
-                const dayStr = String(d.getDate()).padStart(2, '0');
-                const dateKey = `${y}-${m}-${dayStr}`;
+    // 1. Увеличиваем опыт ветки
+    branch.level = Number(branch.level) || 1;
+    branch.xp = Number(branch.xp) || 0;
+    branch.xp += amount;
 
-                // Опыт берём из базы, если дня ещё нет или опыта 0 — строго 0 XP
-                const val = playerData.chartHistory[dateKey] || 0;
-                historyData.push(val);
+    while (branch.xp >= getSkillThreshold(branch.level)) {
+        branch.xp -= getSkillThreshold(branch.level);
+        branch.level += 1;
+    }
 
-                labels.push(`${dayStr}.${m}`);
-            }
+    branch.nextLevelXp = getSkillThreshold(branch.level);
 
-            // Координаты точек на SVG
-            // При val = 0 точка падает точно на нижнюю базовую линию
-            const bottomY = svgHeight - 15;
-            const points = historyData.map((val, idx) => {
-                const x = (idx / (currentChartDays - 1)) * svgWidth;
-                const y = val > 0
-                    ? svgHeight - ((val / maxVal) * 115) - 15
-                    : bottomY;
-                return {x, y};
+    // 2. Детализированная история опыта по веткам за каждый день
+    if (!playerData.dailyBranchBreakdown) playerData.dailyBranchBreakdown = {};
+    if (!playerData.dailyBranchBreakdown[today]) {
+        playerData.dailyBranchBreakdown[today] = { int: 0, str: 0, wil: 0, res: 0 };
+    }
+    playerData.dailyBranchBreakdown[today][branchKey] = (playerData.dailyBranchBreakdown[today][branchKey] || 0) + amount;
+
+    // 3. Запись жизненного подвига (если он передан)
+    if (featNote && featNote.trim() !== "") {
+        if (!playerData.dailyFeats) playerData.dailyFeats = {};
+        if (!playerData.dailyFeats[today]) playerData.dailyFeats[today] = [];
+        
+        playerData.dailyFeats[today].push({
+            branch: branchKey,
+            xp: amount,
+            title: featNote.trim(),
+            timestamp: Date.now()
+        });
+    }
+
+    // 4. Отправляем в глобальный банк опыта
+    addExpToSystem(amount, `${sourceTitle} (${branchKey})`);
+
+    // Сохраняем расширенную структуру в Firebase
+    profileDocRef.set({
+        branchStats: playerData.branchStats,
+        dailyBranchBreakdown: playerData.dailyBranchBreakdown,
+        dailyFeats: playerData.dailyFeats
+    }, { merge: true });
+
+    if (typeof updateBranchesUI === "function") updateBranchesUI();
+    if (typeof renderMonthlyChronicle === "function") renderMonthlyChronicle();
+}
+
+// =========================================================
+// 📈 7-ДНЕВНЫЙ ГРАФИК НЕКСТ-ГЕН (АВТО-СТРАНИЦЫ НЕДЕЛЬ)
+// =========================================================
+
+function renderLiveChart() {
+    if (!playerData.chartHistory) playerData.chartHistory = {};
+
+    const svgWidth = 500;
+    const svgHeight = 200; // Высокий красивый график
+    const maxVal = 2000;
+
+    // Точка отсчета: 11 октября 2026
+    const startDate = new Date(2026, 9, 11);
+    const todayDate = new Date();
+
+    // Вычисляем сколько дней прошло от старта
+    const diffDays = Math.max(0, Math.floor((todayDate - startDate) / (1000 * 60 * 60 * 24)));
+    
+    // Номер текущей 7-дневной страницы (0, 1, 2...)
+    const weekIndex = Math.floor(diffDays / 7);
+    const weekStartDayOffset = weekIndex * 7;
+
+    const weekBadge = document.getElementById('chart-week-badge');
+    if (weekBadge) {
+        weekBadge.textContent = `НЕДЕЛЯ #${weekIndex + 1}`;
+    }
+
+    let historyData = [];
+    let labels = [];
+
+    // Генерируем ровно 7 дней текущей недели
+    for (let i = 0; i < 7; i++) {
+        const d = new Date(2026, 9, 11 + weekStartDayOffset + i);
+
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, '0');
+        const dayStr = String(d.getDate()).padStart(2, '0');
+        const dateKey = `${y}-${m}-${dayStr}`;
+
+        const val = playerData.chartHistory[dateKey] || 0;
+        historyData.push(val);
+        labels.push(`${dayStr}.${m}`);
+    }
+
+    const bottomY = svgHeight - 20;
+    const points = historyData.map((val, idx) => {
+        const x = (idx / 6) * svgWidth;
+        const y = val > 0 ? svgHeight - ((val / maxVal) * 160) - 20 : bottomY;
+        return { x, y };
+    });
+
+    let dLine = `M ${points[0].x} ${points[0].y}`;
+    for (let i = 1; i < points.length; i++) {
+        dLine += ` L ${points[i].x} ${points[i].y}`;
+    }
+
+    const dArea = `${dLine} L ${svgWidth} ${svgHeight} L 0 ${svgHeight} Z`;
+
+    const lineEl = document.getElementById('chart-line');
+    const areaEl = document.getElementById('chart-area');
+    if (lineEl) lineEl.setAttribute('d', dLine);
+    if (areaEl) areaEl.setAttribute('d', dArea);
+
+    const svgBox = document.querySelector('.chart-svg-box svg');
+    if (svgBox) {
+        svgBox.querySelectorAll('circle').forEach(c => c.remove());
+
+        points.forEach((p, idx) => {
+            const hasXp = historyData[idx] > 0;
+            const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            circle.setAttribute("cx", p.x);
+            circle.setAttribute("cy", p.y);
+            circle.setAttribute("r", hasXp ? "6" : "3");
+            circle.setAttribute("fill", hasXp ? "#00ff88" : "#1a1a2e");
+            circle.setAttribute("stroke", hasXp ? "#00d4ff" : "#333");
+            circle.setAttribute("stroke-width", "2");
+            svgBox.appendChild(circle);
+        });
+    }
+
+    const labelsContainer = document.getElementById('chart-x-labels');
+    if (labelsContainer) {
+        labelsContainer.innerHTML = "";
+        labels.forEach(lbl => {
+            const s = document.createElement('span');
+            s.innerText = lbl;
+            labelsContainer.appendChild(s);
+        });
+    }
+}
+
+// =========================================================
+// 📜 РЕНДЕР ХРОНОГРАФА МЕСЯЦЕВ (ДЕТАЛИЗАЦИЯ И ПОДВИГИ)
+// =========================================================
+
+let chronicleYear = 2026;
+let chronicleMonth = 9; // 9 = Октябрь
+
+function changeChronicleMonth(dir) {
+    chronicleMonth += dir;
+    if (chronicleMonth > 11) { chronicleMonth = 0; chronicleYear++; }
+    else if (chronicleMonth < 0) { chronicleMonth = 11; chronicleYear--; }
+
+    if (chronicleYear < 2026 || (chronicleYear === 2026 && chronicleMonth < 9)) {
+        chronicleYear = 2026;
+        chronicleMonth = 9;
+    }
+
+    renderMonthlyChronicle();
+}
+
+function renderMonthlyChronicle() {
+    const container = document.getElementById('chronicle-days-container');
+    const monthLabel = document.getElementById('chronicle-month-label');
+    if (!container) return;
+
+    const monthNames = ["ЯНВАРЬ", "ФЕВРАЛЬ", "МАРТ", "АПРЕЛЬ", "МАЙ", "ИЮНЬ", "ИЮЛЬ", "АВГУСТ", "СЕНТЯБРЬ", "ОКТЯБРЬ", "НОЯБРЬ", "ДЕКАБРЬ"];
+    if (monthLabel) monthLabel.textContent = `${monthNames[chronicleMonth]} ${chronicleYear}`;
+
+    const daysInMonth = new Date(chronicleYear, chronicleMonth + 1, 0).getDate();
+    let html = '';
+
+    for (let d = daysInMonth; d >= 1; d--) {
+        if (chronicleYear === 2026 && chronicleMonth === 9 && d < 11) continue; // Старт с 11 октября
+
+        const dateKey = `${chronicleYear}-${String(chronicleMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        
+        const totalXp = (playerData.chartHistory && playerData.chartHistory[dateKey]) || 0;
+        const branchBreakdown = (playerData.dailyBranchBreakdown && playerData.dailyBranchBreakdown[dateKey]) || { int: 0, str: 0, wil: 0, res: 0 };
+        const feats = (playerData.dailyFeats && playerData.dailyFeats[dateKey]) || [];
+
+        // Если за день ничего не было — покажем аккуратную пустую строчку
+        html += `
+            <div class="chronicle-day-row">
+                <div class="cdr-top">
+                    <span class="cdr-date">📅 ${d} ${monthNames[chronicleMonth].toLowerCase()} ${chronicleYear}</span>
+                    <span class="cdr-total-xp">+${totalXp.toLocaleString()} XP</span>
+                </div>
+
+                <div class="cdr-branches-pills">
+                    <span class="cb-pill" style="background: rgba(0, 212, 255, 0.1); border: 1px solid rgba(0, 212, 255, 0.3); color: #00d4ff;">🧠 ИНТ: ${branchBreakdown.int || 0}</span>
+                    <span class="cb-pill" style="background: rgba(255, 0, 76, 0.1); border: 1px solid rgba(255, 0, 76, 0.3); color: #ff004c;">🦾 СИЛ: ${branchBreakdown.str || 0}</span>
+                    <span class="cb-pill" style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); color: #a855f7;">💎 ДУШ: ${branchBreakdown.wil || 0}</span>
+                    <span class="cb-pill" style="background: rgba(255, 170, 0, 0.1); border: 1px solid rgba(255, 170, 0, 0.3); color: #ffaa00;">🎨 ТВОР: ${branchBreakdown.res || 0}</span>
+                </div>
+        `;
+
+        // Отображаем список Подвигов за этот день
+        if (feats.length > 0) {
+            feats.forEach(f => {
+                const branchColor = branchMeta[f.branch]?.color || '#ffd700';
+                html += `
+                    <div class="cdr-feat-note" style="border-color: ${branchColor}60; color: ${branchColor};">
+                        🏆 <strong>ПОДВИГ (+${f.xp} XP):</strong> ${f.title}
+                    </div>
+                `;
             });
-
-            // Линия графика
-            let dLine = `M ${points[0].x} ${points[0].y}`;
-            for (let i = 1; i < points.length; i++) {
-                dLine += ` L ${points[i].x} ${points[i].y}`;
-            }
-
-            // Заливка градиента под линией
-            const dArea = `${dLine} L ${svgWidth} ${svgHeight} L 0 ${svgHeight} Z`;
-
-            const lineEl = document.getElementById('chart-line');
-            const areaEl = document.getElementById('chart-area');
-            if (lineEl) lineEl.setAttribute('d', dLine);
-            if (areaEl) areaEl.setAttribute('d', dArea);
-
-            // Отрисовка точек
-            const svgBox = document.querySelector('.chart-svg-box svg');
-            if (svgBox) {
-                svgBox.querySelectorAll('circle').forEach(c => c.remove());
-
-                points.forEach((p, idx) => {
-                    // В режимах 30 и 90 дней рисуем кружочки только для дней с опытом,
-                    // либо ключевые точки, чтобы график не превращался в кашу
-                    const hasXp = historyData[idx] > 0;
-                    const isFirst = idx === 0;
-
-                    if (currentChartDays === 7 || hasXp || isFirst) {
-                        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                        circle.setAttribute("cx", p.x);
-                        circle.setAttribute("cy", p.y);
-                        circle.setAttribute("r", hasXp ? "5" : "3");
-                        circle.setAttribute("fill", hasXp ? "#fff" : "#1a1a2e");
-                        circle.setAttribute("stroke", hasXp ? "#8a2be2" : "#00d4ff");
-                        circle.setAttribute("stroke-width", "2");
-                        svgBox.appendChild(circle);
-                    }
-                });
-            }
-
-            // Вывод подписей дат под графиком (ось X)
-            const labelsContainer = document.getElementById('chart-x-labels');
-            if (labelsContainer) {
-                labelsContainer.innerHTML = "";
-
-                // Шаг подписей: в 7 днях пишем все 7 дат, в 30/90 — равномерно 6-7 дат
-                const step = currentChartDays === 7 ? 1 : Math.ceil(currentChartDays / 6);
-
-                labels.forEach((lbl, idx) => {
-                    if (idx % step === 0 || idx === labels.length - 1) {
-                        const s = document.createElement('span');
-                        s.innerText = lbl;
-                        labelsContainer.appendChild(s);
-                    }
-                });
-            }
         }
+
+        html += `</div>`;
+    }
+
+    container.innerHTML = html;
+}
+
+
+function openBranchModal(branchKey) {
+    const names = { int: "ИНТЕЛЛЕКТ", str: "СИЛА", wil: "ДУША", res: "ТВОРЧЕСТВО" };
+    const expToAdd = prompt(`Тренировка характеристики [${names[branchKey]}]. Сколько EXP начислить?`, "100");
+    
+    if (expToAdd !== null && !isNaN(Number(expToAdd)) && Number(expToAdd) > 0) {
+        const featNote = prompt(`🏆 Зафиксировать подвиг/достижение за этот опыт? (Опционально, или оставь пустым):`, "");
+        
+        // Вызываем функцию зачисления с сохранением Подвига
+        addExperienceToBranch(Number(expToAdd), branchKey, "Тренировка ветки", featNote);
+    }
+}
 
 
 
@@ -8901,11 +9153,12 @@ setInterval(() => {
 
 
 
-         window.addEventListener('load', () => {
+             window.addEventListener('load', () => {
             switchPage('main-menu');
             updateMainUI();
-                renderMissionsList();
-
+            renderMissionsList();
+            renderLiveChart();
+            renderMonthlyChronicle(); // Активируем Хронограф!
 
             // 🦾 Активируем первый день тренировки в Программах
             const firstWorkoutBtn = document.querySelector('.workout-tab-btn');
@@ -8916,22 +9169,21 @@ setInterval(() => {
                 updateWorkoutRewardUI();
             }
 
-               // Выравниваем полоску ровно по центру активной кнопки при старте
-    const activeBtn = document.querySelector('.sidebar-btn.active') || document.querySelector('.sidebar-btn');
-    const clip = document.getElementById('sidebar-clip');
-    const track = document.querySelector('.sidebar-track');
-    
-    if (activeBtn && clip && track) {
-        const btnRect = activeBtn.getBoundingClientRect();
-        const trackRect = track.getBoundingClientRect();
-        const clipHeight = clip.offsetHeight || 26;
-        
-        const startY = (btnRect.top - trackRect.top) + (btnRect.height / 2) - (clipHeight / 2);
-        clip.style.transform = `translateY(${startY}px)`;
-    }
-
-
+            // Выравниваем полоску ровно по центру активной кнопки при старте
+            const activeBtn = document.querySelector('.sidebar-btn.active') || document.querySelector('.sidebar-btn');
+            const clip = document.getElementById('sidebar-clip');
+            const track = document.querySelector('.sidebar-track');
+            
+            if (activeBtn && clip && track) {
+                const btnRect = activeBtn.getBoundingClientRect();
+                const trackRect = track.getBoundingClientRect();
+                const clipHeight = clip.offsetHeight || 26;
+                
+                const startY = (btnRect.top - trackRect.top) + (btnRect.height / 2) - (clipHeight / 2);
+                clip.style.transform = `translateY(${startY}px)`;
+            }
         });
+
 
 
 

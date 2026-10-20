@@ -6105,12 +6105,18 @@
     <!-- 1. ОБНОВЛЕННЫЙ НЕОНОВЫЙ ГРАФИК (НА ВСЮ ШИРИНУ) -->
     <div class="chart-card" style="width: 100%; min-height: 300px;">
         <div class="chart-header">
-            <div class="chart-title-group">
-                <span class="chart-icon">📈</span>
-                <span class="chart-title" id="chart-week-badge">НЕДЕЛЯ #1</span>
-            </div>
-            <!-- Кнопки 7/30/90 удалены, здесь теперь чистое пространство -->
-        </div>
+    <div class="chart-title-group">
+        <span class="chart-icon">📈</span>
+        <span class="chart-title">ДИНАМИКА ПРОГРЕССА</span>
+    </div>
+    <!-- 🎛 СТРЕЛКИ УПРАВЛЕНИЯ НЕДЕЛЯМИ -->
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <button class="chronicle-btn" onclick="changeChartWeek(-1)" style="cursor:pointer; background: rgba(0,212,255,0.1); border: 1px solid #00d4ff; color: #00d4ff; border-radius: 6px; padding: 4px 10px;">◄</button>
+        <span id="chart-week-badge" class="chart-week-badge" style="min-width: 110px; text-align: center;">НЕДЕЛЯ #1</span>
+        <button class="chronicle-btn" onclick="changeChartWeek(1)" style="cursor:pointer; background: rgba(0,212,255,0.1); border: 1px solid #00d4ff; color: #00d4ff; border-radius: 6px; padding: 4px 10px;">►</button>
+    </div>
+</div>
+
 
         <div class="chart-canvas-wrapper" style="height: 220px;">
             <div class="chart-y-axis">
@@ -8863,9 +8869,37 @@ function addExperienceToBranch(amount, branchKey, sourceTitle = "Практик�
     if (typeof renderMonthlyChronicle === "function") renderMonthlyChronicle();
 }
 
+
+
+
 // =========================================================
-// 📈 7-ДНЕВНЫЙ ГРАФИК (СТАРТ СТРОГО С 20 ОКТЯБРЯ)
+// 📜 ХРОНОГРАФ МЕСЯЦЕВ (ПО УБЫВАНИЮ, СТАРТ С 20, БЕЗ БУДУЩЕГО)
 // =========================================================
+
+let chronicleYear = 2026;
+let chronicleMonth = 9; // 9 = Октябрь
+
+function changeChronicleMonth(dir) {
+    chronicleMonth += dir;
+    if (chronicleMonth > 11) { chronicleMonth = 0; chronicleYear++; }
+    else if (chronicleMonth < 0) { chronicleMonth = 11; chronicleYear--; }
+
+    if (chronicleYear < 2026 || (chronicleYear === 2026 && chronicleMonth < 9)) {
+        chronicleYear = 2026;
+        chronicleMonth = 9;
+    }
+
+    renderMonthlyChronicle();
+}
+
+// Текущее смещение недель на графике (0 = текущая неделя, +1 = следующая и т.д.)
+let chartWeekOffset = 0;
+
+function changeChartWeek(dir) {
+    chartWeekOffset += dir;
+    if (chartWeekOffset < 0) chartWeekOffset = 0; // Не уходим раньше 20 октября
+    renderLiveChart();
+}
 
 function renderLiveChart() {
     if (!playerData.chartHistory) playerData.chartHistory = {};
@@ -8874,17 +8908,20 @@ function renderLiveChart() {
     const svgHeight = 200;
     const maxVal = 2000;
 
-    // 🎯 ТОЧКА СТАРТА СИСТЕМЫ: 20 октября 2026 (месяц 9 = Октябрь)
+    // Точка старта: 20 октября 2026
     const startDate = new Date(2026, 9, 20);
     const todayDate = new Date();
 
     const diffDays = Math.max(0, Math.floor((todayDate - startDate) / (1000 * 60 * 60 * 24)));
-    const weekIndex = Math.floor(diffDays / 7);
-    const weekStartDayOffset = weekIndex * 7;
+    const currentActiveWeekIndex = Math.floor(diffDays / 7);
+
+    // Номер отображаемой недели
+    const targetWeekIndex = currentActiveWeekIndex + chartWeekOffset;
+    const weekStartDayOffset = targetWeekIndex * 7;
 
     const weekBadge = document.getElementById('chart-week-badge');
     if (weekBadge) {
-        weekBadge.textContent = `НЕДЕЛЯ #${weekIndex + 1} (СТАРТ С 20 ОКТЯБРЯ)`;
+        weekBadge.textContent = `НЕДЕЛЯ #${targetWeekIndex + 1}`;
     }
 
     let historyData = [];
@@ -8950,27 +8987,7 @@ function renderLiveChart() {
     }
 }
 
-
-// =========================================================
-// 📜 ХРОНОГРАФ МЕСЯЦЕВ (ПО УБЫВАНИЮ, СТАРТ С 20, БЕЗ БУДУЩЕГО)
-// =========================================================
-
-let chronicleYear = 2026;
-let chronicleMonth = 9; // 9 = Октябрь
-
-function changeChronicleMonth(dir) {
-    chronicleMonth += dir;
-    if (chronicleMonth > 11) { chronicleMonth = 0; chronicleYear++; }
-    else if (chronicleMonth < 0) { chronicleMonth = 11; chronicleYear--; }
-
-    if (chronicleYear < 2026 || (chronicleYear === 2026 && chronicleMonth < 9)) {
-        chronicleYear = 2026;
-        chronicleMonth = 9;
-    }
-
-    renderMonthlyChronicle();
-}
-
+// 📜 ХРОНОГРАФ С ЖЕЛЕЗНЫМ БЛОКОМ БУДУЩИХ ЛЕТ И ДНЕЙ
 function renderMonthlyChronicle() {
     const container = document.getElementById('chronicle-days-container');
     const monthLabel = document.getElementById('chronicle-month-label');
@@ -8988,17 +9005,20 @@ function renderMonthlyChronicle() {
     let html = '';
 
     for (let d = daysInMonth; d >= 1; d--) {
+        // 🛡 ЖЕЛЕЗНАЯ ФИЛЬТРАЦИЯ БУДУЩЕГО (ГОДЫ, МЕСЯЦЫ, ДНИ)
+        if (chronicleYear > realYear) continue;
+        if (chronicleYear === realYear && chronicleMonth > realMonth) continue;
         if (chronicleYear === realYear && chronicleMonth === realMonth && d > realDay) continue;
-        if (chronicleYear >= realYear && chronicleMonth > realMonth) continue;
+
+        // 🛡 ФИЛЬТРАЦИЯ ДО СТАРТА 20 ОКТЯБРЯ 2026
         if (chronicleYear === 2026 && chronicleMonth === 9 && d < 20) continue;
         if (chronicleYear === 2026 && chronicleMonth < 9) continue;
+        if (chronicleYear < 2026) continue;
 
         const dateKey = `${chronicleYear}-${String(chronicleMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
         
-        // 📊 БЕРЕМ ДЕТАЛИЗАЦИЮ СТРОГО ИЗ ИСТОРИИ ИЛИ ИЗ ВЕТОК ДЛЯ СЕГОДНЯШНЕГО ДНЯ
         let branchBreakdown = (playerData.dailyBranchBreakdown && playerData.dailyBranchBreakdown[dateKey]) || { int: 0, str: 0, wil: 0, res: 0 };
         
-        // Если это сегодняшний день, а в истории пусто — подтянем текущий опыт веток для абсолютной правды
         const todayStr = getMskDateInfo().dateString;
         if (dateKey === todayStr && (!branchBreakdown.int && !branchBreakdown.str && !branchBreakdown.wil && !branchBreakdown.res)) {
             branchBreakdown = {
@@ -9009,16 +9029,13 @@ function renderMonthlyChronicle() {
             };
         }
 
-        // Суммарный XP за день считается честно из веток
         const totalXp = (branchBreakdown.int || 0) + (branchBreakdown.str || 0) + (branchBreakdown.wil || 0) + (branchBreakdown.res || 0);
         
-        // Также синхронизируем с графиком
         if (!playerData.chartHistory) playerData.chartHistory = {};
         if (totalXp > 0) playerData.chartHistory[dateKey] = totalXp;
 
         const feats = (playerData.dailyFeats && playerData.dailyFeats[dateKey]) || [];
 
-        // Если за этот день вообще по нулям — пропускаем строку, чтобы не захламлять хронограф пустыми днями
         if (totalXp === 0 && feats.length === 0) continue;
 
         html += `

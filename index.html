@@ -8441,17 +8441,32 @@ setInterval(() => {
 
 
 
-        function getCurrentStage(days) {
-            if (days >= 33) return 5;
-            if (days >= 17) return 4;
-            if (days >= 8) return 3;
-            if (days >= 4) return 2;
+               function getCurrentStage(days) {
+            days = Number(days) || 0;
+            if (days >= 22) return 5;
+            if (days >= 15) return 4;
+            if (days >= 6) return 3;
+            if (days >= 3) return 2;
             return 1;
         }
 
-        function updateEvolutionProfile() {
-            const days = playerData.asceticismDays || 0;
-            const stage = getCurrentStage(days);
+
+               function updateEvolutionProfile() {
+            const days = Number(playerData.asceticismDays) || 0;
+            
+            let stage = 1;
+            if (days >= 22) {
+                stage = 5;      // 22+ дней -> СТАДИЯ V
+            } else if (days >= 15) {
+                stage = 4;      // 15 - 21 дней -> СТАДИЯ IV
+            } else if (days >= 6) {
+                stage = 3;      // 6 - 14 дней -> СТАДИЯ III
+            } else if (days >= 3) {
+                stage = 2;      // 3 - 5 дней -> СТАДИЯ II (Твой текущий 3-й день!)
+            } else {
+                stage = 1;      // 0 - 2 дня -> СТАДИЯ I
+            }
+
             const art = document.getElementById('player-stage-art');
             const label = document.getElementById('player-stage-label');
 
@@ -8461,8 +8476,12 @@ setInterval(() => {
                 art.alt = `Стадия персонажа ${stage}`;
             }
 
-            if (label) label.textContent = `СТАДИЯ ${["I", "II", "III", "IV", "V"][stage - 1]}`;
+            if (label) {
+                const romanStages = ["I", "II", "III", "IV", "V"];
+                label.textContent = `СТАДИЯ ${romanStages[stage - 1]}`;
+            }
         }
+
 
 
 // Проверяем наступление новых суток раз в минуту

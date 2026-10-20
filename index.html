@@ -6132,43 +6132,39 @@ function getGlobalThreshold(level) {
     let loadedLogs = {};
     let isFirebaseLoaded = false; // 🛡 ПРЕДОХРАНИТЕЛЬ
 
-    // 🛡 ПОДКЛЮЧЕНИЕ К FIREBASE БЕЗ СБРОСА ПРОГРЕССА И БЕЗ БЕСКОНЕЧНЫХ ЦИКЛОВ
+        // 🛡 ПОДКЛЮЧЕНИЕ К FIREBASE С ЖЕЛЕЗНОЙ ЗАЩИТОЙ ОТ ОТКАТОВ И СТИРАНИЙ
     profileDocRef.onSnapshot((doc) => {
         if (doc.exists) {
             const cloudData = doc.data();
 
-            // Загружаем данные из Firebase поверх локальных значений
-            playerData = {
-                ...playerData,
-                ...cloudData
+            // 1. 🛡 ЗАЩИТА ОТ ДАУНГРЕЙДА АСКЕЗЫ: дни могут только расти! Никакой старый файл не опустит их ниже 203!
+            const localTotal = Number(playerData.totalAsceticismDays) || 203;
+            const cloudTotal = Number(cloudData.totalAsceticismDays) || 0;
+            playerData.totalAsceticismDays = Math.max(localTotal, cloudTotal, 203);
+
+            // 2. 🛡 ЗАЩИТА КАЛЕНДАРЯ: объединяем историю, чтобы старый код с пустым объектом не стёр галочки
+            playerData.asceticismHistory = {
+                ...(playerData.asceticismHistory || {}),
+                ...(cloudData.asceticismHistory || {})
             };
 
-            // Общая аскеза
-            if (cloudData.totalAsceticismDays === undefined) {
-                playerData.totalAsceticismDays = 200;
-                playerData.totalAsceticismAwardedDates =
-                    Array.isArray(playerData.totalAsceticismAwardedDates)
-                        ? playerData.totalAsceticismAwardedDates
-                        : [];
+            // 3. Загружаем остальные данные из Firebase
+            playerData = {
+                ...playerData,
+                ...cloudData,
+                totalAsceticismDays: playerData.totalAsceticismDays,
+                asceticismHistory: playerData.asceticismHistory
+            };
 
-                profileDocRef.set({
-                    totalAsceticismDays: 200,
-                    totalAsceticismAwardedDates: playerData.totalAsceticismAwardedDates
-                }, { merge: true });
-            } else {
-                playerData.totalAsceticismDays =
-                    Number(cloudData.totalAsceticismDays) || 200;
-
-                playerData.totalAsceticismAwardedDates =
-                    Array.isArray(cloudData.totalAsceticismAwardedDates)
-                        ? cloudData.totalAsceticismAwardedDates
-                        : [];
-            }
+            // Массив дат
+            playerData.totalAsceticismAwardedDates = Array.isArray(cloudData.totalAsceticismAwardedDates)
+                ? cloudData.totalAsceticismAwardedDates
+                : (playerData.totalAsceticismAwardedDates || []);
 
             // Подтягиваем сбережения
             playerData.totalSavingsRub = Number(cloudData.totalSavingsRub) || 0;
 
-            // Подтягиваем статы 4 веток, если они уже есть в облаке
+            // Подтягиваем статы 4 веток
             if (cloudData.branchStats) {
                 playerData.branchStats = cloudData.branchStats;
             }
@@ -6196,7 +6192,7 @@ function getGlobalThreshold(level) {
             }
 
             console.log(
-                "☁️ Данные синхронизированы. " +
+                "☁️ Данные синхронизированы без риска отката. " +
                 "Текущий XP:", playerData.xp,
                 "| Серия:", playerData.asceticismDays,
                 "| Рекорд:", playerData.personalRecord,
@@ -6204,9 +6200,8 @@ function getGlobalThreshold(level) {
             );
 
         } else {
-            // Документа нет — создаём новый профиль
-            playerData.totalAsceticismDays =
-                Number(playerData.totalAsceticismDays) || 200;
+            // Документа нет — создаём новый профиль с базой 203 дня
+            playerData.totalAsceticismDays = Math.max(Number(playerData.totalAsceticismDays) || 203, 203);
 
             playerData.totalAsceticismAwardedDates =
                 Array.isArray(playerData.totalAsceticismAwardedDates)

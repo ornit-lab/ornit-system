@@ -8163,66 +8163,68 @@ setInterval(() => {
 
         let dailyMissionsList = [];
 
-        // 🎲 УМНАЯ РОТАЦИЯ: Выбирает 7 уникальных миссий на основе сегодняшней даты (МСК)
+                // 🎲 ГЕНЕРАЦИЯ ЕЖЕДНЕВНОГО РЕЕСТРА МИССИЙ
         function generateDailyMissions() {
-            const msk = getMskDateInfo(); // Напр. "2026-10-12"
+            if (!masterMissionsPool || masterMissionsPool.length === 0) return [];
 
-            // Если дата сменилась или список пуст — генерируем новый пул на сегодня
-            if (playerData.activeMissionsDate !== msk.dateString || !playerData.activeMissionsIds || playerData.activeMissionsIds.length === 0) {
-                playerData.activeMissionsDate = msk.dateString;
+            // Перемешиваем пул миссий случайным образом
+            const shuffled = [...masterMissionsPool].sort(() => 0.5 - Math.random());
+            
+            // Берем 7 случайных миссий на день
+            const selected = shuffled.slice(0, 7).map(m => ({
+                ...m,
+                completed: false
+            }));
 
-                // Используем дату как сид (seed), чтобы у всех на этот день выпадали одни и те же 7 миссий
-                let seed = 0;
-                for (let i = 0; i < msk.dateString.length; i++) {
-                    seed += msk.dateString.charCodeAt(i);
-                }
+            // Записываем в обе переменные для 100% совместимости
+            playerData.dailyMissions = selected;
+            dailyMissionsList = selected;
 
-                // Перемешиваем мастер-пул псевдослучайным образом по сиду дня
-                let shuffled = [...masterMissionsPool];
-                for (let i = shuffled.length - 1; i > 0; i--) {
-                    seed = (seed * 9301 + 49297) % 233280;
-                    const j = Math.floor((seed / 233280) * (i + 1));
-                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-                }
-
-                // Берем ровно 7 миссий на сегодня
-                dailyMissionsList = shuffled.slice(0, 7);
-                playerData.activeMissionsIds = dailyMissionsList.map(m => m.id);
-
-                // Сбрасываем выполненные ID при смене дня
-                playerData.completedMissionsIds = [];
-
-                if (typeof profileDocRef !== 'undefined') {
-                    profileDocRef.set(playerData, {merge: true});
-                }
-            } else {
-                // Восстанавливаем миссии по сохраненным ID дня
-                dailyMissionsList = playerData.activeMissionsIds.map(id => {
-                    return masterMissionsPool.find(m => m.id === id);
-                }).filter(Boolean);
+            if (typeof profileDocRef !== 'undefined' && isFirebaseLoaded) {
+                profileDocRef.set({ dailyMissions: selected }, { merge: true });
             }
+
+            return selected;
         }
 
-        // 📋 ОТРИСОВКА МИССИЙ С ИКОНКАМИ И ЦВЕТАМИ ВЕТОК
+
+                // 📋 ОТРИСОВКА МИССИЙ С ИКОНКАМИ ВЕТОК
         function renderMissionsList() {
             const listEl = document.getElementById('daily-missions-list');
             if (!listEl) return;
 
-            // Если список ежедневных заданий еще не сгенерирован
-            if (!playerData.dailyMissions || playerData.dailyMissions.length === 0) {
-                generateDailyMissions();
+            // Подтягиваем миссии из любого доступного источника
+            let missions = playerData.dailyMissions;
+            if (!missions || !Array.isArray(missions) || missions.length === 0) {
+                if (typeof dailyMissionsList !== 'undefined' && Array.isArray(dailyMissionsList) && dailyMissionsList.length > 0) {
+                    missions = dailyMissionsList;
+                    playerData.dailyMissions = dailyMissionsList;
+                } else {
+                    missions = generateDailyMissions();
+                }
             }
 
-            const completedCount = playerData.dailyMissions.filter(m => m.completed).length;
+            if (!missions || missions.length === 0) {
+                listEl.innerHTML = '<div style="color: #666; font-size: 0.8rem; text-align: center; padding: 20px;">Генерация реестра миссий...</div>';
+                return;
+            }
+
+            const completedCount = missions.filter(m => m.completed).length;
             const counterEl = document.getElementById('missions-counter-label');
             if (counterEl) {
-                counterEl.textContent = `${completedCount} / ${playerData.dailyMissions.length} ВЫПОЛНЕНО`;
+                counterEl.textContent = `${completedCount} / ${missions.length} ВЫПОЛНЕНО`;
             }
 
             let html = '';
-            playerData.dailyMissions.forEach(m => {
-                const meta = branchMeta[m.branch] || branchMeta.wil;
-                const isDone = m.completed;
+            missions.forEach(m => {
+                const branchKey = m.branch || 'wil';
+                const meta = (typeof branchMeta !== 'undefined' && branchMeta[branchKey]) ? branchMeta[branchKey] : {
+                    name: "СИСТЕМА",
+                    color: "#00d4ff",
+                    icon: "⚡️"
+                };
+
+                const isDone = Boolean(m.completed);
 
                 html += `
                     <div class="quest-card ${isDone ? 'completed' : ''}" style="border-left: 3px solid ${meta.color};">
@@ -8250,6 +8252,7 @@ setInterval(() => {
 
             listEl.innerHTML = html;
         }
+
 
                       // ⚡️ ВЫПОЛНЕНИЕ МИССИИ: ОПЫТ ЛЕТИТ В ВЕТКУ + В ГЛОБАЛ!
         function completeMission(id) {

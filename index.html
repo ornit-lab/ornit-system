@@ -8478,6 +8478,24 @@ function renderMissionsList() {
     const listEl = document.getElementById('missions-list-container') || document.getElementById('daily-missions-list');
     if (!listEl) return;
 
+    const mskToday = getMskDateInfo().dateString;
+
+    // 🛡 ПРОВЕРКА СУТОК: Если дата генерации не равна сегодняшней — сбрасываем миссии для нового дня!
+    if (playerData.missionsGeneratedDate !== mskToday) {
+        playerData.dailyMissions = generateDailyMissions();
+        playerData.missionsGeneratedDate = mskToday;
+        playerData.completedMissionsCount = 0; // Сбрасываем счетчик выполненных на 0
+
+        // Сохраняем в Firebase новый пул миссий
+        if (typeof profileDocRef !== 'undefined' && isFirebaseLoaded) {
+            profileDocRef.set({
+                dailyMissions: playerData.dailyMissions,
+                missionsGeneratedDate: mskToday,
+                completedMissionsCount: 0
+            }, { merge: true });
+        }
+    }
+
     let missions = playerData.dailyMissions;
     if (!missions || !Array.isArray(missions) || missions.length === 0) {
         missions = generateDailyMissions();
@@ -8491,8 +8509,7 @@ function renderMissionsList() {
 
     let html = '';
     missions.forEach(m => {
-        // Если миссия уже выполнена — не выводим её на экран (она уже улетела)
-        if (m.completed) return;
+        if (m.completed) return; // Выполненные улетают
 
         const meta = branchMeta[m.branch] || branchMeta.wil;
 
@@ -9005,12 +9022,10 @@ function renderMonthlyChronicle() {
     let html = '';
 
     for (let d = daysInMonth; d >= 1; d--) {
-        // 🛡 ЖЕЛЕЗНАЯ ФИЛЬТРАЦИЯ БУДУЩЕГО (ГОДЫ, МЕСЯЦЫ, ДНИ)
         if (chronicleYear > realYear) continue;
         if (chronicleYear === realYear && chronicleMonth > realMonth) continue;
         if (chronicleYear === realYear && chronicleMonth === realMonth && d > realDay) continue;
 
-        // 🛡 ФИЛЬТРАЦИЯ ДО СТАРТА 20 ОКТЯБРЯ 2026
         if (chronicleYear === 2026 && chronicleMonth === 9 && d < 20) continue;
         if (chronicleYear === 2026 && chronicleMonth < 9) continue;
         if (chronicleYear < 2026) continue;
@@ -9029,10 +9044,12 @@ function renderMonthlyChronicle() {
             };
         }
 
+        // Честная сумма опыта из веток
         const totalXp = (branchBreakdown.int || 0) + (branchBreakdown.str || 0) + (branchBreakdown.wil || 0) + (branchBreakdown.res || 0);
         
+        // 🔄 ЖЕЛЕЗНАЯ СИНХРОНИЗАЦИЯ: График всегда равен хронографу!
         if (!playerData.chartHistory) playerData.chartHistory = {};
-        if (totalXp > 0) playerData.chartHistory[dateKey] = totalXp;
+        playerData.chartHistory[dateKey] = totalXp;
 
         const feats = (playerData.dailyFeats && playerData.dailyFeats[dateKey]) || [];
 

@@ -9004,54 +9004,48 @@ function renderLiveChart() {
     }
 }
 
-// 📜 ХРОНОГРАФ С ЖЕЛЕЗНЫМ БЛОКОМ БУДУЩИХ ЛЕТ И ДНЕЙ
 function renderMonthlyChronicle() {
     const container = document.getElementById('chronicle-days-container');
     const monthLabel = document.getElementById('chronicle-month-label');
     if (!container) return;
 
-    const monthNames = ["ЯНВАРЬ", "ФЕВРАЛЬ", "МАРТ", "АПРЕЛЬ", "МАЙ", "ИЮНЬ", "ИЮЛЬ", "АВГУСТ", "СЕНТЯБРЬ", "ОКТЯБРЬ", "НОЯБРЬ", "ДЕКАБРЬ"];
-    if (monthLabel) monthLabel.textContent = `${monthNames[chronicleMonth]} ${chronicleYear}`;
+    const monthNames = [
+        "ЯНВАРЬ", "ФЕВРАЛЬ", "МАРТ", "АПРЕЛЬ", "МАЙ", "ИЮНЬ",
+        "ИЮЛЬ", "АВГУСТ", "СЕНТЯБРЬ", "ОКТЯБРЬ", "НОЯБРЬ", "ДЕКАБРЬ"
+    ];
 
-    const realNow = new Date();
-    const realYear = realNow.getFullYear();
-    const realMonth = realNow.getMonth();
-    const realDay = realNow.getDate();
+    if (monthLabel) {
+        monthLabel.textContent = `${monthNames[chronicleMonth]} ${chronicleYear}`;
+    }
+
+    // Берём сегодняшнюю дату по Москве, чтобы граница суток совпадала с остальной системой.
+    const mskToday = getMskDateInfo().dateString;
+    const [todayYear, todayMonth, todayDay] = mskToday.split('-').map(Number);
+    const todayMonthIndex = todayMonth - 1;
 
     const daysInMonth = new Date(chronicleYear, chronicleMonth + 1, 0).getDate();
     let html = '';
 
     for (let d = daysInMonth; d >= 1; d--) {
-        if (chronicleYear > realYear) continue;
-        if (chronicleYear === realYear && chronicleMonth > realMonth) continue;
-        if (chronicleYear === realYear && chronicleMonth === realMonth && d > realDay) continue;
+        // Будущие годы, месяцы и дни не показываем.
+        if (chronicleYear > todayYear) continue;
+        if (chronicleYear === todayYear && chronicleMonth > todayMonthIndex) continue;
+        if (chronicleYear === todayYear && chronicleMonth === todayMonthIndex && d > todayDay) continue;
 
-        if (chronicleYear === 2026 && chronicleMonth === 9 && d < 20) continue;
-        if (chronicleYear === 2026 && chronicleMonth < 9) continue;
+        // История начинается 20 октября 2026 года.
         if (chronicleYear < 2026) continue;
+        if (chronicleYear === 2026 && chronicleMonth < 9) continue;
+        if (chronicleYear === 2026 && chronicleMonth === 9 && d < 20) continue;
 
         const dateKey = `${chronicleYear}-${String(chronicleMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-        
-        let branchBreakdown = (playerData.dailyBranchBreakdown && playerData.dailyBranchBreakdown[dateKey]) || { int: 0, str: 0, wil: 0, res: 0 };
-        
-        const todayStr = getMskDateInfo().dateString;
-        if (dateKey === todayStr && (!branchBreakdown.int && !branchBreakdown.str && !branchBreakdown.wil && !branchBreakdown.res)) {
-            branchBreakdown = {
-                int: playerData.branchStats?.int?.xp || 0,
-                str: playerData.branchStats?.str?.xp || 0,
-                wil: playerData.branchStats?.wil?.xp || 0,
-                res: playerData.branchStats?.res?.xp || 0
-            };
-        }
 
-        // Честная сумма опыта из веток
-        const totalXp = (branchBreakdown.int || 0) + (branchBreakdown.str || 0) + (branchBreakdown.wil || 0) + (branchBreakdown.res || 0);
-        
-        // 🔄 ЖЕЛЕЗНАЯ СИНХРОНИЗАЦИЯ: График всегда равен хронографу!
-        if (!playerData.chartHistory) playerData.chartHistory = {};
-        playerData.chartHistory[dateKey] = totalXp;
+        const branchBreakdown =
+            playerData.dailyBranchBreakdown?.[dateKey] ||
+            { int: 0, str: 0, wil: 0, res: 0 };
 
-        const feats = (playerData.dailyFeats && playerData.dailyFeats[dateKey]) || [];
+        // XP за день читаем из истории. Не пересчитываем и не перезаписываем её при рендере.
+        const totalXp = Number(playerData.chartHistory?.[dateKey]) || 0;
+        const feats = playerData.dailyFeats?.[dateKey] || [];
 
         if (totalXp === 0 && feats.length === 0) continue;
 
@@ -9062,25 +9056,34 @@ function renderMonthlyChronicle() {
                     <span class="cdr-total-xp">+${totalXp.toLocaleString()} XP</span>
                 </div>
                 <div class="cdr-branches-pills">
-                    <span class="cb-pill" style="background: rgba(0, 212, 255, 0.1); border: 1px solid rgba(0, 212, 255, 0.3); color: #00d4ff;">🧠 ИНТ: ${branchBreakdown.int || 0}</span>
-                    <span class="cb-pill" style="background: rgba(255, 0, 76, 0.1); border: 1px solid rgba(255, 0, 76, 0.3); color: #ff004c;">🦾 СИЛ: ${branchBreakdown.str || 0}</span>
-                    <span class="cb-pill" style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); color: #a855f7;">💎 ДУШ: ${branchBreakdown.wil || 0}</span>
-                    <span class="cb-pill" style="background: rgba(255, 170, 0, 0.1); border: 1px solid rgba(255, 170, 0, 0.3); color: #ffaa00;">🎨 ТВОР: ${branchBreakdown.res || 0}</span>
+                    <span class="cb-pill" style="background: rgba(0, 212, 255, 0.1); border: 1px solid rgba(0, 212, 255, 0.3); color: #00d4ff;">🧠 ИНТ: ${Number(branchBreakdown.int) || 0}</span>
+                    <span class="cb-pill" style="background: rgba(255, 0, 76, 0.1); border: 1px solid rgba(255, 0, 76, 0.3); color: #ff004c;">🦾 СИЛ: ${Number(branchBreakdown.str) || 0}</span>
+                    <span class="cb-pill" style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); color: #a855f7;">💎 ДУШ: ${Number(branchBreakdown.wil) || 0}</span>
+                    <span class="cb-pill" style="background: rgba(255, 170, 0, 0.1); border: 1px solid rgba(255, 170, 0, 0.3); color: #ffaa00;">🎨 ТВОР: ${Number(branchBreakdown.res) || 0}</span>
                 </div>
         `;
 
         if (feats.length > 0) {
             feats.forEach(f => {
                 const branchColor = branchMeta[f.branch]?.color || '#ffd700';
-                html += `<div class="cdr-feat-note" style="border-color: ${branchColor}60; color: ${branchColor};">🏆 <strong>ПОДВИГ (+${f.xp} XP):</strong> ${f.title}</div>`;
+                html += `
+                    <div class="cdr-feat-note" style="border-color: ${branchColor}60; color: ${branchColor};">
+                        🏆 <strong>ПОДВИГ (+${Number(f.xp) || 0} XP):</strong> ${f.title}
+                    </div>
+                `;
             });
         }
+
         html += `</div>`;
     }
 
-    if (html === '') html = `<div style="text-align: center; padding: 20px; color: #888; font-family: 'Orbitron'; font-size: 0.8rem;">НЕТ АКТИВНОСТИ ЗА ЭТОТ ПЕРИОД.</div>`;
+    if (html === '') {
+        html = `<div style="text-align: center; padding: 20px; color: #888; font-family: 'Orbitron'; font-size: 0.8rem;">НЕТ АКТИВНОСТИ ЗА ЭТОТ ПЕРИОД.</div>`;
+    }
+
     container.innerHTML = html;
 }
+
 
 
 

@@ -7163,39 +7163,37 @@ profileDocRef.onSnapshot((doc) => {
         playerData.totalXp = Math.max(localTotalXp, Number(cloudData.totalXp) || 0, 260000);
         playerData.level = Math.max(localLevel, Number(cloudData.level) || 0, 36);
 
-        // 7. 🛡 ЗАЩИТА ВЕТОК: сравниваем с локальными, которые сохранили в п.3
-        if (cloudData.branchStats) {
-            for (let key in playerData.branchStats) {
-                if (cloudData.branchStats[key]) {
-                    const baseLvls = { int: 30, str: 33, wil: 45, res: 39 };
-                    const cloudLevel = Number(cloudData.branchStats[key].level) || 1;
-                    const savedLocalLevel = Number(localBranchStats[key]?.level) || 1;
-                    const baseLevel = baseLvls[key] || 1;
+        // 7. 🛡 ЗАЩИТА ВЕТОК
+if (cloudData.branchStats) {
+    for (let key in playerData.branchStats) {
+        if (cloudData.branchStats[key]) {
+            const baseLvls = { int: 30, str: 33, wil: 45, res: 39 };
+            const cloudLevel = Number(cloudData.branchStats[key].level) || 1;
+            const savedLocalLevel = Number(localBranchStats[key]?.level) || 1;
+            const baseLevel = baseLvls[key] || 1;
 
-                    playerData.branchStats[key].level = Math.max(savedLocalLevel, cloudLevel, baseLevel);
+            playerData.branchStats[key].level = Math.max(savedLocalLevel, cloudLevel, baseLevel);
 
-                    const cloudXp = Number(cloudData.branchStats[key].xp) || 0;
-                    const savedLocalXp = Number(localBranchStats[key]?.xp) || 0;
+            const cloudXp = Number(cloudData.branchStats[key].xp) || 0;
+            const savedLocalXp = Number(localBranchStats[key]?.xp) || 0;
 
-                    // Если локально 500, а в облаке 0 — оставляем 500
-                    playerData.branchStats[key].xp = Math.max(savedLocalXp, cloudXp);
-                    playerData.branchStats[key].nextLevelXp = getSkillThreshold(playerData.branchStats[key].level);
-                }
-            }
+            playerData.branchStats[key].xp = Math.max(savedLocalXp, cloudXp);
+            playerData.branchStats[key].nextLevelXp = getSkillThreshold(playerData.branchStats[key].level);
         }
+    }
+}
 
-        // 8. 🛡 ЗАЩИТА ХРОНОГРАФА (СРАВНИВАЕМ ВСЕ ДНИ)
-        const msk = getMskDateInfo();
-        const todayKey = msk.dateString;
+// 8. 🛡 ЗАЩИТА ХРОНОГРАФА
+const msk = getMskDateInfo();
+const todayKey = msk.dateString;
 
-        if (!playerData.chartHistory) playerData.chartHistory = {};
+if (!playerData.chartHistory) playerData.chartHistory = {};
 
-        // Проходимся по всем дням из облака и берем максимум
-        for (let key in cloudData.chartHistory) {
-            const cloudVal = Number(cloudData.chartHistory[key]) || 0;
-            const localVal = Number(localChartHistory[key]) || 0;
-            playerData.chartHistory[key] = Math.max(localVal, cloudVal);
-        }
+for (let key in cloudData.chartHistory) {
+    const cloudVal = Number(cloudData.chartHistory[key]) || 0;
+    const localVal = Number(localChartHistory[key]) || 0;
+    playerData.chartHistory[key] = Math.max(localVal, cloudVal);
+}
 
         if (Number(playerData.xp) < playerData.chartHistory[todayKey]) {
             playerData.xp = playerData.chartHistory[todayKey];
@@ -9254,39 +9252,27 @@ profileDocRef.onSnapshot((doc) => {
 
 
 
-        window.addEventListener('load', () => {
+       window.addEventListener('load', () => {
+    // 🛡 НЕ РИСУЕМ НИЧЕГО, ПОКА НЕ ПРИДУТ ДАННЫЕ ИЗ ОБЛАКА
+    switchPage('main-menu');
+    
+    // Ожидаем загрузки Firebase, а потом обновляем всё
+    const checkLoaded = setInterval(() => {
+        if (isFirebaseLoaded) {
+            clearInterval(checkLoaded);
             if (typeof checkAsceticismDayTransition === 'function') {
                 checkAsceticismDayTransition();
             }
-            switchPage('main-menu');
             updateMainUI();
             renderMissionsList();
             renderLiveChart();
-            renderMonthlyChronicle(); // Активируем Хронограф!
-
-            // 🦾 Активируем первый день тренировки в Программах
-            const firstWorkoutBtn = document.querySelector('.workout-tab-btn');
-            if (firstWorkoutBtn) {
-                switchWorkoutDay(1, firstWorkoutBtn);
-            }
+            renderMonthlyChronicle();
             if (typeof updateWorkoutRewardUI === 'function') {
                 updateWorkoutRewardUI();
             }
-
-            // Выравниваем полоску ровно по центру активной кнопки при старте
-            const activeBtn = document.querySelector('.sidebar-btn.active') || document.querySelector('.sidebar-btn');
-            const clip = document.getElementById('sidebar-clip');
-            const track = document.querySelector('.sidebar-track');
-
-            if (activeBtn && clip && track) {
-                const btnRect = activeBtn.getBoundingClientRect();
-                const trackRect = track.getBoundingClientRect();
-                const clipHeight = clip.offsetHeight || 26;
-
-                const startY = (btnRect.top - trackRect.top) + (btnRect.height / 2) - (clipHeight / 2);
-                clip.style.transform = `translateY(${startY}px)`;
-            }
-        });
+        }
+    }, 100);
+});
 
 
 

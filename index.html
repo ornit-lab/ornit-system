@@ -8846,7 +8846,7 @@ for (let key in cloudData.chartHistory) {
         // 🧠 ДВИЖОК ОПЫТА ВЕТОК С ДЕТАЛИЗАЦИЕЙ И ПОДВИГАМИ
         // =========================================================
 
-        function addExperienceToBranch(amount, branchKey, sourceTitle = "Практика", featNote = "") {
+function addExperienceToBranch(amount, branchKey, sourceTitle = "Практика", featNote = "") {
     if (!isFirebaseLoaded) return;
 
     const branch = playerData.branchStats?.[branchKey];
@@ -8857,7 +8857,7 @@ for (let key in cloudData.chartHistory) {
 
     const today = getMskDateInfo().dateString;
 
-    // 1. Увеличиваем опыт и пересчитываем уровни локально
+    // 1. Обновляем ЛОКАЛЬНО ветку и график (сначала!)
     branch.level = Number(branch.level) || 1;
     branch.xp = Number(branch.xp) || 0;
     branch.xp += amount;
@@ -8868,18 +8868,19 @@ for (let key in cloudData.chartHistory) {
     }
     branch.nextLevelXp = getSkillThreshold(branch.level);
 
-    // 2. Детализированная история опыта по веткам за каждый день
+    if (!playerData.chartHistory) playerData.chartHistory = {};
+    playerData.chartHistory[today] = (Number(playerData.chartHistory[today]) || 0) + amount;
+
+    // 2. Детализация по дням и подвигам
     if (!playerData.dailyBranchBreakdown) playerData.dailyBranchBreakdown = {};
     if (!playerData.dailyBranchBreakdown[today]) {
         playerData.dailyBranchBreakdown[today] = { int: 0, str: 0, wil: 0, res: 0 };
     }
     playerData.dailyBranchBreakdown[today][branchKey] = (playerData.dailyBranchBreakdown[today][branchKey] || 0) + amount;
 
-    // 3. Запись подвига
     if (featNote && featNote.trim() !== "") {
         if (!playerData.dailyFeats) playerData.dailyFeats = {};
         if (!playerData.dailyFeats[today]) playerData.dailyFeats[today] = [];
-        
         playerData.dailyFeats[today].push({
             branch: branchKey,
             xp: amount,
@@ -8888,20 +8889,20 @@ for (let key in cloudData.chartHistory) {
         });
     }
 
-    // 4. Начисляем в общий опыт и график (ТОЛЬКО ОДИН РАЗ!)
+    // 3. Начисляем в общий уровень (addExpToSystem сам внутри все сделает)
     addExpToSystem(amount, `${sourceTitle} (${branchKey})`);
 
-    // 5. Сохраняем в Firebase атомарно
-    const updateObj = {};
-    updateObj[`branchStats.${branchKey}.xp`] = firebase.firestore.FieldValue.increment(amount);
-    updateObj[`branchStats.${branchKey}.level`] = playerData.branchStats[branchKey].level;
-    updateObj[`branchStats.${branchKey}.nextLevelXp`] = playerData.branchStats[branchKey].nextLevelXp;
-    updateObj.dailyBranchBreakdown = playerData.dailyBranchBreakdown;
-    updateObj.dailyFeats = playerData.dailyFeats;
+    // 4. ЖЕСТКО СОХРАНЯЕМ В FIREBASE (берем актуальные локальные данные)
+    const updateObj = {
+        branchStats: playerData.branchStats, 
+        dailyBranchBreakdown: playerData.dailyBranchBreakdown,
+        dailyFeats: playerData.dailyFeats,
+        chartHistory: playerData.chartHistory 
+    };
 
     profileDocRef.set(updateObj, { merge: true }).catch(err => console.error("Ошибка сохранения ветки:", err));
 
-    // 6. Принудительно обновляем все интерфейсы (Хронограф, Ветки, Главный экран)
+    // 5. Обновляем интерфейс
     updateMainUI();
     if (typeof updateBranchesUI === 'function') updateBranchesUI();
     if (typeof renderMonthlyChronicle === 'function') renderMonthlyChronicle();

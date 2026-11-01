@@ -5954,6 +5954,25 @@
     color: #ffaa00 !important;
     text-shadow: 0 0 5px rgba(255, 170, 0, 0.5) !important;
 }
+
+
+        @keyframes pulseRed {
+            0% { box-shadow: 0 0 15px rgba(255, 0, 76, 0.3); border-color: #ff004c; }
+            50% { box-shadow: 0 0 30px rgba(255, 0, 76, 0.7); border-color: #ffaa00; }
+            100% { box-shadow: 0 0 15px rgba(255, 0, 76, 0.3); border-color: #ff004c; }
+        }
+        
+        .workout-main-reward-btn {
+            animation: pulseRed 2s infinite;
+        }
+        
+        .workout-main-reward-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .workout-icon-btn:hover {
+            transform: translateY(-2px);
+        }
     </style>
 
 
@@ -6861,34 +6880,34 @@
             </div>
         </div>
 
-                <!-- НОВЫЕ КВАДРАТНЫЕ КНОПКИ ТРЕНИРОВОК -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 25px;">
+               <!-- РЯД ИЗ 4 КОМПАКТНЫХ КНОПОК -->
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 25px;">
             
-            <!-- Кнопка Тренировки (Большая) -->
+            <!-- Кнопка Тренировки (Красная, Пульсирующая) -->
             <button id="workout-reward-button" class="workout-main-reward-btn" type="button"
                 onclick="openWorkoutRewardModal()" aria-label="Получить награду за тренировку"
-                style="grid-column: span 3; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; background: rgba(255, 0, 76, 0.1); border: 2px solid #ff004c; border-radius: 12px; cursor: pointer; box-shadow: 0 0 20px rgba(255, 0, 76, 0.3); transition: 0.3s;">
-                <img src="muscle.png" alt="Muscle" style="width: 70px; height: 70px; object-fit: contain; filter: drop-shadow(0 0 10px #ff004c); margin-bottom: 10px;">
-                <span style="font-family: 'Orbitron'; color: #fff; font-size: 0.9rem; letter-spacing: 1px; font-weight: bold; text-shadow: 0 0 10px #ff004c;">ПОЛУЧИТЬ НАГРАДУ</span>
-                <small id="workout-cooldown-label" style="color: #ff004c; font-size: 0.7rem; margin-top: 5px;">НАГРАДА ДОСТУПНА</small>
+                style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; background: linear-gradient(145deg, rgba(255, 0, 76, 0.15), rgba(10, 5, 10, 0.9)); border: 2px solid #ff004c; border-radius: 12px; cursor: pointer; box-shadow: 0 0 20px rgba(255, 0, 76, 0.3); transition: 0.3s;">
+                <img src="muscle.png" alt="Reward" style="width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 0 8px #ff004c) brightness(0) saturate(100%) invert(20%) sepia(90%) saturate(3000%) hue-rotate(330deg) brightness(100%) contrast(120%);">
+                <span style="font-family: 'Orbitron'; color: #fff; font-size: 0.6rem; letter-spacing: 0.5px; font-weight: bold; text-shadow: 0 0 5px #ff004c; margin-top: 5px;">ТРЕНИРОВКА</span>
+                <small id="workout-cooldown-label" style="color: #ff004c; font-size: 0.5rem; margin-top: 2px;">ДОСТУПНА</small>
             </button>
 
-            <!-- Кнопка Грудь -->
+            <!-- Кнопка Грудь (Желтая) -->
             <button onclick="switchWorkoutDay(1, this)" class="workout-icon-btn active"
-                style="background: rgba(0, 212, 255, 0.1); border: 1px solid #00d4ff; border-radius: 12px; padding: 15px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.3s;">
-                <img src="breast-cancer.png" alt="Chest" style="width: 50px; height: 50px; object-fit: contain; filter: drop-shadow(0 0 8px #00d4ff);">
+                style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; background: linear-gradient(145deg, rgba(255, 215, 0, 0.15), rgba(15, 15, 5, 0.9)); border: 1px solid #ffd700; border-radius: 12px; cursor: pointer; box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); transition: 0.3s;">
+                <img src="breast-cancer.png" alt="Chest" style="width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 0 8px #ffd700) brightness(0) saturate(100%) invert(90%) sepia(50%) saturate(2000%) hue-rotate(10deg) brightness(110%) contrast(120%);">
             </button>
 
-            <!-- Кнопка Спина -->
+            <!-- Кнопка Спина (Зеленая) -->
             <button onclick="switchWorkoutDay(2, this)" class="workout-icon-btn"
-                style="background: rgba(255, 0, 76, 0.05); border: 1px solid rgba(255, 0, 76, 0.3); border-radius: 12px; padding: 15px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.3s;">
-                <img src="back.png" alt="Back" style="width: 50px; height: 50px; object-fit: contain; filter: drop-shadow(0 0 8px #ff004c); opacity: 0.6;">
+                style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; background: linear-gradient(145deg, rgba(0, 255, 136, 0.05), rgba(5, 15, 10, 0.9)); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 12px; cursor: pointer; transition: 0.3s;">
+                <img src="back.png" alt="Back" style="width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 0 0px #00ff88) brightness(0) saturate(100%) invert(80%) sepia(50%) saturate(3000%) hue-rotate(90deg) brightness(100%) contrast(120%); opacity: 0.7;">
             </button>
 
-            <!-- Кнопка Ноги -->
+            <!-- Кнопка Ноги (Оранжевая) -->
             <button onclick="switchWorkoutDay(3, this)" class="workout-icon-btn"
-                style="background: rgba(138, 43, 226, 0.05); border: 1px solid rgba(138, 43, 226, 0.3); border-radius: 12px; padding: 15px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.3s;">
-                <img src="male-legs-couple.png" alt="Legs" style="width: 50px; height: 50px; object-fit: contain; filter: drop-shadow(0 0 8px #8a2be2); opacity: 0.6;">
+                style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; background: linear-gradient(145deg, rgba(255, 170, 0, 0.05), rgba(15, 10, 5, 0.9)); border: 1px solid rgba(255, 170, 0, 0.3); border-radius: 12px; cursor: pointer; transition: 0.3s;">
+                <img src="male-legs-couple.png" alt="Legs" style="width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 0 0px #ffaa00) brightness(0) saturate(100%) invert(70%) sepia(80%) saturate(3000%) hue-rotate(360deg) brightness(100%) contrast(120%); opacity: 0.7;">
             </button>
         </div>
 
@@ -6898,17 +6917,6 @@
        <div class="programs-workout-layout">
     <div id="workout-content-box"></div>
 
-    <button id="workout-reward-button" class="workout-reward-button"
-            type="button" onclick="openWorkoutRewardModal()"
-            aria-label="Получить награду за тренировку">
-        <svg viewBox="0 0 64 64" aria-hidden="true">
-            <circle cx="32" cy="9" r="6"/>
-            <path d="M22 21c2-4 6-6 10-6s8 2 10 6l5 13-7 3-5-9 2 14 10 13H38L32 43l-6 15H14l10-16 2-14-5 9-7-3 8-13Z"/>
-            <path d="m20 20-8 4-4 12 6 2 4-8M44 20l8 4 4 12-6 2-4-8"/>
-        </svg>
-        <span>ТРЕНИРОВКА</span>
-        <small id="workout-cooldown-label">НАГРАДА ДОСТУПНА</small>
-    </button>
 </div>
 
 <div id="workout-reward-modal" class="workout-reward-modal"
@@ -7851,8 +7859,8 @@ if (pageId === 'programs-page') {
 
                     const workoutDaysData = {
             1: {
-                title: "ДЕНЬ 1: ВЕРХ ТЕЛА (ЖИМОВОЙ)",
-                color: "#00d4ff",
+                title: "ДЕНЬ 1: ГРУДЬ",
+                color: "#ffd700",
                 exercises: [
                     { name: "Жим штанги лежа (База)", sets: "4", reps: "8–10", rest: "2.5–3 мин" },
                     { name: "Жим гантелей под углом 30-45°", sets: "3", reps: "10–12", rest: "2 мин" },
@@ -7862,7 +7870,7 @@ if (pageId === 'programs-page') {
                 ]
             },
             2: {
-                title: "ДЕНЬ 2: ВЕРХ ТЕЛА (ТЯГОВЫЙ)",
+                title: "ДЕНЬ 2: СПИНА",
                 color: "#ff004c",
                 exercises: [
                     { name: "Тяга штанги в наклоне (База)", sets: "4", reps: "8–10", rest: "2.5–3 мин" },
@@ -7875,7 +7883,7 @@ if (pageId === 'programs-page') {
                 ]
             },
             3: {
-                title: "ДЕНЬ 3: НИЗ ТЕЛА (БАЗА)",
+                title: "ДЕНЬ 3: НОГИ",
                 color: "#8a2be2",
                 exercises: [
                     { name: "Приседания со штангой (База)", sets: "4", reps: "8–10", rest: "2.5–3 мин" },
@@ -7886,39 +7894,49 @@ if (pageId === 'programs-page') {
             }
         };
 
-                function switchWorkoutDay(dayNum, btnElement) {
+                 function switchWorkoutDay(dayNum, btnElement) {
             playSfx('sfx-click');
             
             // 1. Сбрасываем стили со всех кнопок
             document.querySelectorAll('.workout-icon-btn').forEach(b => {
-                b.style.background = "rgba(255,255,255,0.02)";
+                b.style.background = "linear-gradient(145deg, rgba(255,255,255,0.02), rgba(10,10,15,0.9))";
                 b.style.borderColor = "rgba(255,255,255,0.1)";
                 b.style.transform = "scale(1)";
+                b.style.boxShadow = "none";
                 const img = b.querySelector('img');
-                if(img) img.style.opacity = "0.5";
+                if(img) {
+                    img.style.opacity = "0.5";
+                    // Тусклые цвета
+                    if(img.alt === 'Chest') img.style.filter = "brightness(0) saturate(100%) invert(90%) sepia(50%) saturate(2000%) hue-rotate(10deg) brightness(50%) contrast(100%)";
+                    if(img.alt === 'Back') img.style.filter = "brightness(0) saturate(100%) invert(80%) sepia(50%) saturate(3000%) hue-rotate(90deg) brightness(50%) contrast(100%)";
+                    if(img.alt === 'Legs') img.style.filter = "brightness(0) saturate(100%) invert(70%) sepia(80%) saturate(3000%) hue-rotate(360deg) brightness(50%) contrast(100%)";
+                }
             });
             
             // 2. Подсвечиваем активную кнопку
             if (btnElement) {
                 const data = workoutDaysData[dayNum];
-                btnElement.style.background = `color-mix(in srgb, ${data.color} 15%, transparent)`;
+                btnElement.style.background = `linear-gradient(145deg, ${data.color}25, rgba(10,10,15,0.9))`;
                 btnElement.style.borderColor = data.color;
                 btnElement.style.transform = "scale(1.05)";
-                btnElement.style.boxShadow = `0 0 15px ${data.color}`;
+                btnElement.style.boxShadow = `0 0 20px ${data.color}60`;
                 const img = btnElement.querySelector('img');
                 if(img) {
                     img.style.opacity = "1";
-                    img.style.filter = `drop-shadow(0 0 8px ${data.color})`;
+                    // Яркие цвета
+                    if(img.alt === 'Chest') img.style.filter = "drop-shadow(0 0 10px #ffd700) brightness(0) saturate(100%) invert(90%) sepia(50%) saturate(2000%) hue-rotate(10deg) brightness(110%) contrast(120%)";
+                    if(img.alt === 'Back') img.style.filter = "drop-shadow(0 0 10px #00ff88) brightness(0) saturate(100%) invert(80%) sepia(50%) saturate(3000%) hue-rotate(90deg) brightness(100%) contrast(120%)";
+                    if(img.alt === 'Legs') img.style.filter = "drop-shadow(0 0 10px #ffaa00) brightness(0) saturate(100%) invert(70%) sepia(80%) saturate(3000%) hue-rotate(360deg) brightness(100%) contrast(120%)";
                 }
             }
 
-            // 3. Рисуем программу
+            // 3. Рисуем программу (оставляем как было)
             const data = workoutDaysData[dayNum];
             const box = document.getElementById('workout-content-box');
             if (!box) return;
 
             let html = `
-                <div style="font-size: 0.9rem; color: ${data.color}; font-weight: bold; margin-bottom: 18px; border-bottom: 1px solid ${data.color}40; padding-bottom: 8px;">
+                <div style="font-size: 1rem; color: ${data.color}; font-weight: bold; margin-bottom: 18px; border-bottom: 1px solid ${data.color}40; padding-bottom: 8px; text-shadow: 0 0 10px ${data.color}80;">
                     🔥 ${data.title}
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 10px;">
@@ -7933,7 +7951,7 @@ if (pageId === 'programs-page') {
                     ">
                         <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
                             <span style="font-size: 0.75rem; color: ${data.color}; font-weight: bold; min-width: 20px;">0${idx + 1}.</span>
-                            <span style="font-size: 0.8rem; color: #fff;">${ex.name}</span>
+                            <span style="font-size: 0.85rem; color: #fff;">${ex.name}</span>
                         </div>
                         <div style="display: flex; gap: 15px; font-size: 0.75rem; font-family: 'Orbitron';">
                             <span style="color: #ffaa00;" title="Подходы">${ex.sets} подх.</span>

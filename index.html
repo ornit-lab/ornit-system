@@ -8642,8 +8642,22 @@ for (let key in cloudData.chartHistory) {
         // =========================================================
         // 🗓 ИНТЕРАКТИВНЫЙ КАЛЕНДАРЬ СО СТРЕЛКАМИ (ОКТЯБРЬ 2026+)
         // =========================================================
-        let calendarViewYear = 2026;
-        let calendarViewMonth = 9; // 9 = Октябрь (месяцы от 0 до 11)
+        // 🗓 Автоматически определяем текущий месяц для календаря воздержания и хронографа
+const nowForMonth = new Date();
+const currentRealYear = nowForMonth.getFullYear();
+const currentRealMonth = nowForMonth.getMonth(); // 0 = Январь, 10 = Ноябрь
+
+// Определяем начальный месяц (не раньше Октября 2026)
+let startYear = Math.max(2026, currentRealYear);
+let startMonth = (startYear === 2026) ? Math.max(9, currentRealMonth) : currentRealMonth;
+
+// Календарь воздержания
+let calendarViewYear = startYear;
+let calendarViewMonth = startMonth; // 10 = Ноябрь
+
+// Хронограф
+let chronicleYear = startYear;
+let chronicleMonth = startMonth; // 10 = Ноябрь
 
         const monthNamesRus = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
 
@@ -8915,9 +8929,6 @@ function addExperienceToBranch(amount, branchKey, sourceTitle = "Практик�
         // =========================================================
         // 📜 ХРОНОГРАФ МЕСЯЦЕВ (ПО УБЫВАНИЮ, СТАРТ С 20, БЕЗ БУДУЩЕГО)
         // =========================================================
-
-        let chronicleYear = 2026;
-        let chronicleMonth = 9; // 9 = Октябрь
 
         function changeChronicleMonth(dir) {
             chronicleMonth += dir;
@@ -9253,7 +9264,7 @@ function addExperienceToBranch(amount, branchKey, sourceTitle = "Практик�
 
 
 
-       window.addEventListener('load', () => {
+ window.addEventListener('load', () => {
     // 🛡 НЕ РИСУЕМ НИЧЕГО, ПОКА НЕ ПРИДУТ ДАННЫЕ ИЗ ОБЛАКА
     switchPage('main-menu');
     
@@ -9271,10 +9282,26 @@ function addExperienceToBranch(amount, branchKey, sourceTitle = "Практик�
             if (typeof updateWorkoutRewardUI === 'function') {
                 updateWorkoutRewardUI();
             }
+
+            // 🔄 АВТОПЕРЕКЛЮЧЕНИЕ МЕСЯЦА ПРИ СТАРТЕ (чтобы сразу открывался Ноябрь)
+            const nowForStart = new Date();
+            const startRealMonth = nowForStart.getMonth();
+            const startRealYear = nowForStart.getFullYear();
+
+            // Если сейчас Ноябрь (или позже), сразу ставим активный месяц
+            if (startRealYear > 2026 || (startRealYear === 2026 && startRealMonth > 9)) {
+                calendarViewMonth = startRealMonth;
+                calendarViewYear = startRealYear;
+                chronicleMonth = startRealMonth;
+                chronicleYear = startRealYear;
+                
+                // Перерисовываем, чтобы отобразился именно текущий месяц
+                if (typeof renderAsceticismCalendar === 'function') renderAsceticismCalendar();
+                if (typeof renderMonthlyChronicle === 'function') renderMonthlyChronicle();
+            }
         }
     }, 100);
 });
-
 
 
 

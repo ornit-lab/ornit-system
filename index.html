@@ -6861,13 +6861,39 @@
             </div>
         </div>
 
-        <!-- Переключатель дней тренировок -->
-        <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px;" id="workout-tabs">
-            <button onclick="switchWorkoutDay(1, this)" class="workout-tab-btn active" style="flex: 1; min-width: 130px; background: rgba(0,212,255,0.15); border: 1px solid #00d4ff; color: #fff; padding: 10px; border-radius: 8px; font-family: 'Orbitron'; font-size: 0.7rem; cursor: pointer; transition: 0.3s;">ДЕНЬ 1: ВЕРХ (ЖИМ)</button>
-            <button onclick="switchWorkoutDay(2, this)" class="workout-tab-btn" style="flex: 1; min-width: 130px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #aaa; padding: 10px; border-radius: 8px; font-family: 'Orbitron'; font-size: 0.7rem; cursor: pointer; transition: 0.3s;">ДЕНЬ 2: ВЕРХ (ТЯГА)</button>
-            <button onclick="switchWorkoutDay(3, this)" class="workout-tab-btn" style="flex: 1; min-width: 130px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #aaa; padding: 10px; border-radius: 8px; font-family: 'Orbitron'; font-size: 0.7rem; cursor: pointer; transition: 0.3s;">ДЕНЬ 3: НИЗ (БАЗА)</button>
-            <button onclick="switchWorkoutDay(4, this)" class="workout-tab-btn" style="flex: 1; min-width: 130px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #aaa; padding: 10px; border-radius: 8px; font-family: 'Orbitron'; font-size: 0.7rem; cursor: pointer; transition: 0.3s;">ДЕНЬ 4: ОТДЫХ</button>
+                <!-- НОВЫЕ КВАДРАТНЫЕ КНОПКИ ТРЕНИРОВОК -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 25px;">
+            
+            <!-- Кнопка Тренировки (Большая) -->
+            <button id="workout-reward-button" class="workout-main-reward-btn" type="button"
+                onclick="openWorkoutRewardModal()" aria-label="Получить награду за тренировку"
+                style="grid-column: span 3; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; background: rgba(255, 0, 76, 0.1); border: 2px solid #ff004c; border-radius: 12px; cursor: pointer; box-shadow: 0 0 20px rgba(255, 0, 76, 0.3); transition: 0.3s;">
+                <img src="muscle.png" alt="Muscle" style="width: 70px; height: 70px; object-fit: contain; filter: drop-shadow(0 0 10px #ff004c); margin-bottom: 10px;">
+                <span style="font-family: 'Orbitron'; color: #fff; font-size: 0.9rem; letter-spacing: 1px; font-weight: bold; text-shadow: 0 0 10px #ff004c;">ПОЛУЧИТЬ НАГРАДУ</span>
+                <small id="workout-cooldown-label" style="color: #ff004c; font-size: 0.7rem; margin-top: 5px;">НАГРАДА ДОСТУПНА</small>
+            </button>
+
+            <!-- Кнопка Грудь -->
+            <button onclick="switchWorkoutDay(1, this)" class="workout-icon-btn active"
+                style="background: rgba(0, 212, 255, 0.1); border: 1px solid #00d4ff; border-radius: 12px; padding: 15px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.3s;">
+                <img src="breast-cancer.png" alt="Chest" style="width: 50px; height: 50px; object-fit: contain; filter: drop-shadow(0 0 8px #00d4ff);">
+            </button>
+
+            <!-- Кнопка Спина -->
+            <button onclick="switchWorkoutDay(2, this)" class="workout-icon-btn"
+                style="background: rgba(255, 0, 76, 0.05); border: 1px solid rgba(255, 0, 76, 0.3); border-radius: 12px; padding: 15px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.3s;">
+                <img src="back.png" alt="Back" style="width: 50px; height: 50px; object-fit: contain; filter: drop-shadow(0 0 8px #ff004c); opacity: 0.6;">
+            </button>
+
+            <!-- Кнопка Ноги -->
+            <button onclick="switchWorkoutDay(3, this)" class="workout-icon-btn"
+                style="background: rgba(138, 43, 226, 0.05); border: 1px solid rgba(138, 43, 226, 0.3); border-radius: 12px; padding: 15px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.3s;">
+                <img src="male-legs-couple.png" alt="Legs" style="width: 50px; height: 50px; object-fit: contain; filter: drop-shadow(0 0 8px #8a2be2); opacity: 0.6;">
+            </button>
         </div>
+
+        <!-- Сюда будет выводиться программа дня -->
+        <div id="workout-content-box"></div>
 
        <div class="programs-workout-layout">
     <div id="workout-content-box"></div>
@@ -7671,7 +7697,7 @@ for (let key in cloudData.chartHistory) {
             }
             // 🦾 ПРИ ПЕРЕХОДЕ НА ПРОГРАММЫ АКТИВИРУЕМ ПЕРВЫЙ ДЕНЬ
 if (pageId === 'programs-page') {
-    const firstBtn = document.querySelector('.workout-tab-btn');
+    const firstBtn = document.querySelector('.workout-icon-btn');
     if (firstBtn && typeof switchWorkoutDay === 'function') {
         switchWorkoutDay(1, firstBtn);
     }
@@ -7823,7 +7849,7 @@ if (pageId === 'programs-page') {
         // =========================================================
         const WORKOUT_COOLDOWN_MS = 24 * 60 * 60 * 1000;
 
-               const workoutDaysData = {
+                    const workoutDaysData = {
             1: {
                 title: "ДЕНЬ 1: ВЕРХ ТЕЛА (ЖИМОВОЙ)",
                 color: "#00d4ff",
@@ -7857,30 +7883,36 @@ if (pageId === 'programs-page') {
                     { name: "Жим ногами (добивка)", sets: "3", reps: "10–12", rest: "2 мин" },
                     { name: "Подъем ног в висе (Пресс)", sets: "3", reps: "15", rest: "1 мин" }
                 ]
-            },
-            4: {
-                title: "ДЕНЬ 4: ОТДЫХ И ВОССТАНОВЛЕНИЕ",
-                color: "#aaa",
-                exercises: [
-                    { name: "Плато Аскезы (Медитация / Прогулка / Растяжка)", sets: "1", reps: "1 сессия", rest: "—" },
-                    { name: "Сон 8+ часов", sets: "1", reps: "1 сессия", rest: "—" },
-                    { name: "Питьевой режим (3.5л воды)", sets: "1", reps: "1 сессия", rest: "—" }
-                ]
             }
         };
 
-        function switchWorkoutDay(dayNum, btnElement) {
+                function switchWorkoutDay(dayNum, btnElement) {
             playSfx('sfx-click');
-
-            document.querySelectorAll('.workout-tab-btn').forEach(b => {
-                b.style.background = "rgba(255,255,255,0.03)";
+            
+            // 1. Сбрасываем стили со всех кнопок
+            document.querySelectorAll('.workout-icon-btn').forEach(b => {
+                b.style.background = "rgba(255,255,255,0.02)";
                 b.style.borderColor = "rgba(255,255,255,0.1)";
-                b.style.color = "#aaa";
+                b.style.transform = "scale(1)";
+                const img = b.querySelector('img');
+                if(img) img.style.opacity = "0.5";
             });
-            btnElement.style.background = "rgba(0,212,255,0.15)";
-            btnElement.style.borderColor = "#00d4ff";
-            btnElement.style.color = "#fff";
+            
+            // 2. Подсвечиваем активную кнопку
+            if (btnElement) {
+                const data = workoutDaysData[dayNum];
+                btnElement.style.background = `color-mix(in srgb, ${data.color} 15%, transparent)`;
+                btnElement.style.borderColor = data.color;
+                btnElement.style.transform = "scale(1.05)";
+                btnElement.style.boxShadow = `0 0 15px ${data.color}`;
+                const img = btnElement.querySelector('img');
+                if(img) {
+                    img.style.opacity = "1";
+                    img.style.filter = `drop-shadow(0 0 8px ${data.color})`;
+                }
+            }
 
+            // 3. Рисуем программу
             const data = workoutDaysData[dayNum];
             const box = document.getElementById('workout-content-box');
             if (!box) return;
@@ -7905,7 +7937,7 @@ if (pageId === 'programs-page') {
                         </div>
                         <div style="display: flex; gap: 15px; font-size: 0.75rem; font-family: 'Orbitron';">
                             <span style="color: #ffaa00;" title="Подходы">${ex.sets} подх.</span>
-                            <span style="color: #00ff88;" title="Повторения">${ex.reps} повτ.</span>
+                            <span style="color: #00ff88;" title="Повторения">${ex.reps} повт.</span>
                             <span style="color: #aaa; min-width: 60px; text-align: right;" title="Отдых">${ex.rest}</span>
                         </div>
                     </div>

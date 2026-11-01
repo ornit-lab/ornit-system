@@ -10092,11 +10092,16 @@ renderLiveChart();
             saveDailyData();
         }
 
-        function saveDailyData() {
+                function saveDailyData() {
             const today = getMskDateInfo().dateString;
             profileDocRef.set({
                 [`dailyLog_${today}`]: { foods: dailyFoods, water: dailyWater }
             }, {merge: true});
+            
+            // 🛡 МГНОВЕННО ПЕРЕРИСОВЫВАЕМ КАЛЕНДАРЬ
+            if (typeof renderDailyCalendar === 'function') {
+                renderDailyCalendar();
+            }
         }
 
         function loadDailyData() {

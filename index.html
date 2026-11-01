@@ -3296,46 +3296,82 @@
             cursor: pointer;
         }
 
+                /* ======================================================== */
+        /* 🦾 СТИЛИ ДЛЯ МОДАЛКИ ТРЕНИРОВКИ (3D КНОПКИ)              */
+        /* ======================================================== */
+
         .workout-choice {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             width: 100%;
-            margin-top: 10px;
-            padding: 13px 15px;
-            color: #fff;
-            background: rgba(255, 255, 255, .03);
-            border: 1px solid;
-            border-radius: 8px;
+            padding: 15px 20px;
+            border-radius: 10px;
             cursor: pointer;
-            font: .72rem 'Orbitron', sans-serif;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #fff;
+            outline: none;
+            transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
 
         .workout-choice strong {
+            font-family: 'Orbitron';
+            font-size: 1rem;
             text-shadow: 0 0 8px currentColor;
         }
 
+        /* 1. Разминка (Зеленая) */
         .workout-warmup {
-            border-color: #35df83;
+            background: linear-gradient(180deg, rgba(53, 223, 131, 0.2), rgba(10, 30, 20, 0.95));
+            border: 1px solid #35df83;
+            border-bottom: 4px solid #35df83;
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.5), 0 0 15px rgba(53, 223, 131, 0.2);
+            animation: pulseGreen 2s infinite alternate;
         }
+        .workout-warmup strong { color: #35df83; }
+        .workout-warmup:hover { transform: translateY(-2px); box-shadow: 0 8px 0 rgba(0, 0, 0, 0.5), 0 0 25px rgba(53, 223, 131, 0.5); }
+        .workout-warmup:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(0, 0, 0, 0.5); border-bottom-width: 1px; }
 
-        .workout-warmup strong {
-            color: #35df83;
-        }
-
+        /* 2. В рабочем режиме (Желтая) */
         .workout-working {
-            border-color: #ffd34e;
+            background: linear-gradient(180deg, rgba(255, 211, 78, 0.2), rgba(30, 25, 10, 0.95));
+            border: 1px solid #ffd34e;
+            border-bottom: 4px solid #ffd34e;
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 211, 78, 0.2);
+            animation: pulseYellow 2s infinite alternate;
         }
+        .workout-working strong { color: #ffd34e; }
+        .workout-working:hover { transform: translateY(-2px); box-shadow: 0 8px 0 rgba(0, 0, 0, 0.5), 0 0 25px rgba(255, 211, 78, 0.5); }
+        .workout-working:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(0, 0, 0, 0.5); border-bottom-width: 1px; }
 
-        .workout-working strong {
-            color: #ffd34e;
-        }
-
+        /* 3. В мясо (Красная) */
         .workout-beast {
-            border-color: #ff4055;
+            background: linear-gradient(180deg, rgba(255, 64, 85, 0.2), rgba(30, 10, 10, 0.95));
+            border: 1px solid #ff4055;
+            border-bottom: 4px solid #ff4055;
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 64, 85, 0.2);
+            animation: pulseRed 2s infinite alternate;
         }
+        .workout-beast strong { color: #ff4055; }
+        .workout-beast:hover { transform: translateY(-2px); box-shadow: 0 8px 0 rgba(0, 0, 0, 0.5), 0 0 25px rgba(255, 64, 85, 0.5); }
+        .workout-beast:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(0, 0, 0, 0.5); border-bottom-width: 1px; }
 
-        .workout-beast strong {
-            color: #ff4055;
+        /* Анимации пульсации */
+        @keyframes pulseGreen {
+            0% { box-shadow: 0 6px 0 rgba(0, 0, 0, 0.5), 0 0 10px rgba(53, 223, 131, 0.2); }
+            100% { box-shadow: 0 6px 0 rgba(0, 0, 0, 0.5), 0 0 25px rgba(53, 223, 131, 0.6); }
+        }
+        @keyframes pulseYellow {
+            0% { box-shadow: 0 6px 0 rgba(0, 0, 0, 0.5), 0 0 10px rgba(255, 211, 78, 0.2); }
+            100% { box-shadow: 0 6px 0 rgba(0, 0, 0, 0.5), 0 0 25px rgba(255, 211, 78, 0.6); }
+        }
+        @keyframes pulseRed {
+            0% { box-shadow: 0 6px 0 rgba(0, 0, 0, 0.5), 0 0 10px rgba(255, 64, 85, 0.2); }
+            100% { box-shadow: 0 6px 0 rgba(0, 0, 0, 0.5), 0 0 25px rgba(255, 64, 85, 0.6); }
         }
 
         @media (max-width: 700px) {
@@ -5973,6 +6009,150 @@
         .workout-icon-btn:hover {
             transform: translateY(-2px);
         }
+
+
+                /* ======================================================== */
+        /* 💪 3D ПЛАШКИ УПРАЖНЕНИЙ                                  */
+        /* ======================================================== */
+        
+        .exercise-3d-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-radius: 10px;
+            transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            cursor: default;
+        }
+
+        .exercise-3d-card:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 9px 0 rgba(0,0,0,0.5), 0 0 25px var(--theme-color) 60, inset 0 0 15px var(--theme-color) 20 !important;
+            border-color: var(--theme-color) !important;
+        }
+
+        .exercise-3d-card:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 rgba(0,0,0,0.5) !important;
+            border-bottom-width: 1px !important;
+        }
+
+
+
+
+
+
+
+
+                /* 💧 ЖИДКИЕ КНОПКИ ВОДЫ */
+        .water-btn {
+            position: relative;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(180deg, rgba(0, 212, 255, 0.15), rgba(0, 212, 255, 0.05));
+            border: 1px solid #00d4ff;
+            border-radius: 30px; /* Форма капли */
+            color: #fff;
+            font-family: 'Orbitron';
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            overflow: hidden;
+            transition: 0.3s;
+            box-shadow: 0 4px 0 rgba(0, 212, 255, 0.4), inset 0 0 10px rgba(0, 212, 255, 0.2);
+            animation: waterWobble 3s infinite ease-in-out;
+            text-shadow: 0 0 8px #00d4ff;
+        }
+        .water-btn:hover {
+            background: linear-gradient(180deg, rgba(0, 212, 255, 0.3), rgba(0, 212, 255, 0.1));
+            box-shadow: 0 6px 0 rgba(0, 212, 255, 0.6), 0 0 20px rgba(0, 212, 255, 0.4);
+            transform: translateY(-2px);
+        }
+        .water-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 rgba(0, 212, 255, 0.4);
+        }
+        @keyframes waterWobble {
+            0%, 100% { border-radius: 30px 30px 30px 30px; }
+            25% { border-radius: 40px 20px 40px 20px; }
+            50% { border-radius: 20px 40px 20px 40px; }
+            75% { border-radius: 30px 30px 30px 30px; }
+        }
+
+              /* 📅 КОМПАКТНЫЙ КАЛЕНДАРЬ ПИТАНИЯ */
+        #daily-cal-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px; /* Расстояние между квадратиками */
+            max-width: 320px; /* Ширина календаря, чтобы он не растягивался */
+            margin-bottom: 20px;
+        }
+
+        .daily-cal-cell {
+            aspect-ratio: 1;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron';
+            font-size: 0.65rem; /* Уменьшили шрифт */
+            color: #888;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .daily-cal-cell:hover {
+            border-color: #fff;
+            transform: scale(1.1);
+            color: #fff;
+        }
+
+        /* Цвета по калориям (сделали чуть мягче) */
+        .daily-cal-cell.cal-low { 
+            background: rgba(255, 0, 76, 0.15); 
+            border-color: rgba(255, 0, 76, 0.5); 
+            color: #ff004c; 
+            box-shadow: 0 0 8px rgba(255,0,76,0.3); 
+        }
+        .daily-cal-cell.cal-mid { 
+            background: rgba(255, 211, 78, 0.15); 
+            border-color: rgba(255, 211, 78, 0.5); 
+            color: #ffd34e; 
+            box-shadow: 0 0 8px rgba(255,211,78,0.3); 
+        }
+        .daily-cal-cell.cal-high { 
+            background: rgba(0, 255, 136, 0.15); 
+            border-color: rgba(0, 255, 136, 0.5); 
+            color: #00ff88; 
+            box-shadow: 0 0 8px rgba(0,255,136,0.3); 
+        }
+        .daily-cal-cell.cal-max { 
+            background: linear-gradient(135deg, rgba(255, 120, 0, 0.3), rgba(255, 0, 0, 0.3)); 
+            border-color: #ff7700; 
+            color: #fff; 
+            box-shadow: 0 0 10px #ff7700, inset 0 0 5px #ff0000;
+        }
+        @keyframes lavaPulse {
+            0% { box-shadow: 0 0 10px #ff7700, inset 0 0 5px #ff0000; }
+            100% { box-shadow: 0 0 25px #ffaa00, inset 0 0 15px #ff0000; }
+        }
+
+        /* Адаптив для мобилок */
+        @media (max-width: 900px) {
+            .daily-grid-container {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+
+
+
+
+
+
+        
     </style>
 
 
@@ -6752,99 +6932,147 @@
 
 
 
-        <!-- =================================================== -->
+       <!-- =================================================== -->
     <!-- 🍏 ЭКРАН 5: ЕЖЕДНЕВНИК (КАЛОРИИ + ВОДА)            -->
     <!-- =================================================== -->
-    <div id="daily-page" class="page-view" style="display: none; max-width: 1000px; margin: 0 auto; padding: 20px 10px 100px;">
+    <div id="daily-page" class="page-view" style="display: none; max-width: 1100px; margin: 0 auto; padding: 20px 10px 100px;">
         
         <!-- Шапка ежедневника -->
-        <div class="hud-header" style="margin-bottom: 20px;">
-            <div class="hud-left">
-                <h1 class="hud-title" style="font-size: 1.5rem; color: #00d4ff;">🍏 ЕЖЕДНЕВНИК</h1>
-                <div class="hud-status">
-                    <span class="status-dot"></span>
-                    <span class="status-text">ТРЕКЕР ДНЯ</span>
+        <div class="hud-header" style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;">
+            <div class="hud-left" style="display: flex; align-items: center; gap: 15px;">
+                <svg style="width: 36px; height: 36px; fill: none; stroke: #00ff88; stroke-width: 2; filter: drop-shadow(0 0 10px #00ff88);" viewBox="0 0 24 24">
+                    <path d="M12 2c-3.3 0-6 2.7-6 6 0 4.4 6 14 6 14s6-9.6 6-14c0-3.3-2.7-6-6-6z"/>
+                    <path d="M12 8v8M8 12h8"/>
+                </svg>
+                <div>
+                    <h1 class="hud-title" style="font-size: 1.6rem; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.4); margin: 0;">ЕЖЕДНЕВНИК</h1>
+                    <div style="display: flex; align-items: center; gap: 5px; margin-top: 4px;">
+                        <span style="width: 6px; height: 6px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 8px #00ff88;"></span>
+                        <span style="font-size: 0.65rem; color: #00ff88; letter-spacing: 1px;">ТРЕКЕР ДНЯ</span>
+                    </div>
                 </div>
             </div>
             <div class="hud-right">
-                <span id="daily-date-display" style="font-family: 'Orbitron'; color: #ffaa00;">ДАТА</span>
+                <span id="daily-date-display" style="font-family: 'Orbitron'; color: #ffaa00; font-size: 1.1rem; text-shadow: 0 0 10px rgba(255,170,0,0.6);">ДАТА</span>
             </div>
         </div>
 
         <!-- Сетка с колонками -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 30px;" class="daily-grid-container">
 
             <!-- ЛЕВАЯ КОЛОНКА: КАЛОРИИ -->
-            <div class="profile-card" style="padding: 25px;">
-                <div style="font-family: 'Orbitron'; color: #ff004c; font-size: 1.2rem; margin-bottom: 15px;">🔥 КАЛОРИИ</div>
-
-                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                    <input type="text" id="food-search-input" placeholder="Введи продукт (напр. гречка)"
-                        style="flex: 1; padding: 10px; background: #0a0a15; border: 1px solid #333; color: #fff; border-radius: 6px; outline: none;">
-                    <input type="number" id="food-weight-input" placeholder="Вес (г)"
-                        style="width: 90px; padding: 10px; background: #0a0a15; border: 1px solid #333; color: #fff; border-radius: 6px; outline: none;">
-                    <button onclick="addFoodToLog()" class="opt-btn"
-                        style="border-color: #ff004c; color: #ff004c; padding: 10px;">ДОБАВИТЬ</button>
+            <div class="profile-card" style="padding: 25px; background: linear-gradient(145deg, #0d0d1a, #080812); border: 1px solid rgba(255, 170, 0, 0.3); border-top: 3px solid #ffaa00; box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,170,0,0.05);">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid rgba(255,170,0,0.2); padding-bottom: 10px;">
+                    <svg style="width: 24px; height: 24px; fill: none; stroke: #ffaa00; stroke-width: 2; filter: drop-shadow(0 0 8px #ffaa00);" viewBox="0 0 24 24">
+                        <path d="M12 2c-3.3 0-6 2.7-6 6 0 4.4 6 14 6 14s6-9.6 6-14c0-3.3-2.7-6-6-6z"/>
+                        <path d="M8 8l8 8M8 16L16 8"/>
+                    </svg>
+                    <h3 style="font-family: 'Orbitron'; color: #ffaa00; font-size: 1.1rem; margin: 0; text-shadow: 0 0 8px rgba(255,170,0,0.4);">КАЛОРИИ</h3>
                 </div>
 
-                <div id="food-search-results" style="margin-bottom: 20px; max-height: 150px; overflow-y: auto;"></div>
+                <!-- Автоматическое добавление -->
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <input type="text" id="food-search-input" placeholder="Продукт (напр. гречка)"
+                        style="flex: 1; padding: 12px; background: #05050a; border: 1px solid #333; color: #fff; border-radius: 8px; outline: none; transition: 0.3s; font-family: 'Exo 2';">
+                    <input type="number" id="food-weight-input" placeholder="Вес (г)"
+                        style="width: 80px; padding: 12px; background: #05050a; border: 1px solid #333; color: #fff; border-radius: 8px; outline: none;">
+                    <button onclick="addFoodToLog()" class="opt-btn"
+                        style="border-color: #ffaa00; color: #ffaa00; padding: 0 15px; border-radius: 8px; background: rgba(255,170,0,0.1); font-weight: bold; cursor: pointer;">+</button>
+                </div>
 
-                <!-- ПОЛОСКА КАЛОРИЙ -->
-                <div class="mcl-track" style="height: 12px; margin-bottom: 10px;">
-                    <div id="calorie-fill" class="mcl-fill-gold"
-                        style="width: 0%; background: linear-gradient(90deg, #a855f7, #ff004c);"></div>
+                <div id="food-search-results" style="margin-bottom: 15px; max-height: 150px; overflow-y: auto;"></div>
+
+                <!-- РУЧНОЙ ВВОД КБЖУ -->
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 15px; margin-bottom: 20px;">
+                    <div style="font-size: 0.7rem; color: #aaa; margin-bottom: 10px; text-transform: uppercase; font-family: 'Orbitron';">📝 ЗАПИСАТЬ ВРУЧНУЮ (СБРОСИТЬ СЪЕДЕННОЕ)</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <input type="number" id="manual-kcal" placeholder="Каллории" style="width: 100%; padding: 8px; background: #05050a; border: 1px solid #333; color: #a855f7; border-radius: 6px; font-family: 'Orbitron';">
+                        <input type="number" id="manual-p" placeholder="Белки (г)" style="width: 100%; padding: 8px; background: #05050a; border: 1px solid #333; color: #fff; border-radius: 6px; font-family: 'Orbitron';">
+                        <input type="number" id="manual-f" placeholder="Жиры (г)" style="width: 100%; padding: 8px; background: #05050a; border: 1px solid #333; color: #ffaa00; border-radius: 6px; font-family: 'Orbitron';">
+                        <input type="number" id="manual-c" placeholder="Углеводы (г)" style="width: 100%; padding: 8px; background: #05050a; border: 1px solid #333; color: #aaa; border-radius: 6px; font-family: 'Orbitron';">
+                    </div>
+                    <button onclick="saveManualMacros()" style="width: 100%; margin-top: 10px; padding: 10px; background: rgba(168,85,247,0.15); border: 1px solid #a855f7; color: #a855f7; border-radius: 6px; font-family: 'Orbitron'; font-weight: bold; cursor: pointer; transition: 0.2s;">СОХРАНИТЬ ВРУЧНУЮ</button>
+                </div>
+
+                <!-- ПРОГРЕСС БАР -->
+                <div class="mcl-track" style="height: 12px; margin-bottom: 10px; background: #05050a; border-radius: 6px; overflow: hidden;">
+                    <div id="calorie-fill" class="mcl-fill-gold" style="width: 0%; background: linear-gradient(90deg, #a855f7, #ff004c); box-shadow: 0 0 15px #a855f7; transition: width 0.5s ease;"></div>
                 </div>
                 
-                <div style="display: flex; justify-content: space-between; font-family: 'Orbitron'; font-size: 0.8rem; margin-bottom: 15px;">
-                    <span id="calorie-current" style="color: #a855f7; font-weight: bold;">0</span>
+                <div style="display: flex; justify-content: space-between; font-family: 'Orbitron'; font-size: 0.85rem; margin-bottom: 20px;">
+                    <span id="calorie-current" style="color: #a855f7; font-weight: bold; text-shadow: 0 0 8px rgba(168,85,247,0.5);">0</span>
                     <span style="color: #888;">/ 3000 ккал</span>
                 </div>
 
                 <!-- ПЛАШКИ КБЖУ -->
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px;">
-                    <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 8px; text-align: center;">
-                        <div style="font-size: 0.65rem; color: #aaa; font-family: 'Orbitron';">БЕЛКИ</div>
-                        <div style="font-size: 1.1rem; color: #ffffff; font-weight: bold; font-family: 'Orbitron';">
-                            <span id="total-p">0</span>г</div>
+                    <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 10px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.1);">
+                        <div style="font-size: 0.6rem; color: #aaa; font-family: 'Orbitron';">БЕЛКИ</div>
+                        <div style="font-size: 1.2rem; color: #ffffff; font-weight: bold; font-family: 'Orbitron'; text-shadow: 0 0 8px rgba(255,255,255,0.5);"><span id="total-p">0</span>г</div>
                     </div>
-                    <div style="background: rgba(255, 170, 0, 0.05); border: 1px solid rgba(255, 170, 0, 0.3); border-radius: 8px; padding: 8px; text-align: center;">
-                        <div style="font-size: 0.65rem; color: #aaa; font-family: 'Orbitron';">ЖИРЫ</div>
-                        <div style="font-size: 1.1rem; color: #ffaa00; font-weight: bold; font-family: 'Orbitron';">
-                            <span id="total-f">0</span>г</div>
+                    <div style="background: rgba(255, 170, 0, 0.05); border: 1px solid rgba(255, 170, 0, 0.3); border-radius: 8px; padding: 10px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.5), inset 0 1px rgba(255,170,0,0.1);">
+                        <div style="font-size: 0.6rem; color: #aaa; font-family: 'Orbitron';">ЖИРЫ</div>
+                        <div style="font-size: 1.2rem; color: #ffaa00; font-weight: bold; font-family: 'Orbitron'; text-shadow: 0 0 8px rgba(255,170,0,0.5);"><span id="total-f">0</span>г</div>
                     </div>
-                    <div style="background: rgba(150, 150, 150, 0.05); border: 1px solid rgba(150, 150, 150, 0.3); border-radius: 8px; padding: 8px; text-align: center;">
-                        <div style="font-size: 0.65rem; color: #aaa; font-family: 'Orbitron';">УГЛЕВОДЫ</div>
-                        <div style="font-size: 1.1rem; color: #aaa; font-weight: bold; font-family: 'Orbitron';">
-                            <span id="total-c">0</span>г</div>
+                    <div style="background: rgba(150, 150, 150, 0.05); border: 1px solid rgba(150, 150, 150, 0.3); border-radius: 8px; padding: 10px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.05);">
+                        <div style="font-size: 0.6rem; color: #aaa; font-family: 'Orbitron';">УГЛЕВОДЫ</div>
+                        <div style="font-size: 1.2rem; color: #aaa; font-weight: bold; font-family: 'Orbitron'; text-shadow: 0 0 8px rgba(150,150,150,0.5);"><span id="total-c">0</span>г</div>
                     </div>
                 </div>
 
-                <div style="margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+                <div style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
                     <div style="font-family: 'Orbitron'; color: #aaa; font-size: 0.8rem; margin-bottom: 10px;">СЪЕДЕНО СЕГОДНЯ:</div>
-                    <div id="food-log-list" style="display: flex; flex-direction: column; gap: 8px; max-height: 200px; overflow-y: auto;"></div>
+                    <div id="food-log-list" style="display: flex; flex-direction: column; gap: 8px; max-height: 180px; overflow-y: auto;"></div>
                 </div>
             </div>
 
             <!-- ПРАВАЯ КОЛОНКА: ВОДА -->
-            <div class="profile-card" style="padding: 25px; text-align: center;">
-                <div style="font-family: 'Orbitron'; color: #00d4ff; font-size: 1.2rem; margin-bottom: 15px;">💧 ВОДА</div>
-
-                <div style="width: 120px; height: 250px; margin: 0 auto 20px; border: 2px solid #00d4ff; border-radius: 10px 10px 40px 40px; position: relative; overflow: hidden; background: rgba(0,0,0,0.5);">
-                    <div id="water-flask-fill" style="position: absolute; bottom: 0; left: 0; width: 100%; height: 0%; background: linear-gradient(0deg, #00d4ff, #00ff88); transition: height 0.5s ease;"></div>
+            <div class="profile-card" style="padding: 25px; text-align: center; background: linear-gradient(145deg, #0d0d1a, #080812); border: 1px solid rgba(0, 212, 255, 0.3); border-top: 3px solid #00d4ff; box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 20px rgba(0,212,255,0.05); display: flex; flex-direction: column; align-items: center;">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid rgba(0,212,255,0.2); padding-bottom: 10px; width: 100%;">
+                    <svg style="width: 24px; height: 24px; fill: none; stroke: #00d4ff; stroke-width: 2; filter: drop-shadow(0 0 8px #00d4ff);" viewBox="0 0 24 24">
+                        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+                    </svg>
+                    <h3 style="font-family: 'Orbitron'; color: #00d4ff; font-size: 1.1rem; margin: 0; text-shadow: 0 0 8px rgba(0,212,255,0.4);">ВОДА</h3>
                 </div>
 
-                <div style="font-family: 'Orbitron'; font-size: 1.2rem; color: #fff; margin-bottom: 20px;">
-                    <span id="water-current">0</span> / 3500 мл
+                <!-- 3D Колба -->
+                <div style="width: 140px; height: 280px; margin: 0 auto 25px; border: 3px solid #00d4ff; border-radius: 20px 20px 60px 60px; position: relative; overflow: hidden; background: rgba(0,0,0,0.6); box-shadow: inset 0 0 20px rgba(0,212,255,0.2), 0 10px 30px rgba(0,0,0,0.8);">
+                    <div id="water-flask-fill" style="position: absolute; bottom: 0; left: 0; width: 100%; height: 0%; background: linear-gradient(0deg, #00d4ff, #00ff88); transition: height 0.5s ease; border-radius: 40% 40% 0 0; box-shadow: 0 -5px 20px rgba(0, 212, 255, 0.6);">
+                        <div style="position: absolute; top: -5px; left: 0; width: 100%; height: 10px; background: rgba(255,255,255,0.4); filter: blur(4px); border-radius: 50%;"></div>
+                    </div>
                 </div>
 
-                <div style="display: flex; flex-direction: column; gap: 10px;">
-                    <button onclick="addWater(200)" class="opt-btn" style="border-color: #00d4ff; color: #00d4ff;">+ 200 мл</button>
-                    <button onclick="addWater(500)" class="opt-btn" style="border-color: #00d4ff; color: #00d4ff;">+ 500 мл</button>
-                    <button onclick="addWater(1000)" class="opt-btn" style="border-color: #00d4ff; color: #00d4ff;">+ 1 000 мл</button>
+                <div style="font-family: 'Orbitron'; font-size: 1.5rem; color: #fff; margin-bottom: 25px; text-shadow: 0 0 15px rgba(0,212,255,0.8);">
+                    <span id="water-current" style="color: #00d4ff;">0</span> <span style="font-size: 1rem; color: #aaa;">/ 3500 мл</span>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 15px; width: 100%;">
+                    <button onclick="addWater(200)" class="water-btn">+ 200 мл</button>
+                    <button onclick="addWater(500)" class="water-btn">+ 500 мл</button>
+                    <button onclick="addWater(1000)" class="water-btn">+ 1 000 мл</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 📅 КАЛЕНДАРЬ КАЛОРИЙ -->
+       <div class="profile-card" style="padding: 25px; background: linear-gradient(145deg, #0d0d1a, #080812); border: 1px solid var(--panel-border); border-top: 3px solid #8a2be2; box-shadow: 0 10px 30px rgba(0,0,0,0.5); max-width: 500px; margin: 0 auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(138,43,226,0.2); padding-bottom: 10px;">
+                <h3 style="font-family: 'Orbitron'; color: #a855f7; font-size: 1.1rem; margin: 0; text-shadow: 0 0 8px rgba(168,85,247,0.4);">📅 ИСТОРИЯ ПИТАНИЯ</h3>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button onclick="changeDailyCalMonth(-1)" class="chronicle-btn" style="padding: 4px 10px; font-size: 0.8rem;">◄</button>
+                    <span id="daily-cal-month-label" style="font-family: 'Orbitron'; color: #fff; font-size: 0.9rem; min-width: 100px; text-align: center;">НОЯБРЬ 2026</span>
+                    <button onclick="changeDailyCalMonth(1)" class="chronicle-btn" style="padding: 4px 10px; font-size: 0.8rem;">►</button>
                 </div>
             </div>
 
+            <!-- Сетка дней -->
+            <div id="daily-cal-grid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 25px;"></div>
+
+            <!-- Список дней с деталями -->
+            <div style="font-family: 'Orbitron'; color: #aaa; font-size: 0.8rem; margin-bottom: 10px;">ДЕТАЛИЗАЦИЯ ПО ДНЯМ:</div>
+            <div id="daily-cal-list" style="display: flex; flex-direction: column; gap: 8px; max-height: 200px; overflow-y: auto;"></div>
         </div>
+
     </div>
     <!-- =================================================== -->
     <!-- 🦾 ПРОГРАММА ТРЕНИРОВОК: ПРОТОКОЛ «МОНОЛИТ»          -->
@@ -6924,28 +7152,26 @@
      onclick="if(event.target === this) closeWorkoutRewardModal()">
     <div class="workout-modal-card">
         <button class="workout-modal-close" type="button"
-                onclick="closeWorkoutRewardModal()" aria-label="Закрыть">×</button>
+                onclick="closeWorkoutRewardModal()" aria-label="Закрыть">✕</button>
 
-        <div class="workout-modal-icon">
-            <svg viewBox="0 0 64 64" aria-hidden="true">
-                <circle cx="32" cy="9" r="6"/>
-                <path d="M22 21c2-4 6-6 10-6s8 2 10 6l5 13-7 3-5-9 2 14 10 13H38L32 43l-6 15H14l10-16 2-14-5 9-7-3 8-13Z"/>
-                <path d="m20 20-8 4-4 12 6 2 4-8M44 20l8 4 4 12-6 2-4-8"/>
-            </svg>
+        <div class="workout-modal-icon" style="margin-bottom: 10px;">
+            <img src="muscle.png" alt="Muscle" style="width: 80px; height: 80px; object-fit: contain; filter: drop-shadow(0 0 15px #00d4ff) brightness(0) saturate(100%) invert(70%) sepia(80%) saturate(3000%) hue-rotate(150deg) brightness(110%) contrast(120%);">
         </div>
 
-        <h2 id="workout-modal-title">КАКАЯ БЫЛА ТРЕНИРОВКА?</h2>
-        <p>Выбери интенсивность. Награда доступна раз в 24 часа.</p>
+        <h2 id="workout-modal-title" style="font-family: 'Orbitron'; color: #fff; margin-bottom: 5px; text-shadow: 0 0 10px rgba(255,255,255,0.3);">КАКАЯ БЫЛА ТРЕНИРОВКА?</h2>
+        <p style="color: #aaa; font-size: 0.8rem; margin-bottom: 25px;">Выбери интенсивность. Награда доступна раз в 24 часа.</p>
 
-        <button class="workout-choice workout-warmup" onclick="claimWorkoutReward('warmup')">
-            <span>Разминка</span><strong>+50 XP</strong>
-        </button>
-        <button class="workout-choice workout-working" onclick="claimWorkoutReward('working')">
-            <span>В рабочем режиме</span><strong>+80 XP</strong>
-        </button>
-        <button class="workout-choice workout-beast" onclick="claimWorkoutReward('beast')">
-            <span>В мясо</span><strong>+100 XP</strong>
-        </button>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+            <button class="workout-choice workout-warmup" onclick="claimWorkoutReward('warmup')">
+                <span>Разминка</span><strong>+50 XP</strong>
+            </button>
+            <button class="workout-choice workout-working" onclick="claimWorkoutReward('working')">
+                <span>В рабочем режиме</span><strong>+80 XP</strong>
+            </button>
+            <button class="workout-choice workout-beast" onclick="claimWorkoutReward('beast')">
+                <span>В мясо</span><strong>+100 XP</strong>
+            </button>
+        </div>
     </div>
 </div>
 
@@ -7857,10 +8083,10 @@ if (pageId === 'programs-page') {
         // =========================================================
         const WORKOUT_COOLDOWN_MS = 24 * 60 * 60 * 1000;
 
-                    const workoutDaysData = {
+                        const workoutDaysData = {
             1: {
-                title: "ДЕНЬ 1: ГРУДЬ",
-                color: "#ffd700",
+                title: "ДЕНЬ 1: ВЕРХ ТЕЛА (ЖИМОВОЙ)",
+                color: "#ffd700", // Желтый (для груди)
                 exercises: [
                     { name: "Жим штанги лежа (База)", sets: "4", reps: "8–10", rest: "2.5–3 мин" },
                     { name: "Жим гантелей под углом 30-45°", sets: "3", reps: "10–12", rest: "2 мин" },
@@ -7870,8 +8096,8 @@ if (pageId === 'programs-page') {
                 ]
             },
             2: {
-                title: "ДЕНЬ 2: СПИНА",
-                color: "#ff004c",
+                title: "ДЕНЬ 2: ВЕРХ ТЕЛА (ТЯГОВЫЙ)",
+                color: "#00ff88", // ЗЕЛЕНЫЙ (для спины)
                 exercises: [
                     { name: "Тяга штанги в наклоне (База)", sets: "4", reps: "8–10", rest: "2.5–3 мин" },
                     { name: "Подтягивания (или Тяга верхнего блока)", sets: "4", reps: "8–12", rest: "2 мин" },
@@ -7883,8 +8109,8 @@ if (pageId === 'programs-page') {
                 ]
             },
             3: {
-                title: "ДЕНЬ 3: НОГИ",
-                color: "#8a2be2",
+                title: "ДЕНЬ 3: НИЗ ТЕЛА (БАЗА)",
+                color: "#ffaa00", // ОРАНЖЕВЫЙ (для ног)
                 exercises: [
                     { name: "Приседания со штангой (База)", sets: "4", reps: "8–10", rest: "2.5–3 мин" },
                     { name: "Румынская тяга с гантелями / штангой", sets: "3", reps: "10–12", rest: "2 мин" },
@@ -7894,7 +8120,7 @@ if (pageId === 'programs-page') {
             }
         };
 
-                 function switchWorkoutDay(dayNum, btnElement) {
+                  function switchWorkoutDay(dayNum, btnElement) {
             playSfx('sfx-click');
             
             // 1. Сбрасываем стили со всех кнопок
@@ -7906,56 +8132,70 @@ if (pageId === 'programs-page') {
                 const img = b.querySelector('img');
                 if(img) {
                     img.style.opacity = "0.5";
-                    // Тусклые цвета
                     if(img.alt === 'Chest') img.style.filter = "brightness(0) saturate(100%) invert(90%) sepia(50%) saturate(2000%) hue-rotate(10deg) brightness(50%) contrast(100%)";
                     if(img.alt === 'Back') img.style.filter = "brightness(0) saturate(100%) invert(80%) sepia(50%) saturate(3000%) hue-rotate(90deg) brightness(50%) contrast(100%)";
                     if(img.alt === 'Legs') img.style.filter = "brightness(0) saturate(100%) invert(70%) sepia(80%) saturate(3000%) hue-rotate(360deg) brightness(50%) contrast(100%)";
                 }
             });
             
-            // 2. Подсвечиваем активную кнопку
+            // 2. Подсвечиваем активную кнопку (МОНОЛИТНЫЙ ЦВЕТ)
             if (btnElement) {
-                const data = workoutDaysData[dayNum];
-                btnElement.style.background = `linear-gradient(145deg, ${data.color}25, rgba(10,10,15,0.9))`;
-                btnElement.style.borderColor = data.color;
+                let glowColor = "#ffffff"; 
+                if (dayNum === 1) glowColor = "#ffd700"; // Грудь - Желтый
+                if (dayNum === 2) glowColor = "#00ff88"; // Спина - Зеленый
+                if (dayNum === 3) glowColor = "#ffaa00"; // Ноги - Оранжевый
+
+                btnElement.style.background = `linear-gradient(145deg, ${glowColor}25, rgba(10,10,15,0.9))`;
+                btnElement.style.borderColor = glowColor;
                 btnElement.style.transform = "scale(1.05)";
-                btnElement.style.boxShadow = `0 0 20px ${data.color}60`;
+                btnElement.style.boxShadow = `0 0 20px ${glowColor}60, inset 0 0 10px ${glowColor}30`;
+                
                 const img = btnElement.querySelector('img');
                 if(img) {
                     img.style.opacity = "1";
-                    // Яркие цвета
                     if(img.alt === 'Chest') img.style.filter = "drop-shadow(0 0 10px #ffd700) brightness(0) saturate(100%) invert(90%) sepia(50%) saturate(2000%) hue-rotate(10deg) brightness(110%) contrast(120%)";
                     if(img.alt === 'Back') img.style.filter = "drop-shadow(0 0 10px #00ff88) brightness(0) saturate(100%) invert(80%) sepia(50%) saturate(3000%) hue-rotate(90deg) brightness(100%) contrast(120%)";
                     if(img.alt === 'Legs') img.style.filter = "drop-shadow(0 0 10px #ffaa00) brightness(0) saturate(100%) invert(70%) sepia(80%) saturate(3000%) hue-rotate(360deg) brightness(100%) contrast(120%)";
                 }
             }
 
-            // 3. Рисуем программу (оставляем как было)
+            // 3. Рисуем программу (С 3D ПЛАШКАМИ И СВЕЧЕНИЕМ)
             const data = workoutDaysData[dayNum];
             const box = document.getElementById('workout-content-box');
             if (!box) return;
 
+            // Заголовок с неоновым свечением
             let html = `
-                <div style="font-size: 1rem; color: ${data.color}; font-weight: bold; margin-bottom: 18px; border-bottom: 1px solid ${data.color}40; padding-bottom: 8px; text-shadow: 0 0 10px ${data.color}80;">
+                <div style="font-family: 'Orbitron'; font-size: 1.1rem; color: ${data.color}; font-weight: bold; margin-bottom: 20px; border-bottom: 1px solid ${data.color}40; padding-bottom: 10px; text-shadow: 0 0 15px ${data.color}, 0 0 5px ${data.color};">
                     🔥 ${data.title}
                 </div>
-                <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="display: flex; flex-direction: column; gap: 15px;">
             `;
 
             data.exercises.forEach((ex, idx) => {
+                // 3D Плашка с заливкой, тенью и свечением
                 html += `
-                    <div style="
-                        display: flex; justify-content: space-between; align-items: center;
-                        background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);
-                        padding: 12px 16px; border-radius: 8px; gap: 10px;
+                    <div class="exercise-3d-card" style="
+                        --theme-color: ${data.color};
+                        background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, ${data.color}15 100%);
+                        border: 1px solid ${data.color}50;
+                        border-bottom: 4px solid ${data.color}80;
+                        box-shadow: 0 6px 0 rgba(0,0,0,0.5), 0 0 15px ${data.color}20, inset 0 0 10px ${data.color}10;
                     ">
-                        <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
-                            <span style="font-size: 0.75rem; color: ${data.color}; font-weight: bold; min-width: 20px;">0${idx + 1}.</span>
-                            <span style="font-size: 0.85rem; color: #fff;">${ex.name}</span>
+                        <div style="display: flex; align-items: center; gap: 15px; flex: 1;">
+                            <span style="
+                                font-family: 'Orbitron'; 
+                                font-size: 0.9rem; 
+                                color: ${data.color}; 
+                                font-weight: bold; 
+                                text-shadow: 0 0 8px ${data.color};
+                                min-width: 30px;
+                            ">0${idx + 1}.</span>
+                            <span style="font-size: 0.95rem; color: #fff; text-shadow: 0 0 5px rgba(255,255,255,0.3); font-weight: 500;">${ex.name}</span>
                         </div>
-                        <div style="display: flex; gap: 15px; font-size: 0.75rem; font-family: 'Orbitron';">
-                            <span style="color: #ffaa00;" title="Подходы">${ex.sets} подх.</span>
-                            <span style="color: #00ff88;" title="Повторения">${ex.reps} повт.</span>
+                        <div style="display: flex; gap: 20px; font-size: 0.8rem; font-family: 'Orbitron'; font-weight: bold;">
+                            <span style="color: #ffaa00; text-shadow: 0 0 5px rgba(255,170,0,0.5);" title="Подходы">${ex.sets} подх.</span>
+                            <span style="color: #00ff88; text-shadow: 0 0 5px rgba(0,255,136,0.5);" title="Повторения">${ex.reps} повт.</span>
                             <span style="color: #aaa; min-width: 60px; text-align: right;" title="Отдых">${ex.rest}</span>
                         </div>
                     </div>
@@ -9715,177 +9955,50 @@ renderLiveChart();
 
 
         // =========================================================
-        // 🍏 БАЗА ПРОДУКТОВ (200 ШТУК) И ДВИЖОК КБЖУ
+        // 🍏 БАЗА ПРОДУКТОВ И ДВИЖОК КБЖУ
         // =========================================================
 
-        // База продуктов: [Название, Ккал, Белки, Жиры, Углеводы] на 100г
         const foodDatabase = [
-            // --- КРУПЫ (СУХОЙ ВЕС) ---
             {name: "Гречка (сухая)", kcal: 343, p: 12.6, f: 3.3, c: 71.5},
             {name: "Рис белый (сухой)", kcal: 344, p: 6.7, f: 0.7, c: 78.9},
-            {name: "Рис бурый (сухой)", kcal: 337, p: 7.4, f: 1.8, c: 77.2},
             {name: "Овсянка (сухая)", kcal: 389, p: 16.9, f: 6.9, c: 66.3},
-            {name: "Булгур (сухой)", kcal: 342, p: 12.3, f: 1.3, c: 75.9},
-            {name: "Киноа (сухая)", kcal: 368, p: 14.1, f: 6.1, c: 64.2},
-            {name: "Пшено (сухое)", kcal: 348, p: 11.5, f: 3.3, c: 69.3},
-            {name: "Кукурузная крупа (сухая)", kcal: 337, p: 8.3, f: 1.2, c: 75.0},
-            {name: "Перловка (сухая)", kcal: 324, p: 9.3, f: 1.1, c: 73.7},
-            {name: "Манка (сухая)", kcal: 328, p: 10.3, f: 1.0, c: 70.6},
             {name: "Макароны (сухие)", kcal: 350, p: 12.0, f: 1.5, c: 72.0},
-
-            // --- МЯСО И ПТИЦА ---
             {name: "Куриная грудка (сырая)", kcal: 113, p: 23.6, f: 1.9, c: 0.4},
             {name: "Куриное бедро (сырое)", kcal: 158, p: 19.0, f: 8.0, c: 0.0},
-            {name: "Куриное крыло (сырое)", kcal: 186, p: 18.0, f: 12.0, c: 0.0},
             {name: "Индейка филе (сырое)", kcal: 104, p: 22.0, f: 1.5, c: 0.0},
             {name: "Говядина (вырезка)", kcal: 187, p: 19.0, f: 12.0, c: 0.0},
-            {name: "Говядина (фарш)", kcal: 250, p: 18.0, f: 20.0, c: 0.0},
             {name: "Свинина (шея)", kcal: 343, p: 16.0, f: 31.0, c: 0.0},
-            {name: "Свинина (карбонад)", kcal: 170, p: 21.0, f: 9.0, c: 0.0},
-            {name: "Баранина", kcal: 209, p: 15.6, f: 16.0, c: 0.0},
-            {name: "Кролик", kcal: 156, p: 21.0, f: 8.0, c: 0.0},
-            {name: "Печень куриная", kcal: 140, p: 20.0, f: 6.0, c: 1.0},
-            {name: "Печень говяжья", kcal: 127, p: 17.0, f: 3.0, c: 5.0},
-            {name: "Бекон", kcal: 541, p: 37.0, f: 45.0, c: 0.0},
-            {name: "Колбаса вареная", kcal: 257, p: 12.0, f: 22.0, c: 2.0},
-            {name: "Сосиски", kcal: 300, p: 11.0, f: 27.0, c: 3.0},
-
-            // --- РЫБА И МОРЕПРОДУКТЫ ---
-            {name: "Лосось (сырой)", kcal: 208, p: 20.0, f: 13.0, c: 0.0},
-            {name: "Тунец (сырой)", kcal: 144, p: 23.0, f: 5.0, c: 0.0},
-            {name: "Треска", kcal: 82, p: 18.0, f: 0.6, c: 0.0},
-            {name: "Минтай", kcal: 72, p: 16.0, f: 0.9, c: 0.0},
-            {name: "Скумбрия", kcal: 205, p: 19.0, f: 14.0, c: 0.0},
-            {name: "Сельдь", kcal: 248, p: 17.0, f: 19.0, c: 0.0},
-            {name: "Креветки", kcal: 99, p: 24.0, f: 0.3, c: 0.0},
-            {name: "Кальмар", kcal: 92, p: 15.0, f: 3.0, c: 2.0},
-            {name: "Мидии", kcal: 86, p: 11.0, f: 2.0, c: 3.0},
-
-            // --- ЯЙЦА И МОЛОЧКА ---
             {name: "Яйцо куриное", kcal: 143, p: 12.6, f: 9.5, c: 0.7},
-            {name: "Яичный белок", kcal: 52, p: 11.0, f: 0.0, c: 0.0},
-            {name: "Яичный желток", kcal: 322, p: 16.0, f: 27.0, c: 3.0},
             {name: "Молоко 2.5%", kcal: 52, p: 2.8, f: 2.5, c: 4.7},
-            {name: "Молоко 3.2%", kcal: 60, p: 2.9, f: 3.2, c: 4.7},
-            {name: "Молоко обезжиренное", kcal: 35, p: 3.0, f: 0.2, c: 4.8},
-            {name: "Кефир 2.5%", kcal: 51, p: 2.8, f: 2.5, c: 4.0},
-            {name: "Кефир 1%", kcal: 40, p: 2.8, f: 1.0, c: 4.0},
             {name: "Творог 5%", kcal: 121, p: 17.0, f: 5.0, c: 2.0},
-            {name: "Творог 2%", kcal: 103, p: 18.0, f: 2.0, c: 2.0},
-            {name: "Творог обезжиренный", kcal: 71, p: 16.5, f: 0.5, c: 1.3},
             {name: "Сыр Российский", kcal: 363, p: 23.0, f: 30.0, c: 0.0},
-            {name: "Сыр Пармезан", kcal: 392, p: 33.0, f: 28.0, c: 3.2},
-            {name: "Сыр Моцарелла", kcal: 280, p: 18.0, f: 22.0, c: 2.0},
-            {name: "Сметана 20%", kcal: 206, p: 2.8, f: 20.0, c: 3.2},
-            {name: "Сметана 10%", kcal: 115, p: 3.0, f: 10.0, c: 2.9},
-            {name: "Йогурт натуральный", kcal: 66, p: 3.5, f: 3.2, c: 4.5},
-            {name: "Сливочное масло", kcal: 717, p: 0.8, f: 81.0, c: 0.8},
-
-            // --- ОВОЩИ И ЗЕЛЕНЬ ---
             {name: "Картофель (сырой)", kcal: 77, p: 2.0, f: 0.4, c: 17.0},
-            {name: "Батат", kcal: 86, p: 1.6, f: 0.1, c: 20.0},
-            {name: "Морковь", kcal: 41, p: 0.9, f: 0.2, c: 9.6},
-            {name: "Свекла", kcal: 43, p: 1.6, f: 0.2, c: 9.6},
             {name: "Помидор", kcal: 18, p: 0.9, f: 0.2, c: 3.9},
             {name: "Огурец", kcal: 15, p: 0.7, f: 0.1, c: 3.6},
-            {name: "Перец болгарский", kcal: 26, p: 1.0, f: 0.3, c: 6.0},
-            {name: "Капуста белокочанная", kcal: 25, p: 1.3, f: 0.1, c: 5.8},
-            {name: "Капуста брокколи", kcal: 34, p: 2.8, f: 0.4, c: 6.6},
-            {name: "Капуста цветная", kcal: 25, p: 1.9, f: 0.3, c: 5.0},
-            {name: "Лук репчатый", kcal: 40, p: 1.1, f: 0.1, c: 9.3},
-            {name: "Чеснок", kcal: 149, p: 6.4, f: 0.5, c: 33.0},
-            {name: "Кабачок", kcal: 17, p: 1.2, f: 0.3, c: 3.1},
-            {name: "Баклажан", kcal: 25, p: 1.0, f: 0.2, c: 6.0},
-            {name: "Тыква", kcal: 26, p: 1.0, f: 0.1, c: 6.5},
-            {name: "Шпинат", kcal: 23, p: 2.9, f: 0.4, c: 3.6},
-            {name: "Салат листовой", kcal: 15, p: 1.4, f: 0.2, c: 2.9},
-            {name: "Укроп", kcal: 43, p: 3.5, f: 1.1, c: 7.0},
-            {name: "Петрушка", kcal: 36, p: 3.0, f: 0.8, c: 6.3},
-            {name: "Авокадо", kcal: 160, p: 2.0, f: 15.0, c: 9.0},
-            {name: "Кукуруза консервированная", kcal: 86, p: 3.2, f: 1.2, c: 16.0},
-            {name: "Горошек зеленый", kcal: 81, p: 5.4, f: 0.4, c: 14.0},
-
-            // --- ФРУКТЫ И ЯГОДЫ ---
-            {name: "Яблоко", kcal: 52, p: 0.3, f: 0.2, c: 14.0},
             {name: "Банан", kcal: 89, p: 1.1, f: 0.3, c: 22.8},
-            {name: "Апельсин", kcal: 47, p: 0.9, f: 0.1, c: 11.8},
-            {name: "Мандарин", kcal: 53, p: 0.8, f: 0.3, c: 13.3},
-            {name: "Груша", kcal: 57, p: 0.4, f: 0.1, c: 15.0},
-            {name: "Виноград", kcal: 69, p: 0.7, f: 0.2, c: 18.0},
-            {name: "Клубника", kcal: 32, p: 0.7, f: 0.3, c: 7.7},
-            {name: "Черника", kcal: 57, p: 0.7, f: 0.3, c: 14.5},
-            {name: "Малина", kcal: 52, p: 1.2, f: 0.7, c: 11.9},
-            {name: "Арбуз", kcal: 30, p: 0.6, f: 0.2, c: 7.6},
-            {name: "Дыня", kcal: 34, p: 0.8, f: 0.2, c: 8.2},
-            {name: "Киви", kcal: 61, p: 1.1, f: 0.5, c: 14.7},
-            {name: "Ананас", kcal: 50, p: 0.5, f: 0.1, c: 13.1},
-            {name: "Персик", kcal: 39, p: 0.9, f: 0.3, c: 9.5},
-            {name: "Лимон", kcal: 29, p: 1.1, f: 0.3, c: 9.3},
-            {name: "Гранат", kcal: 83, p: 1.7, f: 1.2, c: 18.7},
-            {name: "Изюм", kcal: 299, p: 3.1, f: 0.5, c: 79.0},
-            {name: "Финики", kcal: 282, p: 2.5, f: 0.5, c: 75.0},
-
-            // --- ОРЕХИ И СЕМЕЧКИ ---
+            {name: "Яблоко", kcal: 52, p: 0.3, f: 0.2, c: 14.0},
             {name: "Грецкий орех", kcal: 654, p: 15.0, f: 65.0, c: 14.0},
-            {name: "Миндаль", kcal: 579, p: 21.0, f: 50.0, c: 22.0},
-            {name: "Фундук", kcal: 628, p: 15.0, f: 61.0, c: 17.0},
-            {name: "Кешью", kcal: 553, p: 18.0, f: 44.0, c: 30.0},
-            {name: "Арахис", kcal: 567, p: 26.0, f: 49.0, c: 16.0},
-            {name: "Семечки подсолнечника", kcal: 584, p: 20.0, f: 51.0, c: 20.0},
-            {name: "Семена чиа", kcal: 486, p: 17.0, f: 31.0, c: 42.0},
-
-            // --- БОБОВЫЕ ---
-            {name: "Фасоль красная (сухая)", kcal: 333, p: 23.0, f: 1.0, c: 60.0},
-            {name: "Чечевица (сухая)", kcal: 352, p: 24.0, f: 1.0, c: 60.0},
-            {name: "Горох (сухой)", kcal: 352, p: 23.0, f: 1.0, c: 60.0},
-            {name: "Нут (сухой)", kcal: 364, p: 19.0, f: 6.0, c: 61.0},
-
-            // --- ХЛЕБ И ВЫПЕЧКА ---
-            {name: "Хлеб белый", kcal: 265, p: 8.0, f: 3.0, c: 50.0},
-            {name: "Хлеб ржаной", kcal: 210, p: 6.0, f: 1.0, c: 43.0},
-            {name: "Хлеб цельнозерновой", kcal: 240, p: 9.0, f: 2.0, c: 45.0},
-            {name: "Батон", kcal: 270, p: 7.5, f: 2.5, c: 52.0},
-            {name: "Лаваш", kcal: 280, p: 9.0, f: 1.0, c: 58.0},
-
-            // --- СЛАДОСТИ И СНЕКИ ---
-            {name: "Сахар", kcal: 387, p: 0.0, f: 0.0, c: 100.0},
-            {name: "Мёд", kcal: 304, p: 0.3, f: 0.0, c: 82.0},
-            {name: "Шоколад темный", kcal: 546, p: 4.9, f: 31.0, c: 61.0},
-            {name: "Шоколад молочный", kcal: 535, p: 7.6, f: 30.0, c: 59.0},
-            {name: "Печенье овсяное", kcal: 437, p: 6.0, f: 14.0, c: 71.0},
-            {name: "Чипсы картофельные", kcal: 536, p: 6.0, f: 34.0, c: 52.0},
-            {name: "Мороженое", kcal: 207, p: 3.5, f: 11.0, c: 24.0},
-
-            // --- НАПИТКИ И СОКИ ---
-            {name: "Сок апельсиновый", kcal: 45, p: 0.7, f: 0.2, c: 10.4},
-            {name: "Сок яблочный", kcal: 46, p: 0.1, f: 0.1, c: 11.3},
-            {name: "Кока-Кола", kcal: 42, p: 0.0, f: 0.0, c: 10.6},
-            {name: "Кофе черный", kcal: 1, p: 0.1, f: 0.0, c: 0.0},
-            {name: "Чай без сахара", kcal: 0, p: 0.0, f: 0.0, c: 0.0},
-
-            // --- СОУСЫ И МАСЛА ---
             {name: "Масло оливковое", kcal: 884, p: 0.0, f: 100.0, c: 0.0},
-            {name: "Масло подсолнечное", kcal: 884, p: 0.0, f: 100.0, c: 0.0},
-            {name: "Майонез", kcal: 627, p: 1.0, f: 67.0, c: 2.6},
-            {name: "Кетчуп", kcal: 101, p: 1.2, f: 0.1, c: 22.0},
-            {name: "Соевый соус", kcal: 53, p: 8.0, f: 0.1, c: 4.0}
+            {name: "Мёд", kcal: 304, p: 0.3, f: 0.0, c: 82.0},
+            {name: "Шоколад темный", kcal: 546, p: 4.9, f: 31.0, c: 61.0}
         ];
 
-        // Функция поиска продуктов
+        let dailyFoods = [];
+        let dailyWater = 0;
+        let currentDailyCalYear = 2026;
+        let currentDailyCalMonth = 10; // Ноябрь
+
         function searchFood() {
             const input = document.getElementById('food-search-input').value.toLowerCase();
             const resultsBox = document.getElementById('food-search-results');
             resultsBox.innerHTML = "";
-
             if (input.length < 2) return;
 
             const matches = foodDatabase.filter(f => f.name.toLowerCase().includes(input));
-
-            // Показываем только первые 10 результатов, чтобы не перегружать экран
             matches.slice(0, 10).forEach(m => {
                 const btn = document.createElement('div');
-                btn.style.cssText = "padding: 8px; border-bottom: 1px solid #222; cursor: pointer; color: #fff; font-size: 0.85rem;";
-                btn.innerHTML = `<span>${m.name}</span> <span style="color:#00d4ff; float:right;">${m.kcal} ккал/100г</span>`;
+                btn.style.cssText = "padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; color: #fff; font-size: 0.85rem;";
+                btn.innerHTML = `<span>${m.name}</span> <span style="color:#00d4ff; float:right; font-family:'Orbitron';">${m.kcal} ккал</span>`;
                 btn.onclick = () => {
                     document.getElementById('food-search-input').value = m.name;
                     resultsBox.innerHTML = "";
@@ -9894,134 +10007,207 @@ renderLiveChart();
             });
         }
 
-        // Добавление еды в дневник
         function addFoodToLog() {
             const nameInput = document.getElementById('food-search-input').value;
             const weight = Number(document.getElementById('food-weight-input').value);
-
-            if (!nameInput || !weight) {
-                alert("Введи продукт и вес!");
-                return;
-            }
+            if (!nameInput || !weight) return alert("Введи продукт и вес!");
 
             const food = foodDatabase.find(f => f.name.toLowerCase() === nameInput.toLowerCase());
+            if (!food) return alert("Продукт не найден. Выбери из списка.");
 
-            if (!food) {
-                alert("Продукт не найден в базе. Выбери из выпадающего списка.");
-                return;
-            }
-
-            // Считаем КБЖУ на введенный вес
             const ratio = weight / 100;
-            const kcal = Math.round(food.kcal * ratio);
-            const p = (food.p * ratio).toFixed(1);
-            const f = (food.f * ratio).toFixed(1);
-            const c = (food.c * ratio).toFixed(1);
-
-            dailyFoods.push({name: food.name, weight, kcal, p, f, c});
-
+            dailyFoods.push({
+                name: food.name, weight, 
+                kcal: Math.round(food.kcal * ratio), 
+                p: (food.p * ratio).toFixed(1), 
+                f: (food.f * ratio).toFixed(1), 
+                c: (food.c * ratio).toFixed(1)
+            });
+            
             document.getElementById('food-search-input').value = "";
             document.getElementById('food-weight-input').value = "";
-
             renderDailyFoods();
             saveDailyData();
         }
 
-        // Отрисовка съеденного с цветами КБЖУ
+        function saveManualMacros() {
+            const kcal = Number(document.getElementById('manual-kcal').value) || 0;
+            const p = Number(document.getElementById('manual-p').value) || 0;
+            const f = Number(document.getElementById('manual-f').value) || 0;
+            const c = Number(document.getElementById('manual-c').value) || 0;
+
+            if (kcal === 0 && p === 0 && f === 0 && c === 0) return;
+
+            dailyFoods = [{ name: "Ручной ввод КБЖУ", weight: "-", kcal, p, f, c }];
+            
+            document.getElementById('manual-kcal').value = "";
+            document.getElementById('manual-p').value = "";
+            document.getElementById('manual-f').value = "";
+            document.getElementById('manual-c').value = "";
+
+            renderDailyFoods();
+            saveDailyData();
+            alert("КБЖУ сохранено вручную!");
+        }
+
         function renderDailyFoods() {
             const list = document.getElementById('food-log-list');
             list.innerHTML = "";
             let totalKcal = 0, totalP = 0, totalF = 0, totalC = 0;
 
-            dailyFoods.forEach((f, idx) => {
-                totalKcal += f.kcal;
-                        totalP += Number(f.p) || 0;
-        totalF += Number(f.f) || 0;
-        totalC += Number(f.c) || 0;
+            dailyFoods.forEach((f) => {
+                totalKcal += Number(f.kcal) || 0;
+                totalP += Number(f.p) || 0;
+                totalF += Number(f.f) || 0;
+                totalC += Number(f.c) || 0;
 
                 const row = document.createElement('div');
-                row.style.cssText = "display: flex; justify-content: space-between; font-size: 0.8rem; color: #ccc; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05);";
+                row.style.cssText = "display: flex; justify-content: space-between; font-size: 0.85rem; color: #ccc; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);";
                 row.innerHTML = `
-            <div style="display:flex; flex-direction:column;">
-                <span>${f.name} (${f.weight}г)</span>
-                               <span style="font-size: 0.7rem; color: #888; margin-top: 2px;">
-                    <span style="color: #fff;">Б:${f.p || 0}</span> | 
-                    <span style="color: #ffaa00;">Ж:${f.f || 0}</span> | 
-                    <span style="color: #aaa;">У:${f.c || 0}</span>
-                </span>
-            </div>
-            <span style="color: #a855f7; font-weight: bold; align-self: center;">${f.kcal} ккал</span>
-        `;
+                    <div style="display:flex; flex-direction:column;">
+                        <span style="color: #fff; font-weight: 500;">${f.name} ${f.weight !== '-' ? `(${f.weight}г)` : ''}</span>
+                        <span style="font-size: 0.7rem; color: #888; margin-top: 4px; font-family: 'Orbitron';">
+                            <span style="color: #fff;">Б:${f.p}</span> | 
+                            <span style="color: #ffaa00;">Ж:${f.f}</span> | 
+                            <span style="color: #aaa;">У:${f.c}</span>
+                        </span>
+                    </div>
+                    <span style="color: #a855f7; font-weight: bold; font-family: 'Orbitron';">${f.kcal} ккал</span>
+                `;
                 list.appendChild(row);
             });
 
-            // Обновляем цифры
             document.getElementById('calorie-current').innerText = totalKcal;
-
-            // Полоска калорий (макс 3000)
-            const percent = Math.min((totalKcal / 3000) * 100, 100);
-            document.getElementById('calorie-fill').style.width = percent + "%";
-
-            // Обновляем плашки КБЖУ (если ты их добавишь в HTML, они подтянутся)
-            if (document.getElementById('total-p')) document.getElementById('total-p').innerText = totalP.toFixed(1);
-            if (document.getElementById('total-f')) document.getElementById('total-f').innerText = totalF.toFixed(1);
-            if (document.getElementById('total-c')) document.getElementById('total-c').innerText = totalC.toFixed(1);
+            document.getElementById('calorie-fill').style.width = Math.min((totalKcal / 3000) * 100, 100) + "%";
+            document.getElementById('total-p').innerText = totalP.toFixed(1);
+            document.getElementById('total-f').innerText = totalF.toFixed(1);
+            document.getElementById('total-c').innerText = totalC.toFixed(1);
         }
 
-        // Добавление воды
         function addWater(ml) {
-            if (dailyWater + ml > 3500) {
-                alert("Дневная норма (3.5л) достигнута! Больше пить не нужно.");
-                return;
-            }
-
+            if (dailyWater + ml > 3500) return alert("Дневная норма (3.5л) достигнута!");
             dailyWater += ml;
             document.getElementById('water-current').innerText = dailyWater;
-
-            // Высота колбы (макс 3500)
-            const percent = (dailyWater / 3500) * 100;
-            document.getElementById('water-flask-fill').style.height = percent + "%";
-
+            document.getElementById('water-flask-fill').style.height = (dailyWater / 3500) * 100 + "%";
             saveDailyData();
         }
 
-        // Сохранение в Firebase
         function saveDailyData() {
             const today = getMskDateInfo().dateString;
-            // Сохраняем прямо в корень документа (перезаписываем за сегодня)
             profileDocRef.set({
-                [`dailyLog_${today}`]: {
-                    foods: dailyFoods,
-                    water: dailyWater
-                }
+                [`dailyLog_${today}`]: { foods: dailyFoods, water: dailyWater }
             }, {merge: true});
         }
 
-        // Загрузка данных при входе на вкладку
         function loadDailyData() {
             const today = getMskDateInfo().dateString;
             const log = playerData[`dailyLog_${today}`];
-
-            if (log) {
-                dailyFoods = log.foods || [];
-                dailyWater = log.water || 0;
-            } else {
-                dailyFoods = [];
-                dailyWater = 0;
-            }
+            dailyFoods = log?.foods || [];
+            dailyWater = log?.water || 0;
 
             renderDailyFoods();
             document.getElementById('water-current').innerText = dailyWater;
-            const percent = (dailyWater / 3500) * 100;
-            document.getElementById('water-flask-fill').style.height = percent + "%";
-
-            // Обновляем дату в шапке
+            document.getElementById('water-flask-fill').style.height = (dailyWater / 3500) * 100 + "%";
             document.getElementById('daily-date-display').innerText = getMskDateInfo().displayDate;
+            
+            renderDailyCalendar();
         }
 
-        // Слушатель ввода в поле поиска
-        document.getElementById('food-search-input')?.addEventListener('input', searchFood);
+        // =========================================================
+        // 📅 КАЛЕНДАРЬ ПИТАНИЯ
+        // =========================================================
+        function changeDailyCalMonth(dir) {
+            currentDailyCalMonth += dir;
+            if (currentDailyCalMonth > 11) { currentDailyCalMonth = 0; currentDailyCalYear++; }
+            else if (currentDailyCalMonth < 0) { currentDailyCalMonth = 11; currentDailyCalYear--; }
+            
+            // Ограничение: не раньше Ноября 2026
+            if (currentDailyCalYear < 2026 || (currentDailyCalYear === 2026 && currentDailyCalMonth < 10)) {
+                currentDailyCalYear = 2026;
+                currentDailyCalMonth = 10;
+            }
+            renderDailyCalendar();
+        }
 
+        function renderDailyCalendar() {
+            const grid = document.getElementById('daily-cal-grid');
+            const list = document.getElementById('daily-cal-list');
+            const label = document.getElementById('daily-cal-month-label');
+            if (!grid || !list) return;
+
+            const monthNames = ["ЯНВАРЬ", "ФЕВРАЛЬ", "МАРТ", "АПРЕЛЬ", "МАЙ", "ИЮНЬ", "ИЮЛЬ", "АВГУСТ", "СЕНТЯБРЬ", "ОКТЯБРЬ", "НОЯБРЬ", "ДЕКАБРЬ"];
+            if (label) label.textContent = `${monthNames[currentDailyCalMonth]} ${currentDailyCalYear}`;
+
+            grid.innerHTML = "";
+            list.innerHTML = "";
+
+            const daysInMonth = new Date(currentDailyCalYear, currentDailyCalMonth + 1, 0).getDate();
+            const todayMsk = getMskDateInfo().dateString;
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateKey = `${currentDailyCalYear}-${String(currentDailyCalMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const log = playerData[`dailyLog_${dateKey}`];
+                
+                let kcal = 0;
+                if (log && log.foods) {
+                    log.foods.forEach(f => kcal += Number(f.kcal) || 0);
+                }
+
+                // Создаем квадратик
+                const cell = document.createElement('div');
+                cell.className = 'daily-cal-cell';
+                cell.innerText = day;
+                
+                // Красим по калориям
+                if (kcal > 0 && kcal < 1500) cell.classList.add('cal-low');
+                else if (kcal >= 1500 && kcal < 2500) cell.classList.add('cal-mid');
+                else if (kcal >= 2500 && kcal < 3100) cell.classList.add('cal-high');
+                else if (kcal >= 3100) cell.classList.add('cal-max');
+
+                if (dateKey === todayMsk) {
+    // Узнаем, какой класс присвоен этому дню (cal-low, cal-mid и т.д.)
+    let borderColor = "#fff"; // По умолчанию (если пусто) - белый
+    if (cell.classList.contains('cal-low')) borderColor = "#ff004c";
+    if (cell.classList.contains('cal-mid')) borderColor = "#ffd34e";
+    if (cell.classList.contains('cal-high')) borderColor = "#00ff88";
+    if (cell.classList.contains('cal-max')) borderColor = "#ff7700";
+
+    cell.style.border = `2px solid ${borderColor}`;
+    cell.style.boxShadow = `0 0 15px ${borderColor}`; // Добавим свечение рамке
+}
+
+                grid.appendChild(cell);
+
+                // Добавляем в список (если есть данные)
+                if (kcal > 0 || (log && log.water > 0)) {
+                    let p = 0, f = 0, c = 0;
+                    if (log && log.foods) {
+                        log.foods.forEach(item => {
+                            p += Number(item.p) || 0;
+                            f += Number(item.f) || 0;
+                            c += Number(item.c) || 0;
+                        });
+                    }
+                    const water = log?.water || 0;
+
+                    const row = document.createElement('div');
+                    row.style.cssText = "background: rgba(255,255,255,0.03); padding: 10px; border-radius: 8px; border-left: 3px solid #8a2be2; display: flex; flex-direction: column; gap: 5px;";
+                    row.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; color: #fff; font-family: 'Orbitron'; font-size: 0.85rem;">
+                            <span>${day} ${monthNames[currentDailyCalMonth].toLowerCase()}</span>
+                            <span style="color: #ffaa00;">${kcal} ккал</span>
+                        </div>
+                        <div style="font-size: 0.7rem; color: #888;">
+                            Б: ${p.toFixed(1)}г | Ж: ${f.toFixed(1)}г | У: ${c.toFixed(1)}г | 💧 ${water} мл
+                        </div>
+                    `;
+                    list.appendChild(row);
+                }
+            }
+        }
+
+        // Слушатель ввода
+        document.getElementById('food-search-input')?.addEventListener('input', searchFood);
     </script>
 
 

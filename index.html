@@ -5838,6 +5838,58 @@
     color: #ffaa00 !important;
     text-shadow: 0 0 10px #ffaa00 !important;
 }
+
+/* ======================================================== */
+/* 🌈 РАМКИ И ФОН КАРТОЧЕК ВЕТОК В ЦВЕТ ПОЛОСОК             */
+/* ======================================================== */
+
+/* 1. ИНТЕЛЛЕКТ (Голубой неон) */
+.branch-stat-row:nth-of-type(1) {
+    background: rgba(0, 212, 255, 0.08) !important; /* Голубой фон */
+    border-color: rgba(0, 212, 255, 0.5) !important; /* Голубая рамка */
+    box-shadow: inset 0 0 15px rgba(0, 212, 255, 0.15), 0 0 10px rgba(0, 212, 255, 0.1);
+}
+.branch-stat-row:nth-of-type(1):hover {
+    background: rgba(0, 212, 255, 0.15) !important;
+    border-color: #00d4ff !important;
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+}
+
+/* 2. СИЛА (Красный неон) */
+.branch-stat-row:nth-of-type(2) {
+    background: rgba(255, 0, 76, 0.08) !important; /* Красный фон */
+    border-color: rgba(255, 0, 76, 0.5) !important; /* Красная рамка */
+    box-shadow: inset 0 0 15px rgba(255, 0, 76, 0.15), 0 0 10px rgba(255, 0, 76, 0.1);
+}
+.branch-stat-row:nth-of-type(2):hover {
+    background: rgba(255, 0, 76, 0.15) !important;
+    border-color: #ff004c !important;
+    box-shadow: 0 0 15px rgba(255, 0, 76, 0.4);
+}
+
+/* 3. ДУША (Фиолетовый неон) */
+.branch-stat-row:nth-of-type(3) {
+    background: rgba(168, 85, 247, 0.08) !important; /* Фиолетовый фон */
+    border-color: rgba(168, 85, 247, 0.5) !important; /* Фиолетовая рамка */
+    box-shadow: inset 0 0 15px rgba(168, 85, 247, 0.15), 0 0 10px rgba(168, 85, 247, 0.1);
+}
+.branch-stat-row:nth-of-type(3):hover {
+    background: rgba(168, 85, 247, 0.15) !important;
+    border-color: #a855f7 !important;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+}
+
+/* 4. ТВОРЧЕСТВО (Оранжевый неон) */
+.branch-stat-row:nth-of-type(4) {
+    background: rgba(255, 170, 0, 0.08) !important; /* Оранжевый фон */
+    border-color: rgba(255, 170, 0, 0.5) !important; /* Оранжевая рамка */
+    box-shadow: inset 0 0 15px rgba(255, 170, 0, 0.15), 0 0 10px rgba(255, 170, 0, 0.1);
+}
+.branch-stat-row:nth-of-type(4):hover {
+    background: rgba(255, 170, 0, 0.15) !important;
+    border-color: #ffaa00 !important;
+    box-shadow: 0 0 15px rgba(255, 170, 0, 0.4);
+}
     </style>
 
 
@@ -6714,112 +6766,90 @@
     <!-- =================================================== -->
     <!-- 🦾 ПРОГРАММА ТРЕНИРОВОК: ПРОТОКОЛ «МОНОЛИТ»          -->
     <!-- =================================================== -->
+       <!-- =================================================== -->
+    <!-- 🦾 ПРОГРАММА ТРЕНИРОВОК: АРКА КАБАН                  -->
+    <!-- =================================================== -->
     <div id="programs-page" class="page-view"
         style="display:none; max-width: 900px; margin: 0 auto; padding: 20px 10px 100px; font-family: 'Orbitron', sans-serif;">
 
         <!-- Заголовок протокола -->
         <div style="text-align: center; margin-bottom: 25px; padding-top: 10px;">
-            <div style="font-size: 1.5rem; filter: drop-shadow(0 0 10px #00d4ff);">🦾</div>
+            <div style="font-size: 1.5rem; filter: drop-shadow(0 0 10px #ff004c);">🐗</div>
             <h2 style="font-family: 'Orbitron'; color: #fff; font-size: 1.2rem; letter-spacing: 2px; margin-top: 5px;">
-                ПРОТОКОЛ «МОНОЛИТ»</h2>
-            <div style="font-size: 0.7rem; color: #00d4ff; letter-spacing: 1px; margin-top: 4px;">СВЕРХАРХИТЕКТУРА ТЕЛА
-                И ГИПЕРТРОФИЯ</div>
-            <div
-                style="width: 220px; height: 1px; background: linear-gradient(90deg, transparent, #00d4ff, transparent); margin: 12px auto 0;">
-            </div>
+                АРКА КАБАН (V2.0)</h2>
+            <div style="font-size: 0.7rem; color: #ff004c; letter-spacing: 1px; margin-top: 4px;">
+                ГИПЕРТРОФИЯ • СИЛА ХВАТА • БАЗА</div>
+            <div style="width: 220px; height: 1px; background: linear-gradient(90deg, transparent, #ff004c, transparent); margin: 12px auto 0;"></div>
         </div>
 
-        <!-- 1. Архитектурные зоны -->
-        <div
-            style="background: rgba(10, 10, 22, 0.8); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 12px; padding: 18px; margin-bottom: 25px; box-shadow: 0 0 15px rgba(0, 212, 255, 0.1);">
-            <div
-                style="font-size: 0.85rem; color: #00d4ff; font-weight: bold; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-                <span>🎯</span> ЦЕЛЕВЫЕ АРХИТЕКТУРНЫЕ ЗОНЫ
+        <!-- 1. Информационная панель -->
+        <div style="background: rgba(10, 10, 22, 0.8); border: 1px solid rgba(255, 0, 76, 0.3); border-radius: 12px; padding: 18px; margin-bottom: 25px; box-shadow: 0 0 15px rgba(255, 0, 76, 0.1);">
+            <div style="font-size: 0.85rem; color: #ff004c; font-weight: bold; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                <span>🎯</span> РЕЖИМ ТРЕНИРОВОК
             </div>
-            <div
-                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; font-size: 0.75rem; color: #ccc;">
-                <div
-                    style="background: rgba(0,212,255,0.05); border-left: 2px solid #00d4ff; padding: 8px 12px; border-radius: 4px;">
-                    <strong style="color:#fff;">1. Верх груди:</strong> Ключичная головка для оверсайз-эффекта.
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; font-size: 0.75rem; color: #ccc;">
+                <div style="background: rgba(255,0,76,0.05); border-left: 2px solid #ff004c; padding: 8px 12px; border-radius: 4px;">
+                    <strong style="color:#fff;">Частота:</strong> 3 раза в неделю (Пн / Ср / Пт)
                 </div>
-                <div
-                    style="background: rgba(255,0,76,0.05); border-left: 2px solid #ff004c; padding: 8px 12px; border-radius: 4px;">
-                    <strong style="color:#fff;">2. Дельты:</strong> Средние и задние пучки для ширины плеч.
-                </div>
-                <div
-                    style="background: rgba(138,43,226,0.05); border-left: 2px solid #8a2be2; padding: 8px 12px; border-radius: 4px;">
-                    <strong style="color:#fff;">3. Шея и трапеции:</strong> Монолитная посадка головы.
-                </div>
-                <div
-                    style="background: rgba(255,170,0,0.05); border-left: 2px solid #ffaa00; padding: 8px 12px; border-radius: 4px;">
-                    <strong style="color:#fff;">4. Армрестлинг:</strong> Пронатор, кисть и предплечья.
+                <div style="background: rgba(0,212,255,0.05); border-left: 2px solid #00d4ff; padding: 8px 12px; border-radius: 4px;">
+                    <strong style="color:#fff;">Цель:</strong> Набор массы и силы
                 </div>
             </div>
         </div>
 
         <!-- Переключатель дней тренировок -->
-        <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px;"
-            id="workout-tabs">
-            <button onclick="switchWorkoutDay(1, this)" class="workout-tab-btn active"
-                style="flex: 1; min-width: 130px; background: rgba(0,212,255,0.15); border: 1px solid #00d4ff; color: #fff; padding: 10px; border-radius: 8px; font-family: 'Orbitron'; font-size: 0.7rem; cursor: pointer; transition: 0.3s;">ДЕНЬ
-                1: ГРУДЬ</button>
-            <button onclick="switchWorkoutDay(2, this)" class="workout-tab-btn"
-                style="flex: 1; min-width: 130px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #aaa; padding: 10px; border-radius: 8px; font-family: 'Orbitron'; font-size: 0.7rem; cursor: pointer; transition: 0.3s;">ДЕНЬ
-                2: СПИНА</button>
-            <button onclick="switchWorkoutDay(3, this)" class="workout-tab-btn"
-                style="flex: 1; min-width: 130px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #aaa; padding: 10px; border-radius: 8px; font-family: 'Orbitron'; font-size: 0.7rem; cursor: pointer; transition: 0.3s;">ДЕНЬ
-                3: НИЗ/ОТДЫХ</button>
-            <button onclick="switchWorkoutDay(4, this)" class="workout-tab-btn"
-                style="flex: 1; min-width: 130px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #aaa; padding: 10px; border-radius: 8px; font-family: 'Orbitron'; font-size: 0.7rem; cursor: pointer; transition: 0.3s;">ДЕНЬ
-                4: ДОЖИМ</button>
+        <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px;" id="workout-tabs">
+            <button onclick="switchWorkoutDay(1, this)" class="workout-tab-btn active" style="flex: 1; min-width: 130px; background: rgba(0,212,255,0.15); border: 1px solid #00d4ff; color: #fff; padding: 10px; border-radius: 8px; font-family: 'Orbitron'; font-size: 0.7rem; cursor: pointer; transition: 0.3s;">ДЕНЬ 1: ВЕРХ (ЖИМ)</button>
+            <button onclick="switchWorkoutDay(2, this)" class="workout-tab-btn" style="flex: 1; min-width: 130px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #aaa; padding: 10px; border-radius: 8px; font-family: 'Orbitron'; font-size: 0.7rem; cursor: pointer; transition: 0.3s;">ДЕНЬ 2: ВЕРХ (ТЯГА)</button>
+            <button onclick="switchWorkoutDay(3, this)" class="workout-tab-btn" style="flex: 1; min-width: 130px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #aaa; padding: 10px; border-radius: 8px; font-family: 'Orbitron'; font-size: 0.7rem; cursor: pointer; transition: 0.3s;">ДЕНЬ 3: НИЗ (БАЗА)</button>
+            <button onclick="switchWorkoutDay(4, this)" class="workout-tab-btn" style="flex: 1; min-width: 130px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #aaa; padding: 10px; border-radius: 8px; font-family: 'Orbitron'; font-size: 0.7rem; cursor: pointer; transition: 0.3s;">ДЕНЬ 4: ОТДЫХ</button>
         </div>
 
-        <div class="programs-workout-layout">
-            <div id="workout-content-box"></div>
+       <div class="programs-workout-layout">
+    <div id="workout-content-box"></div>
 
-            <button id="workout-reward-button" class="workout-reward-button" type="button"
-                onclick="openWorkoutRewardModal()" aria-label="Получить награду за тренировку">
-                <svg viewBox="0 0 64 64" aria-hidden="true">
-                    <circle cx="32" cy="9" r="6" />
-                    <path
-                        d="M22 21c2-4 6-6 10-6s8 2 10 6l5 13-7 3-5-9 2 14 10 13H38L32 43l-6 15H14l10-16 2-14-5 9-7-3 8-13Z" />
-                    <path d="m20 20-8 4-4 12 6 2 4-8M44 20l8 4 4 12-6 2-4-8" />
-                </svg>
-                <span>ТРЕНИРОВКА</span>
-                <small id="workout-cooldown-label">НАГРАДА ДОСТУПНА</small>
-            </button>
+    <button id="workout-reward-button" class="workout-reward-button"
+            type="button" onclick="openWorkoutRewardModal()"
+            aria-label="Получить награду за тренировку">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+            <circle cx="32" cy="9" r="6"/>
+            <path d="M22 21c2-4 6-6 10-6s8 2 10 6l5 13-7 3-5-9 2 14 10 13H38L32 43l-6 15H14l10-16 2-14-5 9-7-3 8-13Z"/>
+            <path d="m20 20-8 4-4 12 6 2 4-8M44 20l8 4 4 12-6 2-4-8"/>
+        </svg>
+        <span>ТРЕНИРОВКА</span>
+        <small id="workout-cooldown-label">НАГРАДА ДОСТУПНА</small>
+    </button>
+</div>
+
+<div id="workout-reward-modal" class="workout-reward-modal"
+     role="dialog" aria-modal="true" aria-labelledby="workout-modal-title"
+     onclick="if(event.target === this) closeWorkoutRewardModal()">
+    <div class="workout-modal-card">
+        <button class="workout-modal-close" type="button"
+                onclick="closeWorkoutRewardModal()" aria-label="Закрыть">×</button>
+
+        <div class="workout-modal-icon">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+                <circle cx="32" cy="9" r="6"/>
+                <path d="M22 21c2-4 6-6 10-6s8 2 10 6l5 13-7 3-5-9 2 14 10 13H38L32 43l-6 15H14l10-16 2-14-5 9-7-3 8-13Z"/>
+                <path d="m20 20-8 4-4 12 6 2 4-8M44 20l8 4 4 12-6 2-4-8"/>
+            </svg>
         </div>
 
-        <div id="workout-reward-modal" class="workout-reward-modal" role="dialog" aria-modal="true"
-            aria-labelledby="workout-modal-title" onclick="if(event.target === this) closeWorkoutRewardModal()">
-            <div class="workout-modal-card">
-                <button class="workout-modal-close" type="button" onclick="closeWorkoutRewardModal()"
-                    aria-label="Закрыть">×</button>
+        <h2 id="workout-modal-title">КАКАЯ БЫЛА ТРЕНИРОВКА?</h2>
+        <p>Выбери интенсивность. Награда доступна раз в 24 часа.</p>
 
-                <div class="workout-modal-icon">
-                    <svg viewBox="0 0 64 64" aria-hidden="true">
-                        <circle cx="32" cy="9" r="6" />
-                        <path
-                            d="M22 21c2-4 6-6 10-6s8 2 10 6l5 13-7 3-5-9 2 14 10 13H38L32 43l-6 15H14l10-16 2-14-5 9-7-3 8-13Z" />
-                        <path d="m20 20-8 4-4 12 6 2 4-8M44 20l8 4 4 12-6 2-4-8" />
-                    </svg>
-                </div>
-
-                <h2 id="workout-modal-title">КАКАЯ БЫЛА ТРЕНИРОВКА?</h2>
-                <p>Выбери интенсивность. Награда доступна раз в 24 часа.</p>
-
-                <button class="workout-choice workout-warmup" onclick="claimWorkoutReward('warmup')">
-                    <span>Разминка</span><strong>+50 XP</strong>
-                </button>
-                <button class="workout-choice workout-working" onclick="claimWorkoutReward('working')">
-                    <span>В рабочем режиме</span><strong>+80 XP</strong>
-                </button>
-                <button class="workout-choice workout-beast" onclick="claimWorkoutReward('beast')">
-                    <span>В мясо</span><strong>+100 XP</strong>
-                </button>
-            </div>
-        </div>
-
+        <button class="workout-choice workout-warmup" onclick="claimWorkoutReward('warmup')">
+            <span>Разминка</span><strong>+50 XP</strong>
+        </button>
+        <button class="workout-choice workout-working" onclick="claimWorkoutReward('working')">
+            <span>В рабочем режиме</span><strong>+80 XP</strong>
+        </button>
+        <button class="workout-choice workout-beast" onclick="claimWorkoutReward('beast')">
+            <span>В мясо</span><strong>+100 XP</strong>
+        </button>
+    </div>
+</div>
 
     </div>
 
@@ -7722,51 +7752,48 @@ for (let key in cloudData.chartHistory) {
         // =========================================================
         const WORKOUT_COOLDOWN_MS = 24 * 60 * 60 * 1000;
 
-        const workoutDaysData = {
+               const workoutDaysData = {
             1: {
-                title: "ДЕНЬ 1: ВЕРХНИЙ ПЛЕЧЕВОЙ ПОЯС (ГРУДЬ + СРЕДНЯЯ ДЕЛЬТА + ШЕЯ)",
+                title: "ДЕНЬ 1: ВЕРХ ТЕЛА (ЖИМОВОЙ)",
                 color: "#00d4ff",
                 exercises: [
-                    {name: "Жим гантелей под углом 30–45°", sets: "4", reps: "8 – 12", rest: "2–3 мин"},
-                    {name: "Жим в Смите под углом 30°", sets: "3", reps: "10 – 12", rest: "2 мин"},
-                    {name: "Сведение рук в 'Пека-Дек' (верхний акцент)", sets: "3", reps: "12 – 15", rest: "1.5 мин"},
-                    {name: "Махи гантелями в стороны (Средняя дельта)", sets: "4", reps: "12 – 15", rest: "1.5 мин"},
-                    {name: "Махи одной рукой в кроссовере", sets: "3", reps: "15", rest: "1 мин"},
-                    {name: "Сгибания шеи лежа на спине с блином", sets: "3", reps: "15 – 20", rest: "1 мин"},
-                    {name: "Разгибания шеи лежа на животе", sets: "3", reps: "15 – 20", rest: "1 мин"}
+                    { name: "Жим штанги лежа (База)", sets: "4", reps: "8–10", rest: "2.5–3 мин" },
+                    { name: "Жим гантелей под углом 30-45°", sets: "3", reps: "10–12", rest: "2 мин" },
+                    { name: "Махи гантелями в стороны (Средняя дельта)", sets: "4", reps: "12–15", rest: "1.5 мин" },
+                    { name: "Сведение рук в кроссовере / Пека-Дек", sets: "3", reps: "12–15", rest: "1.5 мин" },
+                    { name: "Комплекс на шею (Сгибания/Разгибания с блином)", sets: "3", reps: "15–20", rest: "1 мин" }
                 ]
             },
             2: {
-                title: "ДЕНЬ 2: СПИНА + ЗАДНЯЯ ДЕЛЬТА + АРМРЕСТЛИНГ БЛОК",
+                title: "ДЕНЬ 2: ВЕРХ ТЕЛА (ТЯГОВЫЙ)",
                 color: "#ff004c",
                 exercises: [
-                    {name: "Подтягивания / Тяга верхнего блока", sets: "4", reps: "8 – 12", rest: "2 мин"},
-                    {name: "Тяга горизонтального блока к поясу", sets: "3", reps: "10 – 12", rest: "1.5 мин"},
-                    {name: "Обратные махи в 'Пека-Дек' (Задняя дельта)", sets: "4", reps: "12 – 15", rest: "1.5 мин"},
-                    {name: "Шраги с гантелями (с пиковой фиксацией)", sets: "3", reps: "12 – 15", rest: "1 мин"},
-                    {name: "Пронатор с лямкой через блок / гантель", sets: "4", reps: "10 – 12", rest: "1.5 мин"},
-                    {name: "Сгибания кисти на скамье", sets: "3", reps: "12 – 15", rest: "1 мин"}
+                    { name: "Тяга штанги в наклоне (База)", sets: "4", reps: "8–10", rest: "2.5–3 мин" },
+                    { name: "Подтягивания (или Тяга верхнего блока)", sets: "4", reps: "8–12", rest: "2 мин" },
+                    { name: "Тяга горизонтального блока к поясу", sets: "3", reps: "10–12", rest: "1.5 мин" },
+                    { name: "Обратные махи в Пека-Дек (Задняя дельта)", sets: "4", reps: "12–15", rest: "1.5 мин" },
+                    { name: "Шраги с гантелями (с пиковой фиксацией)", sets: "3", reps: "12–15", rest: "1.5 мин" },
+                    { name: "Пронатор с лямкой (Кисть/Арм)", sets: "4", reps: "10–12", rest: "1.5 мин" },
+                    { name: "Сгибания кисти на скамье (Арм)", sets: "3", reps: "15", rest: "1 мин" }
                 ]
             },
             3: {
-                title: "ДЕНЬ 3: АКТИВНОЕ ВОССТАНОВЛЕНИЕ / НИЗ ТЕЛА И ПРЕСС",
+                title: "ДЕНЬ 3: НИЗ ТЕЛА (БАЗА)",
                 color: "#8a2be2",
                 exercises: [
-                    {name: "Жим ногами / Приседания в тренажере", sets: "3", reps: "10 – 12", rest: "2 мин"},
-                    {name: "Румынская тяга с гантелями", sets: "3", reps: "10 – 12", rest: "2 мин"},
-                    {name: "Подъем ног в висе (Пресс)", sets: "3", reps: "15", rest: "1 мин"},
-                    {name: "Плато Аскезы (Медитация / Прогулка / Растяжка)", sets: "1", reps: "1 сессия", rest: "—"}
+                    { name: "Приседания со штангой (База)", sets: "4", reps: "8–10", rest: "2.5–3 мин" },
+                    { name: "Румынская тяга с гантелями / штангой", sets: "3", reps: "10–12", rest: "2 мин" },
+                    { name: "Жим ногами (добивка)", sets: "3", reps: "10–12", rest: "2 мин" },
+                    { name: "Подъем ног в висе (Пресс)", sets: "3", reps: "15", rest: "1 мин" }
                 ]
             },
             4: {
-                title: "ДЕНЬ 4: СПЕЦИАЛИЗИРОВАННЫЙ ДОЖИМ (ПЛЕЧИ + ВЕРХ ГРУДИ + ШЕЯ)",
-                color: "#ffaa00",
+                title: "ДЕНЬ 4: ОТДЫХ И ВОССТАНОВЛЕНИЕ",
+                color: "#aaa",
                 exercises: [
-                    {name: "Армейский жим гантелей сидя (75°)", sets: "4", reps: "10 – 12", rest: "2 мин"},
-                    {name: "Махи гантелями в стороны (Дроп-сет в конце)", sets: "4", reps: "15", rest: "1.2 мин"},
-                    {name: "Отжимания с ногами на возвышенности", sets: "3", reps: "До отказа", rest: "1.5 мин"},
-                    {name: "Молотковые сгибания (Хаммеры)", sets: "3", reps: "10 – 12", rest: "1.5 мин"},
-                    {name: "Комплекс на шею (Сгибания + Разгибания)", sets: "3", reps: "по 15–20", rest: "1 мин"}
+                    { name: "Плато Аскезы (Медитация / Прогулка / Растяжка)", sets: "1", reps: "1 сессия", rest: "—" },
+                    { name: "Сон 8+ часов", sets: "1", reps: "1 сессия", rest: "—" },
+                    { name: "Питьевой режим (3.5л воды)", sets: "1", reps: "1 сессия", rest: "—" }
                 ]
             }
         };

@@ -5890,6 +5890,70 @@
     border-color: #ffaa00 !important;
     box-shadow: 0 0 15px rgba(255, 170, 0, 0.4);
 }
+
+/* ======================================================== */
+/* 🎨 ОКРАШИВАЕМ ИКОНКИ И РАМКИ ИКОНОК В ЦВЕТ ВЕТКИ         */
+/* ======================================================== */
+
+/* 1. ИНТЕЛЛЕКТ (Голубой) */
+.branch-stat-row:nth-of-type(1) .bsr-icon {
+    background: rgba(0, 212, 255, 0.15) !important;
+    border-color: #00d4ff !important;
+    box-shadow: 0 0 8px rgba(0, 212, 255, 0.5) !important;
+}
+.branch-stat-row:nth-of-type(1) .bsr-icon svg {
+    stroke: #00d4ff !important;
+    filter: drop-shadow(0 0 5px #00d4ff) !important;
+}
+.branch-stat-row:nth-of-type(1) .bsr-name {
+    color: #00d4ff !important;
+    text-shadow: 0 0 5px rgba(0, 212, 255, 0.5) !important;
+}
+
+/* 2. СИЛА (Красный) */
+.branch-stat-row:nth-of-type(2) .bsr-icon {
+    background: rgba(255, 0, 76, 0.15) !important;
+    border-color: #ff004c !important;
+    box-shadow: 0 0 8px rgba(255, 0, 76, 0.5) !important;
+}
+.branch-stat-row:nth-of-type(2) .bsr-icon svg {
+    stroke: #ff004c !important;
+    filter: drop-shadow(0 0 5px #ff004c) !important;
+}
+.branch-stat-row:nth-of-type(2) .bsr-name {
+    color: #ff004c !important;
+    text-shadow: 0 0 5px rgba(255, 0, 76, 0.5) !important;
+}
+
+/* 3. ДУША (Фиолетовый) */
+.branch-stat-row:nth-of-type(3) .bsr-icon {
+    background: rgba(168, 85, 247, 0.15) !important;
+    border-color: #a855f7 !important;
+    box-shadow: 0 0 8px rgba(168, 85, 247, 0.5) !important;
+}
+.branch-stat-row:nth-of-type(3) .bsr-icon svg {
+    stroke: #a855f7 !important;
+    filter: drop-shadow(0 0 5px #a855f7) !important;
+}
+.branch-stat-row:nth-of-type(3) .bsr-name {
+    color: #a855f7 !important;
+    text-shadow: 0 0 5px rgba(168, 85, 247, 0.5) !important;
+}
+
+/* 4. ТВОРЧЕСТВО (Оранжевый) */
+.branch-stat-row:nth-of-type(4) .bsr-icon {
+    background: rgba(255, 170, 0, 0.15) !important;
+    border-color: #ffaa00 !important;
+    box-shadow: 0 0 8px rgba(255, 170, 0, 0.5) !important;
+}
+.branch-stat-row:nth-of-type(4) .bsr-icon svg {
+    stroke: #ffaa00 !important;
+    filter: drop-shadow(0 0 5px #ffaa00) !important;
+}
+.branch-stat-row:nth-of-type(4) .bsr-name {
+    color: #ffaa00 !important;
+    text-shadow: 0 0 5px rgba(255, 170, 0, 0.5) !important;
+}
     </style>
 
 
@@ -7605,6 +7669,13 @@ for (let key in cloudData.chartHistory) {
             if (pageId === 'daily-page' && typeof loadDailyData === 'function') {
                 loadDailyData();
             }
+            // 🦾 ПРИ ПЕРЕХОДЕ НА ПРОГРАММЫ АКТИВИРУЕМ ПЕРВЫЙ ДЕНЬ
+if (pageId === 'programs-page') {
+    const firstBtn = document.querySelector('.workout-tab-btn');
+    if (firstBtn && typeof switchWorkoutDay === 'function') {
+        switchWorkoutDay(1, firstBtn);
+    }
+}
         }
 
 

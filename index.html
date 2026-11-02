@@ -9299,68 +9299,64 @@ let chronicleMonth = startMonth; // 10 = Ноябрь
         // 🧠 ДВИЖОК ОПЫТА ВЕТОК С ДЕТАЛИЗАЦИЕЙ И ПОДВИГАМИ
         // =========================================================
 
-function addExperienceToBranch(amount, branchKey, sourceTitle = "Практика", featNote = "") {
-    if (!isFirebaseLoaded) return;
+        function addExperienceToBranch(amount, branchKey, sourceTitle = "Практика", featNote = "") {
+            if (!isFirebaseLoaded) return;
 
-    const branch = playerData.branchStats?.[branchKey];
-    if (!branch) return;
+            const branch = playerData.branchStats?.[branchKey];
+            if (!branch) return;
 
-    amount = Number(amount);
-    if (!Number.isFinite(amount) || amount <= 0) return;
+            amount = Number(amount);
+            if (!Number.isFinite(amount) || amount <= 0) return;
 
-    const today = getMskDateInfo().dateString;
+            const today = getMskDateInfo().dateString;
 
-    // 1. Обновляем ЛОКАЛЬНО ветку и график (сначала!)
-    branch.level = Number(branch.level) || 1;
-    branch.xp = Number(branch.xp) || 0;
-    branch.xp += amount;
+            // 1. Обновляем ЛОКАЛЬНО ветку
+            branch.level = Number(branch.level) || 1;
+            branch.xp = Number(branch.xp) || 0;
+            branch.xp += amount;
 
-    while (branch.xp >= getSkillThreshold(branch.level)) {
-        branch.xp -= getSkillThreshold(branch.level);
-        branch.level += 1;
-    }
-    branch.nextLevelXp = getSkillThreshold(branch.level);
+            while (branch.xp >= getSkillThreshold(branch.level)) {
+                branch.xp -= getSkillThreshold(branch.level);
+                branch.level += 1;
+            }
+            branch.nextLevelXp = getSkillThreshold(branch.level);
 
-    if (!playerData.chartHistory) playerData.chartHistory = {};
-    playerData.chartHistory[today] = (Number(playerData.chartHistory[today]) || 0) + amount;
+            // 2. Детализация по дням и подвигам
+            if (!playerData.dailyBranchBreakdown) playerData.dailyBranchBreakdown = {};
+            if (!playerData.dailyBranchBreakdown[today]) {
+                playerData.dailyBranchBreakdown[today] = { int: 0, str: 0, wil: 0, res: 0 };
+            }
+            playerData.dailyBranchBreakdown[today][branchKey] = (playerData.dailyBranchBreakdown[today][branchKey] || 0) + amount;
 
-    // 2. Детализация по дням и подвигам
-    if (!playerData.dailyBranchBreakdown) playerData.dailyBranchBreakdown = {};
-    if (!playerData.dailyBranchBreakdown[today]) {
-        playerData.dailyBranchBreakdown[today] = { int: 0, str: 0, wil: 0, res: 0 };
-    }
-    playerData.dailyBranchBreakdown[today][branchKey] = (playerData.dailyBranchBreakdown[today][branchKey] || 0) + amount;
+            if (featNote && featNote.trim() !== "") {
+                if (!playerData.dailyFeats) playerData.dailyFeats = {};
+                if (!playerData.dailyFeats[today]) playerData.dailyFeats[today] = [];
+                playerData.dailyFeats[today].push({
+                    branch: branchKey,
+                    xp: amount,
+                    title: featNote.trim(),
+                    timestamp: Date.now()
+                });
+            }
 
-    if (featNote && featNote.trim() !== "") {
-        if (!playerData.dailyFeats) playerData.dailyFeats = {};
-        if (!playerData.dailyFeats[today]) playerData.dailyFeats[today] = [];
-        playerData.dailyFeats[today].push({
-            branch: branchKey,
-            xp: amount,
-            title: featNote.trim(),
-            timestamp: Date.now()
-        });
-    }
+            // 3. Начисляем в общий уровень и график (там внутри всё посчитается)
+            addExpToSystem(amount, `${sourceTitle} (${branchKey})`);
 
-    // 3. Начисляем в общий уровень (addExpToSystem сам внутри все сделает)
-    addExpToSystem(amount, `${sourceTitle} (${branchKey})`);
+            // 4. ЖЕСТКО СОХРАНЯЕМ ВЕТКИ В FIREBASE
+            const updateObj = {
+                branchStats: playerData.branchStats, 
+                dailyBranchBreakdown: playerData.dailyBranchBreakdown,
+                dailyFeats: playerData.dailyFeats
+            };
 
-    // 4. ЖЕСТКО СОХРАНЯЕМ В FIREBASE (берем актуальные локальные данные)
-    const updateObj = {
-        branchStats: playerData.branchStats, 
-        dailyBranchBreakdown: playerData.dailyBranchBreakdown,
-        dailyFeats: playerData.dailyFeats,
-        chartHistory: playerData.chartHistory 
-    };
+            profileDocRef.set(updateObj, { merge: true }).catch(err => console.error("Ошибка сохранения ветки:", err));
 
-    profileDocRef.set(updateObj, { merge: true }).catch(err => console.error("Ошибка сохранения ветки:", err));
-
-    // 5. Обновляем интерфейс
-    updateMainUI();
-    if (typeof updateBranchesUI === 'function') updateBranchesUI();
-    if (typeof renderMonthlyChronicle === 'function') renderMonthlyChronicle();
-    if (typeof renderLiveChart === 'function') renderLiveChart();
-}
+            // 5. Обновляем интерфейс
+            updateMainUI();
+            if (typeof updateBranchesUI === 'function') updateBranchesUI();
+            if (typeof renderMonthlyChronicle === 'function') renderMonthlyChronicle();
+            if (typeof renderLiveChart === 'function') renderLiveChart();
+        }
 
 
 

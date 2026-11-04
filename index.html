@@ -7516,147 +7516,143 @@
         let loadedLogs = {};
         let isFirebaseLoaded = false; // 🛡 ПРЕДОХРАНИТЕЛЬ
 
-    // 🛡 ПОДКЛЮЧЕНИЕ К FIREBASE С ЖЕЛЕЗНОЙ ЗАЩИТОЙ ОТ ОТКАТОВ И СТИРАНИЙ
-profileDocRef.onSnapshot((doc) => {
-    if (doc.exists) {
-        const cloudData = doc.data();
+         // 🛡 ПОДКЛЮЧЕНИЕ К FIREBASE С ЖЕЛЕЗНОЙ ЗАЩИТОЙ ОТ ОТКАТОВ И СТИРАНИЙ
+        profileDocRef.onSnapshot((doc) => {
+            if (doc.exists) {
+                const cloudData = doc.data();
 
-        // 1. 🛡 ЗАЩИТА АСКЕЗЫ: дни могут только расти. Берем базу 210!
-        const localTotal = Number(playerData.totalAsceticismDays) || 0;
-        const cloudTotal = Number(cloudData.totalAsceticismDays) || 0;
-        playerData.totalAsceticismDays = Math.max(localTotal, cloudTotal, 210);
+                // 1. 🛡 ЗАЩИТА АСКЕЗЫ: дни могут только расти. Берем базу 210!
+                const localTotal = Number(playerData.totalAsceticismDays) || 0;
+                const cloudTotal = Number(cloudData.totalAsceticismDays) || 0;
+                playerData.totalAsceticismDays = Math.max(localTotal, cloudTotal, 210);
 
-        // 2. 🛡 ЗАЩИТА КАЛЕНДАРЯ: объединяем историю. Если облако пустое — оставляем локальную!
-        const localHistory = playerData.asceticismHistory || {};
-        const cloudHistory = cloudData.asceticismHistory || {};
+                // 2. 🛡 ЗАЩИТА КАЛЕНДАРЯ: объединяем историю. Если облако пустое — оставляем локальную!
+                const localHistory = playerData.asceticismHistory || {};
+                const cloudHistory = cloudData.asceticismHistory || {};
 
-        if (Object.keys(cloudHistory).length > 0) {
-            playerData.asceticismHistory = { ...localHistory, ...cloudHistory };
-        } else {
-            playerData.asceticismHistory = localHistory;
-        }
+                if (Object.keys(cloudHistory).length > 0) {
+                    playerData.asceticismHistory = {...localHistory, ...cloudHistory};
+                } else {
+                    playerData.asceticismHistory = localHistory;
+                }
 
-        // 3. СОХРАНЯЕМ ЛОКАЛЬНЫЕ ДАННЫЕ ПЕРЕД СЛИЯНИЕМ (ЭТО САМОЕ ВАЖНОЕ!)
-        const localXp = Number(playerData.xp) || 0;
-        const localTotalXp = Number(playerData.totalXp) || 0;
-        const localLevel = Number(playerData.level) || 1;
-        // Глубокие копии веток и графика, чтобы облако их не стерло
-        const localBranchStats = JSON.parse(JSON.stringify(playerData.branchStats || {}));
-        const localChartHistory = JSON.parse(JSON.stringify(playerData.chartHistory || {}));
+                // 3. СОХРАНЯЕМ ЛОКАЛЬНЫЕ ЗНАЧЕНИЯ ПЕРЕД СЛИЯНИЕМ
+                const localXp = Number(playerData.xp) || 0;
+                const localTotalXp = Number(playerData.totalXp) || 0;
+                const localLevel = Number(playerData.level) || 1;
+                const localBranchStats = JSON.parse(JSON.stringify(playerData.branchStats || {}));
+                const localChartHistory = JSON.parse(JSON.stringify(playerData.chartHistory || {}));
 
-        // 4. Загружаем остальные данные из Firebase
-        playerData = {
-            ...playerData,
-            ...cloudData,
-            totalAsceticismDays: playerData.totalAsceticismDays,
-            asceticismHistory: playerData.asceticismHistory
-        };
+                // 4. Загружаем остальные данные из Firebase
+                playerData = {
+                    ...playerData,
+                    ...cloudData,
+                    totalAsceticismDays: playerData.totalAsceticismDays,
+                    asceticismHistory: playerData.asceticismHistory
+                };
 
-        // 5. 🛡 ЗАЩИТА МИССИЙ
-        if (!cloudData.dailyMissions || !Array.isArray(cloudData.dailyMissions) || cloudData.dailyMissions.length === 0) {
-            if (!playerData.dailyMissions || playerData.dailyMissions.length === 0) {
-                playerData.dailyMissions = generateDailyMissions();
-                playerData.missionsGeneratedDate = getMskDateInfo().dateString;
-            }
-        } else {
-            playerData.dailyMissions = cloudData.dailyMissions;
-            playerData.missionsGeneratedDate = cloudData.missionsGeneratedDate;
-        }
+                // 5. 🛡 ЗАЩИТА МИССИЙ
+                if (!cloudData.dailyMissions || !Array.isArray(cloudData.dailyMissions) || cloudData.dailyMissions.length === 0) {
+                    if (!playerData.dailyMissions || playerData.dailyMissions.length === 0) {
+                        playerData.dailyMissions = generateDailyMissions();
+                        playerData.missionsGeneratedDate = getMskDateInfo().dateString;
+                    }
+                } else {
+                    playerData.dailyMissions = cloudData.dailyMissions;
+                    playerData.missionsGeneratedDate = cloudData.missionsGeneratedDate;
+                }
 
-        // 6. 🛡 ЗАЩИТА ОБЩЕГО ОПЫТА И УРОВНЯ
-        playerData.xp = Math.max(localXp, Number(cloudData.xp) || 0);
-        playerData.totalXp = Math.max(localTotalXp, Number(cloudData.totalXp) || 0, 260000);
-        playerData.level = Math.max(localLevel, Number(cloudData.level) || 0, 36);
+                // 6. 🛡 ЗАЩИТА ОБЩЕГО ОПЫТА И УРОВНЯ
+                playerData.xp = Math.max(localXp, Number(cloudData.xp) || 0);
+                playerData.totalXp = Math.max(localTotalXp, Number(cloudData.totalXp) || 0, 260000);
+                playerData.level = Math.max(localLevel, Number(cloudData.level) || 0, 36);
 
-        // 7. 🛡 ЗАЩИТА ВЕТОК
-if (cloudData.branchStats) {
-    for (let key in playerData.branchStats) {
-        if (cloudData.branchStats[key]) {
-            const baseLvls = { int: 30, str: 33, wil: 45, res: 39 };
-            const cloudLevel = Number(cloudData.branchStats[key].level) || 1;
-            const savedLocalLevel = Number(localBranchStats[key]?.level) || 1;
-            const baseLevel = baseLvls[key] || 1;
+                // 7. 🛡 ЗАЩИТА ВЕТОК
+                if (cloudData.branchStats) {
+                    for (let key in playerData.branchStats) {
+                        if (cloudData.branchStats[key]) {
+                            const baseLvls = {int: 30, str: 33, wil: 45, res: 39};
+                            const cloudLevel = Number(cloudData.branchStats[key].level) || 1;
+                            const savedLocalLevel = Number(localBranchStats[key]?.level) || 1;
+                            const baseLevel = baseLvls[key] || 1;
 
-            playerData.branchStats[key].level = Math.max(savedLocalLevel, cloudLevel, baseLevel);
+                            playerData.branchStats[key].level = Math.max(savedLocalLevel, cloudLevel, baseLevel);
 
-            const cloudXp = Number(cloudData.branchStats[key].xp) || 0;
-            const savedLocalXp = Number(localBranchStats[key]?.xp) || 0;
+                            const cloudXp = Number(cloudData.branchStats[key].xp) || 0;
+                            const savedLocalXp = Number(localBranchStats[key]?.xp) || 0;
 
-            playerData.branchStats[key].xp = Math.max(savedLocalXp, cloudXp);
-            playerData.branchStats[key].nextLevelXp = getSkillThreshold(playerData.branchStats[key].level);
-        }
-    }
-}
+                            playerData.branchStats[key].xp = Math.max(savedLocalXp, cloudXp);
+                            playerData.branchStats[key].nextLevelXp = getSkillThreshold(playerData.branchStats[key].level);
+                        }
+                    }
+                }
 
-// 8. 🛡 ЗАЩИТА ХРОНОГРАФА
-const msk = getMskDateInfo();
-const todayKey = msk.dateString;
+                // 8. 🛡 ЗАЩИТА ГРАФИКА (ХРОНОГРАФА)
+                const msk = getMskDateInfo();
+                const todayKey = msk.dateString;
 
-if (!playerData.chartHistory) playerData.chartHistory = {};
+                if (!playerData.chartHistory) playerData.chartHistory = {};
 
-for (let key in cloudData.chartHistory) {
-    const cloudVal = Number(cloudData.chartHistory[key]) || 0;
-    const localVal = Number(localChartHistory[key]) || 0;
-    playerData.chartHistory[key] = Math.max(localVal, cloudVal);
-}
+                for (let key in cloudData.chartHistory) {
+                    const cloudVal = Number(cloudData.chartHistory[key]) || 0;
+                    const localVal = Number(localChartHistory[key]) || 0;
+                    playerData.chartHistory[key] = Math.max(localVal, cloudVal);
+                }
 
-        if (Number(playerData.xp) < playerData.chartHistory[todayKey]) {
-            playerData.xp = playerData.chartHistory[todayKey];
-        }
+                if (Number(playerData.xp) < playerData.chartHistory[todayKey]) {
+                    playerData.xp = playerData.chartHistory[todayKey];
+                }
 
-        // Массив дат
-        playerData.totalAsceticismAwardedDates = Array.isArray(cloudData.totalAsceticismAwardedDates)
-            ? cloudData.totalAsceticismAwardedDates
-            : (playerData.totalAsceticismAwardedDates || []);
+                // Подтягиваем сбережения
+                playerData.totalSavingsRub = Number(cloudData.totalSavingsRub) || 0;
 
-        // Подтягиваем сбережения
-        playerData.totalSavingsRub = Number(cloudData.totalSavingsRub) || 0;
-
-        // Firebase полностью загрузился
-        isFirebaseLoaded = true;
-
-        // Обновляем интерфейс
-        updateMainUI();
-
-        if (typeof renderMissionsList === 'function' && !isMissionAnimating) {
-            renderMissionsList();
-        }
-        if (typeof renderMonthlyChronicle === 'function') {
-            renderMonthlyChronicle();
-        }
-        if (typeof renderLiveChart === 'function') {
-            renderLiveChart();
-        }
-
-        console.log(
-            "☁️ Данные синхронизированы. " +
-            "XP:", playerData.xp,
-            "| Серия:", playerData.asceticismDays,
-            "| Ветка Сила XP:", playerData.branchStats.str.xp,
-            "| Сегодня в графике:", playerData.chartHistory[todayKey]
-        );
-
-    } else {
-        // Документа нет — создаём новый профиль
-        playerData.totalAsceticismDays = Math.max(Number(playerData.totalAsceticismDays) || 210, 210);
-        playerData.totalAsceticismAwardedDates =
-            Array.isArray(playerData.totalAsceticismAwardedDates)
-                ? playerData.totalAsceticismAwardedDates
-                : [];
-
-        profileDocRef.set(playerData, { merge: true })
-            .then(() => {
+                // Firebase полностью загрузился
                 isFirebaseLoaded = true;
-                updateMainUI();
-                console.log("⚡️ Создан новый профиль в Firebase.");
-            });
-    }
 
-}, (error) => {
-    console.error("Ошибка связи с Firebase:", error);
-    isFirebaseLoaded = true;
-    updateMainUI();
-});
+                // Обновляем интерфейс
+                updateMainUI();
+
+                if (typeof renderMissionsList === 'function' && !isMissionAnimating) {
+                    renderMissionsList();
+                }
+                if (typeof renderMonthlyChronicle === 'function') {
+                    renderMonthlyChronicle();
+                }
+                if (typeof renderLiveChart === 'function') {
+                    renderLiveChart();
+                }
+                if (typeof renderDailyCalendar === 'function') {
+                    renderDailyCalendar();
+                }
+
+                console.log(
+                    "☁️ Данные синхронизированы. " +
+                    "XP:", playerData.xp,
+                    "| Серия:", playerData.asceticismDays,
+                    "| Аскеза:", playerData.totalAsceticismDays
+                );
+
+            } else {
+                // Документа нет — создаём новый профиль
+                playerData.totalAsceticismDays = Math.max(Number(playerData.totalAsceticismDays) || 210, 210);
+                playerData.totalAsceticismAwardedDates =
+                    Array.isArray(playerData.totalAsceticismAwardedDates)
+                        ? playerData.totalAsceticismAwardedDates
+                        : [];
+
+                profileDocRef.set(playerData, { merge: true })
+                    .then(() => {
+                        isFirebaseLoaded = true;
+                        updateMainUI();
+                        console.log("⚡️ Создан новый профиль в Firebase.");
+                    });
+            }
+
+        }, (error) => {
+            console.error("Ошибка связи с Firebase:", error);
+            isFirebaseLoaded = true;
+            updateMainUI();
+        });
 
 
 

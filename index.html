@@ -6892,6 +6892,66 @@
             position: relative;
             z-index: 1;
         }
+
+
+                /* ======================================================== */
+        /* 📱 АДАПТАЦИЯ МИССИЙ ДЛЯ МОБИЛОК                          */
+        /* ======================================================== */
+        
+        @media (max-width: 900px) {
+            /* Отключаем фиксированную высоту для сетки */
+            .level-second-grid {
+                height: auto !important;
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 20px !important;
+            }
+
+            /* Даем карточкам миссий расти свободно */
+            .daily-mission-card {
+                height: auto !important;
+                min-height: 200px;
+            }
+
+            /* Список миссий больше не ограничиваем по высоте */
+            .missions-list-container {
+                max-height: none !important;
+                overflow-y: visible !important;
+                gap: 12px !important;
+            }
+
+            /* Сама карточка миссии становится более гибкой */
+            .glass-mission-card {
+                padding: 12px 10px !important;
+            }
+
+            /* Текст миссии может переноситься на новую строку */
+            .mission-title {
+                font-size: 0.8rem !important;
+                word-wrap: break-word !important;
+                white-space: normal !important;
+            }
+
+            /* Блок с текстом и кнопкой выстраиваем в колонку */
+            .mission-content {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 10px !important;
+            }
+
+            /* Чекбокс (кнопка выполнения) уезжает вправо */
+            .cosmic-checkbox-container {
+                align-self: flex-end !important;
+            }
+            
+            /* Убираем жесткую высоту у рангов, чтобы они тоже не сжимались */
+            .achievements-card-container {
+                height: auto !important;
+            }
+            .ranks-sub-container {
+                max-height: 400px; /* Оставляем скролл, но даем больше места */
+            }
+        }
     </style>
 
 

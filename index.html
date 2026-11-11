@@ -6983,6 +6983,9 @@
     <audio id="sfx-mission" src="success.mp3" preload="auto"></audio>
     <audio id="sfx-relapse" src="warning.mp3" preload="auto"></audio>
     <audio id="sfx-tab" src="tab.mp3" preload="auto"></audio>
+        <audio id="sfx-strelka" src="strelka.mp3" preload="auto"></audio>
+            <audio id="sfx-water" src="water.mp3" preload="auto"></audio>
+             <audio id="sfx-skill" src="skill.mp3" preload="auto"></audio>
 
     <!-- Фоновый плеер -->
     <audio id="bg-music" preload="auto" loop></audio>
@@ -9670,6 +9673,7 @@ if (pageId === 'programs-page') {
         }, 1000);
 
         function openSkillModal(skillKey) {
+            playSfx('sfx-skill'); // <--- ЗВУК ПРИ ОТКРЫТИИ
             currentActiveSkillKey = skillKey;
             const s = playerData.skills[skillKey];
             if (!s) return;
@@ -10935,6 +10939,7 @@ renderLiveChart();
         }
 
         function addWater(ml) {
+              playSfx('sfx-water'); 
             if (dailyWater + ml > 3500) return alert("Дневная норма (3.5л) достигнута!");
             dailyWater += ml;
             document.getElementById('water-current').innerText = dailyWater;
@@ -11063,6 +11068,25 @@ renderLiveChart();
 
         // Слушатель ввода
         document.getElementById('food-search-input')?.addEventListener('input', searchFood);
+
+
+
+                // =========================================================
+        // 🎵 ГЛОБАЛЬНЫЙ ЗВУК ДЛЯ ВСЕХ СТРЕЛОК
+        // =========================================================
+        document.addEventListener('click', function(e) {
+            // Ищем ближайшую кнопку или элемент, по которому кликнули
+            const target = e.target.closest('button, span, div');
+            
+            if (target) {
+                // Проверяем, является ли элемент стрелкой (по тексту внутри)
+                const text = target.innerText ? target.innerText.trim() : '';
+                
+                if (text === '◄' || text === '►' || text === '‹' || text === '›' || text === '←' || text === '→') {
+                    playSfx('sfx-strelka');
+                }
+            }
+        });
     </script>
 
 

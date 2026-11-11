@@ -1612,10 +1612,13 @@
             grid-template-columns: 1fr 1.2fr;
             gap: 25px;
             margin-top: 25px;
+            height: 520px; 
+            align-items: stretch;
         }
 
         /* КАРТОЧКА МИССИИ */
         .daily-mission-card {
+            height: 100%;
             background: linear-gradient(145deg, #0d0d1a 0%, #080812 100%);
             border: 1px solid var(--panel-border);
             border-left: 3px solid var(--accent-purple);
@@ -4573,6 +4576,7 @@
 
 
         .achievements-card-container {
+            height: 100%;
             padding: 16px;
             background: var(--panel-bg, rgba(8, 8, 20, .95));
             border: 1px solid var(--panel-border, rgba(0, 212, 255, .25));
@@ -6150,9 +6154,744 @@
 
 
 
+        /* ======================================================== */
+        /* 🧊 3D КАРТОЧКА ГРАФИКА (UIVERSE STYLE)                   */
+        /* ======================================================== */
+        .grid-container-3d {
+            --radius: 24px;
+            --perspective: 800px;
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            min-height: 380px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .grid-3d {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            z-index: 1;
+        }
+
+        .grid-3d .area {
+            position: relative;
+            z-index: 2;
+        }
+
+        .glow, .glow-in1, .glow-in2, .glow-out1, .glow-out2 {
+            position: absolute;
+            overflow: hidden;
+            border-radius: inherit;
+            filter: brightness(1.5);
+            pointer-events: none;
+        }
+
+        .glow::before, .glow-in1::before, .glow-in2::before, .glow-out1::before, .glow-out2::before {
+            transform: translate(-50%, -50%) rotate(45deg);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 180%;
+            height: 180%;
+            content: "";
+            transition: transform 1.5s ease;
+        }
+
+        .glow::before {
+            z-index: -2;
+            background: conic-gradient(#b52f2f 0%, transparent 20%, #cf8030 50%, black 60%, transparent 80%, #b52f2f 100%);
+        }
+        .glow-in1::before {
+            background: conic-gradient(from 0turn at 50% 30%, #b52f2f 12%, transparent 17%, transparent 90%, #b52f2f 100%);
+        }
+        .glow-in2::before {
+            background: conic-gradient(from 0turn at 45% 60%, transparent 30%, #cf8030 55%, transparent 60%);
+        }
+        .glow {
+            filter: blur(18px);
+            inset: 5px;
+            opacity: 0.5;
+            z-index: 3;
+        }
+        .glow-in1, .glow-in2 {
+            filter: blur(50px);
+            inset: -15px;
+            opacity: 0.5;
+        }
+        .glow-in2 {
+            opacity: 0.2;
+        }
+        .glow-out1 {
+            inset: -1px;
+            z-index: 1;
+            opacity: 0.5;
+        }
+        .glow-out2 {
+            inset: 6px;
+            opacity: 1;
+            transform: translateZ(10px);
+            border-radius: calc(var(--radius) * 0.8);
+        }
+        .glow-out1::before, .glow-out2::before {
+            background: conic-gradient(#b52f2f 0%, transparent 10%, transparent 35%, #cf8030 50%, transparent 60%, transparent 90%, #b52f2f 100%);
+        }
+
+        .wrap-3d:hover .glow::before,
+        .wrap-3d:hover .glow-in1::before,
+        .wrap-3d:hover .glow-in2::before,
+        .wrap-3d:hover .glow-out1::before,
+        .wrap-3d:hover .glow-out2::before {
+            transform: translate(-50%, -50%) rotate(410deg);
+        }
+
+        .wrap-3d {
+            display: flex;
+            align-items: center;
+            justify-items: center;
+            position: relative;
+            z-index: 9;
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 440px;
+        }
+
+        .wrap-3d::before {
+            box-shadow: 0 60px 140px 30px rgba(0, 0, 0, 0.8), 0 -60px 120px rgba(102, 106, 135, 0.4);
+            background: rgba(0, 0, 0, 0.4);
+            position: absolute;
+            content: "";
+            inset: 8px;
+            filter: blur(5px);
+            border-radius: 50px;
+        }
+
+        .card-3d {
+            padding: 7px;
+            border-radius: inherit;
+            width: 100%;
+        }
+        .card-3d, .glare::before {
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        .card-bg {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(to bottom, #1e212b 40%, #0b0c11 100%);
+            box-shadow: 0 15px 20px rgba(0, 0, 0, 0.7), inset 0 0 3px rgba(255, 255, 255, 0.1), inset 0 29px 5px -31px white;
+            z-index: 2;
+        }
+
+        .card-content {
+            box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.1), inset 0 0 70px #2e303c, inset 40px 70px 30px -20px rgba(0, 0, 0, 0.3), inset 0 30px 5px -30px rgba(255, 255, 255, 0.7), inset 0 -3px 2px -2px white;
+            background: linear-gradient(to bottom, #201c29 40%, #37374b 100%);
+            padding: 20px 20px 15px 20px;
+            border-radius: calc(var(--radius) * 0.8);
+            transform-style: preserve-3d;
+            transform: translateZ(10px);
+            position: relative;
+            z-index: 3;
+        }
+
+        /* Параллакс сетка */
+        .grid-3d .area:nth-child(1):hover ~ .wrap-3d .card-3d { transform: perspective(var(--perspective)) rotateX(-15deg) rotateY(15deg); }
+        .grid-3d .area:nth-child(2):hover ~ .wrap-3d .card-3d { transform: perspective(var(--perspective)) rotateX(-15deg) rotateY(0deg); }
+        .grid-3d .area:nth-child(3):hover ~ .wrap-3d .card-3d { transform: perspective(var(--perspective)) rotateX(-15deg) rotateY(-15deg); }
+        .grid-3d .area:nth-child(4):hover ~ .wrap-3d .card-3d { transform: perspective(var(--perspective)) rotateX(0deg) rotateY(15deg); }
+        .grid-3d .area:nth-child(5):hover ~ .wrap-3d .card-3d { transform: perspective(var(--perspective)) rotateX(0deg) rotateY(0deg); }
+        .grid-3d .area:nth-child(6):hover ~ .wrap-3d .card-3d { transform: perspective(var(--perspective)) rotateX(0deg) rotateY(-15deg); }
+        .grid-3d .area:nth-child(7):hover ~ .wrap-3d .card-3d { transform: perspective(var(--perspective)) rotateX(15deg) rotateY(15deg); }
+        .grid-3d .area:nth-child(8):hover ~ .wrap-3d .card-3d { transform: perspective(var(--perspective)) rotateX(15deg) rotateY(0deg); }
+        .grid-3d .area:nth-child(9):hover ~ .wrap-3d .card-3d { transform: perspective(var(--perspective)) rotateX(15deg) rotateY(-15deg); }
 
 
+
+
+        /* Адаптив для 3-го ряда: график и хронограф */
+        @media (max-width: 950px) {
+            .level-third-grid-custom {
+                grid-template-columns: 1fr !important;
+            }
+        }
         
+
+
+                /* Выравниваем высоту контейнера 3D-графика */
+        .grid-container-3d {
+            min-height: 100%;
+        }
+        .wrap-3d::before {
+            box-shadow: 0 10px 40px 10px rgba(0, 0, 0, 0.5) !important; /* Более мягкая тень */
+        }
+
+        /* Красивый скроллбар для хронографа */
+        #chronicle-days-container::-webkit-scrollbar {
+            width: 4px;
+        }
+        #chronicle-days-container::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+        }
+        #chronicle-days-container::-webkit-scrollbar-thumb {
+            background: #a855f7;
+            border-radius: 4px;
+        }
+
+
+
+                /* ======================================================== */
+        /* 🔮 ЭФФЕКТ СИНЕГО СТЕКЛА ДЛЯ ВСЕХ КАРТОЧЕК                 */
+        /* ======================================================== */
+        
+        .profile-card {
+            /* Глубокий синий градиент с прозрачностью */
+            background: linear-gradient(145deg, rgba(15, 25, 45, 0.8) 0%, rgba(5, 10, 20, 0.95) 100%) !important;
+            
+            /* Внутренняя подсветка (стекло) */
+            box-shadow: 
+                inset 0 1px 1px rgba(255, 255, 255, 0.2),
+                inset 0 0 20px rgba(0, 212, 255, 0.05),
+                0 15px 35px rgba(0, 0, 0, 0.5) !important;
+                
+            /* Обводка с легким свечением */
+            border: 1px solid rgba(0, 212, 255, 0.25) !important;
+            border-top: 2px solid rgba(0, 212, 255, 0.6) !important;
+            border-radius: 16px !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Добавляем желто-розовый блик (как на графике) */
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 0%, rgba(255, 170, 0, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Чтобы контент внутри был поверх блика */
+        .profile-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Эффект при наведении на карточку */
+        .profile-card:hover {
+            border-color: rgba(0, 212, 255, 0.5) !important;
+            box-shadow: 
+                inset 0 1px 1px rgba(255, 255, 255, 0.3),
+                inset 0 0 25px rgba(0, 212, 255, 0.1),
+                0 15px 35px rgba(0, 0, 0, 0.6),
+                0 0 20px rgba(255, 100, 100, 0.15) !important;
+            transition: 0.3s ease;
+        }
+
+        /* 🎯 Отдельный стиль для Хронографа (чтобы тоже был стеклянным) */
+        .monthly-chronicle-card {
+            background: linear-gradient(145deg, rgba(20, 15, 35, 0.9) 0%, rgba(10, 5, 20, 0.95) 100%) !important;
+            border: 1px solid rgba(168, 85, 247, 0.3) !important;
+            border-top: 2px solid rgba(168, 85, 247, 0.6) !important;
+            border-radius: 16px !important;
+            box-shadow: 
+                inset 0 1px 1px rgba(255, 255, 255, 0.2),
+                inset 0 0 20px rgba(168, 85, 247, 0.05),
+                0 15px 35px rgba(0, 0, 0, 0.5) !important;
+        }
+
+
+
+
+
+                 /* ======================================================== */
+        /* 🧊 КОМПАКТНЫЕ СТЕКЛЯННЫЕ КАРТОЧКИ МИССИЙ                 */
+        /* ======================================================== */
+
+        .missions-list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* Уменьшили расстояние между карточками */
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        .glass-mission-card {
+            position: relative;
+            width: 100%;
+            /* Цветной градиент на основе цвета ветки */
+            background: linear-gradient(135deg, 
+                color-mix(in srgb, var(--branch-color) 12%, rgba(15, 20, 35, 0.95)) 0%, 
+                rgba(5, 5, 15, 0.98) 100%) !important;
+            
+            border-radius: 12px;
+            
+            /* Внутренняя подсветка цвета ветки */
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.5),
+                inset 0 0 15px color-mix(in srgb, var(--branch-color) 15%, transparent),
+                inset 0 1px 1px rgba(255, 255, 255, 0.1) !important;
+                
+            /* Рамка в цвет ветки */
+            border: 1px solid color-mix(in srgb, var(--branch-color) 40%, transparent) !important;
+            border-left: 3px solid var(--branch-color) !important; /* Толстая полоска слева для акцента */
+            
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .glass-mission-card:hover {
+            transform: translateX(5px);
+            box-shadow: 
+                0 8px 20px rgba(0, 0, 0, 0.6),
+                0 0 20px color-mix(in srgb, var(--branch-color) 40%, transparent),
+                inset 0 0 20px color-mix(in srgb, var(--branch-color) 20%, transparent) !important;
+            border-color: var(--branch-color) !important;
+        }
+
+        /* Контент карточки */
+        .mission-content {
+            width: 100%;
+            padding: 12px 15px; /* Сделали компактнее */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .mission-text-block {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+        }
+
+        .mission-header {
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .mission-branch-badge {
+            font-family: 'Orbitron';
+            font-size: 0.55rem; /* Уменьшили шрифт бейджа */
+            font-weight: 800;
+            letter-spacing: 1px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+                .mission-title {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #e5e7eb;
+            line-height: 1.3;
+            /* Легкая цветная тень тексту */
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8), 0 0 10px color-mix(in srgb, var(--branch-color) 30%, transparent);
+            margin: 0;
+        }
+
+        .mission-xp {
+            font-family: 'Orbitron';
+            font-size: 0.8rem;
+            font-weight: 900;
+            margin-top: 2px;
+        }
+
+        /* ======================================================== */
+        /* 🌌 КОСМИЧЕСКИЙ ЧЕКБОКС (ВМЕСТО КНОПКИ)                   */
+        /* ======================================================== */
+        
+        .cosmic-checkbox-container {
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+            flex-shrink: 0; /* Чтобы чекбокс не сжимался */
+        }
+
+        .cosmic-checkbox-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .checkbox-wrapper {
+            position: relative;
+            width: 40px; /* Уменьшили размер чекбокса */
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .checkmark {
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            background: linear-gradient(135deg, #0a0a23, #1c2526);
+            border: 2px solid #4b5eaa;
+            border-radius: 8px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 0 8px rgba(75, 94, 170, 0.3);
+        }
+
+        .cosmic-checkbox-container:hover .checkmark {
+            transform: scale(1.1);
+            box-shadow: 0 0 12px rgba(75, 94, 170, 0.5);
+        }
+
+        .cosmic-checkbox-container input:checked ~ .checkbox-wrapper .checkmark {
+            background: linear-gradient(135deg, #ff5e62, #ffd452);
+            border-color: #ffd452;
+            border-radius: 50%;
+            transform: rotate(45deg) scale(1.2);
+            box-shadow: 0 0 20px rgba(255, 212, 82, 0.8);
+        }
+
+        .checkmark::after {
+            content: "";
+            position: absolute;
+            display: none;
+            left: 50%;
+            top: 50%;
+            width: 8px;
+            height: 8px;
+            background: transparent;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1.6);
+        }
+
+        .cosmic-checkbox-container input:checked ~ .checkbox-wrapper .checkmark::after {
+            display: block;
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .nebula-glow {
+            position: absolute;
+            width: 34px;
+            height: 34px;
+            background: radial-gradient(circle, rgba(75, 94, 170, 0.3) 10%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+
+        .cosmic-checkbox-container input:checked ~ .checkbox-wrapper .nebula-glow {
+            opacity: 1;
+            transform: rotate(180deg);
+            background: radial-gradient(circle, rgba(255, 94, 170, 0.5) 10%, rgba(255, 212, 82, 0.3) 70%);
+            animation: swirl 1.5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes swirl {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .sparkle-container { position: absolute; width: 100%; height: 100%; pointer-events: none; }
+
+        .sparkle-container::before, .sparkle-container::after {
+            content: ""; position: absolute; width: 3px; height: 3px;
+            background: #ffd452; border-radius: 50%; opacity: 0;
+            transition: all 0.6s ease;
+        }
+
+        .cosmic-checkbox-container input:checked ~ .checkbox-wrapper .sparkle-container::before {
+            transform: translate(10px, -10px); opacity: 1;
+            animation: twinkle 0.8s forwards;
+        }
+        .cosmic-checkbox-container input:checked ~ .checkbox-wrapper .sparkle-container::after {
+            transform: translate(-10px, 10px); background: #ff5e62; opacity: 1;
+            animation: twinkle 0.8s 0.2s forwards;
+        }
+
+        @keyframes twinkle {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.5) translate(10px, -10px); opacity: 0; }
+        }
+
+        .checkbox-wrapper::before {
+            content: ""; position: absolute; width: 40px; height: 40px;
+            background: rgba(75, 94, 170, 0.2); border-radius: 50%;
+            transform: scale(0); transition: transform 0.4s; z-index: -1;
+        }
+
+        .cosmic-checkbox-container:hover .checkbox-wrapper::before {
+            transform: scale(1);
+        }
+
+        .cosmic-checkbox-container input:checked ~ .checkbox-wrapper .checkmark {
+            animation: bounce 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: rotate(45deg) scale(1.2); }
+            50% { transform: rotate(45deg) scale(1.4); }
+        }
+
+
+
+                .daily-mission-card {
+            /* Глубокий стеклянный градиент */
+            background: linear-gradient(145deg, rgba(15, 20, 40, 0.85) 0%, rgba(5, 5, 15, 0.95) 100%) !important;
+            
+            /* Внутренняя подсветка и внешние тени */
+            box-shadow: 
+                inset 0 1px 1px rgba(255, 255, 255, 0.15),
+                inset 0 0 30px rgba(138, 43, 226, 0.08),
+                0 15px 35px rgba(0, 0, 0, 0.6) !important;
+                
+            /* Обводка */
+            border: 1px solid rgba(138, 43, 226, 0.3) !important;
+            border-top: 2px solid rgba(138, 43, 226, 0.7) !important;
+            border-radius: 16px !important;
+            
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s ease;
+        }
+
+        /* Желто-розовый блик сверху (как на графике) */
+        .daily-mission-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 0%, rgba(255, 170, 0, 0.1) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Свечение при наведении на весь блок */
+        .daily-mission-card:hover {
+            border-color: rgba(138, 43, 226, 0.6) !important;
+            box-shadow: 
+                inset 0 1px 1px rgba(255, 255, 255, 0.25),
+                inset 0 0 40px rgba(138, 43, 226, 0.15),
+                0 15px 40px rgba(0, 0, 0, 0.7),
+                0 0 25px rgba(255, 100, 100, 0.15) !important; /* Легкий розовый ореол */
+        }
+
+        /* Чтобы контент был поверх блика */
+        .daily-mission-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+
+                /* ======================================================== */
+        /* 📐 ВЫРАВНИВАНИЕ РЯДОВ (ЧТОБЫ НЕ БЫЛО ЗИГЗАГОВ)            */
+        /* ======================================================== */
+        
+        /* Фиксируем высоту ряда с миссиями и рангами */
+        .level-second-grid {
+            height: 540px !important; 
+            align-items: stretch !important;
+        }
+
+        /* Заставляем карточки заполнять всю высоту */
+        .daily-mission-card, 
+        .achievements-card-container {
+            height: 100% !important;
+            margin-top: 0 !important;
+        }
+
+        /* Внутри миссий список должен скроллиться, если не влезает */
+        .missions-list-container {
+            flex: 1 !important; /* Занимает все свободное место */
+            overflow-y: auto !important;
+            max-height: none !important; /* Убираем старый лимит */
+        }
+
+        /* Внутри рангов сетка тоже должна скроллиться */
+        .achievements-card-container {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .ranks-sub-container {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        /* Красивые скроллбары */
+        .missions-list-container::-webkit-scrollbar,
+        .ranks-sub-container::-webkit-scrollbar {
+            width: 4px;
+        }
+        .missions-list-container::-webkit-scrollbar-thumb,
+        .ranks-sub-container::-webkit-scrollbar-thumb {
+            background: #8a2be2;
+            border-radius: 4px;
+        }
+
+
+
+
+
+
+                /* ======================================================== */
+        /* 🏆 СТЕКЛЯННЫЕ РАНГИ И КАЛЕНДАРЬ                         */
+        /* ======================================================== */
+
+        /* 1. Общий контейнер рангов (обертка) */
+        .achievements-card-container {
+            /* Стеклянный фон с фиолетовым оттенком */
+            background: linear-gradient(145deg, rgba(20, 15, 35, 0.85) 0%, rgba(10, 5, 20, 0.95) 100%) !important;
+            border: 1px solid rgba(168, 85, 247, 0.3) !important;
+            border-top: 2px solid rgba(168, 85, 247, 0.7) !important;
+            border-radius: 16px !important;
+            box-shadow: 
+                inset 0 1px 1px rgba(255, 255, 255, 0.15),
+                inset 0 0 30px rgba(168, 85, 247, 0.05),
+                0 15px 35px rgba(0, 0, 0, 0.5) !important;
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s ease;
+        }
+
+        /* Желто-розовый блик для рангов */
+        .achievements-card-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 0%, rgba(255, 170, 0, 0.08) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .achievements-card-container:hover {
+            border-color: rgba(168, 85, 247, 0.6) !important;
+            box-shadow: 
+                inset 0 1px 1px rgba(255, 255, 255, 0.25),
+                inset 0 0 40px rgba(168, 85, 247, 0.15),
+                0 15px 40px rgba(0, 0, 0, 0.7),
+                0 0 25px rgba(255, 100, 100, 0.15) !important;
+        }
+
+        /* Чтобы контент был поверх блика */
+        .achievements-card-container > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 2. Блок календаря воздержания (делаем его вложенной стеклянной панелью) */
+        .ac-calendar-block {
+            background: rgba(0, 0, 0, 0.3) !important;
+            border: 1px solid rgba(0, 212, 255, 0.15) !important;
+            border-radius: 12px;
+            padding: 10px;
+            box-shadow: inset 0 0 20px rgba(0, 212, 255, 0.05);
+            transition: 0.3s ease;
+        }
+
+        .ac-calendar-block:hover {
+            border-color: rgba(0, 212, 255, 0.4) !important;
+            box-shadow: inset 0 0 25px rgba(0, 212, 255, 0.1), 0 0 15px rgba(0, 212, 255, 0.2);
+        }
+
+        /* Добавим легкое свечение для ячеек календаря при наведении */
+        .ac-cal-cell:hover {
+            box-shadow: 0 0 15px currentColor !important;
+            transform: scale(1.1);
+            z-index: 2;
+            position: relative;
+        }
+
+        /* 3. Красивые скроллбары для миссий и рангов (если контент не влезает) */
+        .missions-list-container::-webkit-scrollbar,
+        .ranks-sub-container::-webkit-scrollbar {
+            width: 4px;
+        }
+        .missions-list-container::-webkit-scrollbar-thumb,
+        .ranks-sub-container::-webkit-scrollbar-thumb {
+            background: #8a2be2;
+            border-radius: 4px;
+        }
+
+                /* ======================================================== */
+        /* 🧘 СТЕКЛЯННАЯ КАРТОЧКА АСКЕЗЫ (ВСЯ ПАНЕЛЬ)               */
+        /* ======================================================== */
+
+        .asceticism-card {
+            /* Глубокий сине-фиолетовый стеклянный градиент */
+            background: linear-gradient(145deg, rgba(15, 20, 40, 0.85) 0%, rgba(5, 5, 15, 0.95) 100%) !important;
+            
+            /* Обводка в тон аскезы (фиолетовый) */
+            border: 1px solid rgba(138, 43, 226, 0.3) !important;
+            border-top: 2px solid rgba(138, 43, 226, 0.7) !important;
+            border-radius: 16px !important;
+            
+            /* Внутренняя подсветка и внешняя тень */
+            box-shadow: 
+                inset 0 1px 1px rgba(255, 255, 255, 0.15),
+                inset 0 0 30px rgba(138, 43, 226, 0.08),
+                0 15px 35px rgba(0, 0, 0, 0.6) !important;
+            
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s ease;
+        }
+
+        /* Желто-розовый блик (как на графике и миссиях) */
+        .asceticism-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 0%, rgba(255, 170, 0, 0.08) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Свечение при наведении на всю карточку */
+        .asceticism-card:hover {
+            border-color: rgba(138, 43, 226, 0.6) !important;
+            box-shadow: 
+                inset 0 1px 1px rgba(255, 255, 255, 0.25),
+                inset 0 0 40px rgba(138, 43, 226, 0.15),
+                0 15px 40px rgba(0, 0, 0, 0.7),
+                0 0 25px rgba(255, 100, 100, 0.15) !important;
+        }
+
+        /* Чтобы контент (текст, кнопки) был поверх блика */
+        .asceticism-card > * {
+            position: relative;
+            z-index: 1;
+        }
     </style>
 
 
@@ -6610,7 +7349,7 @@
 
 
             <!-- [ ROW 2: MISSION & ACHIEVEMENTS ] -->
-            <div class="level-second-grid">
+            <div class="level-second-grid" style="margin-top: 35px;">
 
                 <!-- 1. СПИСОК ИЗ 7 НАСТРАИВАЕМЫХ МИССИЙ -->
                 <div class="daily-mission-card">
@@ -6704,84 +7443,106 @@
 
             </div>
 
-
             <!-- [ ROW 3: ВЕЛИКИЙ ХРОНОГРАФ И ГРАФИК ] -->
-            <div class="level-third-grid" style="display: flex; flex-direction: column; gap: 20px;">
+           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin-top: 35px; margin-bottom: 90px; align-items: stretch;" class="level-third-grid-custom">
 
-                <!-- 1. ОБНОВЛЕННЫЙ НЕОНОВЫЙ ГРАФИК (НА ВСЮ ШИРИНУ) -->
-                <div class="chart-card" style="width: 100%; min-height: 300px;">
-                    <div class="chart-header">
-                        <div class="chart-title-group">
-                            <span class="chart-icon">📈</span>
-                            <span class="chart-title">ДИНАМИКА ПРОГРЕССА</span>
+                <!-- 1. ГРАФИК (СЛЕВА) -->
+                <div style="width: 100%;">
+                    
+                    <!-- 🎛 НОВЫЙ 3D ГРАФИК -->
+                    <div class="grid-container-3d" style="position: relative; width: 100%;">
+                        <div class="grid-3d">
+                            <div class="area"></div><div class="area"></div><div class="area"></div>
+                            <div class="area"></div><div class="area"></div><div class="area"></div>
+                            <div class="area"></div><div class="area"></div><div class="area"></div>
                         </div>
-                        <!-- 🎛 СТРЕЛКИ УПРАВЛЕНИЯ НЕДЕЛЯМИ -->
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <button class="chronicle-btn" onclick="changeChartWeek(-1)"
-                                style="cursor:pointer; background: rgba(0,212,255,0.1); border: 1px solid #00d4ff; color: #00d4ff; border-radius: 6px; padding: 4px 10px;">◄</button>
-                            <span id="chart-week-badge" class="chart-week-badge"
-                                style="min-width: 110px; text-align: center;">НЕДЕЛЯ #1</span>
-                            <button class="chronicle-btn" onclick="changeChartWeek(1)"
-                                style="cursor:pointer; background: rgba(0,212,255,0.1); border: 1px solid #00d4ff; color: #00d4ff; border-radius: 6px; padding: 4px 10px;">►</button>
+
+                        <div class="wrap-3d" style="width: 100%; max-width: 100%;">
+                            <div class="card-3d">
+                                <div class="glow-out1"></div>
+                                <div class="glow-out2"></div>
+                                <div class="glow"></div>
+                                <div class="card-bg"></div>
+                                <div class="card-content">
+                                    <div class="glare"></div>
+                                    <div class="glow-in1"></div>
+                                    <div class="glow-in2"></div>
+                                    
+                                    <header style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 5px;">
+                                        <div>
+                                            <p class="title" style="font-family: 'Orbitron'; font-size: 0.7rem; letter-spacing: 2px; color: #00d4ff; margin: 0;">ДИНАМИКА ПРОГРЕССА</p>
+                                            <div class="views" style="font-family: 'Orbitron'; font-size: 1.4rem; color: #fff; font-weight: bold; text-shadow: 0 0 10px rgba(255,255,255,0.3);">
+                                                <span id="chart-total-week">0</span> <span style="font-size: 0.8rem; color: #888;">XP</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div style="display: flex; gap: 10px; align-items: center; margin-top: 5px;">
+                                            <button class="chronicle-btn" onclick="changeChartWeek(-1)" style="cursor:pointer; background: rgba(0,212,255,0.1); border: 1px solid #00d4ff; color: #00d4ff; border-radius: 6px; padding: 4px 10px; font-size: 0.8rem;">◄</button>
+                                            <span id="chart-week-badge" style="font-family: 'Orbitron'; color: #00d4ff; font-size: 0.75rem; min-width: 80px; text-align: center;">НЕДЕЛЯ #1</span>
+                                            <button class="chronicle-btn" onclick="changeChartWeek(1)" style="cursor:pointer; background: rgba(0,212,255,0.1); border: 1px solid #00d4ff; color: #00d4ff; border-radius: 6px; padding: 4px 10px; font-size: 0.8rem;">►</button>
+                                        </div>
+                                    </header>
+
+                                    <div class="chart" style="margin-top: 10px; height: 160px;">
+                                        <svg id="live-chart-svg" width="100%" height="100%" viewBox="0 0 389 175" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                                            <defs>
+                                                <linearGradient id="gradientPath1" x1="0%" x2="100%" y1="0%" y2="0%">
+                                                    <stop offset="1%" stop-color="#ffc800"></stop>
+                                                    <stop offset="7%" stop-color="#ff694a"></stop>
+                                                    <stop offset="40%" stop-color="orange"></stop>
+                                                    <stop offset="60%" stop-color="#fa874b"></stop>
+                                                    <stop offset="70%" stop-color="#e8a2ab"></stop>
+                                                    <stop offset="90%" stop-color="#ff495c"></stop>
+                                                </linearGradient>
+                                                <linearGradient id="gradientPath1b" x1="0%" x2="100%" y1="0%" y2="0%">
+                                                    <stop offset="0%" stop-color="white"></stop>
+                                                    <stop offset="10%" stop-color="#fa4b5b"></stop>
+                                                    <stop offset="20%" stop-color="white"></stop>
+                                                    <stop offset="70%" stop-color="orange"></stop>
+                                                    <stop offset="80%" stop-color="#ffe7e1"></stop>
+                                                </linearGradient>
+                                                <filter id="goo">
+                                                    <feGaussianBlur stdDeviation="2" result="blur" in="SourceGraphic"></feGaussianBlur>
+                                                    <feColorMatrix result="goo" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" mode="matrix" in="blur"></feColorMatrix>
+                                                </filter>
+                                            </defs>
+
+                                            <g opacity="0.3">
+                                                <line x1="0" y1="30" x2="389" y2="30" stroke="#fff" stroke-opacity="0.1" stroke-dasharray="4 4"></line>
+                                                <line x1="0" y1="70" x2="389" y2="70" stroke="#fff" stroke-opacity="0.1" stroke-dasharray="4 4"></line>
+                                                <line x1="0" y1="110" x2="389" y2="110" stroke="#fff" stroke-opacity="0.1" stroke-dasharray="4 4"></line>
+                                                <line x1="0" y1="150" x2="389" y2="150" stroke="#fff" stroke-opacity="0.2" stroke-dasharray="4 4"></line>
+                                            </g>
+
+                                            <g filter="url(#goo)" class="path1-g">
+                                                <path id="live-chart-path" class="path1" d="" stroke="url(#gradientPath1)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" style="transition: d 0.5s ease;"></path>
+                                            </g>
+                                            
+                                            <g id="live-chart-points"></g>
+                                        </svg>
+                                    </div>
+
+                                    <footer id="chart-x-labels" style="display: flex; justify-content: space-between; margin-top: 10px; font-family: 'Orbitron'; font-size: 0.65rem; color: #888;"></footer>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-
-                    <div class="chart-canvas-wrapper" style="height: 220px;">
-                        <div class="chart-y-axis">
-                            <span>3000</span>
-                            <span>2250</span>
-                            <span>1500</span>
-                            <span>750</span>
-                            <span>0</span>
-                        </div>
-
-                        <div class="chart-svg-box" style="height: 220px;">
-                            <svg class="progress-svg" viewBox="0 0 500 200" preserveAspectRatio="none">
-                                <defs>
-                                    <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                        <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.3" />
-                                        <stop offset="100%" stop-color="#00d4ff" stop-opacity="0.0" />
-                                    </linearGradient>
-                                    <filter id="neonGlow">
-                                        <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#00d4ff" />
-                                    </filter>
-                                </defs>
-                                <path id="chart-area" d="" fill="url(#chartGradient)"></path>
-                                <path id="chart-line" d="" fill="none" stroke="#00d4ff" stroke-width="3"
-                                    filter="url(#neonGlow)"></path>
-                                <!-- Точки генерируются скриптом автоматически -->
-                            </svg>
-                        </div>
-                    </div>
-
-                    <div class="chart-x-axis" id="chart-x-labels" style="margin-top: 15px;">
-                        <!-- Сюда скрипт вставит 7 дат недели -->
-                    </div>
                 </div>
 
-                <!-- 2. НОВЫЙ БЛОК: 📜 ХРОНОГРАФ МЕСЯЦЕВ (ВМЕСТО МАНИФЕСТА И СТАТИСТИКИ) -->
-                <div class="monthly-chronicle-card">
-                    <div class="chronicle-header"
-                        style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 15px; border-bottom: 1px solid rgba(168, 85, 247, 0.2); margin-bottom: 20px;">
-                        <div class="chronicle-title"
-                            style="font-family: 'Orbitron'; color: #a855f7; font-weight: 800; letter-spacing: 1px;">📜
-                            ХРОНОГРАФ МЕСЯЦЕВ</div>
+                <!-- 2. ХРОНОГРАФ (СПРАВА) -->
+                <div class="monthly-chronicle-card" style="margin-top: 0; height: 100%; padding: 25px;">
+                    <div class="chronicle-header" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 15px; border-bottom: 1px solid rgba(168, 85, 247, 0.2); margin-bottom: 20px;">
+                        <div class="chronicle-title" style="font-family: 'Orbitron'; color: #a855f7; font-weight: 800; letter-spacing: 1px;">📜 ХРОНОГРАФ МЕСЯЦЕВ</div>
                         <div class="chronicle-nav-btns" style="display: flex; align-items: center; gap: 15px;">
-                            <button class="chronicle-btn" onclick="changeChronicleMonth(-1)"
-                                style="cursor:pointer; background: rgba(168,85,247,0.1); border: 1px solid #a855f7; color: #a855f7; border-radius: 4px; padding: 2px 10px;">◄</button>
-                            <span id="chronicle-month-label"
-                                style="font-family: 'Orbitron'; font-size: 0.8rem; color: #fff; font-weight: 800; min-width: 130px; text-align: center;">ОКТЯБРЬ
-                                2026</span>
-                            <button class="chronicle-btn" onclick="changeChronicleMonth(1)"
-                                style="cursor:pointer; background: rgba(168,85,247,0.1); border: 1px solid #a855f7; color: #a855f7; border-radius: 4px; padding: 2px 10px;">►</button>
+                            <button class="chronicle-btn" onclick="changeChronicleMonth(-1)" style="cursor:pointer; background: rgba(168,85,247,0.1); border: 1px solid #a855f7; color: #a855f7; border-radius: 4px; padding: 2px 10px;">◄</button>
+                            <span id="chronicle-month-label" style="font-family: 'Orbitron'; font-size: 0.8rem; color: #fff; font-weight: 800; min-width: 130px; text-align: center;">НОЯБРЬ 2026</span>
+                            <button class="chronicle-btn" onclick="changeChronicleMonth(1)" style="cursor:pointer; background: rgba(168,85,247,0.1); border: 1px solid #a855f7; color: #a855f7; border-radius: 4px; padding: 2px 10px;">►</button>
                         </div>
                     </div>
 
-                    <!-- Контейнер для динамического списка дней и подвигов -->
-                    <div id="chronicle-days-container" style="display: flex; flex-direction: column; gap: 10px;">
-                        <!-- Заполняется функцией renderMonthlyChronicle() -->
-                    </div>
+                    <!-- Сюда вставляется список дней -->
+                    <div id="chronicle-days-container" style="display: flex; flex-direction: column; gap: 10px; max-height: 400px; overflow-y: auto; padding-right: 5px;"></div>
                 </div>
 
             </div>
@@ -8926,20 +9687,15 @@ if (pageId === 'programs-page') {
 
 
 
-        // 📋 ОТРИСОВКА ТОЛЬКО АКТИВНЫХ МИССИЙ (ВЫПОЛНЕННЫЕ УЛЕТЕЛИ)
-        function renderMissionsList() {
+               function renderMissionsList() {
             const listEl = document.getElementById('missions-list-container') || document.getElementById('daily-missions-list');
             if (!listEl) return;
 
             const mskToday = getMskDateInfo().dateString;
-
-            // 🛡 ПРОВЕРКА СУТОК: Если дата генерации не равна сегодняшней — сбрасываем миссии для нового дня!
             if (playerData.missionsGeneratedDate !== mskToday) {
                 playerData.dailyMissions = generateDailyMissions();
                 playerData.missionsGeneratedDate = mskToday;
-                playerData.completedMissionsCount = 0; // Сбрасываем счетчик выполненных на 0
-
-                // Сохраняем в Firebase новый пул миссий
+                playerData.completedMissionsCount = 0;
                 if (typeof profileDocRef !== 'undefined' && isFirebaseLoaded) {
                     profileDocRef.set({
                         dailyMissions: playerData.dailyMissions,
@@ -8962,28 +9718,37 @@ if (pageId === 'programs-page') {
 
             let html = '';
             missions.forEach(m => {
-                if (m.completed) return; // Выполненные улетают
+                if (m.completed) return;
 
                 const meta = branchMeta[m.branch] || branchMeta.wil;
 
                 html += `
-            <div id="quest-card-${m.id}" class="neon-quest-card" style="--branch-color: ${meta.color};">
-                <div class="quest-main-box">
-                    <div class="branch-neon-badge">
-                        <span class="bnb-svg">${meta.icon}</span>
-                        <span class="bnb-title">${meta.name}</span>
+                    <div id="quest-card-${m.id}" class="glass-mission-card" style="--branch-color: ${meta.color};">
+                        <div class="mission-content">
+                            <div class="mission-text-block">
+                                <div class="mission-header">
+                                    <span class="mission-branch-badge" style="background: ${meta.color}20; border: 1px solid ${meta.color}80; color: ${meta.color}; box-shadow: 0 0 10px ${meta.color}40;">
+                                        ${meta.name}
+                                    </span>
+                                </div>
+                                <p class="mission-title">${m.title}</p>
+                                <span class="mission-xp" style="color: ${meta.color}; text-shadow: 0 0 10px ${meta.color};">
+                                    +${m.xp} XP
+                                </span>
+                            </div>
+                            
+                            <!-- КОСМИЧЕСКИЙ ЧЕКБОКС -->
+                            <label class="cosmic-checkbox-container" onclick="playSfx('sfx-mission'); completeMission(${m.id})">
+                                <input type="checkbox" />
+                                <div class="checkbox-wrapper">
+                                    <div class="checkmark"></div>
+                                    <div class="nebula-glow"></div>
+                                    <div class="sparkle-container"></div>
+                                </div>
+                            </label>
+                        </div>
                     </div>
-                    <div class="quest-text-desc">${m.title}</div>
-                </div>
-
-                <div class="quest-action-box">
-                    <span class="quest-neon-xp">+${m.xp} XP</span>
-                    <button type="button" class="quest-neon-btn" onclick="completeMission(${m.id})">
-                        ВЫПОЛНИТЬ
-                    </button>
-                </div>
-            </div>
-        `;
+                `;
             });
 
             if (html === '') {
@@ -9411,13 +10176,13 @@ let chronicleMonth = startMonth; // 10 = Ноябрь
             renderLiveChart();
         }
 
-        function renderLiveChart() {
+               function renderLiveChart() {
             if (!playerData.chartHistory) playerData.chartHistory = {};
 
-            const svgWidth = 500;
-            const svgHeight = 200;
+            const svgWidth = 389; // Ширина, как в оригинальном SVG
+            const svgHeight = 175;
 
-            // 1. Сначала собираем данные за нужную неделю
+            // 1. Собираем данные за нужную неделю
             const startDate = new Date(2026, 9, 20);
             const todayDate = new Date();
 
@@ -9432,7 +10197,7 @@ let chronicleMonth = startMonth; // 10 = Ноябрь
                 weekBadge.textContent = `НЕДЕЛЯ #${targetWeekIndex + 1}`;
             }
 
-            let historyData = []; // <--- ВОТ ЗДЕСЬ ОНА ОБЪЯВЛЯЕТСЯ
+            let historyData = [];
             let labels = [];
 
             for (let i = 0; i < 7; i++) {
@@ -9447,46 +10212,62 @@ let chronicleMonth = startMonth; // 10 = Ноябрь
                 labels.push(`${dayStr}.${m}`);
             }
 
-            // 2. ТЕПЕРЬ считаем потолок (historyData уже существует!)
-            const maxVal = Math.max(3000, Math.ceil(Math.max(...historyData) / 1000) * 1000);
+            // Считаем общий опыт за неделю
+            const totalWeekXP = historyData.reduce((a, b) => a + b, 0);
+            const totalWeekEl = document.getElementById('chart-total-week');
+            if (totalWeekEl) totalWeekEl.textContent = totalWeekXP.toLocaleString();
 
-            // 3. Рисуем точки
-            const bottomY = svgHeight - 20;
-            const points = historyData.map((val, idx) => {
-                const x = (idx / 6) * svgWidth;
-                const y = val > 0 ? svgHeight - ((val / maxVal) * 160) - 20 : bottomY;
-                return {x, y};
+            // 2. Ищем максимум для масштабирования
+            const maxVal = Math.max(...historyData, 1000); // Минимальный потолок 1000
+            const scaleY = 140 / maxVal; // 140 - рабочая высота графика
+
+            // 3. Формируем SVG Path (плавный)
+            let d = "";
+            let points = [];
+
+            historyData.forEach((val, i) => {
+                const x = (i / 6) * svgWidth;
+                const y = svgHeight - (val * scaleY) - 20; // Отступ снизу
+                points.push({ x, y, val });
+
+                if (i === 0) {
+                    d = `M ${x} ${y}`;
+                } else {
+                    // Плавные кривые Безье для красоты
+                    const prevX = points[i - 1].x;
+                    const prevY = points[i - 1].y;
+                    const cp1x = prevX + (x - prevX) / 2;
+                    const cp1y = prevY;
+                    const cp2x = prevX + (x - prevX) / 2;
+                    const cp2y = y;
+                    d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${x} ${y}`;
+                }
             });
 
-            let dLine = `M ${points[0].x} ${points[0].y}`;
-            for (let i = 1; i < points.length; i++) {
-                dLine += ` L ${points[i].x} ${points[i].y}`;
+            // Обновляем линию
+            const linePath = document.getElementById('live-chart-path');
+            if (linePath) {
+                linePath.setAttribute('d', d);
             }
 
-            const dArea = `${dLine} L ${svgWidth} ${svgHeight} L 0 ${svgHeight} Z`;
-
-            const lineEl = document.getElementById('chart-line');
-            const areaEl = document.getElementById('chart-area');
-            if (lineEl) lineEl.setAttribute('d', dLine);
-            if (areaEl) areaEl.setAttribute('d', dArea);
-
-            const svgBox = document.querySelector('.chart-svg-box svg');
-            if (svgBox) {
-                svgBox.querySelectorAll('circle').forEach(c => c.remove());
-
-                points.forEach((p, idx) => {
-                    const hasXp = historyData[idx] > 0;
+            // 4. Добавляем точки на график (кружочки)
+            const pointsContainer = document.getElementById('live-chart-points');
+            if (pointsContainer) {
+                pointsContainer.innerHTML = "";
+                points.forEach(p => {
                     const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
                     circle.setAttribute("cx", p.x);
                     circle.setAttribute("cy", p.y);
-                    circle.setAttribute("r", hasXp ? "6" : "3");
-                    circle.setAttribute("fill", hasXp ? "#00ff88" : "#1a1a2e");
-                    circle.setAttribute("stroke", hasXp ? "#00d4ff" : "#333");
+                    circle.setAttribute("r", "4");
+                    circle.setAttribute("fill", "#fff");
+                    circle.setAttribute("stroke", "#00d4ff");
                     circle.setAttribute("stroke-width", "2");
-                    svgBox.appendChild(circle);
+                    circle.style.filter = "drop-shadow(0 0 5px #00d4ff)";
+                    pointsContainer.appendChild(circle);
                 });
             }
 
+            // 5. Обновляем подписи дат
             const labelsContainer = document.getElementById('chart-x-labels');
             if (labelsContainer) {
                 labelsContainer.innerHTML = "";

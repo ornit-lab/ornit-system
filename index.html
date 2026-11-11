@@ -7526,14 +7526,15 @@
                 const cloudTotal = Number(cloudData.totalAsceticismDays) || 0;
                 playerData.totalAsceticismDays = Math.max(localTotal, cloudTotal, 210);
 
-                // 2. 🛡 ЗАЩИТА КАЛЕНДАРЯ: объединяем историю. Если облако пустое — оставляем локальную!
+                                // 2. 🛡 ЗАЩИТА КАЛЕНДАРЯ: если в облаке пусто — НЕ ПЕРЕЗАПИСЫВАЕМ локальную историю!
                 const localHistory = playerData.asceticismHistory || {};
                 const cloudHistory = cloudData.asceticismHistory || {};
 
                 if (Object.keys(cloudHistory).length > 0) {
-                    playerData.asceticismHistory = {...localHistory, ...cloudHistory};
+                    playerData.asceticismHistory = { ...localHistory, ...cloudHistory };
                 } else {
-                    playerData.asceticismHistory = localHistory;
+                    // Если облако пустое (глюк сети) — оставляем локальную!
+                    playerData.asceticismHistory = localHistory; 
                 }
 
                 // 3. СОХРАНЯЕМ ЛОКАЛЬНЫЕ ЗНАЧЕНИЯ ПЕРЕД СЛИЯНИЕМ

@@ -6952,6 +6952,96 @@
                 max-height: 400px; /* Оставляем скролл, но даем больше места */
             }
         }
+
+
+                /* ======================================================== */
+        /* 🃏 ЧИСТАЯ 3D КАРТОЧКА С ПЕРЕВОРОТОМ                      */
+        /* ======================================================== */
+
+        .character-card-3d {
+            position: relative;
+            width: 100%;
+            height: 380px;
+            perspective: 1000px; /* Глубина 3D-сцены */
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .card-3d-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            border-radius: 12px;
+            overflow: hidden; /* ЖЕСТКО ОБРЕЗАЕМ ВСЁ, ЧТО ВЫЛЕЗАЕТ */
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Тень только у внутренней обертки */
+        }
+
+        /* Эффект переворота при наведении */
+        .character-card-3d:hover .card-3d-inner {
+            transform: rotateY(15deg) rotateX(5deg) scale(1.02);
+            border-color: #00d4ff;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Сама картинка */
+        #player-stage-art {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: 10px;
+        }
+
+        /* Панель с рангами (выезжает снизу) */
+        .rank-overlay-panel {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 15, 30, 0.9);
+            backdrop-filter: blur(10px);
+            border-top: 2px solid #00d4ff;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transform: translateY(100%);
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: 20;
+        }
+
+        .character-card-3d:hover .rank-overlay-panel,
+        .character-card-3d.active .rank-overlay-panel {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Остальные стили для панели (оставляем как было) */
+        .rank-panel-title {
+            font-family: 'Orbitron'; font-size: 0.75rem; color: #00d4ff;
+            letter-spacing: 2px; text-transform: uppercase; text-align: center;
+            margin-bottom: 5px; border-bottom: 1px solid rgba(0, 212, 255, 0.3); padding-bottom: 5px;
+        }
+        .rank-item-row {
+            display: flex; align-items: center; gap: 12px;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px; padding: 8px;
+        }
+        .rank-overlay-icon {
+            width: 36px; height: 36px; object-fit: contain;
+            filter: drop-shadow(0 0 8px #00d4ff);
+        }
+        .rank-item-label {
+            font-family: 'Orbitron'; font-size: 0.55rem; color: #aaa; letter-spacing: 1px;
+        }
+        .rank-item-value {
+            font-family: 'Orbitron'; font-size: 0.9rem; color: #fff;
+            font-weight: bold; text-shadow: 0 0 8px #00d4ff;
+        }
     </style>
 
 
@@ -7128,25 +7218,32 @@
 
                     <!-- Левая колонка карточки Монарха (Арт со стикерами + Лавовая жижа снизу) -->
                     <div class="character-portrait-column">
-                        <!-- Твой арт со стикерами рангов -->
-                        <div class="evolution-art-wrap">
-                            <img id="player-stage-art" src="stage1.webp" alt="Стадия персонажа">
-                            <div class="evolution-art-shade"></div>
-                            <div class="evolution-stage-label" id="player-stage-label">СТАДИЯ I</div>
+                      <div class="evolution-art-wrap character-card-3d">
+    <div class="card-3d-inner">
+        <img id="player-stage-art" src="stage1.webp" alt="Стадия персонажа">
+        <div class="evolution-art-shade"></div>
+        <div class="evolution-stage-label" id="player-stage-label">СТАДИЯ I</div>
 
-                            <!-- 🏷 СТИКЕРЫ РАНГОВ ПОВЕРХ КАРТИНКИ (СЛЕВА СБОКУ) -->
-                            <div class="character-rank-stickers">
-                                <!-- Стикер 1: Ранг Уровня Системы -->
-                                <div class="rank-sticker-badge sticker-level" title="Ранг уровня">
-                                    <img id="sticker-level-rank-icon" src="rank_c.webp" alt="Ранг C">
-                                </div>
-
-                                <!-- Стикер 2: Ранг Воздержания -->
-                                <div class="rank-sticker-badge sticker-ascetic" title="Ранг Воздержания">
-                                    <img id="sticker-ascetic-icon" src="silver.webp" alt="Ранг">
-                                </div>
-                            </div>
-                        </div>
+        <!-- ПАНЕЛЬ С РАНГАМИ -->
+        <div class="rank-overlay-panel">
+            <div class="rank-panel-title">ТВОИ РАНГИ</div>
+            <div class="rank-item-row">
+                <img id="sticker-level-rank-icon" src="rank_c.webp" alt="Ранг уровня" class="rank-overlay-icon">
+                <div class="rank-item-info">
+                    <span class="rank-item-label">РАНГ УРОВНЯ</span>
+                    <span class="rank-item-value" id="sticker-lvl-val">C</span>
+                </div>
+            </div>
+            <div class="rank-item-row">
+                <img id="sticker-ascetic-icon" src="silver.webp" alt="Ранг воздержания" class="rank-overlay-icon">
+                <div class="rank-item-info">
+                    <span class="rank-item-label">РАНГ ВОЗДЕРЖАНИЯ</span>
+                    <span class="rank-item-value" id="player-asceticism-rank" style="font-size: 0.75rem;">Серебро</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
                         <!-- 🌋 ЛАВОВЫЙ ЖИВОЙ БАННЕР ОБЩЕГО ОПЫТА (СТРОГО ПО ШИРИНЕ АРТА) -->
                         <div class="evolution-lava-banner">
@@ -7296,17 +7393,6 @@
                             </div>
                         </div>
 
-                        <!-- Подвал: Общий опыт + Ранг воздержания -->
-                        <div class="status-footer-row">
-                            <div class="evolution-ascension-rank">
-                                <img id="player-asceticism-rank-icon" src="silver.webp" alt=""
-                                    class="ascension-rank-icon">
-                                <div>
-                                    <span class="evolution-rank-caption">РАНГ ВОЗДЕРЖАНИЯ</span>
-                                    <strong id="player-asceticism-rank">Серебро (2 дн)</strong>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
